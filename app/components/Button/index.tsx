@@ -3,7 +3,9 @@ import * as React from "react";
 import { ButtonHTMLAttributes } from "react";
 type Color = "purple" | "royal_blue" | "american_blue" | "tangerine";
 
-type ButtonProps = ButtonHTMLAttributes<{ color: Color }>;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  color: Color;
+}
 
 function Button({
   color,
@@ -11,7 +13,7 @@ function Button({
   ...rest
 }: React.PropsWithChildren<ButtonProps>) {
   return (
-    <button {...rest} className="rounded-lg">
+    <button {...rest} className={`bg-brand-${color} rounded-lg py-3 px-6`}>
       {children}
     </button>
   );
