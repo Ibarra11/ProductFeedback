@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const { colors } = require("tailwindcss/colors");
+
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -16,7 +16,7 @@ module.exports = {
           purple: "#AD1FEA",
           royal_blue: "#4661E6",
           american_blue: "#373F68",
-          alice_blue: "#F2F4FF",
+          alice_blue: "#F2F4FE",
           ghost_white: "#F7F8FD",
           blue_gray: "#647196",
           tangerine: "#F49F85",
@@ -25,5 +25,8 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/forms"),
+    // ...
+  ],
 };

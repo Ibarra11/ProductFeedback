@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+div[data-radix-popper-content-wrapper] {
+  width: var(--radix-popper-anchor-width);
+}

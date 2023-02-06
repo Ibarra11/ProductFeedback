@@ -1,11 +1,10 @@
 import * as React from "react";
-
-import { ButtonHTMLAttributes } from "react";
+import { ButtonBase } from "@/types";
 type Color = "purple" | "royal_blue" | "american_blue" | "tangerine";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonProps = ButtonBase<{
   color: Color;
-}
+}>;
 
 function Button({
   color,

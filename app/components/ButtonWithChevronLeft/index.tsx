@@ -1,11 +1,9 @@
 import * as React from "react";
 import { ChevronLeft } from "react-feather";
-import { ButtonHTMLAttributes } from "react";
+import { ButtonBase } from "@/types";
 import clsx from "clsx";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  withBg: boolean;
-}
+type ButtonProps = ButtonBase<{ withBg: boolean }>;
 
 function ButtonWithChevronLeft({
   withBg,
