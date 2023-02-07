@@ -10,3 +10,7 @@ export type FilterList =
   | "UI"
   | "Enhancement"
   | "Bug";
+
+type RoadmapOptions = "Live" | "In-Progress" | "Planned";
+
+export type RoadmapOption = { type: RoadmapOptions; count: number };
