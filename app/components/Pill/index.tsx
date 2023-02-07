@@ -1,12 +1,23 @@
 import * as React from "react";
 import clsx from "clsx";
-function Pill({ children, ...rest }: React.PropsWithChildren) {
+import { ButtonBase } from "@/types";
+type ButtonProps = ButtonBase<{
+  selected: boolean;
+}>;
+function Pill({
+  children,
+  selected,
+  ...rest
+}: React.PropsWithChildren<ButtonProps>) {
   return (
     <button
       className={clsx(
-        "bg-blue-200 px-4 py-2 rounded-xl transition-colors duration-200",
-        "hover:bg-blue-300",
-        "active:bg-blue-600"
+        `${
+          selected
+            ? "bg-brand-royal_blue text-brand-ghost_white"
+            : "bg-brand-alice_blue text-brand-royal_blue hover:bg-blue-100 focus:bg-blue-100"
+        }`,
+        "px-4 py-2 rounded-xl transition-all duration-200"
       )}
       {...rest}
     >
