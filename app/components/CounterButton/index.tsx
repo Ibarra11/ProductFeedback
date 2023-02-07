@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronUp } from "react-feather";
 import clsx from "clsx";
 import { ButtonBase } from "@/types";
@@ -9,14 +11,18 @@ type ButtonProps = ButtonBase<{
 function CounterButton({ value, onClick, ...rest }: ButtonProps) {
   return (
     <button
-      className={clsx("bg-brand-alice-blue px-4 py-3")}
+      className={clsx(
+        "bg-brand-alice_blue flex flex-col justify-center self-start rounded-xl px-3 py-2"
+      )}
       onClick={onClick}
       {...rest}
     >
-      <span className="text-brand-royal-blue">
+      <span className="flex w-full justify-center text-brand-royal-blue">
         <ChevronUp size={16} />
       </span>
-      <span className={clsx("text-brand-american-blue")}>{value}</span>
+      <span className=" text-sm text-brand-american-blue flex w-full justify-center">
+        {value}
+      </span>
     </button>
   );
 }

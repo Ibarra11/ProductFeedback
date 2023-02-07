@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes } from "react";
 export type ButtonBase<T extends { [key: string]: any }> =
   ButtonHTMLAttributes<HTMLButtonElement> & T;
 
-export type FilterList =
+export type FeedbackCategories =
   | "All"
   | "Feature"
   | "UX"
