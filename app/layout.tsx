@@ -15,10 +15,7 @@ export default function RootLayout({
     <html lang="en" className={jost.className}>
       <head />
       <body className="min-h-screen bg-brand-alice_blue">
-        <main className="flex max-w-5xl gap-7 pt-24 pb-32 mx-auto">
-          <Sidebar />
-          <div className="flex-1">{children}</div>
-        </main>
+        <main className="max-w-5xl pt-24 pb-32 mx-auto">{children}</main>
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Select from "../Select";
 import Button from "../Button";
+
 function Header() {
   return (
     <header className="flex items-center h-[72px] bg-brand-american_blue gap-8 pl-6 pr-4 rounded-lg">

@@ -1,13 +1,21 @@
 import React from "react";
+import FilterProvider from "./components/FilterProvider";
 import ProductRequestList from "./components/ProductRequestList";
 import Header from "./components/Header";
-import data from "../data.json";
+import Sidebar from "./components/Sidebar";
+
+import type { FeedbackCategories } from "../types";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-6">
-      <Header />
-      <ProductRequestList />
-    </div>
+    <FilterProvider>
+      <div className="flex gap-6">
+        <Sidebar />
+        <div>
+          <Header />
+          <ProductRequestList />
+        </div>
+      </div>
+    </FilterProvider>
   );
 }

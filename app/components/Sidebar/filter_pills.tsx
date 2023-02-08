@@ -1,19 +1,19 @@
 "use client";
 import React from "react";
-import clsx from "clsx";
 import Pill from "../Pill";
+import { useFilterContext } from "../FilterProvider";
 import { FILTER_LIST } from "@/constants";
-import { FilterList } from "@/types";
+
 function FilterPills() {
-  const [currentFilter, setCurrentFilter] = React.useState<FilterList>("All");
+  const { handleFilterChange, filterCategory } = useFilterContext();
   return (
     <div className="bg-white flex flex-wrap gap-2 p-6 rounded-lg">
       {FILTER_LIST.map((filter, index) => {
         return (
           <Pill
-            onClick={() => setCurrentFilter(filter)}
+            onClick={() => handleFilterChange(filter)}
             key={index}
-            selected={currentFilter === filter}
+            selected={filterCategory === filter}
           >
             {filter}
           </Pill>

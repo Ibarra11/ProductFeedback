@@ -1,7 +1,9 @@
-import CounterButton from "../CounterButton";
-import { FeedbackCategories } from "@/types";
+"use client";
+import React from "react";
 import ProductRequestPost from "./ProductRequestPost";
+import { FeedbackCategories } from "@/types";
 import data from "../../../data.json";
+import { useFilterContext } from "../FilterProvider";
 
 const POSTS = data.productRequests;
 
@@ -24,9 +26,22 @@ interface Post {
 }
 
 function ProductRequestList() {
+  const [productRequest, setProductRequest] = React.useState<Post[]>(
+    POSTS as any
+  );
+  const { filterCategory } = useFilterContext();
+
+  const filteredProducts =
+    filterCategory === "All"
+      ? productRequest
+      : productRequest.filter(
+          (product) =>
+            product.category.toLowerCase() === filterCategory.toLowerCase()
+        );
+
   return (
     <div className="flex flex-col gap-5">
-      {(POSTS as any as Post[]).map((post) => (
+      {filteredProducts.map((post) => (
         <ProductRequestPost key={post.id} {...post} />
       ))}
     </div>
