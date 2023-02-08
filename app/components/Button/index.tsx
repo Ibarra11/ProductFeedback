@@ -2,17 +2,13 @@ import * as React from "react";
 import { ButtonBase } from "@/types";
 type Color = "purple" | "royal_blue" | "american_blue" | "tangerine";
 
-type ButtonProps = ButtonBase<{
-  color: Color;
-}>;
-
 function Button({
-  color,
   children,
+  className,
   ...rest
-}: React.PropsWithChildren<ButtonProps>) {
+}: React.PropsWithChildren<ButtonBase<{}>>) {
   return (
-    <button {...rest} className={`bg-brand-${color} rounded-lg py-3 px-6`}>
+    <button className={`rounded-lg py-3 px-6 ${className || ""}`} {...rest}>
       {children}
     </button>
   );

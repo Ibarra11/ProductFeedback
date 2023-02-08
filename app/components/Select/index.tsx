@@ -1,14 +1,24 @@
+"use client";
 import React from "react";
 import * as S from "@radix-ui/react-select";
 import clsx from "clsx";
 import { ChevronDown, ChevronUp, Check } from "react-feather";
 
 interface Props<T> {
-  items: T[];
+  options: T[];
+  selectText?: string;
+  className?: string;
+  arrowColor: "ghost_white" | "american_blue";
   defaultValue?: T;
 }
-function Select<T extends string>({ items, defaultValue }: Props<T>) {
-  const [value, setValue] = React.useState<T>(defaultValue ?? items[0]);
+function Select<T extends string>({
+  options,
+  selectText,
+  defaultValue,
+  arrowColor,
+  className,
+}: Props<T>) {
+  const [value, setValue] = React.useState<T>(defaultValue ?? options[0]);
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <S.Root
@@ -18,14 +28,20 @@ function Select<T extends string>({ items, defaultValue }: Props<T>) {
     >
       <S.Trigger
         className={clsx(
-          `px-6 w-48 py-3 text-base bg-brand-ghost_white  text-brand-american_blue rounded-md
-        inline-flex  items-center justify-between`,
+          `${className ? className : ""} ${isOpen ? "opacity-75" : ""}`,
+          `px-6 py-3 text-base rounded-md
+        inline-flex  items-center`,
           "focus:ring-2 hover:ring-2  ring-brand-american_blue  outline-none"
         )}
         aria-label="Sort"
       >
+        {selectText && (
+          <span className="text-brand-alice_blue opacity-75 mr-1">
+            Sort by:
+          </span>
+        )}
         <S.Value>{value}</S.Value>
-        <S.Icon className="ml-1 text-brand-royal_blue">
+        <S.Icon className={`ml-1 text-brand-${arrowColor}`}>
           {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </S.Icon>
       </S.Trigger>
@@ -33,10 +49,10 @@ function Select<T extends string>({ items, defaultValue }: Props<T>) {
         <S.Content
           position="popper"
           align="start"
-          className="hidden bg-white rounded-md mt-4"
+          className="hidden bg-white rounded-md mt-4 shadow-lg"
         >
           <S.Viewport className="rounded-md">
-            {items.map((item, index) => (
+            {options.map((item, index) => (
               <S.Item
                 className={clsx(
                   "flex items-center py-3 px-6  outline-none  justify-between ",
@@ -46,7 +62,7 @@ function Select<T extends string>({ items, defaultValue }: Props<T>) {
                       : ""
                   }`,
                   `${
-                    index !== items.length - 1
+                    index !== options.length - 1
                       ? "border-b-2 border-brand-alice_blue"
                       : ""
                   }`
