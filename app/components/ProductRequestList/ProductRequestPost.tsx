@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import CounterButton from "../CounterButton";
@@ -31,10 +32,18 @@ function ProductRequestPost({
   comments,
   category,
 }: Post) {
+  const [value, setValue] = React.useState(upvotes);
   return (
     <Link href={`/post/${id}`}>
       <article className="group bg-white flex py-7 px-8  gap-10 rounded-xl">
-        <CounterButton value={upvotes} onClick={() => {}} />
+        <CounterButton
+          className="z-10"
+          value={value}
+          onClick={() => {
+            setValue(value + 1);
+          }}
+        />
+
         <div className="flex-1">
           <h3
             className={clsx(

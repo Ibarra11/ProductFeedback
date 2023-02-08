@@ -8,13 +8,18 @@ type ButtonProps = ButtonBase<{
   value: number;
   onClick: (...args: any) => void;
 }>;
-function CounterButton({ value, onClick, ...rest }: ButtonProps) {
+function CounterButton({ value, onClick, className, ...rest }: ButtonProps) {
   return (
     <button
       className={clsx(
+        `${className ? className : ""}`,
         "bg-brand-alice_blue flex flex-col justify-center self-start rounded-xl px-3 py-2"
       )}
-      onClick={onClick}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        onClick();
+      }}
       {...rest}
     >
       <span className="flex w-full justify-center text-brand-royal-blue">
