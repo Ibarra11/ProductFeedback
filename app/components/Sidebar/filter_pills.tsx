@@ -2,7 +2,7 @@
 import React from "react";
 import Pill from "../Pill";
 import { useFilterContext } from "../FilterProvider";
-import { FILTER_LIST } from "@/constants";
+import { FILTER_LIST } from "@/app/constants";
 
 function FilterPills() {
   const { handleFilterChange, filterCategory } = useFilterContext();

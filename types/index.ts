@@ -11,6 +11,30 @@ export type FeedbackCategories =
   | "Enhancement"
   | "Bug";
 
+export type SortByTypes =
+  | "Most Comments"
+  | "Least Comments"
+  | "Most Upvotes"
+  | "Least Upvotes";
+
 type RoadmapOptions = "Live" | "In-Progress" | "Planned";
 
 export type RoadmapOption = { type: RoadmapOptions; count: number };
+
+export type Comment = {
+  id: number;
+  content: string;
+  user: {
+    image: string;
+    name: string;
+    username: string;
+  };
+};
+export interface Post {
+  id: number;
+  title: string;
+  description: string;
+  upvotes: number;
+  comments?: Comment[];
+  category: FeedbackCategories;
+}

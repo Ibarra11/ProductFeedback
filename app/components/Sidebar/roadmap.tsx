@@ -1,4 +1,4 @@
-import { ROADMAP_OPTIONS } from "@/constants";
+import { ROADMAP_OPTIONS } from "@/app/constants";
 type Option = {
   type: "Planned" | "Live" | "In-Progress";
   count: number;

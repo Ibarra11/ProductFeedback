@@ -6,24 +6,27 @@ import { ChevronDown, ChevronUp, Check } from "react-feather";
 
 interface Props<T> {
   options: T[];
+  value: T;
   selectText?: string;
   className?: string;
   arrowColor: "ghost_white" | "american_blue";
-  defaultValue?: T;
+
+  handleValueChange: (arg: T) => void;
 }
 function Select<T extends string>({
   options,
   selectText,
-  defaultValue,
+  value,
+  handleValueChange,
+
   arrowColor,
   className,
 }: Props<T>) {
-  const [value, setValue] = React.useState<T>(defaultValue ?? options[0]);
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <S.Root
       value={value}
-      onValueChange={(val) => setValue(val as T)}
+      onValueChange={(nextVal) => handleValueChange(nextVal as T)}
       onOpenChange={setIsOpen}
     >
       <S.Trigger

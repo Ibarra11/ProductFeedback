@@ -1,7 +1,7 @@
 import Banner from "./banner";
 import FilterPills from "./filter_pills";
 import Roadmap from "./roadmap";
-import { ROADMAP_OPTIONS } from "@/constants";
+import { ROADMAP_OPTIONS } from "@/app/constants";
 import { FeedbackCategories } from "@/types";
 
 function Sidebar() {

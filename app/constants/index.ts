@@ -1,5 +1,5 @@
-import { FilterList, RoadmapOption } from "@/types";
-export const FILTER_LIST: FilterList[] = [
+import { FeedbackCategories, RoadmapOption } from "@/types";
+export const FILTER_LIST: FeedbackCategories[] = [
   "All",
   "Feature",
   "UI",
