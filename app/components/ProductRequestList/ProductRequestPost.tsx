@@ -5,23 +5,14 @@ import Link from "next/link";
 import CounterButton from "../CounterButton";
 import { FeedbackCategories } from "@/types";
 import clsx from "clsx";
-
-type Comment = {
-  id: number;
-  content: string;
-  user: {
-    image: string;
-    name: string;
-    username: string;
-  };
-};
+import { CommentType } from "@/types";
 
 interface Post {
   id: number;
   title: string;
   description: string;
   upvotes: number;
-  comments?: Comment[];
+  comments?: CommentType[];
   category: FeedbackCategories;
 }
 function ProductRequestPost({

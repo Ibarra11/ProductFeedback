@@ -19,9 +19,13 @@ export type SortByTypes =
 
 type RoadmapOptions = "Live" | "In-Progress" | "Planned";
 
-export type RoadmapOption = { type: RoadmapOptions; count: number, color: string };
+export type RoadmapOption = {
+  type: RoadmapOptions;
+  count: number;
+  color: string;
+};
 
-export type Comment = {
+export type CommentType = {
   id: number;
   content: string;
   user: {
@@ -35,6 +39,6 @@ export interface Post {
   title: string;
   description: string;
   upvotes: number;
-  comments?: Comment[];
+  comments?: CommentType[];
   category: FeedbackCategories;
 }
