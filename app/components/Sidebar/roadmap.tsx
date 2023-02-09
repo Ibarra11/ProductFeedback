@@ -1,18 +1,6 @@
 import { ROADMAP_OPTIONS } from "@/app/constants";
-type Option = {
-  type: "Planned" | "Live" | "In-Progress";
-  count: number;
-};
 
-const OptionMap = {
-  Planned: "tangerine",
-  Live: "purple",
-  "In-Progress": "maya_blue",
-};
-interface Props {
-  options: Option[];
-}
-function Roadmap({ options }: Props) {
+function Roadmap() {
   return (
     <div className="flex flex-col gap-6 justify-between bg-white p-6 pt-4 rounded-lg">
       <div className="flex justify-between items-center  ">
@@ -22,7 +10,7 @@ function Roadmap({ options }: Props) {
         </button>
       </div>
       <ul className="flex flex-col gap-2 text-brand-blue_gray">
-        {options.map(({ type, count }, index) => (
+        {ROADMAP_OPTIONS.map(({ type, count, color }, index) => (
           <li
             key={`${type}-${index}`}
             aria-label={type}
@@ -30,7 +18,7 @@ function Roadmap({ options }: Props) {
           >
             <div className="flex items-center gap-4 ">
               <span
-                className={`inline-block bg-brand-${OptionMap[type]} rounded-full w-2 h-2`}
+                className={`inline-block w-2 h-2 bg-brand-${color} rounded-full `}
               ></span>
               <span className="text-base">{type}</span>
             </div>

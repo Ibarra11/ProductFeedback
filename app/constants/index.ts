@@ -9,7 +9,7 @@ export const FILTER_LIST: FeedbackCategories[] = [
 ];
 
 export const ROADMAP_OPTIONS: RoadmapOption[] = [
-  { type: "Planned", count: 1 },
-  { type: "In-Progress", count: 2 },
-  { type: "Live", count: 3 },
+  { type: "Planned", count: 1, color: "tangerine" },
+  { type: "In-Progress", count: 2, color: "purple" },
+  { type: "Live", count: 3, color: "maya_blue" },
 ];

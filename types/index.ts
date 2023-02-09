@@ -19,7 +19,7 @@ export type SortByTypes =
 
 type RoadmapOptions = "Live" | "In-Progress" | "Planned";
 
-export type RoadmapOption = { type: RoadmapOptions; count: number };
+export type RoadmapOption = { type: RoadmapOptions; count: number, color: string };
 
 export type Comment = {
   id: number;
