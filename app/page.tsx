@@ -10,7 +10,7 @@ export default function Home() {
     <FilterProvider>
       <div className="flex gap-8">
         <Sidebar />
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col flex-1 gap-6">
           <SortProvider>
             <Header />
             <FeedbackView />

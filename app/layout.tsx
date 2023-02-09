@@ -15,7 +15,9 @@ export default function RootLayout({
     <html lang="en" className={jost.className}>
       <head />
       <body className="min-h-screen bg-brand-alice_blue">
-        <main className="max-w-5xl pt-16 pb-12 mx-auto">{children}</main>
+        <main className="max-w-5xl pt-16 pb-12 mx-auto border-2 border-green-600">
+          {children}
+        </main>
       </body>
     </html>
   );
