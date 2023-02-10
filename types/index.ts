@@ -4,12 +4,13 @@ export type ButtonBase<T extends { [key: string]: any }> =
   ButtonHTMLAttributes<HTMLButtonElement> & T;
 
 export type FeedbackCategories =
-  | "All"
   | "Feature"
   | "UX"
   | "UI"
   | "Enhancement"
   | "Bug";
+
+export type FilterCategories = FeedbackCategories | "All";
 
 export type SortByTypes =
   | "Most Comments"

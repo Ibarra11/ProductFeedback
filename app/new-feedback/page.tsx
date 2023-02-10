@@ -27,15 +27,13 @@ function Page() {
       <form className="bg-white px-10 pb-9 rounded-lg">
         <Image
           src="/shared/icon-new-feedback.svg"
-          className="mb-2 border-2 -translate-y-1/2"
+          className="mb-2 -translate-y-1/2"
           width={56}
           height={56}
           alt=""
           aria-hidden
         />
-        <h1 className="text-2xl border-2 font-bold mb-10">
-          Create New Feedback
-        </h1>
+        <h1 className="text-2xl font-bold mb-10">Create New Feedback</h1>
         <div className="flex flex-col gap-6">
           <FormTextInput
             title="Feedback Title"

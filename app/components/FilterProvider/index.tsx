@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import { FeedbackCategories } from "@/types";
+import { FilterCategories } from "@/types";
 interface Context {
-  filterCategory: FeedbackCategories;
-  handleFilterChange: (filter: FeedbackCategories) => void;
+  filterCategory: FilterCategories;
+  handleFilterChange: (filter: FilterCategories) => void;
 }
 
 const FilterContext = React.createContext<Context | undefined>(undefined);
@@ -20,9 +20,9 @@ export function useFilterContext() {
 
 function FilterProvider({ children }: React.PropsWithChildren) {
   const [filterCategory, setFilterCategory] =
-    React.useState<FeedbackCategories>("All");
+    React.useState<FilterCategories>("All");
 
-  function handleFilterChange(filter: FeedbackCategories) {
+  function handleFilterChange(filter: FilterCategories) {
     setFilterCategory(filter);
   }
   return (

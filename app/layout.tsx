@@ -15,7 +15,7 @@ export default function RootLayout({
     <html lang="en" className={jost.className}>
       <head />
       <body className="min-h-screen bg-brand-alice_blue">
-        <main className="pt-16 pb-12">{children}</main>
+        <main className="py-12">{children}</main>
       </body>
     </html>
   );

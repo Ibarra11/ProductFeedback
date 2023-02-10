@@ -49,15 +49,16 @@ function Select<T extends string>({
       </S.Trigger>
       <S.Portal>
         <S.Content
+          avoidCollisions={false}
           position="popper"
           align="start"
-          className="hidden bg-white rounded-md mt-4 shadow-lg"
+          className="hidden bg-white rounded-md mt-4 shadow-xl"
         >
           <S.Viewport className="rounded-md">
             {options.map((item, index) => (
               <S.Item
                 className={clsx(
-                  "flex items-center py-3 px-6  outline-none  justify-between ",
+                  "flex items-center py-3 px-6 outline-none justify-between ",
                   `${
                     item !== value
                       ? "hover:text-brand-purple focus:text-brand-purple "

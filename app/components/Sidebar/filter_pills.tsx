@@ -2,13 +2,13 @@
 import React from "react";
 import Pill from "../Pill";
 import { useFilterContext } from "../FilterProvider";
-import { FILTER_LIST } from "@/app/constants";
+import { FILTER_CATEGORIES } from "@/app/constants";
 
 function FilterPills() {
   const { handleFilterChange, filterCategory } = useFilterContext();
   return (
     <div className="bg-white flex flex-wrap gap-2 p-6 rounded-lg">
-      {FILTER_LIST.map((filter, index) => {
+      {FILTER_CATEGORIES.map((filter, index) => {
         return (
           <Pill
             onClick={() => handleFilterChange(filter)}
