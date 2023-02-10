@@ -1,4 +1,9 @@
-import { FeedbackCategories, FilterCategories, RoadmapOption } from "@/types";
+import {
+  FeedbackCategories,
+  FilterCategories,
+  RoadmapOption,
+  FeedbackStatus,
+} from "@/types";
 export const FEEDBACK_CATEGORIES: FeedbackCategories[] = [
   "Feature",
   "UI",
@@ -10,6 +15,12 @@ export const FEEDBACK_CATEGORIES: FeedbackCategories[] = [
 export const FILTER_CATEGORIES: FilterCategories[] = [
   "All",
   ...FEEDBACK_CATEGORIES,
+];
+
+export const FEEDBACK_STATUS: FeedbackStatus[] = [
+  "Planned",
+  "In-Progress",
+  "Live",
 ];
 
 export const ROADMAP_OPTIONS: RoadmapOption[] = [

@@ -6,19 +6,16 @@ import FormTextArea from "../components/FormTextArea";
 import FormTextInput from "../components/FormTextInput";
 import FormSelect from "../components/FormSelect";
 import Button from "../components/Button";
-import { FeedbackCategories } from "@/types";
+import { FormData } from "@/types";
 import { FEEDBACK_CATEGORIES } from "../constants";
-interface FormData {
-  title: string;
-  category: FeedbackCategories;
-  detail: string;
-}
+
 function Page() {
   const [formData, setFormData] = React.useState<FormData>({
     title: "",
     category: FEEDBACK_CATEGORIES[0],
     detail: "",
   } as FormData);
+
   return (
     <article className="max-w-xl w-full mx-auto ">
       <LinkWithChevronLeft className="mb-10" href="/">

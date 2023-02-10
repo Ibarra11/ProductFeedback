@@ -1,5 +1,6 @@
+"use client";
 import data from "../../../data.json";
-
+import { useRouter } from "next/navigation";
 import ProductRequestPost from "@/app/components/ProductRequestPost";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import CommentList from "../CommentList";
@@ -8,6 +9,7 @@ import Button from "@/app/components/Button";
 import { Post } from "@/types";
 
 function Page({ params }: { params: { id: string } }) {
+  const router = useRouter();
   const { id } = params;
   const post = data.productRequests.find(
     (product) => product.id === +id
@@ -17,7 +19,10 @@ function Page({ params }: { params: { id: string } }) {
     <div className="max-w-3xl mx-auto flex flex-col gap-6">
       <div className="flex justify-between">
         <LinkWithChevronLeft href="/">Go Back</LinkWithChevronLeft>
-        <Button className="bg-brand-purple text-brand-ghost_white">
+        <Button
+          onClick={() => router.push(`/edit-feedback/${id}`)}
+          className="bg-brand-purple text-brand-ghost_white"
+        >
           Edit Feedback
         </Button>
       </div>

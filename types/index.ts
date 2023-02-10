@@ -18,10 +18,10 @@ export type SortByTypes =
   | "Most Upvotes"
   | "Least Upvotes";
 
-type RoadmapOptions = "Live" | "In-Progress" | "Planned";
+export type FeedbackStatus = "Live" | "In-Progress" | "Planned";
 
 export type RoadmapOption = {
-  type: RoadmapOptions;
+  type: FeedbackStatus;
   count: number;
   color: string;
 };
@@ -42,4 +42,14 @@ export interface Post {
   upvotes: number;
   comments?: CommentType[];
   category: FeedbackCategories;
+}
+
+export interface FormData {
+  title: string;
+  category: FeedbackCategories;
+  detail: string;
+}
+
+export interface EditFormData extends FormData {
+  status: FeedbackStatus;
 }

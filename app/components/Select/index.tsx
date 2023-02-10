@@ -4,7 +4,7 @@ import * as S from "@radix-ui/react-select";
 import clsx from "clsx";
 import { ChevronDown, ChevronUp, Check } from "react-feather";
 
-interface Props<T> {
+interface Props<T extends string> {
   options: T[];
   value: T;
   selectText?: string;

@@ -1,6 +1,5 @@
 import "./globals.css";
 import { Jost } from "@next/font/google";
-import Sidebar from "./components/Sidebar";
 
 const jost = Jost({
   subsets: ["latin"],
@@ -15,7 +14,7 @@ export default function RootLayout({
     <html lang="en" className={jost.className}>
       <head />
       <body className="min-h-screen bg-brand-alice_blue">
-        <main className="py-12">{children}</main>
+        <main className=" pt-24 pb-16">{children}</main>
       </body>
     </html>
   );

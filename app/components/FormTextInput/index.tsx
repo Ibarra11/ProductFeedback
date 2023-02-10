@@ -6,7 +6,7 @@ interface Props {
   value: string;
   handleValueChange: (newVal: string) => void;
 }
-function FormTextInput({ title, subTitle, handleValueChange }: Props) {
+function FormTextInput({ title, value, subTitle, handleValueChange }: Props) {
   const id = React.useId();
   return (
     <div className="  flex flex-col gap-4">
@@ -22,6 +22,7 @@ function FormTextInput({ title, subTitle, handleValueChange }: Props) {
           "bg-brand-alice_blue px-6 py-3 text-base rounded-md border-none"
         )}
         id={id}
+        value={value}
         type="text"
         onChange={(e) => handleValueChange(e.target.value)}
       />

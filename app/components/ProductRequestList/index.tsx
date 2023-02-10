@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ProductRequestPost from "./ProductRequestPost";
+import ProductRequestPost from "../ProductRequestPost";
 import data from "../../../data.json";
 import { useFilterContext } from "../FilterProvider";
 import { useSortContext } from "../SortProvider";
@@ -27,7 +27,7 @@ function ProductRequestList() {
   const displayedPosts = sortPosts(filteredPost, sortBy);
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 border-2 border-red-600">
       {displayedPosts.map((post) => (
         <ProductRequestPost key={post.id} {...post} />
       ))}
