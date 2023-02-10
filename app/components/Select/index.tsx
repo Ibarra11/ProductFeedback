@@ -18,7 +18,6 @@ function Select<T extends string>({
   selectText,
   value,
   handleValueChange,
-
   arrowColor,
   className,
 }: Props<T>) {
@@ -33,7 +32,7 @@ function Select<T extends string>({
         className={clsx(
           `${className ? className : ""} ${isOpen ? "opacity-75" : ""}`,
           `px-6 py-3 text-base rounded-md
-        inline-flex  items-center`,
+        inline-flex  items-center justify-between`,
           "focus:ring-2 hover:ring-2  ring-brand-american_blue  outline-none"
         )}
         aria-label="Sort"

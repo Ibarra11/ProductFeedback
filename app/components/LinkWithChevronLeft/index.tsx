@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { ChevronLeft } from "react-feather";
-import { ButtonBase } from "@/types";
+
 import clsx from "clsx";
 
 function LinkWithChevronLeft({
@@ -13,7 +13,7 @@ function LinkWithChevronLeft({
     <Link
       href={href}
       className={clsx(
-        "flex text-brand-american_blue gap-3 items-center justify-center py-4 px-9",
+        "inline-flex items-center  text-brand-american_blue gap-3  py-2",
         `${className ? className : ""}`
       )}
     >
@@ -21,7 +21,10 @@ function LinkWithChevronLeft({
         <ChevronLeft size={16} />
       </span>
       <span
-        className={`hover:underline hover:underline-offset-4 transition-all duration-400`}
+        className={clsx(
+          "hover:underline hover:underline-offset-4 transition-all duration-200",
+          "focus:underline focus:underline-offset-4"
+        )}
       >
         {children}
       </span>
