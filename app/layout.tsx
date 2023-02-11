@@ -13,8 +13,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={jost.className}>
       <head />
-      <body className="min-h-screen bg-brand-alice_blue">
-        <main className=" pt-24 pb-16">{children}</main>
+      <body className="h-screen bg-brand-alice_blue pt-24 pb-16">
+        {children}
       </body>
     </html>
   );

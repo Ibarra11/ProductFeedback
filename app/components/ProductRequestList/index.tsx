@@ -27,7 +27,7 @@ function ProductRequestList() {
   const displayedPosts = sortPosts(filteredPost, sortBy);
 
   return (
-    <div className="flex flex-col gap-5 border-2 border-red-600">
+    <div className="flex flex-col gap-5">
       {displayedPosts.map((post) => (
         <ProductRequestPost key={post.id} {...post} />
       ))}

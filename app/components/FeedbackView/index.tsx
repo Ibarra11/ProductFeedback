@@ -11,7 +11,11 @@ function FeedbackView() {
   );
 
   return (
-    <>{posts.length > 0 ? <ProductRequestList /> : <EmptySuggestionsView />}</>
+    <div className="relative h-full  flex-1 overflow-y-auto">
+      <div className="absolute h-full w-full pr-3">
+        {posts.length > 0 ? <ProductRequestList /> : <EmptySuggestionsView />}
+      </div>
+    </div>
   );
 }
 
