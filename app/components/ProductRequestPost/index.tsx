@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import CounterButton from "../CounterButton";
+import CommentIcon from "../CommentIcon";
 import { CommentType, FeedbackCategories } from "@/types";
 import clsx from "clsx";
 
@@ -48,19 +49,7 @@ function ProductRequestPost({
             {category[0].toUpperCase() + category.slice(1)}
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <Image
-            width={18}
-            height={16}
-            src="/shared/icon-comments.svg"
-            aria-hidden="true"
-            alt=""
-          />
-          <p className="text-brand-blue_gray text-base font-semibold ">
-            <span className="sr-only">Comments</span>
-            {comments ? comments.length : 0}
-          </p>
-        </div>
+        <CommentIcon comments={comments ? comments.length : 0} />
       </article>
     </Link>
   );
