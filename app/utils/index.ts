@@ -1,4 +1,4 @@
-import { Post, SortByTypes } from "@/types";
+import { Post, SortByTypes, FeedbackStatus } from "@/types";
 export function sortPosts(posts: Post[], sortBy: SortByTypes) {
   switch (sortBy) {
     case "Most Comments": {
@@ -18,4 +18,12 @@ export function sortPosts(posts: Post[], sortBy: SortByTypes) {
       return posts.sort((a, b) => a.upvotes - b.upvotes);
     }
   }
+}
+
+export function formatStatus(status: FeedbackStatus) {
+  return status === "in-progress"
+    ? `${status[0].toUpperCase()}${
+        status[1]
+      }-${status[3].toUpperCase()}${status.slice(4)}`
+    : status[0].toUpperCase() + status.slice(1);
 }

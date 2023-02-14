@@ -18,7 +18,7 @@ export type SortByTypes =
   | "Most Upvotes"
   | "Least Upvotes";
 
-export type FeedbackStatus = "Live" | "In-Progress" | "Planned";
+export type FeedbackStatus = "live" | "in-progress" | "planned" | "suggestion";
 
 export type RoadmapOption = {
   type: FeedbackStatus;
@@ -36,6 +36,7 @@ export type CommentType = {
   };
 };
 export interface Post {
+  status: FeedbackStatus;
   id: number;
   title: string;
   description: string;
