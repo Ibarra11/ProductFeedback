@@ -3,7 +3,11 @@ import clsx from "clsx";
 import CommentIcon from "../components/CommentIcon";
 import CounterButton from "../components/CounterButton";
 import { Post } from "../../types";
-import { typeToColor } from "../constants";
+import {
+  typeToColor,
+  roadmapBorderColor,
+  ROADMAP_CIRCLE_BG,
+} from "../constants";
 import { formatStatus } from "../utils";
 
 function RoadmapRequest({
@@ -14,9 +18,8 @@ function RoadmapRequest({
   category,
   comments,
 }: Post) {
-  const color = typeToColor[status];
-  const borderColor = `border-t-brand-${color}`;
-  const statusColor = `bg-brand-${color}`;
+  const borderColor = roadmapBorderColor[status];
+  const statusCircle = ROADMAP_CIRCLE_BG[status];
   return (
     <div
       className={clsx(
@@ -25,7 +28,9 @@ function RoadmapRequest({
       )}
     >
       <div className="flex items-center gap-4">
-        <span className={clsx(`${statusColor}`, "w-2 h-2 rounded-full")}></span>
+        <span
+          className={clsx(`${statusCircle}`, "w-2 h-2 rounded-full")}
+        ></span>
         <p>{formatStatus(status)}</p>
       </div>
       <div className="mb-4">

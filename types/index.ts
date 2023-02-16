@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes } from "react";
+import { BRAND_COLORS } from "@/app/constants";
 
 export type ButtonBase<T extends { [key: string]: any }> =
   ButtonHTMLAttributes<HTMLButtonElement> & T;
@@ -21,9 +22,9 @@ export type SortByTypes =
 export type FeedbackStatus = "live" | "in-progress" | "planned" | "suggestion";
 
 export type RoadmapOption = {
-  type: FeedbackStatus;
+  status: FeedbackStatus;
   count: number;
-  color: string;
+  color: RoadmapCircleBg;
 };
 
 export type CommentType = {
@@ -54,3 +55,9 @@ export interface FormData {
 export interface EditFormData extends FormData {
   status: FeedbackStatus;
 }
+
+type BrandColors = keyof typeof BRAND_COLORS["brand"];
+
+export type RoadmapBorderColor = `border-t-brand-${BrandColors}`;
+
+export type RoadmapCircleBg = `bg-brand-${BrandColors}`;
