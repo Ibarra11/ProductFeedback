@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ROADMAP_OPTIONS } from "@/app/constants";
+import { formatStatus } from "@/app/utils";
 
 function Roadmap() {
   return (
@@ -14,17 +15,17 @@ function Roadmap() {
         </Link>
       </div>
       <ul className="flex flex-col gap-2 text-brand-blue_gray">
-        {ROADMAP_OPTIONS.map(({ type, count, color }, index) => (
+        {ROADMAP_OPTIONS.map(({ status, count, color }, index) => (
           <li
-            key={`${type}-${index}`}
-            aria-label={type}
+            key={`${status}-${index}`}
+            aria-label={status}
             className="flex gap-4 justify-between"
           >
             <div className="flex items-center gap-4 ">
               <span
-                className={`inline-block w-2 h-2 bg-brand-${color} rounded-full `}
+                className={`inline-block w-2 h-2 ${color} rounded-full `}
               ></span>
-              <span className="text-base">{type}</span>
+              <span className="text-base">{formatStatus(status)}</span>
             </div>
             <span className="text-base font-bold">{count}</span>
           </li>
