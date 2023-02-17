@@ -13,11 +13,11 @@ function LinkWithChevronLeft({
     <Link
       href={href}
       className={clsx(
-        "inline-flex items-center  text-brand-american_blue gap-3  py-2",
+        "inline-flex items-center gap-3  py-2",
         `${className ? className : ""}`
       )}
     >
-      <span className={`text-brand-american_blue`}>
+      <span className={`${className ? className : ""}`}>
         <ChevronLeft size={16} />
       </span>
       <span
