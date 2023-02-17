@@ -26,9 +26,11 @@ function ProductRequestPost({
   const [value, setValue] = React.useState(upvotes);
   return (
     <Link href={`/post/${id}`}>
-      <article className="group bg-slate-200   flex py-7 px-8  gap-10 rounded-xl">
+      <article className="group bg-white   flex py-7 px-8  gap-10 rounded-xl">
         <CounterButton
+          selected={true}
           className="z-10"
+          direction="column"
           value={value}
           onClick={() => {
             setValue(value + 1);
