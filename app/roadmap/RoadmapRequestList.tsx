@@ -21,7 +21,7 @@ function RoadmapRequestList({
         <h2 className=" text-lg font-bold mb-1">
           {formatStatus(status)} ({feedbackRequestList.length})
         </h2>
-        <p>{statusMap[status]}</p>
+        <p className="text-brand-gray-blue opacity-75">{statusMap[status]}</p>
       </div>
       <div className="flex flex-col gap-6">
         {feedbackRequestList.map((feedback) => (
