@@ -1,4 +1,5 @@
 import "./globals.css";
+import clsx from "clsx";
 import { Jost } from "@next/font/google";
 
 const jost = Jost({
@@ -13,7 +14,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={jost.className}>
       <head />
-      <body className="min-h-screen bg-brand-alice_blue pt-24 pb-16 px-10">
+      <body
+        className={clsx(
+          "min-h-screen bg-brand-alice_blue",
+          " lg:pt-24 lg:pb-16 lg:px-10"
+        )}
+      >
         {children}
       </body>
     </html>

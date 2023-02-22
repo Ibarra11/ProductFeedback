@@ -1,6 +1,7 @@
 "use client";
 import { Post } from "@/types";
 import React from "react";
+import clsx from "clsx";
 import data from "../../../data.json";
 import EmptySuggestionsView from "../EmptySuggestionsView";
 import ProductRequestList from "../ProductRequestList";
@@ -11,7 +12,12 @@ function FeedbackView() {
   );
 
   return (
-    <div className="relative h-full  flex-1 overflow-y-auto">
+    <div className={
+      clsx(
+        " flex-1 px-6 pb-14 border-2 border-red-700",
+        "lg:h-full  "
+      )
+    }>
       <div className="h-full w-full">
         {posts.length > 0 ? <ProductRequestList /> : <EmptySuggestionsView />}
       </div>

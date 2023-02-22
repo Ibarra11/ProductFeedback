@@ -52,7 +52,7 @@ function Select<T extends string>({
           avoidCollisions={false}
           position="popper"
           align="start"
-          className="hidden bg-white rounded-md mt-4 shadow-xl"
+          className="hidden bg-white rounded-md mt-4 shadow-xl z-20"
         >
           <S.Viewport className="rounded-md">
             {options.map((item, index) => (

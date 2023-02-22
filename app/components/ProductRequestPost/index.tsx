@@ -47,11 +47,18 @@ function ProductRequestPost({
             {title}
           </h3>
           <p className=" text-base text-slate-500 mb-3">{description}</p>
-          <span className="bg-brand-alice_blue  text-brand-royal_blue text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200">
-            {category[0].toUpperCase() + category.slice(1)}
-          </span>
+          <div className="flex justify-between">
+            <span className="inline-block bg-brand-alice_blue  text-brand-royal_blue text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200">
+              {category[0].toUpperCase() + category.slice(1)}
+            </span>
+            <div className={clsx("flex items-center gap-2", "md:hidden")}>
+              <CommentIcon comments={comments ? comments.length : 0} />
+            </div>
+          </div>
         </div>
-        <CommentIcon comments={comments ? comments.length : 0} />
+        <div className={clsx("hidden", "md:flex md:items-center md:gap-2")}>
+          <CommentIcon comments={comments ? comments.length : 0} />
+        </div>
       </article>
     </Link>
   );

@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import clsx from "clsx";
 import ProductRequestPost from "../ProductRequestPost";
 import data from "../../../data.json";
 import { useFilterContext } from "../FilterProvider";
@@ -27,7 +28,7 @@ function ProductRequestList() {
   const displayedPosts = sortPosts(filteredPost, sortBy);
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className={clsx("flex flex-col gap-4", "lg:gap-5")}>
       {displayedPosts.map((post) => (
         <ProductRequestPost key={post.id} {...post} />
       ))}

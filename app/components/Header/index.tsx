@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import clsx from "clsx";
 import Select from "../Select";
 import Button from "../Button";
 
@@ -9,8 +10,18 @@ function Header() {
   const { sortBy, handleSortByChange } = useSortContext();
   const router = useRouter();
   return (
-    <header className="flex items-center h-[72px] bg-brand-american_blue gap-8 pl-6 pr-4 rounded-lg">
-      <div className="flex gap-4 items-center  text-brand-ghost_white">
+    <header
+      className={clsx(
+        "flex items-center h-14 px-6 bg-brand-american_blue ",
+        " lg:h-[72px]  lg:gap-8  lg:pr-4 lg:rounded-lg"
+      )}
+    >
+      <div
+        className={clsx(
+          "hidden",
+          "lg:flex lg:gap-4 lg:items-center  lg:text-brand-ghost_white"
+        )}
+      >
         <Image
           width={24}
           height={24}

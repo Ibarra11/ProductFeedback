@@ -1,6 +1,6 @@
 import * as React from "react";
+import clsx from "clsx";
 import { ButtonBase } from "@/types";
-type Color = "purple" | "royal_blue" | "american_blue" | "tangerine";
 
 function Button({
   children,
@@ -8,7 +8,10 @@ function Button({
   ...rest
 }: React.PropsWithChildren<ButtonBase<{}>>) {
   return (
-    <button className={`rounded-lg py-3 px-6 ${className || ""}`} {...rest}>
+    <button
+      className={clsx(`rounded-lg h-10 px-6 ${className || ""}`, " lg:h-11")}
+      {...rest}
+    >
       {children}
     </button>
   );
