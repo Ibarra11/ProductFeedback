@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import clsx from "clsx";
 import Pill from "../Pill";
 import { useFilterContext } from "../FilterProvider";
 import { FILTER_CATEGORIES } from "@/app/constants";
@@ -7,7 +8,12 @@ import { FILTER_CATEGORIES } from "@/app/constants";
 function FilterPills() {
   const { handleFilterChange, filterCategory } = useFilterContext();
   return (
-    <div className="bg-white flex flex-wrap gap-2 p-6 rounded-lg">
+    <div
+      className={clsx(
+        "flex-1 bg-white border-2 border-red-500 pl-6 pt-6 pr-4 pb-9 flex flex-wrap gap-2 rounded-lg",
+        "lg:flex-initial"
+      )}
+    >
       {FILTER_CATEGORIES.map((filter, index) => {
         return (
           <Pill

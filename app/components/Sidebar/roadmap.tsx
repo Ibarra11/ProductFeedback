@@ -1,10 +1,16 @@
 import Link from "next/link";
+import clsx from "clsx";
 import { ROADMAP_OPTIONS } from "@/app/constants";
 import { formatStatus } from "@/app/utils";
 
 function Roadmap() {
   return (
-    <div className="flex flex-col gap-6 justify-between bg-white p-6 pt-4 rounded-lg">
+    <div
+      className={clsx(
+        "flex-1 flex flex-col gap-6 justify-between bg-white p-6 pt-4 rounded-lg",
+        "lg:flex-initial"
+      )}
+    >
       <div className="flex justify-between items-center  ">
         <h2 className=" text-lg text-brand-american_blue font-bold">Roadmap</h2>
         <Link
