@@ -17,7 +17,7 @@ function LinkWithChevronLeft({
         `${className ? className : ""}`
       )}
     >
-      <span className={`${className ? className : ""}`}>
+      <span>
         <ChevronLeft size={16} />
       </span>
       <span
