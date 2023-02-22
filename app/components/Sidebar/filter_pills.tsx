@@ -10,7 +10,7 @@ function FilterPills() {
   return (
     <div
       className={clsx(
-        "flex-1 bg-white border-2 border-red-500 pl-6 pt-6 pr-4 pb-9 flex flex-wrap gap-2 rounded-lg",
+        "flex-1 bg-white pl-6 pt-6 pr-4 pb-9 flex flex-wrap gap-2 rounded-lg",
         "lg:flex-initial"
       )}
     >

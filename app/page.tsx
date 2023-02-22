@@ -13,8 +13,9 @@ export default function Home() {
       <main className="h-full">
         <div
           className={clsx(
-            "h-full max-w-5xl mx-auto flex flex-col  border-2 border-green-500",
-            "lg:flex-row lg:gap-10"
+            "h-full max-w-5xl mx-auto flex flex-col",
+            "md:gap-10",
+            "lg:flex-row"
           )}
         >
           {/* shown on tablet to desktop */}
@@ -22,7 +23,7 @@ export default function Home() {
           {/* only shown on mobile to tablet */}
           <MobileHeader />
           <div
-            className={clsx("flex h-full flex-col flex-1 gap-8", " lg:gap-6")}
+            className={clsx("flex h-full flex-col flex-1 gap-8", "lg:gap-6")}
           >
             <SortProvider>
               <Header />

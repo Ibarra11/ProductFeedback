@@ -13,13 +13,14 @@ function Header() {
     <header
       className={clsx(
         "flex items-center h-14 px-6 bg-brand-american_blue ",
-        " lg:h-[72px]  lg:gap-8  lg:pr-4 lg:rounded-lg"
+        "md:h-[72px] md:gap-9 md:rounded-lg md:pr-3",
+        "lg:gap-8 lg:pr-4"
       )}
     >
       <div
         className={clsx(
           "hidden",
-          "lg:flex lg:gap-4 lg:items-center  lg:text-brand-ghost_white"
+          "md:flex md:gap-4 md:items-center  md:text-brand-ghost_white"
         )}
       >
         <Image

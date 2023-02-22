@@ -12,12 +12,7 @@ function FeedbackView() {
   );
 
   return (
-    <div className={
-      clsx(
-        " flex-1 px-6 pb-14 border-2 border-red-700",
-        "lg:h-full  "
-      )
-    }>
+    <div className={clsx(" flex-1 px-6 pb-14", " md:p-0 md:h-full  ")}>
       <div className="h-full w-full">
         {posts.length > 0 ? <ProductRequestList /> : <EmptySuggestionsView />}
       </div>
