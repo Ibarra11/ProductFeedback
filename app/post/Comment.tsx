@@ -13,7 +13,7 @@ function Comment({
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
   const [reply, setReply] = React.useState("");
   return (
-    <div className="flex items-start gap-8 ">
+    <div className="flex items-start gap-8">
       <Image
         src={image}
         className="rounded-full"
@@ -21,9 +21,9 @@ function Comment({
         height={40}
         alt={`${name} profile picture`}
       />
-      <div>
-        <div className="flex justify-between items-center">
-          <div className="mb-4">
+      <div className=" flex-1">
+        <div className="flex justify-between items-center mb-4">
+          <div>
             <h4 className="text-sm font-bold">{name}</h4>
             <p className="text-sm text-brand-blue_gray">@{username}</p>
           </div>

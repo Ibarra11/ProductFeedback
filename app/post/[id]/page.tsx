@@ -18,7 +18,9 @@ function Page({ params }: { params: { id: string } }) {
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-6">
       <div className="flex justify-between">
-        <LinkWithChevronLeft href="/">Go Back</LinkWithChevronLeft>
+        <LinkWithChevronLeft className="text-brand-american_blue" href="/">
+          Go Back
+        </LinkWithChevronLeft>
         <Button
           onClick={() => router.push(`/edit-feedback/${id}`)}
           className="bg-brand-purple text-brand-ghost_white"

@@ -14,3 +14,8 @@ div[data-radix-popper-content-wrapper] {
     #28a7ed 100%
   );
 }
+
+.counter-btn:hover span {
+  color: #373f68;
+  transition: color 0.2s;
+}

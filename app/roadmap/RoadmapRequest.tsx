@@ -32,16 +32,21 @@ function RoadmapRequest({
       </div>
       <div className="mb-4">
         <h3 className="font-bold text-lg">{title}</h3>
-        <p className=" text-base">{description}</p>
+        <p className="text-base">{description}</p>
       </div>
 
       <div className="inline-block rounded-lg bg-brand-alice_blue px-4 py-1 text-brand-american_blue mb-4">
-        <h4 className=" text-sm font-semibold">
-          {category[0].toUpperCase + category.slice(1)}
+        <h4 className="text-sm font-semibold">
+          {category[0].toUpperCase() + category.slice(1)}
         </h4>
       </div>
       <div className="flex justify-between">
-        <CounterButton value={upvotes} onClick={() => {}} />
+        <CounterButton
+          selected={false}
+          direction="row"
+          value={upvotes}
+          onClick={() => {}}
+        />
         <CommentIcon comments={comments ? comments.length : 0} />
       </div>
     </div>

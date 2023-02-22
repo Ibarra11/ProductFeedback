@@ -4,7 +4,7 @@ import Roadmap from "./roadmap";
 
 function Sidebar() {
   return (
-    <aside className="w-64 flex flex-col gap-6">
+    <aside className="sticky top-8 w-64 flex flex-col gap-6">
       <Banner title="Frontend Mentor" subTitle="Feedback Board" />
       <FilterPills />
       <Roadmap />

@@ -12,7 +12,7 @@ function FeedbackView() {
 
   return (
     <div className="relative h-full  flex-1 overflow-y-auto">
-      <div className="absolute h-full w-full pr-3">
+      <div className="h-full w-full">
         {posts.length > 0 ? <ProductRequestList /> : <EmptySuggestionsView />}
       </div>
     </div>
