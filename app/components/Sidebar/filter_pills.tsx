@@ -5,19 +5,24 @@ import Pill from "../Pill";
 import { useFilterContext } from "../FilterProvider";
 import { FILTER_CATEGORIES } from "@/app/constants";
 
-function FilterPills() {
+function FilterPills({ closeNavModal }: { closeNavModal?: () => void }) {
   const { handleFilterChange, filterCategory } = useFilterContext();
   return (
     <div
       className={clsx(
-        "flex-1 bg-white pl-6 pt-6 pr-4 pb-9 flex flex-wrap gap-2 rounded-lg",
+        "md:flex-1 bg-white pl-6 pt-6 pr-4 pb-9 flex flex-wrap gap-2 rounded-lg",
         "lg:flex-initial"
       )}
     >
       {FILTER_CATEGORIES.map((filter, index) => {
         return (
           <Pill
-            onClick={() => handleFilterChange(filter)}
+            onClick={() => {
+              handleFilterChange(filter);
+              if (closeNavModal) {
+                closeNavModal();
+              }
+            }}
             key={index}
             selected={filterCategory === filter}
           >

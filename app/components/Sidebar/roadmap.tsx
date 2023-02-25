@@ -7,7 +7,7 @@ function Roadmap() {
   return (
     <div
       className={clsx(
-        "flex-1 flex flex-col gap-6 justify-between bg-white p-6 pt-4 rounded-lg",
+        "md:flex-1 flex flex-col gap-6 justify-between bg-white p-6 pt-4 rounded-lg",
         "lg:flex-initial"
       )}
     >
