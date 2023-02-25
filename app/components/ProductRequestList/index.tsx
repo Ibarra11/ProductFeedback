@@ -5,8 +5,6 @@ import ProductRequestPost from "../ProductRequestPost";
 import data from "../../../data.json";
 import { Post } from "@/types";
 
-const POSTS = data.productRequests;
-
 function ProductRequestList({ posts }: { posts: Post[] }) {
   return (
     <div className={clsx("flex flex-col gap-4", "lg:gap-5")}>

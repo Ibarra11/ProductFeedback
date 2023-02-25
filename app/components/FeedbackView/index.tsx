@@ -17,6 +17,8 @@ function FeedbackView() {
   const { filterCategory } = useFilterContext();
   const { sortBy } = useSortContext();
 
+  console.log(sortBy);
+
   const filteredPost =
     filterCategory === "All"
       ? posts
@@ -26,12 +28,13 @@ function FeedbackView() {
         );
 
   const displayedPosts = sortPosts(filteredPost, sortBy);
+  console.log(displayedPosts);
 
   return (
     <div className={clsx(" flex-1 px-6 pb-14", " md:p-0 md:h-full  ")}>
       <div className="h-full w-full">
         {displayedPosts.length > 0 ? (
-          <ProductRequestList posts={posts} />
+          <ProductRequestList posts={displayedPosts} />
         ) : (
           <EmptySuggestionsView />
         )}
