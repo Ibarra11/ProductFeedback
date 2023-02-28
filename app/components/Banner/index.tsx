@@ -7,7 +7,7 @@ function Banner({ title, subTitle }: Props) {
   return (
     <div
       className={clsx(
-        "flex-1 h-[72px] banner-gradient flex flex-col justify-center  px-6 text-brand-ghost_white",
+        "flex-1  banner-gradient flex flex-col justify-center  p-6 text-brand-ghost_white",
         "md:rounded-lg md:justify-end",
         "lg:h-36 lg:p-6 lg:flex-initial"
       )}

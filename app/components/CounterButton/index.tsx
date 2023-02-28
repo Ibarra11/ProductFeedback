@@ -25,7 +25,7 @@ function CounterButton({
   return (
     <button
       className={clsx(
-        "counter-btn bg-brand-alice_blue flex  rounded-lg",
+        "counter-btn bg-brand-alice_blue flex rounded-lg",
         `${className ? className : ""}`,
         `${flexDirection}`,
         `${selected ? "bg-brand-royal_blue" : ""}`,

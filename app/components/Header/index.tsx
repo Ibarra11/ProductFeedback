@@ -12,7 +12,7 @@ function Header() {
   return (
     <header
       className={clsx(
-        "flex items-center h-14 px-6 bg-brand-american_blue ",
+        "flex items-center h-14 px-6 bg-brand-american_blue",
         "md:h-[72px] md:gap-9 md:rounded-lg md:pr-3",
         "lg:gap-8 lg:pr-4"
       )}

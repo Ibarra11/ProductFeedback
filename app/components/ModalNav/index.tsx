@@ -18,7 +18,7 @@ function ModalNav({
       <Dialog.Portal>
         <Dialog.Overlay className="fixed z-50 top-[72px] left-0 inset-0 bg-black/25 h-screen w-screen" />
         <Dialog.Content className="fixed z-50 inset-0">
-          <div className="fixed top-0 right-0 left-0 flex justify-end items-center pr-4 h-[72px]">
+          <div className="fixed top-0 right-0 left-0  flex justify-end items-center pr-4 h-[72px]">
             <Dialog.Close
               className="text-brand-ghost_white"
               onClick={closeNavModal}
@@ -27,7 +27,7 @@ function ModalNav({
               <span className="sr-only"> close navigation</span>
             </Dialog.Close>
           </div>
-          <div className="fixed top-[72px] h-full right-0 flex flex-col gap-6 bg-brand-alice_blue  w-72 max-w-full p-6">
+          <div className="fixed top-[72px] h-full right-0 flex flex-col gap-6 bg-brand-alice_blue  w-72 max-w-full p-6 shadow-md">
             <FilterPills closeNavModal={closeNavModal} />
             <Roadmap />
           </div>
