@@ -5,7 +5,9 @@ import CounterButton from "../components/CounterButton";
 import { Post } from "../../types";
 import { roadmapBorderColor, ROADMAP_CIRCLE_BG } from "../constants";
 import { formatStatus } from "../utils";
+import Link from "next/link";
 function RoadmapRequest({
+  id,
   status,
   title,
   description,
@@ -16,9 +18,10 @@ function RoadmapRequest({
   const borderColor = roadmapBorderColor[status];
   const statusCircle = ROADMAP_CIRCLE_BG[status];
   return (
-    <div
+    <Link
+      href={`/post/${id}`}
       className={clsx(
-        ` border-t-[5px] ${borderColor}`,
+        `group border-t-[5px] ${borderColor}`,
         "bg-white p-8 rounded-md"
       )}
     >
@@ -31,12 +34,19 @@ function RoadmapRequest({
         </p>
       </div>
       <div className="mb-4">
-        <h3 className="font-bold text-lg">{title}</h3>
-        <p className="text-base">{description}</p>
+        <h3
+          className={clsx(
+            "font-bold text-lg text-brand-american_blue",
+            `group-hover:text-brand-royal_blue transition-colors duration-200`
+          )}
+        >
+          {title}
+        </h3>
+        <p className="text-base text-brand-blue_gray">{description}</p>
       </div>
 
       <div className="inline-block rounded-lg bg-brand-alice_blue px-4 py-1 text-brand-american_blue mb-4">
-        <h4 className="text-sm font-semibold">
+        <h4 className="text-sm text-brand-royal_blue font-semibold">
           {category[0].toUpperCase() + category.slice(1)}
         </h4>
       </div>
@@ -45,11 +55,13 @@ function RoadmapRequest({
           selected={false}
           direction="row"
           value={upvotes}
-          onClick={() => {}}
+          onClick={() => {
+            alert(id);
+          }}
         />
         <CommentIcon comments={comments ? comments.length : 0} />
       </div>
-    </div>
+    </Link>
   );
 }
 
