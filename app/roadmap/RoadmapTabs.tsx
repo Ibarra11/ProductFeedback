@@ -1,28 +1,64 @@
 "use client";
+import React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import RoadmapRequestList from "./RoadmapRequestList";
 import { FeedbackStatus, Post } from "@/types";
-import { formatStatus } from "../utils";
+import clsx from "clsx";
 
 function RoadmapTabs({
   tabs,
 }: {
   tabs: Record<Exclude<FeedbackStatus, "suggestion">, Post[]>;
 }) {
+  const [status, setStatus] = React.useState<FeedbackStatus>("planned");
   return (
-    <Tabs.Root defaultValue="planned">
+    <Tabs.Root
+      value={status}
+      onValueChange={(val) => setStatus(val as FeedbackStatus)}
+      defaultValue="planned"
+    >
       <Tabs.List
         className=" h-16 flex border-b border-b-brand-blue_gray mb-6"
         aria-label="select a product request status"
         defaultValue="planned"
       >
-        <Tabs.Trigger className="flex-1" value="planned">
+        <Tabs.Trigger
+          className={clsx(
+            "flex-1",
+            `${
+              status === "planned"
+                ? "border-b-4 border-b-brand-tangerine outline-none"
+                : "opacity-40"
+            }`
+          )}
+          value="planned"
+        >
           Planned
         </Tabs.Trigger>
-        <Tabs.Trigger className="flex-1" value="in-progress">
+        <Tabs.Trigger
+          className={clsx(
+            "flex-1",
+            `${
+              status === "in-progress"
+                ? "border-b-4 border-b-brand-purple outline-none"
+                : "opacity-40"
+            }`
+          )}
+          value="in-progress"
+        >
           In-Progress
         </Tabs.Trigger>
-        <Tabs.Trigger className="flex-1" value="live">
+        <Tabs.Trigger
+          className={clsx(
+            "flex-1",
+            `${
+              status === "live"
+                ? "border-b-4 border-b-brand-maya_blue outline-none"
+                : "opacity-40"
+            }`
+          )}
+          value="live"
+        >
           Live
         </Tabs.Trigger>
       </Tabs.List>
