@@ -1,8 +1,14 @@
+import clsx from "clsx";
 import LinkWithChevronLeft from "../components/LinkWithChevronLeft";
 import Button from "../components/Button";
 function Header() {
   return (
-    <header className=" bg-brand-american_blue text-brand-ghost_white py-7 pl-8 pr-10 flex items-center justify-between rounded-lg">
+    <header
+      className={clsx(
+        " bg-brand-american_blue text-brand-ghost_white py-7 pl-8 pr-10 flex items-center justify-between",
+        "md:rounded-lg"
+      )}
+    >
       <div className="flex flex-col gap-1">
         <LinkWithChevronLeft className=" text-brand-ghost_white" href="/">
           Go Back

@@ -16,7 +16,7 @@ export default function RootLayout({
       <head />
       <body
         className={clsx(
-          "min-h-screen bg-brand-alice_blue",
+          "min-h-screen pb-10 bg-brand-alice_blue",
           "md:pt-24 md:pb-16 md:px-10"
         )}
       >

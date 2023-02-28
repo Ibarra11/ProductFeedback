@@ -50,7 +50,7 @@ function RoadmapRequest({
           {category[0].toUpperCase() + category.slice(1)}
         </h4>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center ">
         <CounterButton
           selected={false}
           direction="row"
