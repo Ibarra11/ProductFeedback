@@ -6,10 +6,21 @@ import ModalNav from "../ModalNav";
 import clsx from "clsx";
 function MobileHeader() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const headerRef = React.useRef<HTMLElement | null>(null);
   // When the modal opens there is a 15px gap between the bg and the right side of the viewport
   const scrollBarMargin = isOpen ? "-mr-[15px]" : "";
+  React.useEffect(() => {
+    if (headerRef.current) {
+      const { height } = getComputedStyle(headerRef.current);
+      document.documentElement.style.setProperty("--header-height", height);
+    }
+  }, []);
+
   return (
-    <header className={clsx(`${scrollBarMargin}`, "relative", "md:hidden")}>
+    <header
+      ref={headerRef}
+      className={clsx(`${scrollBarMargin}`, "relative", "md:hidden")}
+    >
       <Banner title="Frontend Mentor" subTitle="Feedback Board" />
       <button
         onClick={() => setIsOpen(!isOpen)}

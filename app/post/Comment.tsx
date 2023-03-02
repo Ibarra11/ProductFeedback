@@ -3,7 +3,7 @@ import React from "react";
 import clsx from "clsx";
 import Image from "next/image";
 import TextArea from "../components/TextArea";
-import Reply from "./Reply";
+
 import { CommentType } from "@/types";
 import Button from "../components/Button";
 function Comment({
