@@ -15,9 +15,7 @@ function Page() {
     (product) => product.status === "live"
   ) as Post[];
   return (
-    <div
-      className={clsx("max-w-5xl w-full mx-auto flex flex-col", "md:gap-12")}
-    >
+    <div className={clsx("flex flex-col", "md:gap-12")}>
       <Header />
       <div className="flex-1 h-full ">
         {/* tablet to desktop view */}

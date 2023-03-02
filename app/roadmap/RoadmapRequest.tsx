@@ -25,24 +25,38 @@ function RoadmapRequest({
         "bg-white p-8 rounded-md"
       )}
     >
-      <div className="flex items-center gap-4">
+      <div
+        className={clsx(
+          "flex items-center gap-2 mb-4",
+          "md:gap-4 md:mb-3",
+          "lg:mb-2"
+        )}
+      >
         <span
           className={clsx(`${statusCircle}`, "w-2 h-2 rounded-full")}
         ></span>
-        <p className="text-brand-gray-blue opacity-50">
+        <p
+          className={clsx(
+            "text-sm text-brand-gray-blue opacity-50",
+            "lg:text-base"
+          )}
+        >
           {formatStatus(status)}
         </p>
       </div>
-      <div className="mb-4">
+      <div className={clsx("mb-2", "md:mb-6", "lg:mb-4")}>
         <h3
           className={clsx(
-            "font-bold text-lg text-brand-american_blue",
+            "text-sm font-bold  text-brand-american_blue mb-2",
+            "lg:text-lg lg:mb-1",
             `group-hover:text-brand-royal_blue transition-colors duration-200`
           )}
         >
           {title}
         </h3>
-        <p className="text-base text-brand-blue_gray">{description}</p>
+        <p className={clsx("text-sm text-brand-blue_gray", "lg:text-base ")}>
+          {description}
+        </p>
       </div>
 
       <div className="inline-block rounded-lg bg-brand-alice_blue px-4 py-1 text-brand-american_blue mb-4">
