@@ -16,7 +16,7 @@ function Page({ params }: { params: { id: string } }) {
   ) as Post;
 
   return (
-    <div className="max-w-3xl mx-auto flex flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <div className="flex justify-between">
         <LinkWithChevronLeft className="text-brand-american_blue" href="/">
           Go Back

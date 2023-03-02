@@ -27,14 +27,26 @@ export type RoadmapOption = {
   color: RoadmapCircleBg;
 };
 
+export type CommentReply = {
+  id: number;
+  replyingTo: string;
+  content: string;
+  user: CommentType["user"];
+  level: number;
+  replies?: CommentReply[];
+};
+
 export type CommentType = {
   id: number;
   content: string;
+  replyingTo?: string;
   user: {
     image: string;
     name: string;
     username: string;
   };
+  level?: number;
+  replies?: CommentType[];
 };
 export interface Post {
   status: FeedbackStatus;

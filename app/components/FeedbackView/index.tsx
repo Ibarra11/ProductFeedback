@@ -31,7 +31,7 @@ function FeedbackView() {
   console.log(displayedPosts);
 
   return (
-    <div className={clsx(" flex-1 px-6 pb-14", " md:p-0 md:h-full  ")}>
+    <div className={clsx("flex-1 px-6", "md:h-full")}>
       <div className="h-full w-full">
         {displayedPosts.length > 0 ? (
           <ProductRequestList posts={displayedPosts} />

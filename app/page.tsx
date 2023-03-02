@@ -10,7 +10,7 @@ import MobileHeader from "./components/MobileHeader";
 export default function Home() {
   return (
     <FilterProvider>
-      <main className="h-full">
+      <div className={clsx("h-full pb-14", "md:pt-14 md:pb-20 md:px-10 ")}>
         <div
           className={clsx(
             "h-full max-w-5xl mx-auto flex flex-col",
@@ -31,7 +31,7 @@ export default function Home() {
             </SortProvider>
           </div>
         </div>
-      </main>
+      </div>
     </FilterProvider>
   );
 }
