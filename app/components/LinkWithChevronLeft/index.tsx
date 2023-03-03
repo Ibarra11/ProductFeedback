@@ -1,25 +1,24 @@
+"use client";
 import * as React from "react";
-
+import { useRouter } from "next/navigation";
 import { ChevronLeft } from "react-feather";
 
 import clsx from "clsx";
 
 function LinkWithChevronLeft({
   className,
-  onClick,
   children,
 }: React.PropsWithChildren<{
   className?: string;
-  href: string;
-  onClick: () => void;
 }>) {
+  const router = useRouter();
   return (
     <button
       className={clsx(
         "inline-flex items-center gap-3  py-2",
         `${className ? className : ""}`
       )}
-      onClick={onClick}
+      onClick={() => router.back()}
     >
       <span>
         <ChevronLeft size={16} />

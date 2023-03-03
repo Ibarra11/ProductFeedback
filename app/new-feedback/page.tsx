@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import clsx from "clsx";
 import LinkWithChevronLeft from "../components/LinkWithChevronLeft";
 import FormTextArea from "../components/FormTextArea";
 import FormTextInput from "../components/FormTextInput";
@@ -17,53 +18,72 @@ function Page() {
   } as FormData);
 
   return (
-    <article className="max-w-xl w-full mx-auto ">
-      <LinkWithChevronLeft className="mb-10" href="/">
-        Go Back
-      </LinkWithChevronLeft>
-      <form className="bg-white px-10 pb-9 rounded-lg">
+    <>
+      <LinkWithChevronLeft className="mb-10">Go Back</LinkWithChevronLeft>
+      <div className={clsx("relative  pt-5", "md:pt-7")}>
         <Image
           src="/shared/icon-new-feedback.svg"
-          className="mb-2 -translate-y-1/2"
+          className={clsx("absolute top-0 left-6", "md:hidden")}
+          width={40}
+          height={40}
+          alt=""
+          aria-hidden
+        />
+        <Image
+          src="/shared/icon-new-feedback.svg"
+          className={clsx("hidden top-0 left-10", "md:block md:absolute")}
           width={56}
           height={56}
           alt=""
           aria-hidden
         />
-        <h1 className="text-2xl font-bold mb-10">Create New Feedback</h1>
-        <div className="flex flex-col gap-6">
-          <FormTextInput
-            title="Feedback Title"
-            subTitle="Add a short, descriptive headline"
-            value={formData.title}
-            handleValueChange={(newTitle) =>
-              setFormData({ ...formData, title: newTitle })
-            }
-          />
-          <FormSelect
-            title="Category"
-            subTitle="Choose a category for your feedback"
-            options={FEEDBACK_CATEGORIES}
-            value={formData.category}
-            handleValueChange={(newVal) =>
-              setFormData({ ...formData, category: newVal })
-            }
-          />
-          <FormTextArea
-            title="Feedback Detail"
-            subTitle="Include any specific comments on what should be improved, added, etc."
-            value={formData.detail}
-            handleValueChange={(newDetail) =>
-              setFormData({ ...formData, detail: newDetail })
-            }
-          />
-          <div className="flex gap-4 justify-end text-brand-ghost_white">
-            <Button className=" bg-brand-blue_gray">Cancel</Button>
-            <Button className="bg-brand-purple">Add Feedback</Button>
+        <form
+          className={clsx("bg-white p-6 pt-11 rounded-lg", "md:p-10 md:pt-14")}
+        >
+          <h1
+            className={clsx("text-lg font-bold mb-6", "md:mb-10  md:text-2xl")}
+          >
+            Create New Feedback
+          </h1>
+          <div className="flex flex-col gap-6">
+            <FormTextInput
+              title="Feedback Title"
+              subTitle="Add a short, descriptive headline"
+              value={formData.title}
+              handleValueChange={(newTitle) =>
+                setFormData({ ...formData, title: newTitle })
+              }
+            />
+            <FormSelect
+              title="Category"
+              subTitle="Choose a category for your feedback"
+              options={FEEDBACK_CATEGORIES}
+              value={formData.category}
+              handleValueChange={(newVal) =>
+                setFormData({ ...formData, category: newVal })
+              }
+            />
+            <FormTextArea
+              title="Feedback Detail"
+              subTitle="Include any specific comments on what should be improved, added, etc."
+              value={formData.detail}
+              handleValueChange={(newDetail) =>
+                setFormData({ ...formData, detail: newDetail })
+              }
+            />
+            <div
+              className={clsx(
+                "flex  flex-col-reverse gap-4 text-brand-ghost_white mt-4",
+                "md:flex-row md:justify-end"
+              )}
+            >
+              <Button className={clsx(" bg-brand-blue_gray")}>Cancel</Button>
+              <Button className="bg-brand-purple">Add Feedback</Button>
+            </div>
           </div>
-        </div>
-      </form>
-    </article>
+        </form>
+      </div>
+    </>
   );
 }
 
