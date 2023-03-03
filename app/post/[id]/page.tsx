@@ -18,7 +18,11 @@ function Page({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex justify-between">
-        <LinkWithChevronLeft className="text-brand-american_blue" href="/">
+        <LinkWithChevronLeft
+          onClick={() => router.back()}
+          className="text-brand-american_blue"
+          href={"/"}
+        >
           Go Back
         </LinkWithChevronLeft>
         <Button

@@ -4,8 +4,7 @@ function RoadmapLayout({ children }: { children: React.ReactNode }) {
     <section
       className={clsx(
         "max-w-5xl w-full mx-auto pb-16",
-        "md:pt-14 md:px-10 md:pb-20",
-        " lg:pt-24 lg:pb-28"
+        "md:pt-14 md:px-10 md:pb-20"
       )}
     >
       {children}

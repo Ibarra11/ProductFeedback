@@ -1,21 +1,25 @@
 import * as React from "react";
-import Link from "next/link";
+
 import { ChevronLeft } from "react-feather";
 
 import clsx from "clsx";
 
 function LinkWithChevronLeft({
   className,
-  href,
+  onClick,
   children,
-}: React.PropsWithChildren<{ className?: string; href: string }>) {
+}: React.PropsWithChildren<{
+  className?: string;
+  href: string;
+  onClick: () => void;
+}>) {
   return (
-    <Link
-      href={href}
+    <button
       className={clsx(
         "inline-flex items-center gap-3  py-2",
         `${className ? className : ""}`
       )}
+      onClick={onClick}
     >
       <span>
         <ChevronLeft size={16} />
@@ -28,7 +32,7 @@ function LinkWithChevronLeft({
       >
         {children}
       </span>
-    </Link>
+    </button>
   );
 }
 
