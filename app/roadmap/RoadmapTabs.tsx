@@ -4,6 +4,13 @@ import * as Tabs from "@radix-ui/react-tabs";
 import RoadmapRequestList from "./RoadmapRequestList";
 import { FeedbackStatus, Post } from "@/types";
 import clsx from "clsx";
+import { motion, AnimatePresence } from "framer-motion";
+
+const statusMap = {
+  planned: 0,
+  "in-progress": 1,
+  live: 2,
+};
 
 function RoadmapTabs({
   tabs,
@@ -11,16 +18,33 @@ function RoadmapTabs({
   tabs: Record<Exclude<FeedbackStatus, "suggestion">, Post[]>;
 }) {
   const [status, setStatus] = React.useState<FeedbackStatus>("planned");
+  const [direction, setDirection] = React.useState<1 | -1>();
+  const [isAnimating, setIsAnimating] = React.useState(false);
   return (
     <Tabs.Root
+      data-id="root"
       value={status}
-      onValueChange={(val) => setStatus(val as FeedbackStatus)}
-      defaultValue="planned"
+      onValueChange={(val) => {
+        if (isAnimating) {
+          return;
+        }
+        setStatus(val as FeedbackStatus);
+        if (status === "planned") {
+          setDirection(1);
+        } else if (status === "in-progress") {
+          if (val === "planned") {
+            setDirection(-1);
+          } else {
+            setDirection(1);
+          }
+        } else if (status === "live") {
+          setDirection(-1);
+        }
+      }}
     >
       <Tabs.List
         className=" h-16 flex border-b border-b-brand-blue_gray mb-6"
         aria-label="select a product request status"
-        defaultValue="planned"
       >
         <Tabs.Trigger
           className={clsx(
@@ -62,16 +86,50 @@ function RoadmapTabs({
           Live
         </Tabs.Trigger>
       </Tabs.List>
-      {Object.entries(tabs).map(([postsStatus, posts]) => (
-        <Tabs.Content className="px-6" key={postsStatus} value={postsStatus}>
-          <RoadmapRequestList
-            feedbackRequestList={posts}
-            status={postsStatus as FeedbackStatus}
-          />
-        </Tabs.Content>
-      ))}
+      <AnimatePresence
+        onExitComplete={() => setIsAnimating(false)}
+        initial={false}
+        custom={direction}
+        mode="popLayout"
+      >
+        {Object.entries(tabs)
+          .filter(([postStatus]) => postStatus === status)
+          .map(([postsStatus, posts]) => (
+            <Tabs.Content
+              className="px-6"
+              forceMount
+              key={postsStatus}
+              value={postsStatus}
+            >
+              <motion.div
+                data-id="container"
+                initial="enter"
+                animate="middle"
+                exit="exit"
+                key={status}
+                custom={direction}
+                variants={variants}
+                transition={{ duration: 0.5 }}
+              >
+                <RoadmapRequestList
+                  feedbackRequestList={posts}
+                  status={postsStatus as FeedbackStatus}
+                />
+              </motion.div>
+            </Tabs.Content>
+          ))}
+      </AnimatePresence>
     </Tabs.Root>
   );
 }
+
+const variants: Record<string, (direction: number) => { x: string | number }> =
+  {
+    enter: (direction) => ({ x: `${100 * direction}%` }),
+    middle: (direction) => ({ x: 0 }),
+    exit: (direction) => ({
+      x: `${-100 * direction}%`,
+    }),
+  };
 
 export default RoadmapTabs;

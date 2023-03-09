@@ -33,13 +33,9 @@ function MobileHeader() {
     }
   }, [isOpen]);
 
-  console.log("open", isOpen);
-  console.log("animating", isAnimating);
-
   return (
     <header ref={headerRef} className={clsx("relative w-full", "md:hidden")}>
       <Banner title="Frontend Mentor" subTitle="Feedback Board" />
-
       {!isOpen && !isAnimating && (
         <button
           onClick={() => {
@@ -52,7 +48,6 @@ function MobileHeader() {
           <span className="sr-only">{isOpen ? "close nav" : "open nav"}</span>
         </button>
       )}
-
       <AnimatePresence onExitComplete={() => setIsAnimating(false)}>
         {isOpen && <ModalNav handleOpenChange={setIsOpen} isOpen={isOpen} />}
       </AnimatePresence>

@@ -1,9 +1,11 @@
+"use client";
 import Header from "./Header";
 import RoadmapRequestList from "./RoadmapRequestList";
 import RoadmapTabs from "./RoadmapTabs";
 import { Post } from "@/types";
 import data from "data.json";
 import clsx from "clsx";
+
 function Page() {
   const planned = data.productRequests.filter(
     (product) => product.status === "planned"
@@ -14,6 +16,7 @@ function Page() {
   const live = data.productRequests.filter(
     (product) => product.status === "live"
   ) as Post[];
+
   return (
     <div className={clsx("flex flex-col", "md:gap-12")}>
       <Header />
