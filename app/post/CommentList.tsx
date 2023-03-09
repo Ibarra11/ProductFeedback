@@ -6,7 +6,7 @@ function CommentList({ comments }: { comments: CommentType[] }) {
     <div className="bg-white shadow-sm px-8 pt-6 pb-10 max-h-[920px] h-full rounded-lg overflow-y-auto overflow-x-hidden">
       {comments.map((comment, index) => (
         <>
-          <Comment key={comment.id} {...comment} />
+          <Comment key={comment.id + index} {...comment} />
           {index % 2 == 0 && index != comments.length - 1 && <Divder />}
         </>
       ))}
