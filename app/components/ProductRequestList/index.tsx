@@ -2,8 +2,8 @@
 import React from "react";
 import clsx from "clsx";
 import ProductRequestPost from "../ProductRequestPost";
-import data from "../../../data.json";
-import { Post } from "@/types";
+
+import { Post } from "@prisma/client";
 
 function ProductRequestList({ posts }: { posts: Post[] }) {
   return (

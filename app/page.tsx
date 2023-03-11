@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import FilterProvider from "./components/FilterProvider";
 import SortProvider from "./components/SortProvider";
-import FeedbackView from "./components/FeedbackView";
+import FeedbackPosts from "./components/FeedbackPosts";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import MobileHeader from "./components/MobileHeader";
@@ -27,7 +27,8 @@ export default function Home() {
           >
             <SortProvider>
               <Header />
-              <FeedbackView />
+              {/* @ts-expect-error Async Server Component */}
+              <FeedbackPosts />
             </SortProvider>
           </div>
         </div>
