@@ -1,5 +1,5 @@
 "use client";
-import data from "../../../data.json";
+import data from "../../../data/data.json";
 import { useRouter } from "next/navigation";
 import ProductRequestPost from "@/app/components/ProductRequestPost";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
@@ -11,13 +11,13 @@ import { Post } from "@/types";
 function Page({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { id } = params;
-  const post = data.productRequests.find(
-    (product) => product.id === +id
-  ) as Post;
+  // const post = data.productRequests.find(
+  //   (product) => product.id === +id
+  // ) as Post;
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <LinkWithChevronLeft className="text-brand-american_blue">
           Go Back
         </LinkWithChevronLeft>
@@ -30,7 +30,7 @@ function Page({ params }: { params: { id: string } }) {
       </div>
       <ProductRequestPost {...post} />
       <CommentList comments={post.comments!} />
-      <AddComment />
+      <AddComment /> */}
     </div>
   );
 }

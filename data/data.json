@@ -11,25 +11,19 @@
       "category": "enhancement",
       "upvotes": 112,
       "status": "suggestion",
-      "description": "Easier to search for solutions based on a specific stack.",
+      "content": "Easier to search for solutions based on a specific stack.",
       "comments": [
         {
           "id": 1,
-          "content": "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
-          "user": {
-            "image": "/user-images/image-suzanne.jpg",
-            "name": "Suzanne Chang",
-            "username": "upbeat1811"
-          }
+          "post_id": 1,
+          "user_id": 1,
+          "content": "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious"
         },
         {
           "id": 2,
-          "content": "Please use fun, color-coded labels to easily identify them at a glance",
-          "user": {
-            "image": "/user-images/image-thomas.jpg",
-            "name": "Thomas Hood",
-            "username": "brawnybrave"
-          }
+          "post_id": 1,
+          "user_id": 2,
+          "content": "Please use fun, color-coded labels to easily identify them at a glance"
         }
       ]
     },
@@ -39,19 +33,18 @@
       "category": "feature",
       "upvotes": 99,
       "status": "suggestion",
-      "description": "It would help people with light sensitivities and who prefer dark mode.",
+      "content": "It would help people with light sensitivities and who prefer dark mode.",
       "comments": [
         {
           "id": 3,
-          "content": "Also, please allow styles to be applied based on system preferences. I would love to be able to browse Frontend Mentor in the evening after my device’s dark mode turns on without the bright background it currently has.",
-          "user": {
-            "image": "/user-images/image-elijah.jpg",
-            "name": "Elijah Moss",
-            "username": "hexagon.bestagon"
-          }
+          "post_id": 2,
+          "user_id": 3,
+          "content": "Also, please allow styles to be applied based on system preferences. I would love to be able to browse Frontend Mentor in the evening after my device’s dark mode turns on without the bright background it currently has."
         },
         {
           "id": 4,
+          "post_id": 2,
+          "user_id": 4,
           "content": "Second this! I do a lot of late night coding and reading. Adding a dark theme can be great for preventing eye strain and the headaches that result. It’s also quite a trend with modern apps and  apparently saves battery life.",
           "user": {
             "image": "/user-images/image-james.jpg",
@@ -99,16 +92,13 @@
       "category": "feature",
       "upvotes": 65,
       "status": "suggestion",
-      "description": "Challenge-specific Q&A would make for easy reference.",
+      "content": "Challenge-specific Q&A would make for easy reference.",
       "comments": [
         {
           "id": 5,
-          "content": "Much easier to get answers from devs who can relate, since they've either finished the challenge themselves or are in the middle of it.",
-          "user": {
-            "image": "/user-images/image-george.jpg",
-            "name": "George Partridge",
-            "username": "soccerviewer8"
-          }
+          "post_id": 3,
+          "user_id": 5,
+          "content": "Much easier to get answers from devs who can relate, since they've either finished the challenge themselves or are in the middle of it."
         }
       ]
     },
@@ -118,19 +108,18 @@
       "category": "enhancement",
       "upvotes": 51,
       "status": "suggestion",
-      "description": "Images and screencasts can enhance comments on solutions.",
+      "content": "Images and screencasts can enhance comments on solutions.",
       "comments": [
         {
           "id": 6,
-          "content": "Right now, there is no ability to add images while giving feedback which isn't ideal because I have to use another app to show what I mean",
-          "user": {
-            "image": "/user-images/image-javier.jpg",
-            "name": "Javier Pollard",
-            "username": "warlikeduke"
-          }
+          "post_id": 4,
+          "user_id": 6,
+          "content": "Right now, there is no ability to add images while giving feedback which isn't ideal because I have to use another app to show what I mean"
         },
         {
           "id": 7,
+          "post_id": 4,
+          "user_id": 6,
           "content": "Yes I'd like to see this as well. Sometimes I want to add a short video or gif to explain the site's behavior..",
           "user": {
             "image": "/user-images/image-roxanne.jpg",
@@ -146,7 +135,7 @@
       "category": "feature",
       "upvotes": 42,
       "status": "suggestion",
-      "description": "Stay updated on comments and solutions other people post.",
+      "content": "Stay updated on comments and solutions other people post.",
       "comments": [
         {
           "id": 8,
@@ -185,7 +174,7 @@
       "category": "bug",
       "upvotes": 3,
       "status": "suggestion",
-      "description": "Challenge preview images are missing when you apply a filter."
+      "content": "Challenge preview images are missing when you apply a filter."
     },
     {
       "id": 7,
@@ -193,7 +182,7 @@
       "category": "feature",
       "upvotes": 123,
       "status": "planned",
-      "description": "It would be great to see a more detailed breakdown of solutions.",
+      "content": "It would be great to see a more detailed breakdown of solutions.",
       "comments": [
         {
           "id": 10,
@@ -221,7 +210,7 @@
       "category": "feature",
       "upvotes": 28,
       "status": "planned",
-      "description": "Sequenced projects for different goals to help people improve.",
+      "content": "Sequenced projects for different goals to help people improve.",
       "comments": [
         {
           "id": 12,
@@ -240,7 +229,7 @@
       "category": "feature",
       "upvotes": 62,
       "status": "in-progress",
-      "description": "Add ability to create professional looking portfolio from profile.",
+      "content": "Add ability to create professional looking portfolio from profile.",
       "comments": [
         {
           "id": 13,
@@ -259,7 +248,7 @@
       "category": "feature",
       "upvotes": 31,
       "status": "in-progress",
-      "description": "Be able to bookmark challenges to take later on.",
+      "content": "Be able to bookmark challenges to take later on.",
       "comments": [
         {
           "id": 14,
@@ -278,7 +267,7 @@
       "category": "bug",
       "upvotes": 9,
       "status": "in-progress",
-      "description": "Screenshots of solutions with animations don’t display correctly."
+      "content": "Screenshots of solutions with animations don’t display correctly."
     },
     {
       "id": 12,
@@ -286,7 +275,7 @@
       "category": "enhancement",
       "upvotes": 71,
       "status": "live",
-      "description": "Small animations at specific points can add delight.",
+      "content": "Small animations at specific points can add delight.",
       "comments": [
         {
           "id": 15,
