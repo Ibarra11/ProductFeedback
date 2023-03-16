@@ -5,7 +5,11 @@ import ProductRequestPost from "../ProductRequestPost";
 
 import { Post } from "@prisma/client";
 
-function ProductRequestList({ posts }: { posts: Post[] }) {
+function ProductRequestList({
+  posts,
+}: {
+  posts: (Post & { comments: Comment[] })[];
+}) {
   return (
     <div className={clsx("flex flex-col gap-4", "lg:gap-5")}>
       {posts.map((post) => (

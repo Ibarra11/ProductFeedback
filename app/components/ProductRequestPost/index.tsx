@@ -11,9 +11,9 @@ function ProductRequestPost({
   title,
   content,
   upvotes,
-
   category,
-}: Post) {
+  comments,
+}: Post & { comments: Comment[] }) {
   const [value, setValue] = React.useState(upvotes);
   return (
     <Link href={`/post/${id}`}>
@@ -43,12 +43,12 @@ function ProductRequestPost({
               {category[0] + category.slice(1).toLowerCase()}
             </span>
             <div className={clsx("flex items-center gap-2", "md:hidden")}>
-              {/* <CommentIcon comments={comments ? comments.length : 0} /> */}
+              <CommentIcon comments={comments.length} />
             </div>
           </div>
         </div>
         <div className={clsx("hidden", "md:flex md:items-center md:gap-2")}>
-          {/* <CommentIcon comments={comments ? comments.length : 0} /> */}
+          <CommentIcon comments={comments.length} />
         </div>
       </article>
     </Link>

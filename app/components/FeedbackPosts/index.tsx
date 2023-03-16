@@ -3,7 +3,11 @@ import { prisma } from "@/db";
 import FeedbackPosts from "./FeedbackPosts";
 
 async function FeedbackPostsContainer() {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({
+    include: {
+      comments: true,
+    },
+  });
   return (
     <div className={clsx("flex-1 px-6", "md:h-full md:px-0")}>
       <div className="h-full w-full">
