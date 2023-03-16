@@ -21,10 +21,10 @@ import { Post } from "@prisma/client";
 //   }
 // }
 
-export function formatStatus(status: FeedbackStatus) {
-  return status === "in-progress"
-    ? `${status[0].toUpperCase()}${
-        status[1]
-      }-${status[3].toUpperCase()}${status.slice(4)}`
-    : status[0].toUpperCase() + status.slice(1);
+export function formatStatus(status: Post["status"]) {
+  return status === "IN_PROGRESS"
+    ? `${status[0]}${status[1].toLowerCase()}-${status[3]}${status
+        .slice(4)
+        .toLowerCase()}`
+    : status[0] + status.slice(1).toLowerCase();
 }

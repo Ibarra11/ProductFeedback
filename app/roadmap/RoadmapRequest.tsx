@@ -2,21 +2,26 @@
 import clsx from "clsx";
 import CommentIcon from "../components/CommentIcon";
 import CounterButton from "../components/CounterButton";
-import { Post } from "../../types";
+import { Comment, Post } from "@prisma/client";
 import { roadmapBorderColor, ROADMAP_CIRCLE_BG } from "../constants";
 import { formatStatus } from "../utils";
 import Link from "next/link";
+
 function RoadmapRequest({
   id,
   status,
   title,
-  description,
+  content,
   upvotes,
   category,
   comments,
-}: Post) {
+}: Post & {
+  comments: Comment[];
+}) {
   const borderColor = roadmapBorderColor[status];
   const statusCircle = ROADMAP_CIRCLE_BG[status];
+  console.log("test");
+  console.log(comments);
   return (
     <Link
       href={`/post/${id}`}
@@ -55,13 +60,13 @@ function RoadmapRequest({
           {title}
         </h3>
         <p className={clsx("text-sm text-brand-blue_gray", "lg:text-base ")}>
-          {description}
+          {content}
         </p>
       </div>
 
       <div className="inline-block rounded-lg bg-brand-alice_blue px-4 py-1 text-brand-american_blue mb-4">
         <h4 className="text-sm text-brand-royal_blue font-semibold">
-          {category[0].toUpperCase() + category.slice(1)}
+          {category[0] + category.slice(1).toLowerCase()}
         </h4>
       </div>
       <div className="flex justify-between items-center ">
@@ -73,7 +78,7 @@ function RoadmapRequest({
             alert(id);
           }}
         />
-        <CommentIcon comments={comments ? comments.length : 0} />
+        <CommentIcon comments={comments.length} />
       </div>
     </Link>
   );

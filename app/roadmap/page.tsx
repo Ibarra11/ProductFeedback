@@ -1,21 +1,51 @@
-"use client";
 import Header from "./Header";
 import RoadmapRequestList from "./RoadmapRequestList";
 import RoadmapTabs from "./RoadmapTabs";
-import { Post } from "@/types";
-import data from "data.json";
 import clsx from "clsx";
+import { prisma } from "@/db";
+async function getProductRequest() {
+  const plannedPosts = prisma.post.findMany({
+    where: {
+      status: {
+        equals: "PLANNED",
+      },
+    },
+    include: {
+      comments: true,
+    },
+  });
 
-function Page() {
-  const planned = data.productRequests.filter(
-    (product) => product.status === "planned"
-  ) as Post[];
-  const inProgress = data.productRequests.filter(
-    (product) => product.status === "in-progress"
-  ) as Post[];
-  const live = data.productRequests.filter(
-    (product) => product.status === "live"
-  ) as Post[];
+  const inProgressPosts = prisma.post.findMany({
+    where: {
+      status: {
+        equals: "IN_PROGRESS",
+      },
+    },
+    include: {
+      comments: true,
+    },
+  });
+  const livePosts = prisma.post.findMany({
+    where: {
+      status: {
+        equals: "LIVE",
+      },
+    },
+    include: {
+      comments: true,
+    },
+  });
+  const [planned, inProgress, live] = await Promise.all([
+    plannedPosts,
+    inProgressPosts,
+    livePosts,
+  ]);
+
+  return { planned, inProgress, live };
+}
+
+async function Page() {
+  const { planned, inProgress, live } = await getProductRequest();
 
   return (
     <div className={clsx("flex flex-col", "md:gap-12")}>
@@ -23,16 +53,18 @@ function Page() {
       <div className="flex-1 h-full ">
         {/* tablet to desktop view */}
         <div className={clsx("hidden", "md:flex md:gap-7")}>
-          <RoadmapRequestList status="planned" feedbackRequestList={planned} />
+          <RoadmapRequestList status="PLANNED" feedbackRequestList={planned} />
           <RoadmapRequestList
-            status="in-progress"
+            status="IN_PROGRESS"
             feedbackRequestList={inProgress}
           />
-          <RoadmapRequestList status="live" feedbackRequestList={live} />
+          <RoadmapRequestList status="LIVE" feedbackRequestList={live} />
         </div>
         {/* mobile view */}
         <div className={clsx("h-full", "md:hidden")}>
-          <RoadmapTabs tabs={{ planned, "in-progress": inProgress, live }} />
+          <RoadmapTabs
+            tabs={{ PLANNED: planned, IN_PROGRESS: inProgress, LIVE: live }}
+          />
         </div>
       </div>
     </div>

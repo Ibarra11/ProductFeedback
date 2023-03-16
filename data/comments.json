@@ -1,8 +1,8 @@
 {
   "comments": [
     {
-      "post_id": 1,
-      "user_id": 1,
+      "post_id": 0,
+      "user_id": 0,
       "content": "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious"
     },
     {
@@ -26,13 +26,13 @@
       "content": "Much easier to get answers from devs who can relate, since they've either finished the challenge themselves or are in the middle of it."
     },
     {
-      "post_id": 4,
+      "post_id": 3,
       "user_id": 6,
       "content": "Right now, there is no ability to add images while giving feedback which isn't ideal because I have to use another app to show what I mean"
     },
     {
-      "post_id": 4,
-      "user_id": 6,
+      "post_id": 1,
+      "user_id": 3,
       "content": "Yes I'd like to see this as well. Sometimes I want to add a short video or gif to explain the site's behavior.."
     }
   ]

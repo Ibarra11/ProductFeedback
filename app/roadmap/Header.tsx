@@ -1,3 +1,4 @@
+"use client";
 import clsx from "clsx";
 import LinkWithChevronLeft from "../components/LinkWithChevronLeft";
 import Button from "../components/Button";
@@ -10,7 +11,7 @@ function Header() {
       )}
     >
       <div className="flex flex-col gap-1">
-        <LinkWithChevronLeft className=" text-brand-ghost_white" href="/">
+        <LinkWithChevronLeft className=" text-brand-ghost_white">
           Go Back
         </LinkWithChevronLeft>
         <h1 className="text-2xl font-bold">Roadmap</h1>

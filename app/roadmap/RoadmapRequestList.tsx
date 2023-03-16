@@ -1,20 +1,21 @@
 import RoadmapRequest from "./RoadmapRequest";
-import { FeedbackStatus, Post } from "@/types";
+import { Comment, Post } from "@prisma/client";
 import { formatStatus } from "../utils";
 import clsx from "clsx";
 
-const statusMap: Record<FeedbackStatus, string> = {
-  planned: "Ideas prioritized for research",
-  "in-progress": "Currently being developed",
-  live: "Released features",
-  suggestion: "",
+const statusMap: Record<Post["status"], string> = {
+  PLANNED: "Ideas prioritized for research",
+  IN_PROGRESS: "Currently being developed",
+  LIVE: "Released features",
+  SUGGESTION: "",
 };
+
 function RoadmapRequestList({
   status,
   feedbackRequestList,
 }: {
-  status: FeedbackStatus;
-  feedbackRequestList: Post[];
+  status: Post["status"];
+  feedbackRequestList: (Post & { comments: Comment[] })[];
 }) {
   return (
     <div className="flex-1">

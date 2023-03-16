@@ -5,7 +5,7 @@
       "title": "Add tags for solutions",
       "category": "ENHANCEMENT",
       "upvotes": 112,
-      "status": "SUGGESTION",
+      "status": "PLANNED",
       "content": "Easier to search for solutions based on a specific stack."
     },
     {
@@ -13,7 +13,7 @@
       "title": "Add a dark theme option",
       "category": "FEATURE",
       "upvotes": 99,
-      "status": "SUGGESTION",
+      "status": "LIVE",
       "content": "It would help people with light sensitivities and who prefer dark mode."
     },
     {
@@ -21,7 +21,7 @@
       "title": "Q&A within the challenge hubs",
       "category": "FEATURE",
       "upvotes": 65,
-      "status": "SUGGESTION",
+      "status": "IN_PROGRESS",
       "content": "Challenge-specific Q&A would make for easy reference."
     },
     {

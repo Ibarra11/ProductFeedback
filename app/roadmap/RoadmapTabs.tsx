@@ -2,24 +2,20 @@
 import React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import RoadmapRequestList from "./RoadmapRequestList";
-import { FeedbackStatus, Post } from "@/types";
+import { FeedbackStatus } from "@/types";
+import { Post } from "@prisma/client";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
-
-const statusMap = {
-  planned: 0,
-  "in-progress": 1,
-  live: 2,
-};
 
 function RoadmapTabs({
   tabs,
 }: {
-  tabs: Record<Exclude<FeedbackStatus, "suggestion">, Post[]>;
+  tabs: Record<Exclude<Post["status"], "SUGGESTION">, Post[]>;
 }) {
   const [status, setStatus] = React.useState<FeedbackStatus>("planned");
   const [direction, setDirection] = React.useState<1 | -1>();
   const [isAnimating, setIsAnimating] = React.useState(false);
+
   return (
     <Tabs.Root
       data-id="root"
@@ -113,7 +109,7 @@ function RoadmapTabs({
               >
                 <RoadmapRequestList
                   feedbackRequestList={posts}
-                  status={postsStatus as FeedbackStatus}
+                  status={postsStatus as Post["status"]}
                 />
               </motion.div>
             </Tabs.Content>
