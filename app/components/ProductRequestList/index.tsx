@@ -3,7 +3,7 @@ import React from "react";
 import clsx from "clsx";
 import ProductRequestPost from "../ProductRequestPost";
 
-import { Post } from "@prisma/client";
+import { Post, Comment } from "@prisma/client";
 
 function ProductRequestList({
   posts,

@@ -6,18 +6,18 @@ import {
   RoadmapBorderColor,
   RoadmapCircleBg,
 } from "@/types";
-import { Post } from "@prisma/client";
+import { Category, Post } from "@prisma/client";
 
-export const FEEDBACK_CATEGORIES: FeedbackCategories[] = [
-  "Feature",
+export const FEEDBACK_CATEGORIES: Category[] = [
+  "FEATURE",
   "UI",
   "UX",
-  "Enhancement",
-  "Bug",
+  "ENHANCEMENT",
+  "BUG",
 ];
 
-export const FILTER_CATEGORIES: FilterCategories[] = [
-  "All",
+export const FILTER_CATEGORIES: (Category | "ALL")[] = [
+  "ALL",
   ...FEEDBACK_CATEGORIES,
 ];
 

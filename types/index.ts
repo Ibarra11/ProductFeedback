@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 import { BRAND_COLORS } from "@/app/constants";
-
+import { Category } from ".prisma/client";
 export type ButtonBase<T extends { [key: string]: any }> =
   ButtonHTMLAttributes<HTMLButtonElement> & T;
 
@@ -60,7 +60,7 @@ export interface Post {
 
 export interface FormData {
   title: string;
-  category: FeedbackCategories;
+  category: Category;
   detail: string;
 }
 

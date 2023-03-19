@@ -15,7 +15,24 @@ function Page() {
     title: "",
     category: FEEDBACK_CATEGORIES[0],
     detail: "",
-  } as FormData);
+  });
+
+  async function handleFormSubmit(ev: React.FormEvent<HTMLFormElement>) {
+    ev.preventDefault();
+    const res = await fetch("/new-feedback/api", {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+    if (!res.ok) {
+      const errors = await res.json();
+      return;
+    }
+    setFormData({
+      title: "",
+      category: FEEDBACK_CATEGORIES[0],
+      detail: "",
+    });
+  }
 
   return (
     <>
@@ -38,6 +55,7 @@ function Page() {
           aria-hidden
         />
         <form
+          onSubmit={handleFormSubmit}
           className={clsx("bg-white p-6 pt-11 rounded-lg", "md:p-10 md:pt-14")}
         >
           <h1
@@ -78,7 +96,9 @@ function Page() {
               )}
             >
               <Button className={clsx(" bg-brand-blue_gray")}>Cancel</Button>
-              <Button className="bg-brand-purple">Add Feedback</Button>
+              <Button type="submit" className="bg-brand-purple">
+                Add Feedback
+              </Button>
             </div>
           </div>
         </form>

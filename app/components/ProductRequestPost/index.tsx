@@ -3,9 +3,9 @@ import React from "react";
 import Link from "next/link";
 import CounterButton from "../CounterButton";
 import CommentIcon from "../CommentIcon";
-import { CommentType, FeedbackCategories } from "@/types";
+
 import clsx from "clsx";
-import { Post } from "@prisma/client";
+import { Post, Comment } from "@prisma/client";
 function ProductRequestPost({
   id,
   title,

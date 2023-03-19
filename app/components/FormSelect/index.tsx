@@ -19,7 +19,7 @@ function FormSelect<T extends string>({
     <div className="flex flex-col gap-4 ">
       <label
         htmlFor={id}
-        className=" flex flex-col gap-0.5  text-brand-american_blue"
+        className=" flex flex-col gap-0.5 text-brand-american_blue"
       >
         <span className="text-sm font-bold">{title}</span>
         <span className="text-sm font-light">{subTitle}</span>
