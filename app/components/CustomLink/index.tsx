@@ -1,11 +1,12 @@
 import Link from "next/link";
 import clsx from "clsx";
+import { Route } from "next";
 
 function CustomLink({
   children,
   href,
 }: React.PropsWithChildren<
-  { href: string } & React.AnchorHTMLAttributes<HTMLAnchorElement>
+  { href: Route } & React.AnchorHTMLAttributes<HTMLAnchorElement>
 >) {
   return (
     <Link
