@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Button from "../Button";
+import CustomLink from "../CustomLink";
 function EmptySuggestionsView() {
   return (
     <div className="h-[600px] grid place-content-center bg-white rounded-lg p-6">
@@ -18,9 +18,7 @@ function EmptySuggestionsView() {
           Got a suggestion? Found a bug that needs to be squashed? We love
           hearing about new ideas to improve our app.
         </p>
-        <Button className=" bg-brand-purple text-sm text-brand-ghost_white font-bold ">
-          + Add Feedback
-        </Button>
+        <CustomLink href="/new-feedback">+ Add Feedback</CustomLink>
       </div>
     </div>
   );

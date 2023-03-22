@@ -5,8 +5,9 @@ import { ButtonBase } from "@/types";
 function Button({
   children,
   className,
+  as,
   ...rest
-}: React.PropsWithChildren<ButtonBase<{}>>) {
+}: React.PropsWithChildren<ButtonBase<{ as?: "link" }>>) {
   return (
     <button
       className={clsx(`rounded-lg h-10 px-6 ${className || ""}`, " lg:h-11")}
