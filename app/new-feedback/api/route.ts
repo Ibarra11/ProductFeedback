@@ -1,42 +1,34 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
-import { Category } from ".prisma/client";
 import { z } from "zod";
-const FormSchema = z.object({
-  title: z.string().nonempty(),
-  category: z.nativeEnum(Category),
-  detail: z.string().nonempty(),
-});
+import { formSchema, addPost } from "../helpers";
 
-interface FormError {
-  field: keyof z.infer<typeof FormSchema>;
-  message: string;
-}
 export async function POST(req: NextRequest) {
   try {
     const res = await req.json();
-    const data = FormSchema.parse(res);
+    const data = formSchema.parse(res);
+    await addPost(data);
     return new NextResponse(null, {
       status: 200,
     });
-  } catch (e) {
-    if (e instanceof z.ZodError) {
-      const errors = e.issues.map(({ path, message }) => {
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      const errors = error.issues.map(({ path, message }) => {
         return { field: path[0], message };
       });
-      return new NextResponse(JSON.stringify({ errors }), {
+      return new NextResponse(JSON.stringify(errors), {
         status: 400,
       });
     }
+    console.log(error);
     return new NextResponse(
-      JSON.stringify({ error: "invalid form submission" }),
+      JSON.stringify({
+        error: "There was a problem creating a feedback post!",
+      }),
       {
-        status: 400,
+        status: 500,
       }
     );
   }
-
-  // const data = await req.body;
 }
 
 // export async function GET(req: NextApiRequest, res: NextApiResponse) {

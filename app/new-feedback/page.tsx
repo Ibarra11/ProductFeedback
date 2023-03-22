@@ -14,14 +14,14 @@ function Page() {
   const [formData, setFormData] = React.useState<FormData>({
     title: "",
     category: FEEDBACK_CATEGORIES[0],
-    detail: "",
+    content: "",
   });
 
   async function handleFormSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     const res = await fetch("/new-feedback/api", {
       method: "POST",
-      body: JSON.stringify(formData),
+      body: JSON.stringify({ ...formData, user_id: 71 }),
     });
     if (!res.ok) {
       const errors = await res.json();
@@ -30,7 +30,7 @@ function Page() {
     setFormData({
       title: "",
       category: FEEDBACK_CATEGORIES[0],
-      detail: "",
+      content: "",
     });
   }
 
@@ -84,9 +84,9 @@ function Page() {
             <FormTextArea
               title="Feedback Detail"
               subTitle="Include any specific comments on what should be improved, added, etc."
-              value={formData.detail}
-              handleValueChange={(newDetail) =>
-                setFormData({ ...formData, detail: newDetail })
+              value={formData.content}
+              handleValueChange={(content) =>
+                setFormData({ ...formData, content })
               }
             />
             <div

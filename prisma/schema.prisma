@@ -74,9 +74,9 @@ model Post {
   createdAt DateTime  @default(now())
   title     String
   content   String
-  upvotes   Int
+  upvotes   Int       @default(0)
   category  Category
-  status    Status
+  status    Status    @default(SUGGESTION)
   comments  Comment[]
   User      User      @relation(fields: [user_id], references: [id])
   user_id   Int

@@ -30,7 +30,7 @@ function FeedbackPosts({
         );
 
   const displayedPosts = sortPosts(filteredPosts, sortBy);
-  console.log(filteredPosts);
+
 
   return (
     <>

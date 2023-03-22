@@ -61,7 +61,7 @@ export interface Post {
 export interface FormData {
   title: string;
   category: Category;
-  detail: string;
+  content: string;
 }
 
 export interface EditFormData extends FormData {
