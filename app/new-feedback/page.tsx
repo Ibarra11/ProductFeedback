@@ -10,28 +10,34 @@ import Button from "../components/Button";
 import { FormData } from "@/types";
 import { FEEDBACK_CATEGORIES } from "../constants";
 
+type FormState = "idle" | "submitting" | "error";
 function Page() {
   const [formData, setFormData] = React.useState<FormData>({
     title: "",
     category: FEEDBACK_CATEGORIES[0],
     content: "",
   });
+  const [formState, setFormState] = React.useState<FormState>("idle");
 
   async function handleFormSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
+    setFormState("submitting");
     const res = await fetch("/new-feedback/api", {
       method: "POST",
       body: JSON.stringify({ ...formData, user_id: 71 }),
     });
     if (!res.ok) {
       const errors = await res.json();
+      setFormState("error");
       return;
+    } else {
+      setFormState("idle");
+      setFormData({
+        title: "",
+        category: FEEDBACK_CATEGORIES[0],
+        content: "",
+      });
     }
-    setFormData({
-      title: "",
-      category: FEEDBACK_CATEGORIES[0],
-      content: "",
-    });
   }
 
   return (
@@ -95,8 +101,23 @@ function Page() {
                 "md:flex-row md:justify-end"
               )}
             >
-              <Button className={clsx(" bg-brand-blue_gray")}>Cancel</Button>
-              <Button type="submit" className="bg-brand-purple">
+              <Button
+                disabled={formState === "submitting"}
+                className={clsx(
+                  "bg-brand-blue_gray transition-opacity",
+                  formState === "submitting" && "opacity-75"
+                )}
+              >
+                Cancel
+              </Button>
+              <Button
+                disabled={formState === "submitting"}
+                type="submit"
+                className={clsx(
+                  "bg-brand-purple transition-opacity",
+                  formState === "submitting" && "opacity-75"
+                )}
+              >
                 Add Feedback
               </Button>
             </div>
