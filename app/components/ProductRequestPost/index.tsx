@@ -15,6 +15,7 @@ function ProductRequestPost({
   comments,
 }: Post & { comments: Comment[] }) {
   const [value, setValue] = React.useState(upvotes);
+  console.log("test");
   return (
     <Link href={`/post/${id}`}>
       <article className="group bg-white flex  py-7 px-8  gap-10 rounded-xl">
