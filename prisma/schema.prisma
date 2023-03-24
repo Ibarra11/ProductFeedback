@@ -61,35 +61,35 @@ enum Status {
 //     },
 
 model User {
-  id       Int       @id @default(autoincrement())
+  user_id  Int       @id @default(autoincrement())
   image    String
   name     String
-  username String
+  username String    @unique
   posts    Post[]
   comments Comment[]
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  title     String
-  content   String
-  upvotes   Int       @default(0)
-  category  Category
-  status    Status    @default(SUGGESTION)
-  comments  Comment[]
-  User      User      @relation(fields: [user_id], references: [id])
-  user_id   Int
+  post_id    Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  title      String
+  content    String
+  upvotes    Int       @default(0)
+  category   Category
+  status     Status    @default(SUGGESTION)
+  comments   Comment[]
+  User       User      @relation(fields: [user_fk_id], references: [user_id])
+  user_fk_id Int
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  content   String
-  Post      Post     @relation(fields: [post_id], references: [id])
-  post_id   Int
-  User      User     @relation(fields: [user_id], references: [id])
-  user_id   Int
+  comment_id Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  content    String
+  Post       Post     @relation(fields: [post_fk_id], references: [post_id])
+  post_fk_id Int
+  User       User     @relation(fields: [user_fk_id], references: [user_id])
+  user_fk_id Int
 }
 
 // model CommentReply {

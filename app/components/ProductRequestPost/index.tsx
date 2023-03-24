@@ -7,7 +7,7 @@ import CommentIcon from "../CommentIcon";
 import clsx from "clsx";
 import { Post, Comment } from "@prisma/client";
 function ProductRequestPost({
-  id,
+  post_id,
   title,
   content,
   upvotes,
@@ -15,9 +15,9 @@ function ProductRequestPost({
   comments,
 }: Post & { comments: Comment[] }) {
   const [value, setValue] = React.useState(upvotes);
-  console.log("test");
+
   return (
-    <Link href={`/post/${id}`}>
+    <Link href={`/post/${post_id}`}>
       <article className="group bg-white flex  py-7 px-8  gap-10 rounded-xl">
         <CounterButton
           selected={true}

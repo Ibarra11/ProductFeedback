@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import ProductRequestPost from "@/app/components/ProductRequestPost";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
-import CommentList from "../Comments";
+import Comments from "../Comments";
 import AddComment from "../AddComment";
 import Button from "@/app/components/Button";
 import { prisma } from "@/db";
@@ -11,18 +11,43 @@ async function Page({ params }: { params: { id: string } }) {
 
   const post = await prisma.post.findUnique({
     where: {
-      id: Number(id),
+      post_id: Number(id),
     },
     include: {
-      comments: true,
+      comments: {
+        include: {
+          User: {
+            select: {
+              // The commenters username
+              username: true,
+            },
+          },
+          Post: {
+            include: {
+              User: {
+                select: {
+                  // the usename of the who the commenter is replying to
+                  username: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      User: {
+        select: {
+          // the original posts username
+          username: true,
+        },
+      },
     },
   });
+
+  console.log(post);
 
   if (!post) {
     redirect("/");
   }
-
-  console.log(post);
 
   post.createdAt = post.createdAt.toString() as any;
 
@@ -40,7 +65,7 @@ async function Page({ params }: { params: { id: string } }) {
         </Button> */}
       </div>
       <ProductRequestPost {...post} />
-      {/* <CommentList comments={post.comments!} /> */}
+      {/* <Comments comments={post.comments} /> */}
       <AddComment />
     </div>
   );

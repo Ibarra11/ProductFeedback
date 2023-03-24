@@ -1,38 +1,24 @@
 {
   "comments": [
     {
-      "post_id": 0,
-      "user_id": 0,
       "content": "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious"
     },
     {
-      "post_id": 1,
-      "user_id": 2,
       "content": "Please use fun, color-coded labels to easily identify them at a glance"
     },
     {
-      "post_id": 2,
-      "user_id": 3,
       "content": "Also, please allow styles to be applied based on system preferences. I would love to be able to browse Frontend Mentor in the evening after my device’s dark mode turns on without the bright background it currently has."
     },
     {
-      "post_id": 2,
-      "user_id": 4,
       "content": "Second this! I do a lot of late night coding and reading. Adding a dark theme can be great for preventing eye strain and the headaches that result. It’s also quite a trend with modern apps and  apparently saves battery life."
     },
     {
-      "post_id": 3,
-      "user_id": 5,
       "content": "Much easier to get answers from devs who can relate, since they've either finished the challenge themselves or are in the middle of it."
     },
     {
-      "post_id": 3,
-      "user_id": 6,
       "content": "Right now, there is no ability to add images while giving feedback which isn't ideal because I have to use another app to show what I mean"
     },
     {
-      "post_id": 1,
-      "user_id": 3,
       "content": "Yes I'd like to see this as well. Sometimes I want to add a short video or gif to explain the site's behavior.."
     }
   ]

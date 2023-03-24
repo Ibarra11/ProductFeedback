@@ -1,7 +1,7 @@
 {
   "posts": [
     {
-      "user_id": 15,
+      "user_fk_id": 15,
       "title": "Add tags for solutions",
       "category": "ENHANCEMENT",
       "upvotes": 112,
@@ -9,7 +9,7 @@
       "content": "Easier to search for solutions based on a specific stack."
     },
     {
-      "user_id": 16,
+      "user_fk_id": 16,
       "title": "Add a dark theme option",
       "category": "FEATURE",
       "upvotes": 99,
@@ -17,7 +17,7 @@
       "content": "It would help people with light sensitivities and who prefer dark mode."
     },
     {
-      "user_id": 17,
+      "user_fk_id": 17,
       "title": "Q&A within the challenge hubs",
       "category": "FEATURE",
       "upvotes": 65,
@@ -25,7 +25,7 @@
       "content": "Challenge-specific Q&A would make for easy reference."
     },
     {
-      "user_id": 18,
+      "user_fk_id": 18,
       "title": "Add image/video upload to feedback",
       "category": "ENHANCEMENT",
       "upvotes": 51,

@@ -22,24 +22,30 @@ async function main() {
   }
 
   for (const [index, post] of Object.entries(posts)) {
-    const user_id = dbUsers[+index].id;
+    const user_fk_id = dbUsers[+index].user_id;
 
     dbPosts.push(
       await prisma.post.create({
-        data: { ...post, user_id: dbUsers[+index].id },
+        data: { ...post, user_fk_id },
       })
     );
   }
 
+  function random(arr: any[]) {
+    return Math.floor(Math.random() * arr.length);
+  }
+
   for (const [index, comment] of Object.entries(comments)) {
-    const user_id = dbUsers[comment.user_id].id;
-    const post_id = dbPosts[comment.post_id].id;
+    const randomUserFk = random(dbUsers);
+    const randomPostFk = random(dbPosts);
+    const user_fk_id = dbUsers[randomUserFk].user_id;
+    const post_fk_id = dbPosts[randomPostFk].post_id;
 
     await prisma.comment.create({
       data: {
         ...comment,
-        user_id,
-        post_id,
+        user_fk_id,
+        post_fk_id,
       },
     });
   }
