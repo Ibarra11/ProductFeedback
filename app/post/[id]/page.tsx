@@ -5,11 +5,10 @@ import Comments from "../Comments";
 import AddComment from "../AddComment";
 import Button from "@/app/components/Button";
 import { prisma } from "@/db";
-
+export const dynamic = "force-dynamic";
+export const revalidate = 60;
 async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
-  //  post_fk_id: number;
-  //  user_fk_id: number;
   const dbPost = await prisma.post.findUnique({
     where: {
       post_id: Number(id),

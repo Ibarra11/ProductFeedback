@@ -1,9 +1,11 @@
 "use client";
 import React from "react";
+import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import Button from "../components/Button";
 import { createComment } from "./helpers";
 const COMMENT_LENGTH = 250;
+
 function AddComment({ postFkId }: { postFkId: number }) {
   const [status, setStatus] = React.useState<"idle" | "pending">("idle");
   const [content, setComment] = React.useState("");
@@ -15,15 +17,13 @@ function AddComment({ postFkId }: { postFkId: number }) {
       const res = await createComment({ content, post_fk_id: postFkId });
       if (res.ok) {
         setComment("");
+        setStatus("idle");
         React.startTransition(() => {
           // refreshes the current route with losing client side state
           router.refresh();
         });
       }
-    } catch (error) {
-    } finally {
-      setStatus("pending");
-    }
+    } catch (error) {}
   }
   return (
     <form onSubmit={handleSubmit} className="bg-white p-8 pt-6 rounded-lg">
@@ -41,7 +41,13 @@ function AddComment({ postFkId }: { postFkId: number }) {
         <span className="text-sm text-brand-american_blue">
           {COMMENT_LENGTH - content.length} characters lefT
         </span>
-        <Button className="bg-brand-purple text-brand-ghost_white">
+        <Button
+          disabled={status === "pending"}
+          className={clsx(
+            "bg-brand-purple text-brand-ghost_white",
+            status === "pending" && "opacity-50"
+          )}
+        >
           Post Comment
         </Button>
       </div>

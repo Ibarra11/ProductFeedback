@@ -2,22 +2,14 @@
 import { Comment, Post } from "@prisma/client";
 import React from "react";
 import clsx from "clsx";
-// import data from "../../../data.json";
 import EmptySuggestionsView from "../EmptySuggestionsView";
 import ProductRequestList from "../ProductRequestList";
 import { useFilterContext } from "../FilterProvider";
 import { useSortContext } from "../SortProvider";
+import { Type_Post } from "@/app/lib/prisma/post";
 import { sortPosts } from "@/app/utils";
 
-function FeedbackPosts({
-  posts,
-}: {
-  posts: (Post & { comments: Comment[] })[];
-}) {
-  // const [posts, setPosts] = React.useState<Post[]>(
-  //   data.productRequests as any as Post[]
-  // );
-
+function FeedbackPosts({ posts }: { posts: Type_Post }) {
   const { filterCategory } = useFilterContext();
   const { sortBy } = useSortContext();
 
@@ -30,7 +22,6 @@ function FeedbackPosts({
         );
 
   const displayedPosts = sortPosts(filteredPosts, sortBy);
-
 
   return (
     <>

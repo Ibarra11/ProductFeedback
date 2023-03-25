@@ -2,14 +2,9 @@
 import React from "react";
 import clsx from "clsx";
 import ProductRequestPost from "../ProductRequestPost";
+import { Type_Post } from "@/app/lib/prisma/post";
 
-import { Post, Comment } from "@prisma/client";
-
-function ProductRequestList({
-  posts,
-}: {
-  posts: (Post & { comments: Comment[] })[];
-}) {
+function ProductRequestList({ posts }: { posts: Type_Post }) {
   return (
     <div className={clsx("flex flex-col gap-4", "lg:gap-5")}>
       {posts.map((post) => (
