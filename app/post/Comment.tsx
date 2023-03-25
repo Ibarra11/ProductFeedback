@@ -4,12 +4,25 @@ import clsx from "clsx";
 import Image from "next/image";
 import TextArea from "../components/TextArea";
 import Button from "../components/Button";
-import { Comment } from "@prisma/client";
-function Comment({ id, content }: Comment) {
+// import { Comment } from "@prisma/client";
+function Comment({
+  comment_id,
+  name,
+  image,
+  username,
+  replyingTo,
+  content,
+}: {
+  comment_id: number;
+  username: string;
+  name: string;
+  image: string;
+  replyingTo: string;
+  content: string;
+}) {
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
   const [reply, setReply] = React.useState("");
   // const marginLeft = Math.round(24 * level - Math.round(24 / level));
-
   return (
     <>
       <div
@@ -18,18 +31,18 @@ function Comment({ id, content }: Comment) {
           // "mb-8": !replyingTo,
         })}
       >
-        {/* <Image
-          // src={image}
+        <Image
+          src={image}
           className="rounded-full"
           width={40}
           height={40}
-          // alt={`${name} profile picture`}
-        /> */}
+          alt={`${username} profile picture`}
+        />
         <div className=" flex-1">
           <div className="flex justify-between items-center mb-4">
             <div>
-              {/* <h4 className="text-sm font-bold">{name}</h4> */}
-              {/* <p className="text-sm text-brand-blue_gray">@{username}</p> */}
+              <h4 className="text-sm font-bold">{name}</h4>
+              <p className="text-sm text-brand-blue_gray">@{username}</p>
             </div>
             <button
               className={clsx(
@@ -47,6 +60,7 @@ function Comment({ id, content }: Comment) {
                 @{replyingTo}
               </span>
             )}{" "} */}
+            {/* <span className=" text-brand-purple font-bold">@{replyingTo}</span> */}
             {content}
           </p>
           {isReplyOpen && (

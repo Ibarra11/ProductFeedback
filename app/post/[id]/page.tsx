@@ -9,47 +9,66 @@ import { prisma } from "@/db";
 async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
 
-  const post = await prisma.post.findUnique({
+  const dbPost = await prisma.post.findUnique({
     where: {
       post_id: Number(id),
     },
-    include: {
+    select: {
+      post_id: true,
+      user_fk_id: true,
+      upvotes: true,
+      category: true,
+      content: true,
+      createdAt: true,
+      status: true,
+      title: true,
       comments: {
-        include: {
+        select: {
           User: {
             select: {
-              // The commenters username
+              // the comments username to the post
               username: true,
+              name: true,
+              image: true,
             },
           },
           Post: {
-            include: {
+            select: {
               User: {
                 select: {
-                  // the usename of the who the commenter is replying to
+                  // the username of the the person the commenter is replyin to
                   username: true,
+                  image: true,
+                  name: true,
                 },
               },
             },
           },
-        },
-      },
-      User: {
-        select: {
-          // the original posts username
-          username: true,
+          comment_id: true,
+          content: true,
         },
       },
     },
   });
 
-  console.log(post);
-
-  if (!post) {
+  if (!dbPost) {
     redirect("/");
   }
 
-  post.createdAt = post.createdAt.toString() as any;
+  const comments = dbPost.comments.map((comment) => {
+    return {
+      comment_id: comment.comment_id,
+      username: comment.User.username,
+      name: comment.User.name,
+      image: comment.User.image,
+      replyingTo: comment.Post.User.username,
+      content: comment.content,
+    };
+  });
+
+  console.log(comments);
+
+  const post = { ...dbPost, comments: comments.length };
 
   return (
     <div className="flex flex-col gap-6">
@@ -65,7 +84,7 @@ async function Page({ params }: { params: { id: string } }) {
         </Button> */}
       </div>
       <ProductRequestPost {...post} />
-      {/* <Comments comments={post.comments} /> */}
+      <Comments comments={comments} />
       <AddComment />
     </div>
   );
