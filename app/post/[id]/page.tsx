@@ -8,7 +8,8 @@ import { prisma } from "@/db";
 
 async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
-
+  //  post_fk_id: number;
+  //  user_fk_id: number;
   const dbPost = await prisma.post.findUnique({
     where: {
       post_id: Number(id),
@@ -65,11 +66,8 @@ async function Page({ params }: { params: { id: string } }) {
       content: comment.content,
     };
   });
-
-  console.log(comments);
-
   const post = { ...dbPost, comments: comments.length };
-
+  console.log("post:", post.post_id);
   return (
     <div className="flex flex-col gap-6">
       <div className="flex justify-between">
@@ -85,7 +83,7 @@ async function Page({ params }: { params: { id: string } }) {
       </div>
       <ProductRequestPost {...post} />
       <Comments comments={comments} />
-      <AddComment />
+      <AddComment postFkId={post.post_id} />
     </div>
   );
 }
