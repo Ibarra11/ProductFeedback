@@ -1,17 +1,13 @@
 import { SortByTypes, FeedbackStatus } from "@/types";
-import { Post, Comment } from "@prisma/client";
-import { Type_Post } from "../lib/prisma/post";
-export function sortPosts(posts: Type_Post, sortBy: SortByTypes) {
+
+import type { Post } from "../lib/prisma/post";
+export function sortPosts(posts: Post[], sortBy: SortByTypes) {
   switch (sortBy) {
     case "Most Comments": {
-      return posts.sort(
-        (a, b) => (b.comments?.length || 0) - (a.comments?.length || 0)
-      );
+      return posts.sort((a, b) => b._count.comments - a._count.comments);
     }
     case "Least Comments": {
-      return posts.sort(
-        (a, b) => (a.comments?.length || 0) - (b.comments?.length || 0)
-      );
+      return posts.sort((a, b) => a._count.comments - b._count.comments);
     }
     case "Most Upvotes": {
       return posts.sort((a, b) => b.upvotes - a.upvotes);

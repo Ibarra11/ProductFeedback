@@ -4,25 +4,12 @@ import clsx from "clsx";
 import Image from "next/image";
 import TextArea from "../components/TextArea";
 import Button from "../components/Button";
-// import { Comment } from "@prisma/client";
-function Comment({
-  comment_id,
-  name,
-  image,
-  username,
-  replyingTo,
-  content,
-}: {
-  comment_id: number;
-  username: string;
-  name: string;
-  image: string;
-  replyingTo: string;
-  content: string;
-}) {
+import type { T_Comment } from "../lib/prisma/post";
+function Comment({ comment_id, User, Post, content }: T_Comment) {
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
   const [reply, setReply] = React.useState("");
   // const marginLeft = Math.round(24 * level - Math.round(24 / level));
+  const { image, username, name } = User;
   return (
     <>
       <div

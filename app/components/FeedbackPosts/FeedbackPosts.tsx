@@ -9,7 +9,7 @@ import { useSortContext } from "../SortProvider";
 import { Type_Post } from "@/app/lib/prisma/post";
 import { sortPosts } from "@/app/utils";
 
-function FeedbackPosts({ posts }: { posts: Type_Post }) {
+function FeedbackPosts({ posts }: { posts: Type_Post[] }) {
   const { filterCategory } = useFilterContext();
   const { sortBy } = useSortContext();
 

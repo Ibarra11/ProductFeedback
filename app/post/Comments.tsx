@@ -1,17 +1,7 @@
 import Comment from "./Comment";
+import type { T_Comment } from "../lib/prisma/post";
 
-function Comments({
-  comments,
-}: {
-  comments: {
-    comment_id: number;
-    username: string;
-    name: string;
-    image: string;
-    replyingTo: string;
-    content: string;
-  }[];
-}) {
+function Comments({ comments }: { comments: T_Comment[] }) {
   return (
     <div className="bg-white shadow-sm px-8 pt-6 pb-10 max-h-[920px] h-full rounded-lg overflow-y-auto overflow-x-hidden">
       {comments.map((comment, index) => (

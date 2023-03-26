@@ -5,15 +5,15 @@ import CounterButton from "../CounterButton";
 import CommentIcon from "../CommentIcon";
 
 import clsx from "clsx";
-import { Type_Post } from "@/app/lib/prisma/post";
+import type { Post } from "@/app/lib/prisma/post";
 function ProductRequestPost({
   post_id,
   title,
   content,
   upvotes,
   category,
-  comments,
-}: Type_Post[number]) {
+  _count: { comments },
+}: Post) {
   const [value, setValue] = React.useState(upvotes);
 
   return (
@@ -44,12 +44,12 @@ function ProductRequestPost({
               {category[0] + category.slice(1).toLowerCase()}
             </span>
             <div className={clsx("flex items-center gap-2", "md:hidden")}>
-              <CommentIcon comments={comments.length} />
+              <CommentIcon comments={comments} />
             </div>
           </div>
         </div>
         <div className={clsx("hidden", "md:flex md:items-center md:gap-2")}>
-          <CommentIcon comments={comments.length} />
+          <CommentIcon comments={comments} />
         </div>
       </article>
     </Link>
