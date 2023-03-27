@@ -1,7 +1,9 @@
 import { SortByTypes, FeedbackStatus } from "@/types";
-
-import type { Post } from "../lib/prisma/post";
-export function sortPosts(posts: Post[], sortBy: SortByTypes) {
+import type { T_PostWithComemntCount } from "../lib/prisma/post";
+export function sortPosts(
+  posts: T_PostWithComemntCount[],
+  sortBy: SortByTypes
+) {
   switch (sortBy) {
     case "Most Comments": {
       return posts.sort((a, b) => b._count.comments - a._count.comments);
@@ -18,7 +20,7 @@ export function sortPosts(posts: Post[], sortBy: SortByTypes) {
   }
 }
 
-export function formatStatus(status: Post["status"]) {
+export function formatStatus(status: T_PostWithComemntCount["status"]) {
   return status === "IN_PROGRESS"
     ? `${status[0].toUpperCase()}${status[1].toLowerCase()}-${status[3].toUpperCase()}${status
         .slice(4)

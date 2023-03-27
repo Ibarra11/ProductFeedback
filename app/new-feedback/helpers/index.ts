@@ -4,7 +4,7 @@ import { Category, Post, Prisma } from "@prisma/client";
 
 export const formSchema: z.ZodSchema<Prisma.PostUncheckedCreateInput> =
   z.object({
-    user_id: z.number(),
+    user_fk_id: z.number(),
     title: z.string().nonempty(),
     category: z.nativeEnum(Category),
     content: z.string().nonempty(),

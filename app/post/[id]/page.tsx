@@ -1,40 +1,35 @@
 import { redirect } from "next/navigation";
 import ProductRequestPost from "@/app/components/ProductRequestPost";
+import CustomLink from "@/app/components/CustomLink";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import Comments from "../Comments";
 import AddComment from "../AddComment";
-import { getOnePost } from "@/app/lib/prisma/post";
-import Button from "@/app/components/Button";
+import {
+  getCommentsByPostId,
+  getPostWithCommentCount,
+} from "@/app/lib/prisma/post";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 60;
 async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
 
-  const dbPost = await getOnePost(Number(id));
+  const [post, comments] = await Promise.all([
+    getPostWithCommentCount(Number(id)),
+    getCommentsByPostId(Number(id)),
+  ]);
 
-  if (!dbPost) {
+  if (!post) {
     redirect("/");
   }
 
-  const comments = dbPost.comments.map((comment) => {
-    return {
-      comment_id: comment.comment_id,
-      username: comment.User.username,
-      name: comment.User.name,
-      image: comment.User.image,
-      replyingTo: comment.Post.User.username,
-      content: comment.content,
-    };
-  });
-  const post = { ...dbPost, comments: dbPost.comments };
-  console.log("post:", post.post_id);
   return (
     <div className="flex flex-col gap-6">
       <div className="flex justify-between">
         <LinkWithChevronLeft className="text-brand-american_blue">
           Go Back
         </LinkWithChevronLeft>
+        <CustomLink href={`/edit-feedback/${id}`}>Edit Feedback</CustomLink>
         {/* <Button
           onClick={() => router.push(`/edit-feedback/${id}`)}
           className="bg-brand-purple text-brand-ghost_white"

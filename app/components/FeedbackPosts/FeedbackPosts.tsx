@@ -1,15 +1,14 @@
 "use client";
-import { Comment, Post } from "@prisma/client";
 import React from "react";
 import clsx from "clsx";
 import EmptySuggestionsView from "../EmptySuggestionsView";
 import ProductRequestList from "../ProductRequestList";
 import { useFilterContext } from "../FilterProvider";
 import { useSortContext } from "../SortProvider";
-import { Type_Post } from "@/app/lib/prisma/post";
+import type { T_PostWithComemntCount } from "@/app/lib/prisma/post";
 import { sortPosts } from "@/app/utils";
 
-function FeedbackPosts({ posts }: { posts: Type_Post[] }) {
+function FeedbackPosts({ posts }: { posts: T_PostWithComemntCount[] }) {
   const { filterCategory } = useFilterContext();
   const { sortBy } = useSortContext();
 

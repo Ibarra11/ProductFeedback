@@ -3,7 +3,6 @@ import { addCommentSchema } from "../../helpers";
 import { prisma } from "@/db";
 
 export async function POST(req: Request) {
-  console.log("test post api");
   try {
     const data = await req.json();
     const { content, post_fk_id } = addCommentSchema.parse(data);

@@ -1,7 +1,11 @@
 import { prisma } from "@/db";
 
-export type Post = NonNullable<Awaited<ReturnType<typeof getPost>>>;
+export type T_PostWithComemntCount = NonNullable<
+  Awaited<ReturnType<typeof getPostWithCommentCount>>
+>;
 export type T_Comment = Awaited<ReturnType<typeof getCommentsByPostId>>[number];
+export type T_Post = NonNullable<Awaited<ReturnType<typeof getPost>>>;
+
 export const getAllPost = () => {
   return prisma.post.findMany({
     include: {
@@ -15,6 +19,14 @@ export const getAllPost = () => {
 };
 
 export const getPost = async (id: number) => {
+  return prisma.post.findUnique({
+    where: {
+      post_id: id,
+    },
+  });
+};
+
+export const getPostWithCommentCount = async (id: number) => {
   return prisma.post.findUnique({
     where: {
       post_id: id,
@@ -48,32 +60,3 @@ export const getCommentsByPostId = async (postId: number) => {
     },
   });
 };
-
-// export const getPostWithComments = async (id: number) => {
-//   const data = await prisma.post.findUnique({
-//     where: {
-//       post_id: Number(id),
-//     },
-//     include: {
-//       comments: {
-//             include: {
-//             User: true
-//         }
-//         },
-//         post
-//     },
-//   });
-//   if (data) {
-//     const post: Type_Post = {
-//       post_id: data.post_id,
-//       user_fk_id: data.user_fk_id,
-//       upvotes: data.upvotes,
-//       category: data.category,
-//       content: data.content,
-//       createdAt: data.createdAt,
-//       status: data.status,
-//       title: data.title,
-//       comments: data.comments,
-//     };
-//   }
-// };

@@ -5,7 +5,7 @@ import CounterButton from "../CounterButton";
 import CommentIcon from "../CommentIcon";
 
 import clsx from "clsx";
-import type { Post } from "@/app/lib/prisma/post";
+import type { T_PostWithComemntCount } from "@/app/lib/prisma/post";
 function ProductRequestPost({
   post_id,
   title,
@@ -13,7 +13,7 @@ function ProductRequestPost({
   upvotes,
   category,
   _count: { comments },
-}: Post) {
+}: T_PostWithComemntCount) {
   const [value, setValue] = React.useState(upvotes);
 
   return (
