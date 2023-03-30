@@ -10,6 +10,9 @@ import FormTextArea from "../components/FormTextArea";
 import { T_Post } from "../lib/prisma/post";
 function EditFeedbackForm(post: T_Post) {
   const [formData, setFormData] = React.useState(post);
+  const [formStatus, setFormStatus] = React.useState<
+    "pending" | "idle" | "error"
+  >("idle");
   const router = useRouter();
 
   function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
@@ -17,11 +20,27 @@ function EditFeedbackForm(post: T_Post) {
   }
 
   async function handlePostDelete() {
-    console.log("test");
-    fetch(`/api/post/${formData.post_id}`, {
-      method: "DELETE",
-    });
+    setFormStatus("pending");
+    let isMounted = true;
+    try {
+      const res = await fetch(`/api/post/${formData.post_id}`, {
+        method: "DELETE",
+      });
+      if (isMounted) {
+        if (res.ok) {
+          router.push("/");
+          return;
+        }
+        setFormStatus("error");
+      }
+    } catch (e) {
+      setFormStatus("idle");
+    }
+    return () => {
+      isMounted = false;
+    };
   }
+  const disabled = formStatus === "pending";
   return (
     <form
       onSubmit={handleSubmit}
@@ -73,7 +92,11 @@ function EditFeedbackForm(post: T_Post) {
           <Button
             onClick={handlePostDelete}
             type="button"
-            className="bg-red-500 text-brand-ghost_white"
+            className={clsx(
+              "bg-red-500 text-brand-ghost_white",
+              disabled && "opacity-50"
+            )}
+            disabled={disabled}
           >
             Delete
           </Button>
@@ -82,12 +105,20 @@ function EditFeedbackForm(post: T_Post) {
             onClick={() => router.back()}
             className={clsx(
               "bg-brand-blue_gray text-brand-ghost_white",
-              "md:ml-auto"
+              "md:ml-auto",
+              disabled && "opacity-50"
             )}
+            disabled={disabled}
           >
             Cancel
           </Button>
-          <Button className="bg-brand-purple text-brand-ghost_white">
+          <Button
+            disabled={disabled}
+            className={clsx(
+              "bg-brand-purple text-brand-ghost_white",
+              disabled && "opacity-50"
+            )}
+          >
             Save Changes
           </Button>
         </div>
