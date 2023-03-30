@@ -10,7 +10,6 @@ import {
 } from "@/app/lib/prisma/post";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 60;
 async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
 

@@ -4,7 +4,7 @@ import clsx from "clsx";
 import EditFeedbackForm from "../EditFeedbackForm";
 import { getPost } from "@/app/lib/prisma/post";
 import { redirect } from "next/navigation";
-
+export const dynamic = "force-dynamic";
 async function EditFeedback({ params }: { params: { id: string } }) {
   const { id } = params;
   const post = await getPost(Number(id));

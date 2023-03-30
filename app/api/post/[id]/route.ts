@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { z, ZodError } from "zod";
 import { prisma } from "@/db";
+import { Prisma, Category, Status } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export async function DELETE(req: Request) {
   const pathnameArr = new URL(req.url).pathname.split("/");
   const id = pathnameArr[pathnameArr.length - 1];
-  console.log(id);
   try {
     await prisma.post.delete({
       where: {
@@ -17,7 +18,6 @@ export async function DELETE(req: Request) {
       status: 204,
     });
   } catch (e) {
-    console.log(e);
     if (e instanceof PrismaClientKnownRequestError) {
       // there was no post found for that id, so return a 404
       return new NextResponse(null, {
@@ -31,26 +31,39 @@ export async function DELETE(req: Request) {
   }
 }
 
-// export async function POST(req: Request) {
-//   try {
-//     const data = await req.json();
-//     const { content, post_fk_id } = addCommentSchema.parse(data);
-//     const users = await prisma.user.findMany();
-//     const randomUserIndex = Math.floor(Math.random() * users.length);
-//     await prisma.comment.create({
-//       data: {
-//         content,
-//         post_fk_id,
-//         user_fk_id: users[randomUserIndex].user_id,
-//       },
-//     });
-//     return new NextResponse(null, {
-//       status: 200,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return new NextResponse(null, {
-//       status: 500,
-//     });
-//   }
-// }
+const formSchema: z.ZodSchema<Prisma.PostUpdateInput> = z.object({
+  title: z.string().nonempty(),
+  category: z.nativeEnum(Category),
+  content: z.string().nonempty(),
+  status: z.nativeEnum(Status),
+});
+
+export async function PUT(req: Request) {
+  const pathnameArr = new URL(req.url).pathname.split("/");
+  const id = pathnameArr[pathnameArr.length - 1];
+  const res = await req.json();
+  try {
+    const data = formSchema.parse(res);
+    await prisma.post.update({
+      where: {
+        post_id: Number(id),
+      },
+      data,
+    });
+    return new NextResponse(null, {
+      status: 204,
+    });
+  } catch (e) {
+    if (e instanceof PrismaClientKnownRequestError) {
+      // there was no post found for that id, so return a 404
+      return new NextResponse(null, {
+        status: 404,
+      });
+    }
+    if (e instanceof ZodError) {
+      return new NextResponse(JSON.stringify(e.issues), {
+        status: 422,
+      });
+    }
+  }
+}

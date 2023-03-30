@@ -8,39 +8,61 @@ import FormTextInput from "../components/FormTextInput";
 import FormSelect from "../components/FormSelect";
 import FormTextArea from "../components/FormTextArea";
 import { T_Post } from "../lib/prisma/post";
+
 function EditFeedbackForm(post: T_Post) {
+  const router = useRouter();
   const [formData, setFormData] = React.useState(post);
   const [formStatus, setFormStatus] = React.useState<
     "pending" | "idle" | "error"
   >("idle");
-  const router = useRouter();
+  const prevFormData = React.useRef(post);
+  let touched = false;
 
-  function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
+  for (const prop of Object.keys(formData) as (keyof T_Post)[]) {
+    if (prevFormData.current[prop] !== formData[prop]) {
+      touched = true;
+      prevFormData.current = formData;
+      break;
+    }
+  }
+
+  async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
+    setFormStatus("pending");
+    try {
+      const res = await fetch(`/api/post/${formData.post_id}`, {
+        method: "PUT",
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        router.push(`/post/${formData.post_id}`);
+        return;
+      }
+      setFormStatus("idle");
+    } catch (e) {
+      setFormStatus("idle");
+    }
   }
 
   async function handlePostDelete() {
     setFormStatus("pending");
-    let isMounted = true;
+
     try {
       const res = await fetch(`/api/post/${formData.post_id}`, {
         method: "DELETE",
       });
-      if (isMounted) {
-        if (res.ok) {
-          router.push("/");
-          return;
-        }
-        setFormStatus("error");
+
+      if (res.ok) {
+        router.push("/");
+        return;
       }
+      setFormStatus("error");
     } catch (e) {
       setFormStatus("idle");
     }
-    return () => {
-      isMounted = false;
-    };
   }
   const disabled = formStatus === "pending";
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -113,10 +135,10 @@ function EditFeedbackForm(post: T_Post) {
             Cancel
           </Button>
           <Button
-            disabled={disabled}
+            disabled={disabled || !touched}
             className={clsx(
               "bg-brand-purple text-brand-ghost_white",
-              disabled && "opacity-50"
+              (disabled || !touched) && "opacity-50"
             )}
           >
             Save Changes
