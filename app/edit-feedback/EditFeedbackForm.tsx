@@ -69,7 +69,7 @@ function EditFeedbackForm(post: T_Post) {
       className={clsx("bg-white p-6 pt-11 rounded-lg", "md:p-10 md:pt-14")}
     >
       <h1 className={clsx("text-lg font-bold mb-6", "md:mb-10  md:text-2xl")}>
-        Create New Feedback
+        Editing `{post.title}`
       </h1>
       <div className="flex flex-col gap-6">
         <FormTextInput
