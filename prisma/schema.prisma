@@ -51,7 +51,7 @@ model Comment {
   comment_id Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
   content    String
-  Post       Post     @relation(fields: [post_fk_id], references: [post_id])
+  Post       Post     @relation(fields: [post_fk_id], references: [post_id], onDelete: Cascade)
   post_fk_id Int
   User       User     @relation(fields: [user_fk_id], references: [user_id])
   user_fk_id Int

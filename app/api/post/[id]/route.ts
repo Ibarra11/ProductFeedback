@@ -5,14 +5,18 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 export async function DELETE(req: Request) {
   const pathnameArr = new URL(req.url).pathname.split("/");
   const id = pathnameArr[pathnameArr.length - 1];
+  console.log(id);
   try {
     await prisma.post.delete({
       where: {
-        post_id: 100,
+        post_id: Number(id),
       },
     });
+    // status 204 indicates that the deletion was successful, and not returning any content.
+    return new NextResponse(null, {
+      status: 204,
+    });
   } catch (e) {
-    console.log("test");
     console.log(e);
     if (e instanceof PrismaClientKnownRequestError) {
       // there was no post found for that id, so return a 404
