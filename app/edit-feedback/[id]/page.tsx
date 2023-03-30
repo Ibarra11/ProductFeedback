@@ -1,13 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
-import FormSelect from "../../components/FormSelect";
-import FormTextArea from "../../components/FormTextArea";
-import FormTextInput from "../../components/FormTextInput";
-import Button from "@/app/components/Button";
-import { FEEDBACK_STATUS, FEEDBACK_CATEGORIES } from "@/app/constants";
-// import data from "data.json";
-import { EditFormData } from "@/types";
 import EditFeedbackForm from "../EditFeedbackForm";
 import { getPost } from "@/app/lib/prisma/post";
 import { redirect } from "next/navigation";

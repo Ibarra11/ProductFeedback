@@ -9,19 +9,24 @@ import FormSelect from "../components/FormSelect";
 import FormTextArea from "../components/FormTextArea";
 import { T_Post } from "../lib/prisma/post";
 function EditFeedbackForm(post: T_Post) {
-  // import router = useRouter();
   const [formData, setFormData] = React.useState(post);
   const router = useRouter();
-  console.log(formData);
 
-  // const [formData, setFormData] = React.useState<EditFormData>({
-  //   title,
-  //   category,
-  //   detail: description,
-  //   status,
-  // } as EditFormData);
+  function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
+    ev.preventDefault();
+  }
+
+  async function handlePostDelete() {
+    console.log("test");
+    fetch(`/api/post/${formData.post_id}`, {
+      method: "DELETE",
+    });
+  }
   return (
-    <form className={clsx("bg-white p-6 pt-11 rounded-lg", "md:p-10 md:pt-14")}>
+    <form
+      onSubmit={handleSubmit}
+      className={clsx("bg-white p-6 pt-11 rounded-lg", "md:p-10 md:pt-14")}
+    >
       <h1 className={clsx("text-lg font-bold mb-6", "md:mb-10  md:text-2xl")}>
         Create New Feedback
       </h1>
@@ -65,7 +70,11 @@ function EditFeedbackForm(post: T_Post) {
         <div
           className={clsx("flex flex-col-reverse mt-4 gap-4", "md:flex-row")}
         >
-          <Button type="button" className="bg-red-500 text-brand-ghost_white">
+          <Button
+            onClick={handlePostDelete}
+            type="button"
+            className="bg-red-500 text-brand-ghost_white"
+          >
             Delete
           </Button>
           <Button

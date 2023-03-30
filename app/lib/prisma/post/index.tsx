@@ -60,3 +60,12 @@ export const getCommentsByPostId = async (postId: number) => {
     },
   });
 };
+
+export const updateForm = async (id: number, data: Partial<T_Post>) => {
+  return prisma.post.update({
+    where: {
+      post_id: id,
+    },
+    data: data,
+  });
+};
