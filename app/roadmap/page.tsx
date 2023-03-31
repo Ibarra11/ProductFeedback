@@ -11,7 +11,11 @@ async function getProductRequest() {
       },
     },
     include: {
-      comments: true,
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
     },
   });
 
@@ -22,7 +26,11 @@ async function getProductRequest() {
       },
     },
     include: {
-      comments: true,
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
     },
   });
   const livePosts = prisma.post.findMany({
@@ -32,7 +40,11 @@ async function getProductRequest() {
       },
     },
     include: {
-      comments: true,
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
     },
   });
   const [planned, inProgress, live] = await Promise.all([

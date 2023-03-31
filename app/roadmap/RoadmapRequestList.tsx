@@ -36,7 +36,7 @@ function RoadmapRequestList({
       </div>
       <div className={clsx("flex flex-col gap-4", "md:gap-6")}>
         {feedbackRequestList.map((feedback) => (
-          <RoadmapRequest key={feedback.id} {...feedback} />
+          <RoadmapRequest key={feedback.post_id} {...feedback} />
         ))}
       </div>
     </div>

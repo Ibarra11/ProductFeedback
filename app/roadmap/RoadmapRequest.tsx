@@ -2,29 +2,25 @@
 import clsx from "clsx";
 import CommentIcon from "../components/CommentIcon";
 import CounterButton from "../components/CounterButton";
-import { Comment, Post } from "@prisma/client";
+
 import { roadmapBorderColor, ROADMAP_CIRCLE_BG } from "../constants";
 import { formatStatus } from "../utils";
 import Link from "next/link";
-
+import { Post } from "../lib/prisma/post";
 function RoadmapRequest({
-  id,
+  post_id,
   status,
   title,
   content,
   upvotes,
   category,
-  comments,
-}: Post & {
-  comments: Comment[];
-}) {
+  _count: { comments },
+}: Post) {
   const borderColor = roadmapBorderColor[status];
   const statusCircle = ROADMAP_CIRCLE_BG[status];
-  console.log("test");
-  console.log(comments);
   return (
     <Link
-      href={`/post/${id}`}
+      href={`/post/${post_id}`}
       className={clsx(
         `group border-t-[5px] ${borderColor}`,
         "bg-white p-8 rounded-md"
@@ -74,11 +70,9 @@ function RoadmapRequest({
           selected={false}
           direction="row"
           value={upvotes}
-          onClick={() => {
-            alert(id);
-          }}
+          onClick={() => {}}
         />
-        <CommentIcon comments={comments.length} />
+        <CommentIcon comments={comments} />
       </div>
     </Link>
   );
