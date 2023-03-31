@@ -1,7 +1,7 @@
-"use client";
 import clsx from "clsx";
 import LinkWithChevronLeft from "../components/LinkWithChevronLeft";
-import Button from "../components/Button";
+import CustomLink from "../components/CustomLink";
+
 function Header() {
   return (
     <header
@@ -16,9 +16,12 @@ function Header() {
         </LinkWithChevronLeft>
         <h1 className="text-2xl font-bold">Roadmap</h1>
       </div>
-      <Button className=" bg-brand-purple text-brand-ghost_white">
+      <CustomLink
+        href="/new-feedback"
+        className=" bg-brand-purple text-brand-ghost_white"
+      >
         + Add Feedback
-      </Button>
+      </CustomLink>
     </header>
   );
 }
