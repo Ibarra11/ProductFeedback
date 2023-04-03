@@ -3,50 +3,13 @@ import RoadmapRequestList from "./RoadmapRequestList";
 import RoadmapTabs from "./RoadmapTabs";
 import clsx from "clsx";
 import { prisma } from "@/db";
-async function getProductRequest() {
-  const plannedPosts = prisma.post.findMany({
-    where: {
-      status: {
-        equals: "PLANNED",
-      },
-    },
-    include: {
-      _count: {
-        select: {
-          comments: true,
-        },
-      },
-    },
-  });
+import { getPostByStatus } from "../lib/prisma/post";
 
-  const inProgressPosts = prisma.post.findMany({
-    where: {
-      status: {
-        equals: "IN_PROGRESS",
-      },
-    },
-    include: {
-      _count: {
-        select: {
-          comments: true,
-        },
-      },
-    },
-  });
-  const livePosts = prisma.post.findMany({
-    where: {
-      status: {
-        equals: "LIVE",
-      },
-    },
-    include: {
-      _count: {
-        select: {
-          comments: true,
-        },
-      },
-    },
-  });
+async function getProductRequest() {
+  const plannedPosts = getPostByStatus("PLANNED");
+  const inProgressPosts = getPostByStatus("IN_PROGRESS");
+  const livePosts = getPostByStatus("LIVE");
+
   const [planned, inProgress, live] = await Promise.all([
     plannedPosts,
     inProgressPosts,

@@ -1,9 +1,14 @@
 import Link from "next/link";
 import clsx from "clsx";
-import { ROADMAP_OPTIONS } from "@/app/constants";
-import { formatStatus } from "@/app/utils";
+import RoadmapList from "./RoadmapList";
+import { getPostByStatus } from "@/app/lib/prisma/post";
+async function Roadmap() {
+  const [livePosts, plannedPosts, inProgressPosts] = await Promise.all([
+    getPostByStatus("LIVE"),
+    getPostByStatus("PLANNED"),
+    getPostByStatus("IN_PROGRESS"),
+  ]);
 
-function Roadmap() {
   return (
     <div
       className={clsx(
@@ -20,23 +25,14 @@ function Roadmap() {
           View
         </Link>
       </div>
-      <ul className="flex flex-col gap-2 text-brand-blue_gray">
-        {ROADMAP_OPTIONS.map(({ status, count, color }, index) => (
-          <li
-            key={`${status}-${index}`}
-            aria-label={status}
-            className="flex gap-4 justify-between"
-          >
-            <div className="flex items-center gap-4 ">
-              <span
-                className={`inline-block w-2 h-2 ${color} rounded-full `}
-              ></span>
-              <span className="text-base">{formatStatus(status)}</span>
-            </div>
-            <span className="text-base font-bold">{count}</span>
-          </li>
-        ))}
-      </ul>
+      <RoadmapList
+        plannedPosts={{ status: "PLANNED", count: plannedPosts.length }}
+        livePosts={{ status: "LIVE", count: livePosts.length }}
+        inProgressPosts={{
+          status: "IN_PROGRESS",
+          count: inProgressPosts.length,
+        }}
+      />
     </div>
   );
 }

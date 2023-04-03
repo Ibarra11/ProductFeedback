@@ -54,7 +54,8 @@ function ModalNav({
             )}
           >
             <FilterPills closeNavModal={closeNavModal} />
-            <Roadmap />
+
+            {/* <Roadmap /> */}
           </motion.div>
         </Dialog.Content>
       </Dialog.Portal>
@@ -63,3 +64,7 @@ function ModalNav({
 }
 
 export default ModalNav;
+
+{
+  // /* @ts-expect-error Async Server Component */
+}

@@ -1,12 +1,23 @@
 "use client";
+import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import clsx from "clsx";
 import Select from "../Select";
 import Button from "../Button";
+interface Props {
+  posts: Prisma.PrismaPromise<
+    (Post & {
+      _count: {
+        comments: number;
+      };
+    })[]
+  >;
+}
 
 import { useSortContext } from "../SortProvider";
-function Header() {
+import { Post, Prisma } from "@prisma/client";
+function Header({ children }: React.PropsWithChildren) {
   const { sortBy, handleSortByChange } = useSortContext();
   const router = useRouter();
   return (
@@ -30,7 +41,8 @@ function Header() {
           alt=""
           aria-hidden
         />
-        <span className="text-lg font-bold">O Suggestions</span>
+
+        {children}
       </div>
       <Select
         options={[

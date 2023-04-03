@@ -12,6 +12,7 @@ interface Props {
 }
 function SuggestionCount({ postsPromise }: Props) {
   const post = use(postsPromise);
+  console.log(post);
   return <span className="text-lg font-bold">{post.length} Suggestions</span>;
 }
 

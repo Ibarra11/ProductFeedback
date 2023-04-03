@@ -7,7 +7,9 @@ export type T_PostWithComemntCount = NonNullable<
 export type T_Comment = Awaited<ReturnType<typeof getCommentsByPostId>>[number];
 export type T_Post = NonNullable<Awaited<ReturnType<typeof getPost>>>;
 
-export type Post = NonNullable<Awaited<ReturnType<typeof getPostByStatus>>>;
+export type Post = NonNullable<
+  Awaited<ReturnType<typeof getPostByStatus>>
+>[number];
 
 export const getAllPost = () => {
   return prisma.post.findMany({
