@@ -17,6 +17,7 @@ export const getAllPost = () => {
       _count: {
         select: {
           comments: true,
+          upvotes: true,
         },
       },
     },
@@ -40,6 +41,7 @@ export const getPostWithCommentCount = async (id: number) => {
       _count: {
         select: {
           comments: true,
+          upvotes: true,
         },
       },
     },

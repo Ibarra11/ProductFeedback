@@ -6,8 +6,17 @@ import { useFilterContext } from "../FilterProvider";
 import { useSortContext } from "../SortProvider";
 import type { T_PostWithComemntCount } from "@/app/lib/prisma/post";
 import { sortPosts } from "@/app/utils";
+import { User, Upvotes } from "@prisma/client";
 
-function FeedbackPosts({ posts }: { posts: T_PostWithComemntCount[] }) {
+function FeedbackPosts({
+  posts,
+  user,
+}: {
+  posts: T_PostWithComemntCount[];
+  user: User & {
+    Upvotes: Upvotes[];
+  };
+}) {
   const { filterCategory } = useFilterContext();
   const { sortBy } = useSortContext();
 
@@ -20,11 +29,12 @@ function FeedbackPosts({ posts }: { posts: T_PostWithComemntCount[] }) {
         );
 
   const displayedPosts = sortPosts(filteredPosts, sortBy);
-
+  console.log("Feedback Posts");
+  console.log(user);
   return (
     <>
       {displayedPosts.length > 0 ? (
-        <ProductRequestList posts={filteredPosts} />
+        <ProductRequestList user={user} posts={filteredPosts} />
       ) : (
         <EmptySuggestionsView />
       )}

@@ -9,6 +9,7 @@ type ButtonProps = ButtonBase<{
   direction: "row" | "column";
   selected: boolean;
   onClick: (...args: any) => void;
+  post_id: number;
 }>;
 function CounterButton({
   value,
@@ -16,6 +17,7 @@ function CounterButton({
   className,
   direction,
   selected,
+  post_id,
   ...rest
 }: ButtonProps) {
   const flexDirection =

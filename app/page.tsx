@@ -8,10 +8,24 @@ import Sidebar from "./components/Sidebar";
 import MobileHeader from "./components/MobileHeader";
 import SuggestionCount from "./components/SuggestionCount";
 import { getAllPost } from "./lib/prisma/post";
+import { prisma } from "@/db";
 import { Prisma, Post } from "@prisma/client";
 
-export default function Home() {
+async function getRandomUser() {
+  const user = await prisma.user.findMany({
+    include: {
+      Upvotes: true,
+    },
+  });
+  const randomIndex = Math.floor(user.length * Math.random());
+  return user[randomIndex];
+}
+
+export default async function Home() {
+  const user = await getRandomUser();
+  console.log(user);
   const posts = getAllPost();
+
   return (
     <FilterProvider>
       <div className={clsx("h-full pb-14", "md:pt-14 md:pb-20 md:px-10 ")}>
@@ -23,7 +37,7 @@ export default function Home() {
           )}
         >
           {/* shown on tablet to desktop */}
-          <Sidebar />
+          {/* <Sidebar /> */}
 
           {/* only shown on mobile to tablet */}
           <MobileHeader />
@@ -37,7 +51,7 @@ export default function Home() {
                 </React.Suspense>
               </Header>
               <React.Suspense fallback={<p>Loading</p>}>
-                <FeedbackPosts postsPromise={posts} />
+                <FeedbackPosts user={user} postsPromise={posts} />
               </React.Suspense>
             </SortProvider>
           </div>

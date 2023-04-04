@@ -67,6 +67,7 @@ function RoadmapRequest({
       </div>
       <div className="flex justify-between items-center ">
         <CounterButton
+          post_id={post_id}
           selected={false}
           direction="row"
           value={upvotes}

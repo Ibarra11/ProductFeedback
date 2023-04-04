@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
         status: 400,
       });
     }
-    console.log(error);
+
     return new NextResponse(
       JSON.stringify({
         error: "There was a problem creating a feedback post!",

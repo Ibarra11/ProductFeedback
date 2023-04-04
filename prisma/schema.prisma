@@ -32,6 +32,7 @@ model User {
   username String    @unique
   posts    Post[]
   comments Comment[]
+  Upvotes  Upvotes[]
 }
 
 model Post {
@@ -39,12 +40,21 @@ model Post {
   createdAt  DateTime  @default(now())
   title      String
   content    String
-  upvotes    Int       @default(0)
   category   Category
   status     Status    @default(SUGGESTION)
   comments   Comment[]
   User       User      @relation(fields: [user_fk_id], references: [user_id])
   user_fk_id Int
+  upvotes    Upvotes[]
+}
+
+model Upvotes {
+  upvote_id  Int     @id @default(autoincrement())
+  state      Boolean
+  post_fk_id Int
+  Post       Post    @relation(fields: [post_fk_id], references: [post_id], onDelete: Cascade)
+  user_fk_id Int
+  User       User    @relation(fields: [user_fk_id], references: [user_id], onDelete: Cascade)
 }
 
 model Comment {

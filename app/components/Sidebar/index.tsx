@@ -14,13 +14,9 @@ function Sidebar() {
     >
       <Banner title="Frontend Mentor" subTitle="Feedback Board" />
       <FilterPills />
-
-      {/* <Roadmap /> */}
+      {/* @ts-expect-error Async Server Component */}
+      <Roadmap />
     </aside>
   );
 }
 export default Sidebar;
-
-//  {
-//    /* @ts-expect-error Async Server Component */
-//  }

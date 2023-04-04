@@ -10,7 +10,6 @@ export interface Post {
   user_id: number;
   title: string;
   category: Category;
-  upvotes: number;
   status: Status;
   content: string;
 }
