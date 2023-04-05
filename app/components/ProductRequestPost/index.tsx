@@ -6,18 +6,19 @@ import CommentIcon from "../CommentIcon";
 import clsx from "clsx";
 import type { T_PostWithComemntCount } from "@/app/lib/prisma/post";
 import { useUserContext } from "../UserProvider";
-import { User, Upvotes } from "@prisma/client";
+import { formatStatus } from "@/app/utils";
+import { ROADMAP_OPTIONS } from "@/app/constants";
+
 function ProductRequestPost({
   post_id,
   title,
   content,
   category,
+  status,
   _count: { comments, upvotes },
 }: T_PostWithComemntCount) {
   const user = useUserContext();
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
-  console.log("Post[id]", user);
-  console.log(upvote);
 
   return (
     <Link href={`/post/${post_id}`}>
@@ -31,7 +32,6 @@ function ProductRequestPost({
           direction="column"
           upvoteCount={upvotes}
         />
-
         <div className="flex-1">
           <h3
             className={clsx(
@@ -43,9 +43,13 @@ function ProductRequestPost({
           </h3>
           <p className=" text-base text-slate-500 mb-3">{content}</p>
           <div className="flex justify-between">
-            <span className="inline-block bg-brand-alice_blue  text-brand-royal_blue text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200">
-              {category[0] + category.slice(1).toLowerCase()}
-            </span>
+            <div className="flex gap-2">
+              <span className="inline-block bg-brand-alice_blue  text-brand-royal_blue text-sm font-semibold px-4 py-2 rounded-xl">
+                {category[0] + category.slice(1).toLowerCase()}
+              </span>
+              <Status status={status} />
+            </div>
+
             <div className={clsx("flex items-center gap-2", "md:hidden")}>
               <CommentIcon comments={comments} />
             </div>
@@ -56,6 +60,21 @@ function ProductRequestPost({
         </div>
       </article>
     </Link>
+  );
+}
+
+function Status({ status }: { status: T_PostWithComemntCount["status"] }) {
+  const { bgWithOpacity, text } = ROADMAP_OPTIONS[status];
+
+  return (
+    <span
+      className={clsx(
+        "inline-block  text-sm font-bold px-4 py-2 rounded-xl",
+        `${bgWithOpacity} ${text} `
+      )}
+    >
+      {formatStatus(status)}
+    </span>
   );
 }
 

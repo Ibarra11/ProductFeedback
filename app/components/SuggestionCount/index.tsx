@@ -22,9 +22,7 @@ function SuggestionCount({ postsPromise }: Props) {
             product.category.toLowerCase() === filterCategory.toLowerCase()
         );
   return (
-    <span className="text-lg font-bold">
-      {filteredPosts.length} Suggestions
-    </span>
+    <span className="text-lg font-bold">{filteredPosts.length} Posts</span>
   );
 }
 

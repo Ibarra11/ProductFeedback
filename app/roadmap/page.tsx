@@ -18,19 +18,22 @@ async function getProductRequest() {
   const plannedPosts = getPostByStatus("Planned");
   const inProgressPosts = getPostByStatus("In_Progress");
   const livePosts = getPostByStatus("Live");
+  const suggestionPosts = getPostByStatus("Suggestion");
 
-  const [planned, inProgress, live, user] = await Promise.all([
+  const [planned, inProgress, live, suggestion, user] = await Promise.all([
     plannedPosts,
     inProgressPosts,
     livePosts,
+    suggestionPosts,
     getRandomUser(),
   ]);
 
-  return { planned, inProgress, live, user };
+  return { planned, inProgress, live, suggestion, user };
 }
 
 async function Page() {
-  const { planned, inProgress, live, user } = await getProductRequest();
+  const { planned, inProgress, live, suggestion, user } =
+    await getProductRequest();
 
   return (
     <UserProvider user={user}>
@@ -53,7 +56,7 @@ async function Page() {
           <div className={clsx("h-full", "md:hidden")}>
             <RoadmapTabs
               tabs={{
-                Suggestion: [],
+                Suggestion: suggestion,
                 Planned: planned,
                 In_Progress: inProgress,
                 Live: live,

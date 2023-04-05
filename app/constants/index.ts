@@ -27,11 +27,30 @@ export const FEEDBACK_STATUS: FeedbackStatus[] = [
   "live",
 ];
 
-export const ROADMAP_OPTIONS: Record<Status, string> = {
-  Live: "bg-brand-maya_blue",
-  In_Progress: "bg-brand-purple",
-  Planned: "bg-brand-tangerine",
-  Suggestion: "",
+export const ROADMAP_OPTIONS: Record<
+  Status,
+  { bg: string; bgWithOpacity: string; text: string }
+> = {
+  Live: {
+    bg: "bg-brand-maya_blue",
+    bgWithOpacity: "bg-brand-maya_blue/25",
+    text: "text-brand-maya_blue",
+  },
+  In_Progress: {
+    bg: "bg-brand-purple",
+    bgWithOpacity: "bg-brand-purple/25",
+    text: "text-brand-purple",
+  },
+  Planned: {
+    bg: "bg-brand-tangerine",
+    bgWithOpacity: "bg-brand-tangerine/25",
+    text: "text-brand-tangerine",
+  },
+  Suggestion: {
+    bg: "bg-green-500",
+    bgWithOpacity: "bg-green-500/25",
+    text: "text-green-500",
+  },
 };
 
 export const typeToColor: Record<FeedbackStatus, string> = {

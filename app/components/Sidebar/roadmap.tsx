@@ -3,11 +3,13 @@ import clsx from "clsx";
 import RoadmapList from "./RoadmapList";
 import { getPostByStatus } from "@/app/lib/prisma/post";
 async function Roadmap() {
-  const [livePosts, plannedPosts, inProgressPosts] = await Promise.all([
-    getPostByStatus("Live"),
-    getPostByStatus("Planned"),
-    getPostByStatus("In_Progress"),
-  ]);
+  const [livePosts, plannedPosts, inProgressPosts, suggestionPost] =
+    await Promise.all([
+      getPostByStatus("Live"),
+      getPostByStatus("Planned"),
+      getPostByStatus("In_Progress"),
+      getPostByStatus("Suggestion"),
+    ]);
 
   return (
     <div
@@ -32,6 +34,7 @@ async function Roadmap() {
           status: "In_Progress",
           count: inProgressPosts.length,
         }}
+        suggestionPosts={{ status: "Suggestion", count: suggestionPost.length }}
       />
     </div>
   );

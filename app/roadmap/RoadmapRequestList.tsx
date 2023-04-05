@@ -27,7 +27,6 @@ function RoadmapRequestList({ status, feedbackRequestList }: Props) {
       </div>
       <div className={clsx("flex flex-col gap-4", "md:gap-6")}>
         {feedbackRequestList.map((feedback) => {
-          console.log("feedback:", feedback);
           return <RoadmapRequest key={feedback.post_id} {...feedback} />;
         })}
       </div>
