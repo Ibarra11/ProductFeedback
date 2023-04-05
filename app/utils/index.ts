@@ -21,7 +21,7 @@ export function sortPosts(
 }
 
 export function formatStatus(status: T_PostWithComemntCount["status"]) {
-  return status === "IN_PROGRESS"
+  return status === "In_Progress"
     ? `${status[0].toUpperCase()}${status[1].toLowerCase()}-${status[3].toUpperCase()}${status
         .slice(4)
         .toLowerCase()}`

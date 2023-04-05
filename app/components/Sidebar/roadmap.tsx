@@ -4,9 +4,9 @@ import RoadmapList from "./RoadmapList";
 import { getPostByStatus } from "@/app/lib/prisma/post";
 async function Roadmap() {
   const [livePosts, plannedPosts, inProgressPosts] = await Promise.all([
-    getPostByStatus("LIVE"),
-    getPostByStatus("PLANNED"),
-    getPostByStatus("IN_PROGRESS"),
+    getPostByStatus("Live"),
+    getPostByStatus("Planned"),
+    getPostByStatus("In_Progress"),
   ]);
 
   return (
@@ -26,10 +26,10 @@ async function Roadmap() {
         </Link>
       </div>
       <RoadmapList
-        plannedPosts={{ status: "PLANNED", count: plannedPosts.length }}
-        livePosts={{ status: "LIVE", count: livePosts.length }}
+        plannedPosts={{ status: "Planned", count: plannedPosts.length }}
+        livePosts={{ status: "Live", count: livePosts.length }}
         inProgressPosts={{
-          status: "IN_PROGRESS",
+          status: "In_Progress",
           count: inProgressPosts.length,
         }}
       />

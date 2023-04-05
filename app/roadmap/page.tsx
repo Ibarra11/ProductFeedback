@@ -15,9 +15,9 @@ async function getRandomUser() {
   return user[user.length - 1];
 }
 async function getProductRequest() {
-  const plannedPosts = getPostByStatus("PLANNED");
-  const inProgressPosts = getPostByStatus("IN_PROGRESS");
-  const livePosts = getPostByStatus("LIVE");
+  const plannedPosts = getPostByStatus("Planned");
+  const inProgressPosts = getPostByStatus("In_Progress");
+  const livePosts = getPostByStatus("Live");
 
   const [planned, inProgress, live, user] = await Promise.all([
     plannedPosts,
@@ -40,19 +40,24 @@ async function Page() {
           {/* tablet to desktop view */}
           <div className={clsx("hidden", "md:flex md:gap-7")}>
             <RoadmapRequestList
-              status="PLANNED"
+              status="Planned"
               feedbackRequestList={planned}
             />
             <RoadmapRequestList
-              status="IN_PROGRESS"
+              status="In_Progress"
               feedbackRequestList={inProgress}
             />
-            <RoadmapRequestList status="LIVE" feedbackRequestList={live} />
+            <RoadmapRequestList status="Live" feedbackRequestList={live} />
           </div>
           {/* mobile view */}
           <div className={clsx("h-full", "md:hidden")}>
             <RoadmapTabs
-              tabs={{ PLANNED: planned, IN_PROGRESS: inProgress, LIVE: live }}
+              tabs={{
+                Suggestion: [],
+                Planned: planned,
+                In_Progress: inProgress,
+                Live: live,
+              }}
             />
           </div>
         </div>

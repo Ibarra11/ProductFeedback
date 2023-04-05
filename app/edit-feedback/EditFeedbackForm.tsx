@@ -8,10 +8,12 @@ import FormTextInput from "../components/FormTextInput";
 import FormSelect from "../components/FormSelect";
 import FormTextArea from "../components/FormTextArea";
 import { T_Post } from "../lib/prisma/post";
+import { useUserContext } from "../components/UserProvider";
 
 function EditFeedbackForm(post: T_Post) {
   const router = useRouter();
   const [formData, setFormData] = React.useState(post);
+  const user = useUserContext();
   const [formStatus, setFormStatus] = React.useState<
     "pending" | "idle" | "error"
   >("idle");
@@ -32,7 +34,7 @@ function EditFeedbackForm(post: T_Post) {
     try {
       const res = await fetch(`/api/post/${formData.post_id}`, {
         method: "PUT",
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, userId: user.user_id }),
       });
       if (res.ok) {
         router.push(`/post/${formData.post_id}`);
@@ -50,6 +52,7 @@ function EditFeedbackForm(post: T_Post) {
     try {
       const res = await fetch(`/api/post/${formData.post_id}`, {
         method: "DELETE",
+        body: JSON.stringify({ userId: user.user_id }),
       });
 
       if (res.ok) {

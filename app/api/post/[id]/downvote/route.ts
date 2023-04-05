@@ -2,15 +2,15 @@ import { prisma } from "@/db";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextResponse } from "next/server";
 import { z, ZodError } from "zod";
-const schema = z.object({
+
+const downvoteSchema = z.object({
   upvoteId: z.number().int(),
 });
 
 export async function DELETE(req: Request) {
-  console.log("DELETE");
   const reqData = await req.json();
   try {
-    const data = schema.parse(reqData);
+    const data = downvoteSchema.parse(reqData);
     await prisma.upvotes.delete({
       where: {
         upvote_id: data.upvoteId,

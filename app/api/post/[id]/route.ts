@@ -4,13 +4,33 @@ import { prisma } from "@/db";
 import { Prisma, Category, Status } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
+const postSchema: z.ZodSchema<Prisma.PostUpdateInput & { userId: number }> =
+  z.object({
+    title: z.string().nonempty(),
+    category: z.nativeEnum(Category),
+    content: z.string().nonempty(),
+    status: z.nativeEnum(Status),
+    userId: z.number().int(),
+  });
+
+const postDeleteSchema: z.ZodSchema<{ userId: number }> = z.object({
+  userId: z.number().int(),
+});
+
 export async function DELETE(req: Request) {
   const pathnameArr = new URL(req.url).pathname.split("/");
-  const id = pathnameArr[pathnameArr.length - 1];
+  const postId = Number(pathnameArr[pathnameArr.length - 1]);
+  const reqData = await req.json();
   try {
+    const data = postDeleteSchema.parse(reqData);
+
     await prisma.post.delete({
       where: {
-        post_id: Number(id),
+        // post_id: Number(id),
+        post_id_user_fk_id: {
+          post_id: Number(postId),
+          user_fk_id: data.userId,
+        },
       },
     });
     // status 204 indicates that the deletion was successful, and not returning any content.
@@ -31,22 +51,19 @@ export async function DELETE(req: Request) {
   }
 }
 
-const formSchema: z.ZodSchema<Prisma.PostUpdateInput> = z.object({
-  title: z.string().nonempty(),
-  category: z.nativeEnum(Category),
-  content: z.string().nonempty(),
-  status: z.nativeEnum(Status),
-});
-
 export async function PUT(req: Request) {
   const pathnameArr = new URL(req.url).pathname.split("/");
-  const id = pathnameArr[pathnameArr.length - 1];
+  const postId = Number(pathnameArr[pathnameArr.length - 1]);
   const res = await req.json();
   try {
-    const data = formSchema.parse(res);
+    const data = postSchema.parse(res);
+
     await prisma.post.update({
       where: {
-        post_id: Number(id),
+        post_id_user_fk_id: {
+          post_id: postId,
+          user_fk_id: data.userId,
+        },
       },
       data,
     });

@@ -11,18 +11,18 @@ datasource db {
 }
 
 enum Category {
-  FEATURE
+  Feature
   UX
   UI
-  ENHANCEMENT
-  BUG
+  Enhancement
+  Bug
 }
 
 enum Status {
-  LIVE
-  IN_PROGRESS
-  PLANNED
-  SUGGESTION
+  Live
+  In_Progress
+  Planned
+  Suggestion
 }
 
 model User {
@@ -41,11 +41,13 @@ model Post {
   title      String
   content    String
   category   Category
-  status     Status    @default(SUGGESTION)
+  status     Status    @default(Suggestion)
   comments   Comment[]
   User       User      @relation(fields: [user_fk_id], references: [user_id])
   user_fk_id Int
   upvotes    Upvotes[]
+
+  @@unique([post_id, user_fk_id])
 }
 
 model Upvotes {

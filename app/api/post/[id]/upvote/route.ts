@@ -2,7 +2,7 @@ import { prisma } from "@/db";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextResponse } from "next/server";
 import { z, ZodError } from "zod";
-const schema = z.object({
+const upvoteSchema = z.object({
   userId: z.number().int(),
 });
 
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   const postId = new URL(req.url).pathname.split("/").slice(-2)[0];
   const reqData = await req.json();
   try {
-    const data = schema.parse(reqData);
+    const data = upvoteSchema.parse(reqData);
     await prisma.upvotes.create({
       data: {
         post_fk_id: Number(postId),

@@ -9,15 +9,15 @@ import {
 import { Category, Post, Status } from "@prisma/client";
 
 export const FEEDBACK_CATEGORIES: Category[] = [
-  "FEATURE",
+  "Feature",
   "UI",
   "UX",
-  "ENHANCEMENT",
-  "BUG",
+  "Enhancement",
+  "Bug",
 ];
 
-export const FILTER_CATEGORIES: (Category | "ALL")[] = [
-  "ALL",
+export const FILTER_CATEGORIES: FilterCategories[] = [
+  "All",
   ...FEEDBACK_CATEGORIES,
 ];
 
@@ -28,10 +28,10 @@ export const FEEDBACK_STATUS: FeedbackStatus[] = [
 ];
 
 export const ROADMAP_OPTIONS: Record<Status, string> = {
-  LIVE: "bg-brand-maya_blue",
-  IN_PROGRESS: "bg-brand-purple",
-  PLANNED: "bg-brand-tangerine",
-  SUGGESTION: "",
+  Live: "bg-brand-maya_blue",
+  In_Progress: "bg-brand-purple",
+  Planned: "bg-brand-tangerine",
+  Suggestion: "",
 };
 
 export const typeToColor: Record<FeedbackStatus, string> = {
@@ -42,17 +42,17 @@ export const typeToColor: Record<FeedbackStatus, string> = {
 } as const;
 
 export const roadmapBorderColor: Record<Post["status"], RoadmapBorderColor> = {
-  PLANNED: "border-t-brand-tangerine",
-  IN_PROGRESS: "border-t-brand-purple",
-  LIVE: "border-t-brand-maya_blue",
-  SUGGESTION: "" as any,
+  Planned: "border-t-brand-tangerine",
+  In_Progress: "border-t-brand-purple",
+  Live: "border-t-brand-maya_blue",
+  Suggestion: "" as any,
 } as const;
 
 export const ROADMAP_CIRCLE_BG: Record<Post["status"], RoadmapCircleBg> = {
-  PLANNED: "bg-brand-tangerine",
-  IN_PROGRESS: "bg-brand-purple",
-  LIVE: "bg-brand-maya_blue",
-  SUGGESTION: "" as any,
+  Planned: "bg-brand-tangerine",
+  In_Progress: "bg-brand-purple",
+  Live: "bg-brand-maya_blue",
+  Suggestion: "" as any,
 };
 
 export const BRAND_COLORS = {
