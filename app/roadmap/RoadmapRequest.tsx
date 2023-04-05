@@ -19,9 +19,10 @@ function RoadmapRequest({
   const statusCircle = ROADMAP_CIRCLE_BG[status];
   const user = useUserContext();
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
-  console.log(upvotes);
+  console.log(user);
   return (
     <Link
+      onClick={(e) => console.log("link click")}
       href={`/post/${post_id}`}
       className={clsx(
         `group border-t-[5px] ${borderColor}`,

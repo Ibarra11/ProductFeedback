@@ -24,7 +24,6 @@ function CounterButton({
   selected,
   ...rest
 }: ButtonProps) {
-  // const [count, setCount] = React.useState(upvoteCount);
   const router = useRouter();
   async function handleCreateUpvote() {
     const res = await fetch(`/api/post/${postId}/upvote`, {
@@ -69,7 +68,12 @@ function CounterButton({
       {...rest}
       onClick={(e) => {
         e.stopPropagation();
-        upvoteId ? handleDeleteUpvote() : handleCreateUpvote();
+        e.preventDefault();
+        if (upvoteId) {
+          handleDeleteUpvote();
+        } else {
+          handleCreateUpvote();
+        }
       }}
     >
       <span

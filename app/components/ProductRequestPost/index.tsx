@@ -13,14 +13,11 @@ function ProductRequestPost({
   content,
   category,
   _count: { comments, upvotes },
-  user,
-}: T_PostWithComemntCount & {
-  user: User & {
-    Upvotes: Upvotes[];
-  };
-}) {
-  console.log(user);
+}: T_PostWithComemntCount) {
+  const user = useUserContext();
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
+  console.log("Post[id]", user);
+  console.log(upvote);
 
   return (
     <Link href={`/post/${post_id}`}>
@@ -29,7 +26,7 @@ function ProductRequestPost({
           postId={post_id}
           userId={user.user_id}
           upvoteId={upvote && upvote.upvote_id}
-          selected={true}
+          selected={upvote ? true : false}
           className="z-10"
           direction="column"
           upvoteCount={upvotes}

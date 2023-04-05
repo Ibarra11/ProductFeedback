@@ -24,11 +24,7 @@ function UserProvider({
   children,
   user,
 }: React.PropsWithChildren<{ user: Type_User }>) {
-  const [userData, setUserData] = React.useState<Type_User>(user);
-
-  return (
-    <UserContext.Provider value={userData}>{children}</UserContext.Provider>
-  );
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }
 
 export default UserProvider;
