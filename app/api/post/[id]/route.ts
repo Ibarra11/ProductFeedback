@@ -65,5 +65,8 @@ export async function PUT(req: Request) {
         status: 422,
       });
     }
+    return new NextResponse(null, {
+      status: 500,
+    });
   }
 }

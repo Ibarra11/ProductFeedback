@@ -3,9 +3,10 @@ import React from "react";
 import Link from "next/link";
 import CounterButton from "../CounterButton";
 import CommentIcon from "../CommentIcon";
-import { User, Upvotes } from "@prisma/client";
 import clsx from "clsx";
 import type { T_PostWithComemntCount } from "@/app/lib/prisma/post";
+import { useUserContext } from "../UserProvider";
+import { User, Upvotes } from "@prisma/client";
 function ProductRequestPost({
   post_id,
   title,
@@ -18,36 +19,20 @@ function ProductRequestPost({
     Upvotes: Upvotes[];
   };
 }) {
-  const [value, setValue] = React.useState(upvotes);
-  let upvoteStatus: boolean;
   console.log(user);
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
-  if (!upvote) {
-    upvoteStatus = false;
-  } else {
-    upvoteStatus = upvote.state;
-  }
 
-  console.log(upvoteStatus);
   return (
     <Link href={`/post/${post_id}`}>
       <article className="group bg-white flex  py-7 px-8  gap-10 rounded-xl">
         <CounterButton
-          post_id={post_id}
+          postId={post_id}
+          userId={user.user_id}
+          upvoteId={upvote && upvote.upvote_id}
           selected={true}
           className="z-10"
           direction="column"
-          value={value}
-          onClick={() => {
-            if (upvoteStatus) {
-              fetch(`/api/post/${post_id}/downvote`);
-            } else {
-              fetch(`/api/post/${post_id}/upvote`, {
-                method: "PUT",
-                body: JSON.stringify({ user_id: user.user_id }),
-              });
-            }
-          }}
+          upvoteCount={upvotes}
         />
 
         <div className="flex-1">

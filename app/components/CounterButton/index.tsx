@@ -1,25 +1,58 @@
 "use client";
-
+import React from "react";
 import { ChevronUp } from "react-feather";
 import clsx from "clsx";
 import { ButtonBase } from "@/types";
+import { useRouter } from "next/navigation";
 
 type ButtonProps = ButtonBase<{
-  value: number;
+  upvoteCount: number;
+  postId: number;
+  userId: number;
+  upvoteId?: number;
   direction: "row" | "column";
   selected: boolean;
-  onClick: (...args: any) => void;
-  post_id: number;
 }>;
+
 function CounterButton({
-  value,
-  onClick,
+  upvoteCount,
+  userId,
+  postId,
+  upvoteId,
   className,
   direction,
   selected,
-  post_id,
   ...rest
 }: ButtonProps) {
+  // const [count, setCount] = React.useState(upvoteCount);
+  const router = useRouter();
+  async function handleCreateUpvote() {
+    const res = await fetch(`/api/post/${postId}/upvote`, {
+      method: "POST",
+      body: JSON.stringify({
+        userId,
+      }),
+    });
+    if (res.ok) {
+      React.startTransition(() => {
+        router.refresh();
+      });
+    }
+  }
+
+  async function handleDeleteUpvote() {
+    const res = await fetch(`/api/post/${postId}/downvote`, {
+      method: "DELETE",
+      body: JSON.stringify({
+        upvoteId,
+      }),
+    });
+    if (res.ok) {
+      React.startTransition(() => {
+        router.refresh();
+      });
+    }
+  }
   const flexDirection =
     direction === "column"
       ? "flex-col gap-1 items-center justify-center w-10 h-14"
@@ -33,12 +66,11 @@ function CounterButton({
         `${selected ? "bg-brand-royal_blue" : ""}`,
         " hover:bg-blue-100 focus:bg-blue-100 duration-200 transition-colors"
       )}
+      {...rest}
       onClick={(e) => {
         e.stopPropagation();
-        e.preventDefault();
-        onClick();
+        upvoteId ? handleDeleteUpvote() : handleCreateUpvote();
       }}
-      {...rest}
     >
       <span
         className={clsx(
@@ -54,7 +86,7 @@ function CounterButton({
           `${selected ? "text-white" : ""}`
         )}
       >
-        {value}
+        {upvoteCount}
       </span>
     </button>
   );

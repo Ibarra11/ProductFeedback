@@ -12,10 +12,10 @@ export function sortPosts(
       return posts.sort((a, b) => a._count.comments - b._count.comments);
     }
     case "Most Upvotes": {
-      return posts.sort((a, b) => b.upvotes - a.upvotes);
+      return posts.sort((a, b) => b._count.upvotes - a._count.upvotes);
     }
     case "Least Upvotes": {
-      return posts.sort((a, b) => a.upvotes - b.upvotes);
+      return posts.sort((a, b) => a._count.upvotes - b._count.upvotes);
     }
   }
 }

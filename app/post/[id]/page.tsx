@@ -4,18 +4,29 @@ import CustomLink from "@/app/components/CustomLink";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import Comments from "../Comments";
 import AddComment from "../AddComment";
+import { prisma } from "@/db";
 import {
   getCommentsByPostId,
   getPostWithCommentCount,
 } from "@/app/lib/prisma/post";
 
-export const dynamic = "force-dynamic";
+async function getRandomUser() {
+  const user = await prisma.user.findMany({
+    include: {
+      Upvotes: true,
+    },
+  });
+  const randomIndex = Math.floor(user.length * Math.random());
+  return user[user.length - 1];
+}
+
 async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
 
-  const [post, comments] = await Promise.all([
+  const [post, comments, user] = await Promise.all([
     getPostWithCommentCount(Number(id)),
     getCommentsByPostId(Number(id)),
+    getRandomUser(),
   ]);
 
   if (!post) {
@@ -36,7 +47,7 @@ async function Page({ params }: { params: { id: string } }) {
           Edit Feedback
         </Button> */}
       </div>
-      <ProductRequestPost {...post} />
+      <ProductRequestPost user={user} {...post} />
       <Comments comments={comments} />
       <AddComment postFkId={post.post_id} />
     </div>

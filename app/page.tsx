@@ -2,15 +2,15 @@ import React from "react";
 import clsx from "clsx";
 import FilterProvider from "./components/FilterProvider";
 import SortProvider from "./components/SortProvider";
+
 import FeedbackPosts from "./components/FeedbackPosts";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import MobileHeader from "./components/MobileHeader";
 import SuggestionCount from "./components/SuggestionCount";
 import { getAllPost } from "./lib/prisma/post";
+import UserProvider from "./components/UserProvider";
 import { prisma } from "@/db";
-import { Prisma, Post } from "@prisma/client";
-
 async function getRandomUser() {
   const user = await prisma.user.findMany({
     include: {
@@ -18,46 +18,46 @@ async function getRandomUser() {
     },
   });
   const randomIndex = Math.floor(user.length * Math.random());
-  return user[randomIndex];
+  return user[user.length - 1];
 }
 
 export default async function Home() {
-  const user = await getRandomUser();
-  console.log(user);
   const posts = getAllPost();
-
+  const user = await getRandomUser();
   return (
-    <FilterProvider>
-      <div className={clsx("h-full pb-14", "md:pt-14 md:pb-20 md:px-10 ")}>
-        <div
-          className={clsx(
-            "h-full max-w-5xl mx-auto flex flex-col",
-            "md:gap-10",
-            "lg:flex-row"
-          )}
-        >
-          {/* shown on tablet to desktop */}
-          {/* <Sidebar /> */}
-
-          {/* only shown on mobile to tablet */}
-          <MobileHeader />
+    <UserProvider user={user}>
+      <FilterProvider>
+        <div className={clsx("h-full pb-14", "md:pt-14 md:pb-20 md:px-10 ")}>
           <div
-            className={clsx("flex h-full flex-col flex-1 gap-8", "lg:gap-6")}
+            className={clsx(
+              "h-full max-w-5xl mx-auto flex flex-col",
+              "md:gap-10",
+              "lg:flex-row"
+            )}
           >
-            <SortProvider>
-              <Header>
+            {/* shown on tablet to desktop */}
+            <Sidebar />
+
+            {/* only shown on mobile to tablet */}
+            <MobileHeader />
+            <div
+              className={clsx("flex h-full flex-col flex-1 gap-8", "lg:gap-6")}
+            >
+              <SortProvider>
+                <Header>
+                  <React.Suspense fallback={<p>Loading</p>}>
+                    <SuggestionCount postsPromise={posts} />
+                  </React.Suspense>
+                </Header>
                 <React.Suspense fallback={<p>Loading</p>}>
-                  <SuggestionCount postsPromise={posts} />
+                  <FeedbackPosts postsPromise={posts} />
                 </React.Suspense>
-              </Header>
-              <React.Suspense fallback={<p>Loading</p>}>
-                <FeedbackPosts user={user} postsPromise={posts} />
-              </React.Suspense>
-            </SortProvider>
+              </SortProvider>
+            </div>
           </div>
         </div>
-      </div>
-    </FilterProvider>
+      </FilterProvider>
+    </UserProvider>
   );
 }
 

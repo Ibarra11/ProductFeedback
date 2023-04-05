@@ -3,18 +3,17 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextResponse } from "next/server";
 import { z, ZodError } from "zod";
 const schema = z.object({
-  userId: z.number().int(),
+  upvoteId: z.number().int(),
 });
 
-export async function POST(req: Request) {
-  const postId = new URL(req.url).pathname.split("/").slice(-2)[0];
+export async function DELETE(req: Request) {
+  console.log("DELETE");
   const reqData = await req.json();
   try {
     const data = schema.parse(reqData);
-    await prisma.upvotes.create({
-      data: {
-        post_fk_id: Number(postId),
-        user_fk_id: data.userId,
+    await prisma.upvotes.delete({
+      where: {
+        upvote_id: data.upvoteId,
       },
     });
     return new NextResponse(null, {

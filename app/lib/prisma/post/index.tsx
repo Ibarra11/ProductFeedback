@@ -86,6 +86,7 @@ export const getPostByStatus = async (status: Status) => {
       _count: {
         select: {
           comments: true,
+          upvotes: true,
         },
       },
     },

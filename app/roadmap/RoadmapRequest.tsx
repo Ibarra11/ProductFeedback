@@ -1,8 +1,8 @@
 "use client";
 import clsx from "clsx";
 import CommentIcon from "../components/CommentIcon";
+import { useUserContext } from "../components/UserProvider";
 import CounterButton from "../components/CounterButton";
-
 import { roadmapBorderColor, ROADMAP_CIRCLE_BG } from "../constants";
 import { formatStatus } from "../utils";
 import Link from "next/link";
@@ -12,12 +12,14 @@ function RoadmapRequest({
   status,
   title,
   content,
-  upvotes,
   category,
-  _count: { comments },
+  _count: { comments, upvotes },
 }: Post) {
   const borderColor = roadmapBorderColor[status];
   const statusCircle = ROADMAP_CIRCLE_BG[status];
+  const user = useUserContext();
+  const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
+  console.log(upvotes);
   return (
     <Link
       href={`/post/${post_id}`}
@@ -67,11 +69,13 @@ function RoadmapRequest({
       </div>
       <div className="flex justify-between items-center ">
         <CounterButton
-          post_id={post_id}
+          postId={post_id}
+          userId={user.user_id}
+          upvoteCount={upvotes}
+          upvoteId={upvote && upvote.upvote_id}
           selected={false}
           direction="row"
           value={upvotes}
-          onClick={() => {}}
         />
         <CommentIcon comments={comments} />
       </div>

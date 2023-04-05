@@ -1,12 +1,15 @@
 import "./globals.css";
 import clsx from "clsx";
 import { Jost } from "@next/font/google";
+import { prisma } from "@/db";
+import UserProvider from "./components/UserProvider";
 
 const jost = Jost({
   subsets: ["latin"],
   display: "optional",
 });
-export default function RootLayout({
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;

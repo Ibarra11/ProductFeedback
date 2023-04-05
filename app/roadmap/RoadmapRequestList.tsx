@@ -1,22 +1,13 @@
 import RoadmapRequest from "./RoadmapRequest";
-import { Comment, Post } from "@prisma/client";
 import { formatStatus } from "../utils";
 import clsx from "clsx";
+import { Post } from "../lib/prisma/post";
 
-const statusMap: Record<Post["status"], string> = {
-  PLANNED: "Ideas prioritized for research",
-  IN_PROGRESS: "Currently being developed",
-  LIVE: "Released features",
-  SUGGESTION: "",
-};
-
-function RoadmapRequestList({
-  status,
-  feedbackRequestList,
-}: {
+interface Props {
   status: Post["status"];
-  feedbackRequestList: (Post & { comments: Comment[] })[];
-}) {
+  feedbackRequestList: Post[];
+}
+function RoadmapRequestList({ status, feedbackRequestList }: Props) {
   return (
     <div className="flex-1">
       <div
@@ -31,13 +22,14 @@ function RoadmapRequestList({
             "lg:text-base"
           )}
         >
-          {statusMap[status]}
+          {status}
         </p>
       </div>
       <div className={clsx("flex flex-col gap-4", "md:gap-6")}>
-        {feedbackRequestList.map((feedback) => (
-          <RoadmapRequest key={feedback.post_id} {...feedback} />
-        ))}
+        {feedbackRequestList.map((feedback) => {
+          console.log("feedback:", feedback);
+          return <RoadmapRequest key={feedback.post_id} {...feedback} />;
+        })}
       </div>
     </div>
   );

@@ -49,12 +49,13 @@ model Post {
 }
 
 model Upvotes {
-  upvote_id  Int     @id @default(autoincrement())
-  state      Boolean
+  upvote_id  Int  @id @default(autoincrement())
   post_fk_id Int
-  Post       Post    @relation(fields: [post_fk_id], references: [post_id], onDelete: Cascade)
+  Post       Post @relation(fields: [post_fk_id], references: [post_id], onDelete: Cascade)
   user_fk_id Int
-  User       User    @relation(fields: [user_fk_id], references: [user_id], onDelete: Cascade)
+  User       User @relation(fields: [user_fk_id], references: [user_id], onDelete: Cascade)
+
+  @@unique([post_fk_id, user_fk_id])
 }
 
 model Comment {
