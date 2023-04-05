@@ -5,18 +5,8 @@ import Image from "next/image";
 import clsx from "clsx";
 import Select from "../Select";
 import Button from "../Button";
-interface Props {
-  posts: Prisma.PrismaPromise<
-    (Post & {
-      _count: {
-        comments: number;
-      };
-    })[]
-  >;
-}
-
 import { useSortContext } from "../SortProvider";
-import { Post, Prisma } from "@prisma/client";
+
 function Header({ children }: React.PropsWithChildren) {
   const { sortBy, handleSortByChange } = useSortContext();
   const router = useRouter();

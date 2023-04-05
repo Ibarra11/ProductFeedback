@@ -1,6 +1,7 @@
 "use client";
 import { use } from "react";
 import { Prisma, Post } from "@prisma/client";
+import { useFilterContext } from "../FilterProvider";
 interface Props {
   postsPromise: Prisma.PrismaPromise<
     (Post & {
@@ -11,9 +12,20 @@ interface Props {
   >;
 }
 function SuggestionCount({ postsPromise }: Props) {
-  const post = use(postsPromise);
-  console.log(post);
-  return <span className="text-lg font-bold">{post.length} Suggestions</span>;
+  const posts = use(postsPromise);
+  const { filterCategory } = useFilterContext();
+  const filteredPosts =
+    filterCategory === "All"
+      ? posts
+      : posts.filter(
+          (product) =>
+            product.category.toLowerCase() === filterCategory.toLowerCase()
+        );
+  return (
+    <span className="text-lg font-bold">
+      {filteredPosts.length} Suggestions
+    </span>
+  );
 }
 
 export default SuggestionCount;

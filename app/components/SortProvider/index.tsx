@@ -21,6 +21,7 @@ function SortProvider({ children }: React.PropsWithChildren) {
   function handleSortByChange(sortBy: SortByTypes) {
     setSortBy(sortBy);
   }
+
   return (
     <SortContext.Provider value={{ sortBy, handleSortByChange }}>
       {children}

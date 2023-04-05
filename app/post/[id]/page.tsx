@@ -36,8 +36,6 @@ async function Page({ params }: { params: { id: string } }) {
   }
 
   const isAuthor = post.user_fk_id === user.user_id;
-  console.log(user);
-  console.log(post);
 
   return (
     <UserProvider user={user}>
@@ -49,12 +47,6 @@ async function Page({ params }: { params: { id: string } }) {
           {isAuthor && (
             <CustomLink href={`/edit-feedback/${id}`}>Edit Feedback</CustomLink>
           )}
-          {/* <Button
-          onClick={() => router.push(`/edit-feedback/${id}`)}
-          className="bg-brand-purple text-brand-ghost_white"
-        >
-          Edit Feedback
-        </Button> */}
         </div>
         <ProductRequestPost {...post} />
         <Comments comments={comments} />
