@@ -10,11 +10,20 @@ import { motion, AnimatePresence } from "framer-motion";
 function RoadmapTabs({
   tabs,
 }: {
-  tabs: Record<Exclude<Post["status"], "SUGGESTION">, Post[]>;
+  tabs: Record<
+    Post["status"],
+    (Post & {
+      _count: {
+        upvotes: number;
+        comments: number;
+      };
+    })[]
+  >;
 }) {
-  const [status, setStatus] = React.useState<FeedbackStatus>("planned");
+  const [status, setStatus] = React.useState<Post["status"]>("Suggestion");
   const [direction, setDirection] = React.useState<1 | -1>();
   const [isAnimating, setIsAnimating] = React.useState(false);
+  console.log(Object.entries(tabs));
 
   return (
     <Tabs.Root
@@ -24,16 +33,22 @@ function RoadmapTabs({
         if (isAnimating) {
           return;
         }
-        setStatus(val as FeedbackStatus);
-        if (status === "planned") {
+        setStatus(val as Post["status"]);
+        if (status === "Suggestion") {
           setDirection(1);
-        } else if (status === "in-progress") {
-          if (val === "planned") {
+        } else if (status === "Planned") {
+          if (val === "In-Progress") {
             setDirection(-1);
           } else {
             setDirection(1);
           }
-        } else if (status === "live") {
+        } else if (status === "In_Progress") {
+          if (val === "Planned") {
+            setDirection(-1);
+          } else {
+            setDirection(1);
+          }
+        } else if (status === "Live") {
           setDirection(-1);
         }
       }}
@@ -46,12 +61,25 @@ function RoadmapTabs({
           className={clsx(
             "flex-1",
             `${
-              status === "planned"
+              status === "Suggestion"
+                ? "border-b-4 border-b-green-500 outline-none"
+                : "opacity-40"
+            }`
+          )}
+          value="Suggestion"
+        >
+          Suggestion
+        </Tabs.Trigger>
+        <Tabs.Trigger
+          className={clsx(
+            "flex-1",
+            `${
+              status === "Planned"
                 ? "border-b-4 border-b-brand-tangerine outline-none"
                 : "opacity-40"
             }`
           )}
-          value="planned"
+          value="Planned"
         >
           Planned
         </Tabs.Trigger>
@@ -59,12 +87,12 @@ function RoadmapTabs({
           className={clsx(
             "flex-1",
             `${
-              status === "in-progress"
+              status === "In_Progress"
                 ? "border-b-4 border-b-brand-purple outline-none"
                 : "opacity-40"
             }`
           )}
-          value="in-progress"
+          value="In_Progress"
         >
           In-Progress
         </Tabs.Trigger>
@@ -72,12 +100,12 @@ function RoadmapTabs({
           className={clsx(
             "flex-1",
             `${
-              status === "live"
+              status === "Live"
                 ? "border-b-4 border-b-brand-maya_blue outline-none"
                 : "opacity-40"
             }`
           )}
-          value="live"
+          value="Live"
         >
           Live
         </Tabs.Trigger>
@@ -107,10 +135,10 @@ function RoadmapTabs({
                 variants={variants}
                 transition={{ duration: 0.5 }}
               >
-                {/* <RoadmapRequestList
+                <RoadmapRequestList
                   feedbackRequestList={posts}
                   status={postsStatus as Post["status"]}
-                /> */}
+                />
               </motion.div>
             </Tabs.Content>
           ))}

@@ -1,7 +1,5 @@
 import {
-  FeedbackCategories,
   FilterCategories,
-  RoadmapOption,
   FeedbackStatus,
   RoadmapBorderColor,
   RoadmapCircleBg,
@@ -29,27 +27,31 @@ export const FEEDBACK_STATUS: FeedbackStatus[] = [
 
 export const ROADMAP_OPTIONS: Record<
   Status,
-  { bg: string; bgWithOpacity: string; text: string }
+  { bg: string; bgWithOpacity: string; text: string; border: string }
 > = {
   Live: {
     bg: "bg-brand-maya_blue",
     bgWithOpacity: "bg-brand-maya_blue/25",
     text: "text-brand-maya_blue",
+    border: "border-brand-maya_blue",
   },
   In_Progress: {
     bg: "bg-brand-purple",
     bgWithOpacity: "bg-brand-purple/25",
     text: "text-brand-purple",
+    border: "border-brand-purple",
   },
   Planned: {
     bg: "bg-brand-tangerine",
     bgWithOpacity: "bg-brand-tangerine/25",
     text: "text-brand-tangerine",
+    border: "border-brand-tangerine",
   },
   Suggestion: {
     bg: "bg-green-500",
     bgWithOpacity: "bg-green-500/25",
     text: "text-green-500",
+    border: "border-green-500",
   },
 };
 
@@ -86,3 +88,10 @@ export const BRAND_COLORS = {
     maya_blue: "#62BCFA",
   },
 } as const;
+
+export const ROADMAP_TAB_DESCRIPTION: Record<Post["status"], string> = {
+  In_Progress: "Currently being developed",
+  Planned: "Prioritized for research",
+  Live: "Released features",
+  Suggestion: "Proposed features",
+};

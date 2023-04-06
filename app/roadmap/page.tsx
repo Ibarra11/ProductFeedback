@@ -41,7 +41,7 @@ async function Page() {
         <Header />
         <div className="flex-1 h-full ">
           {/* tablet to desktop view */}
-          <div className={clsx("hidden", "md:flex md:gap-7")}>
+          {/* <div className={clsx("hidden", "md:flex md:gap-7")}>
             <RoadmapRequestList
               status="Planned"
               feedbackRequestList={planned}
@@ -51,9 +51,9 @@ async function Page() {
               feedbackRequestList={inProgress}
             />
             <RoadmapRequestList status="Live" feedbackRequestList={live} />
-          </div>
+          </div> */}
           {/* mobile view */}
-          <div className={clsx("h-full", "md:hidden")}>
+          <div className={clsx("h-full")}>
             <RoadmapTabs
               tabs={{
                 Suggestion: suggestion,

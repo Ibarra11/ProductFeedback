@@ -3,7 +3,7 @@ import clsx from "clsx";
 import CommentIcon from "../components/CommentIcon";
 import { useUserContext } from "../components/UserProvider";
 import CounterButton from "../components/CounterButton";
-import { roadmapBorderColor, ROADMAP_CIRCLE_BG } from "../constants";
+import { ROADMAP_OPTIONS } from "../constants";
 import { formatStatus } from "../utils";
 import Link from "next/link";
 import { Post } from "../lib/prisma/post";
@@ -15,17 +15,16 @@ function RoadmapRequest({
   category,
   _count: { comments, upvotes },
 }: Post) {
-  const borderColor = roadmapBorderColor[status];
-  const statusCircle = ROADMAP_CIRCLE_BG[status];
+  const { border, bg } = ROADMAP_OPTIONS[status];
   const user = useUserContext();
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
-  console.log(user);
+
   return (
     <Link
       onClick={(e) => console.log("link click")}
       href={`/post/${post_id}`}
       className={clsx(
-        `group border-t-[5px] ${borderColor}`,
+        `group border-t-[5px] ${border}`,
         "bg-white p-8 rounded-md"
       )}
     >
@@ -36,9 +35,7 @@ function RoadmapRequest({
           "lg:mb-2"
         )}
       >
-        <span
-          className={clsx(`${statusCircle}`, "w-2 h-2 rounded-full")}
-        ></span>
+        <span className={clsx(`${bg}`, "w-2 h-2 rounded-full")}></span>
         <p
           className={clsx(
             "text-sm text-brand-gray-blue opacity-50",

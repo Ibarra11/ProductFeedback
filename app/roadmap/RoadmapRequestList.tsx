@@ -2,6 +2,7 @@ import RoadmapRequest from "./RoadmapRequest";
 import { formatStatus } from "../utils";
 import clsx from "clsx";
 import { Post } from "../lib/prisma/post";
+import { ROADMAP_TAB_DESCRIPTION } from "../constants";
 
 interface Props {
   status: Post["status"];
@@ -22,10 +23,10 @@ function RoadmapRequestList({ status, feedbackRequestList }: Props) {
             "lg:text-base"
           )}
         >
-          {status}
+          {ROADMAP_TAB_DESCRIPTION[status]}
         </p>
       </div>
-      <div className={clsx("flex flex-col gap-4", "md:gap-6")}>
+      <div className={clsx("grid grid-cols-3 gap-4", "md:gap-6")}>
         {feedbackRequestList.map((feedback) => {
           return <RoadmapRequest key={feedback.post_id} {...feedback} />;
         })}
