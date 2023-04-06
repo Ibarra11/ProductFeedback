@@ -15,10 +15,10 @@ div[data-radix-popper-content-wrapper] {
   );
 }
 
-.counter-btn:hover span {
+/* .counter-btn:hover span {
   color: #373f68;
   transition: color 0.2s;
-}
+} */
 
 .mobile-header {
   margin-right: -40px !important;

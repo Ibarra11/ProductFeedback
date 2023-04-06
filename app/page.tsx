@@ -1,8 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import FilterProvider from "./components/FilterProvider";
-import SortProvider from "./components/SortProvider";
-
+import PostsProvider from "./components/SortProvider";
 import FeedbackPosts from "./components/FeedbackPosts";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -11,6 +10,7 @@ import SuggestionCount from "./components/SuggestionCount";
 import { getAllPost } from "./lib/prisma/post";
 import UserProvider from "./components/UserProvider";
 import { prisma } from "@/db";
+
 async function getRandomUser() {
   const user = await prisma.user.findMany({
     include: {
@@ -43,7 +43,7 @@ export default async function Home() {
             <div
               className={clsx("flex h-full flex-col flex-1 gap-8", "lg:gap-6")}
             >
-              <SortProvider>
+              <PostsProvider>
                 <Header>
                   <React.Suspense fallback={<p>Loading</p>}>
                     <SuggestionCount postsPromise={posts} />
@@ -52,7 +52,7 @@ export default async function Home() {
                 <React.Suspense fallback={<p>Loading</p>}>
                   <FeedbackPosts postsPromise={posts} />
                 </React.Suspense>
-              </SortProvider>
+              </PostsProvider>
             </div>
           </div>
         </div>

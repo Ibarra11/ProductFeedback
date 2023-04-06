@@ -71,7 +71,6 @@ function RoadmapRequest({
           userId={user.user_id}
           upvoteCount={upvotes}
           upvoteId={upvote && upvote.upvote_id}
-          selected={false}
           direction="row"
           value={upvotes}
         />

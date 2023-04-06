@@ -19,15 +19,20 @@ function ProductRequestPost({
 }: T_PostWithComemntCount) {
   const user = useUserContext();
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
+  const isPostRoute = window.location.pathname.includes("post");
 
   return (
     <Link href={`/post/${post_id}`}>
-      <article className="group bg-white flex  py-7 px-8  gap-10 rounded-xl">
+      <article
+        className={clsx(
+          !isPostRoute && "group",
+          "bg-white flex  py-7 px-8  gap-10 rounded-xl"
+        )}
+      >
         <CounterButton
           postId={post_id}
           userId={user.user_id}
           upvoteId={upvote && upvote.upvote_id}
-          selected={upvote ? true : false}
           className="z-10"
           direction="column"
           upvoteCount={upvotes}

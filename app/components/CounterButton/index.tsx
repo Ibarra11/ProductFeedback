@@ -20,7 +20,6 @@ function CounterButton({
   upvoteId,
   className,
   direction,
-
   ...rest
 }: ButtonProps) {
   const router = useRouter();
@@ -61,8 +60,10 @@ function CounterButton({
         "counter-btn bg-brand-alice_blue flex rounded-lg",
         `${className ? className : ""}`,
         `${flexDirection}`,
-        upvoteId && "bg-brand-royal_blue",
-        " hover:bg-blue-100 focus:bg-blue-100 duration-200 transition-colors"
+        upvoteId &&
+          "bg-brand-royal_blue hover:opacity-75 border-brand-royal_blue",
+        !upvoteId && "hover:border-2 hover:border-brand-royal_blue",
+        "duration-200 transition-colors"
       )}
       {...rest}
       onClick={(e) => {
