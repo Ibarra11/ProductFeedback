@@ -11,7 +11,6 @@ type ButtonProps = ButtonBase<{
   userId: number;
   upvoteId?: number;
   direction: "row" | "column";
-  selected: boolean;
 }>;
 
 function CounterButton({
@@ -21,7 +20,7 @@ function CounterButton({
   upvoteId,
   className,
   direction,
-  selected,
+
   ...rest
 }: ButtonProps) {
   const router = useRouter();
@@ -62,7 +61,7 @@ function CounterButton({
         "counter-btn bg-brand-alice_blue flex rounded-lg",
         `${className ? className : ""}`,
         `${flexDirection}`,
-        `${selected ? "bg-brand-royal_blue" : ""}`,
+        upvoteId && "bg-brand-royal_blue",
         " hover:bg-blue-100 focus:bg-blue-100 duration-200 transition-colors"
       )}
       {...rest}
@@ -79,7 +78,7 @@ function CounterButton({
       <span
         className={clsx(
           "flex w-full justify-center text-brand-american_blue",
-          `${selected ? "text-white" : ""}`
+          upvoteId && "text-white"
         )}
       >
         <ChevronUp size={16} />
@@ -87,7 +86,7 @@ function CounterButton({
       <span
         className={clsx(
           "text-sm font-bold text-brand-american_blue flex w-full justify-center",
-          `${selected ? "text-white" : ""}`
+          upvoteId && "text-white"
         )}
       >
         {upvoteCount}
