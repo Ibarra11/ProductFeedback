@@ -2,28 +2,39 @@
 import React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import RoadmapRequestList from "./RoadmapRequestList";
-import { FeedbackStatus } from "@/types";
-import { Post } from "@prisma/client";
+import { Post, Status } from "@prisma/client";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
+
+// {
+//   tabs: Record<
+//     Post["status"],
+//     (Post & {
+//       _count: {
+//         upvotes: number;
+//         comments: number;
+//       };
+//     })[]
+//   >;
+// }
 
 function RoadmapTabs({
-  tabs,
+  status,
+  posts,
 }: {
-  tabs: Record<
-    Post["status"],
-    (Post & {
-      _count: {
-        upvotes: number;
-        comments: number;
-      };
-    })[]
-  >;
+  status: Status;
+  posts: (Post & {
+    _count: {
+      upvotes: number;
+      comments: number;
+    };
+  })[];
 }) {
-  const [status, setStatus] = React.useState<Post["status"]>("Suggestion");
+  // const [status, setStatus] = React.useState<Post["status"]>("Suggestion");
+  const router = useRouter();
   const [direction, setDirection] = React.useState<1 | -1>();
   const [isAnimating, setIsAnimating] = React.useState(false);
-  console.log(Object.entries(tabs));
 
   return (
     <Tabs.Root
@@ -33,23 +44,36 @@ function RoadmapTabs({
         if (isAnimating) {
           return;
         }
-        setStatus(val as Post["status"]);
-        if (status === "Suggestion") {
-          setDirection(1);
-        } else if (status === "Planned") {
-          if (val === "In-Progress") {
-            setDirection(-1);
-          } else {
-            setDirection(1);
-          }
-        } else if (status === "In_Progress") {
-          if (val === "Planned") {
-            setDirection(-1);
-          } else {
-            setDirection(1);
-          }
-        } else if (status === "Live") {
+
+        // setStatus(val as Post["status"]);
+        if (val === "suggestion") {
           setDirection(-1);
+          React.startTransition(() => {
+            router.push("/roadmap?status=suggestion");
+          });
+        } else if (val === "planned") {
+          if (status === "in_progress") {
+            setDirection(-1);
+          } else {
+            setDirection(1);
+          }
+          React.startTransition(() => {
+            router.push("/roadmap?status=planned");
+          });
+        } else if (val === "in_progress") {
+          if (status === "live") {
+            setDirection(-1);
+          } else {
+            setDirection(1);
+          }
+          React.startTransition(() => {
+            router.push("/roadmap?status=in_progress");
+          });
+        } else if (val === "live") {
+          setDirection(1);
+          React.startTransition(() => {
+            router.push("/roadmap?status=live");
+          });
         }
       }}
     >
@@ -61,12 +85,12 @@ function RoadmapTabs({
           className={clsx(
             "flex-1",
             `${
-              status === "Suggestion"
+              status === "suggestion"
                 ? "border-b-4 border-b-green-500 outline-none"
                 : "opacity-40"
             }`
           )}
-          value="Suggestion"
+          value="suggestion"
         >
           Suggestion
         </Tabs.Trigger>
@@ -74,12 +98,12 @@ function RoadmapTabs({
           className={clsx(
             "flex-1",
             `${
-              status === "Planned"
+              status === "planned"
                 ? "border-b-4 border-b-brand-tangerine outline-none"
                 : "opacity-40"
             }`
           )}
-          value="Planned"
+          value="planned"
         >
           Planned
         </Tabs.Trigger>
@@ -87,12 +111,12 @@ function RoadmapTabs({
           className={clsx(
             "flex-1",
             `${
-              status === "In_Progress"
+              status === "in_progress"
                 ? "border-b-4 border-b-brand-purple outline-none"
                 : "opacity-40"
             }`
           )}
-          value="In_Progress"
+          value="in_progress"
         >
           In-Progress
         </Tabs.Trigger>
@@ -100,12 +124,12 @@ function RoadmapTabs({
           className={clsx(
             "flex-1",
             `${
-              status === "Live"
+              status === "live"
                 ? "border-b-4 border-b-brand-maya_blue outline-none"
                 : "opacity-40"
             }`
           )}
-          value="Live"
+          value="live"
         >
           Live
         </Tabs.Trigger>
@@ -116,32 +140,45 @@ function RoadmapTabs({
         custom={direction}
         mode="popLayout"
       >
-        {Object.entries(tabs)
-          .filter(([postStatus]) => postStatus === status)
-          .map(([postsStatus, posts]) => (
-            <Tabs.Content
-              className="px-6"
-              forceMount
-              key={postsStatus}
-              value={postsStatus}
+        <Tabs.Content className="px-6" forceMount key={status} value={status}>
+          <motion.div
+            data-id="container"
+            initial="enter"
+            animate="middle"
+            exit="exit"
+            key={status}
+            custom={direction}
+            variants={variants}
+            transition={{ duration: 0.5 }}
+          >
+            <RoadmapRequestList feedbackRequestList={posts} status={status} />
+
+            {/* <h1>Helo</h1> */}
+          </motion.div>
+        </Tabs.Content>
+        {/* {Object.entries(tabs)
+          .filter(([postStatus]) => postStatus === status) */}
+        {/* {posts.map(({ post_id }) => (
+          <Tabs.Content
+            className="px-6"
+            forceMount
+            key={post_id}
+            value={status}
+          >
+            <motion.div
+              data-id="container"
+              initial="enter"
+              animate="middle"
+              exit="exit"
+              key={status}
+              custom={direction}
+              variants={variants}
+              transition={{ duration: 0.5 }}
             >
-              <motion.div
-                data-id="container"
-                initial="enter"
-                animate="middle"
-                exit="exit"
-                key={status}
-                custom={direction}
-                variants={variants}
-                transition={{ duration: 0.5 }}
-              >
-                <RoadmapRequestList
-                  feedbackRequestList={posts}
-                  status={postsStatus as Post["status"]}
-                />
-              </motion.div>
-            </Tabs.Content>
-          ))}
+              <RoadmapRequestList feedbackRequestList={posts} status={status} />
+            </motion.div>
+          </Tabs.Content>
+        ))} */}
       </AnimatePresence>
     </Tabs.Root>
   );

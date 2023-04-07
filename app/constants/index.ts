@@ -29,25 +29,25 @@ export const ROADMAP_OPTIONS: Record<
   Status,
   { bg: string; bgWithOpacity: string; text: string; border: string }
 > = {
-  Live: {
+  live: {
     bg: "bg-brand-maya_blue",
     bgWithOpacity: "bg-brand-maya_blue/25",
     text: "text-brand-maya_blue",
     border: "border-brand-maya_blue",
   },
-  In_Progress: {
+  in_progress: {
     bg: "bg-brand-purple",
     bgWithOpacity: "bg-brand-purple/25",
     text: "text-brand-purple",
     border: "border-brand-purple",
   },
-  Planned: {
+  planned: {
     bg: "bg-brand-tangerine",
     bgWithOpacity: "bg-brand-tangerine/25",
     text: "text-brand-tangerine",
     border: "border-brand-tangerine",
   },
-  Suggestion: {
+  suggestion: {
     bg: "bg-green-500",
     bgWithOpacity: "bg-green-500/25",
     text: "text-green-500",
@@ -62,18 +62,18 @@ export const typeToColor: Record<FeedbackStatus, string> = {
   suggestion: "",
 } as const;
 
-export const roadmapBorderColor: Record<Post["status"], RoadmapBorderColor> = {
-  Planned: "border-t-brand-tangerine",
-  In_Progress: "border-t-brand-purple",
-  Live: "border-t-brand-maya_blue",
-  Suggestion: "" as any,
+export const roadmapBorderColor: Record<Status, RoadmapBorderColor> = {
+  planned: "border-t-brand-tangerine",
+  in_progress: "border-t-brand-purple",
+  live: "border-t-brand-maya_blue",
+  suggestion: "" as any,
 } as const;
 
-export const ROADMAP_CIRCLE_BG: Record<Post["status"], RoadmapCircleBg> = {
-  Planned: "bg-brand-tangerine",
-  In_Progress: "bg-brand-purple",
-  Live: "bg-brand-maya_blue",
-  Suggestion: "" as any,
+export const ROADMAP_CIRCLE_BG: Record<Status, RoadmapCircleBg> = {
+  planned: "bg-brand-tangerine",
+  in_progress: "bg-brand-purple",
+  live: "bg-brand-maya_blue",
+  suggestion: "" as any,
 };
 
 export const BRAND_COLORS = {
@@ -89,9 +89,9 @@ export const BRAND_COLORS = {
   },
 } as const;
 
-export const ROADMAP_TAB_DESCRIPTION: Record<Post["status"], string> = {
-  In_Progress: "Currently being developed",
-  Planned: "Prioritized for research",
-  Live: "Released features",
-  Suggestion: "Proposed features",
+export const ROADMAP_TAB_DESCRIPTION: Record<Status, string> = {
+  in_progress: "Currently being developed",
+  planned: "Prioritized for research",
+  live: "Released features",
+  suggestion: "Proposed features",
 };

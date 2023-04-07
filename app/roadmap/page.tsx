@@ -1,10 +1,12 @@
 import Header from "./Header";
-import RoadmapRequestList from "./RoadmapRequestList";
 import RoadmapTabs from "./RoadmapTabs";
 import clsx from "clsx";
 import { getPostByStatus } from "../lib/prisma/post";
 import { prisma } from "@/db";
+import { z, ZodUnion } from "zod";
 import UserProvider from "../components/UserProvider";
+import { redirect } from "next/navigation";
+
 async function getRandomUser() {
   const user = await prisma.user.findMany({
     include: {
@@ -14,54 +16,55 @@ async function getRandomUser() {
   const randomIndex = Math.floor(user.length * Math.random());
   return user[user.length - 1];
 }
-async function getProductRequest() {
-  const plannedPosts = getPostByStatus("Planned");
-  const inProgressPosts = getPostByStatus("In_Progress");
-  const livePosts = getPostByStatus("Live");
-  const suggestionPosts = getPostByStatus("Suggestion");
 
-  const [planned, inProgress, live, suggestion, user] = await Promise.all([
-    plannedPosts,
-    inProgressPosts,
-    livePosts,
-    suggestionPosts,
+// async function getProductRequest() {
+//   const plannedPosts = getPostByStatus("Planned");
+//   const inProgressPosts = getPostByStatus("In_Progress");
+//   const livePosts = getPostByStatus("Live");
+//   const suggestionPosts = getPostByStatus("Suggestion");
+
+//   const [planned, inProgress, live, suggestion, user] = await Promise.all([
+//     plannedPosts,
+//     inProgressPosts,
+//     livePosts,
+//     suggestionPosts,
+//     getRandomUser(),
+//   ]);
+
+//   return { planned, inProgress, live, suggestion, user };
+// }
+
+const statusUnion = z.union([
+  z.literal("live"),
+  z.literal("planned"),
+  z.literal("in_progress"),
+  z.literal("suggestion"),
+]);
+
+const searchParamsSchema = z.object({
+  status: statusUnion,
+});
+
+async function Page({ searchParams }: { searchParams: { status: string } }) {
+  const currentStatus = searchParamsSchema.safeParse(searchParams);
+  if (!currentStatus.success) {
+    redirect("/");
+  }
+  const [user, posts] = await Promise.all([
     getRandomUser(),
+    getPostByStatus(currentStatus.data.status),
   ]);
 
-  return { planned, inProgress, live, suggestion, user };
-}
-
-async function Page() {
-  const { planned, inProgress, live, suggestion, user } =
-    await getProductRequest();
+  // const { planned, inProgress, live, suggestion, user } =
+  //   await getProductRequest();
 
   return (
     <UserProvider user={user}>
       <div className={clsx("flex flex-col", "md:gap-12")}>
         <Header />
         <div className="flex-1 h-full ">
-          {/* tablet to desktop view */}
-          {/* <div className={clsx("hidden", "md:flex md:gap-7")}>
-            <RoadmapRequestList
-              status="Planned"
-              feedbackRequestList={planned}
-            />
-            <RoadmapRequestList
-              status="In_Progress"
-              feedbackRequestList={inProgress}
-            />
-            <RoadmapRequestList status="Live" feedbackRequestList={live} />
-          </div> */}
-          {/* mobile view */}
           <div className={clsx("h-full")}>
-            <RoadmapTabs
-              tabs={{
-                Suggestion: suggestion,
-                Planned: planned,
-                In_Progress: inProgress,
-                Live: live,
-              }}
-            />
+            <RoadmapTabs status={currentStatus.data.status} posts={posts} />
           </div>
         </div>
       </div>

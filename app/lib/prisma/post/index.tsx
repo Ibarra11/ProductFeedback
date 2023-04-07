@@ -77,10 +77,12 @@ export const updateForm = async (id: number, data: Partial<T_Post>) => {
   });
 };
 
-export const getPostByStatus = async (status: Status) => {
+type X = Status;
+
+export const getPostByStatus = async (option: Status) => {
   return prisma.post.findMany({
     where: {
-      status,
+      status: Status[option],
     },
     include: {
       _count: {

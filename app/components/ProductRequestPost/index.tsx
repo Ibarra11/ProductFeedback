@@ -17,15 +17,23 @@ function ProductRequestPost({
   status,
   _count: { comments, upvotes },
 }: T_PostWithComemntCount) {
+  const [disableAnimation, setDisableAnimation] = React.useState(false);
   const user = useUserContext();
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
-  const isPostRoute = window.location.pathname.includes("post");
+
+  React.useEffect(() => {
+    // if were on /post/10, disable animation
+    const isPostRoute = window.location.pathname.includes("post");
+    console.log(window.location.pathname);
+    console.log(isPostRoute);
+    setDisableAnimation(isPostRoute);
+  }, []);
 
   return (
     <Link href={`/post/${post_id}`}>
       <article
         className={clsx(
-          !isPostRoute && "group",
+          !disableAnimation && "group",
           "bg-white flex  py-7 px-8  gap-10 rounded-xl"
         )}
       >
@@ -70,7 +78,6 @@ function ProductRequestPost({
 
 function Status({ status }: { status: T_PostWithComemntCount["status"] }) {
   const { bgWithOpacity, text } = ROADMAP_OPTIONS[status];
-
   return (
     <span
       className={clsx(

@@ -21,7 +21,7 @@ async function Roadmap() {
       <div className="flex justify-between items-center  ">
         <h2 className=" text-lg text-brand-american_blue font-bold">Roadmap</h2>
         <Link
-          href="/roadmap"
+          href="/roadmap?status=suggestion"
           className="text-sm text-blue-400 self-end font-semibold transition-all duration-200 hover:underline"
         >
           View
