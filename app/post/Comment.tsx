@@ -5,11 +5,30 @@ import Image from "next/image";
 import TextArea from "../components/TextArea";
 import Button from "../components/Button";
 import type { T_Comment } from "../lib/prisma/post";
-function Comment({ comment_id, User, Post, content }: T_Comment) {
+function Comment({
+  comment_id,
+  post_fk_id,
+  User,
+  Post,
+  replies,
+  content,
+}: T_Comment) {
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
   const [reply, setReply] = React.useState("");
   // const marginLeft = Math.round(24 * level - Math.round(24 / level));
   const { image, username, name } = User;
+
+  async function addReply() {
+    const res = await fetch("/api/comment", {
+      method: "PUT",
+      body: JSON.stringify({
+        content: reply,
+        userId: User.user_id,
+        postId: post_fk_id,
+        commentId: comment_id,
+      }),
+    });
+  }
   return (
     <>
       <div
@@ -57,7 +76,10 @@ function Comment({ comment_id, User, Post, content }: T_Comment) {
                 value={reply}
                 onChange={(e) => setReply(e.target.value)}
               />
-              <Button className=" bg-brand-purple text-brand-ghost_white">
+              <Button
+                onClick={addReply}
+                className=" bg-brand-purple text-brand-ghost_white"
+              >
                 Post Reply
               </Button>
             </div>

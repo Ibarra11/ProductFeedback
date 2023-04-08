@@ -52,9 +52,11 @@ export const getCommentsByPostId = async (postId: number) => {
   return prisma.comment.findMany({
     where: {
       post_fk_id: postId,
+      replyingTo: null,
     },
     include: {
       User: true,
+      replies: true,
       Post: {
         select: {
           User: {

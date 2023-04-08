@@ -23,11 +23,11 @@ async function getRandomUser() {
 }
 
 async function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const postId = Number(params.id);
 
   const [post, comments, user] = await Promise.all([
-    getPostWithCommentCount(Number(id)),
-    getCommentsByPostId(Number(id)),
+    getPostWithCommentCount(postId),
+    getCommentsByPostId(postId),
     getRandomUser(),
   ]);
 
@@ -35,6 +35,7 @@ async function Page({ params }: { params: { id: string } }) {
     redirect("/");
   }
 
+  console.log(comments);
   const isAuthor = post.user_fk_id === user.user_id;
 
   return (
@@ -45,7 +46,9 @@ async function Page({ params }: { params: { id: string } }) {
             Go Back
           </LinkWithChevronLeft>
           {isAuthor && (
-            <CustomLink href={`/edit-feedback/${id}`}>Edit Feedback</CustomLink>
+            <CustomLink href={`/edit-feedback/${postId}`}>
+              Edit Feedback
+            </CustomLink>
           )}
         </div>
         <ProductRequestPost {...post} />

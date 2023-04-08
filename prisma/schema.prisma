@@ -61,22 +61,21 @@ model Upvotes {
 }
 
 model Comment {
-  comment_id Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  content    String
-  Post       Post     @relation(fields: [post_fk_id], references: [post_id], onDelete: Cascade)
-  post_fk_id Int
-  User       User     @relation(fields: [user_fk_id], references: [user_id])
-  user_fk_id Int
+  comment_id      Int       @id @default(autoincrement())
+  replyingTo      Boolean?
+  createdAt       DateTime  @default(now())
+  content         String
+  Post            Post      @relation(fields: [post_fk_id], references: [post_id], onDelete: Cascade)
+  post_fk_id      Int
+  User            User      @relation(fields: [user_fk_id], references: [user_id])
+  user_fk_id      Int
+  replies         Comment[] @relation("replies")
+  repliesRelation Comment[] @relation("replies")
 }
 
-// model CommentReply {
-//   id         Int      @id @default(autoincrement())
-//   createdAt  DateTime @default(now())
-//   content    String
-//   replyingTo Comment  @relation(fields: [commentId], references: [id])
-//   commentId  Int
-//   User       User     @relation(fields: [userId], references: [id])
-//   userId     Int
-//   level      Int
+// model User {
+//   id              String @id @default(uuid())
+//   name            String
+//   friends         User[] @relation("friends")
+//   friendsRelation User[] @relation("friends")
 // }
