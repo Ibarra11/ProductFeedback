@@ -6,6 +6,7 @@ import { prisma } from "@/db";
 import { z, ZodUnion } from "zod";
 import UserProvider from "../components/UserProvider";
 import { redirect } from "next/navigation";
+import { Post } from "@prisma/client";
 
 async function getRandomUser() {
   const user = await prisma.user.findMany({
@@ -50,13 +51,22 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
   if (!currentStatus.success) {
     redirect("/");
   }
-  const [user, posts] = await Promise.all([
-    getRandomUser(),
-    getPostByStatus(currentStatus.data.status),
-  ]);
 
-  // const { planned, inProgress, live, suggestion, user } =
-  //   await getProductRequest();
+  const user = await getRandomUser();
+  const postsPromise = getPostByStatus(currentStatus.data.status).then(
+    (data) => {
+      return new Promise<
+        (Post & {
+          _count: {
+            upvotes: number;
+            comments: number;
+          };
+        })[]
+      >((res) => {
+        setTimeout(() => res(data), 5000);
+      });
+    }
+  );
 
   return (
     <UserProvider user={user}>
@@ -64,7 +74,10 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
         <Header />
         <div className="flex-1 h-full ">
           <div className={clsx("h-full")}>
-            <RoadmapTabs status={currentStatus.data.status} posts={posts} />
+            <RoadmapTabs
+              status={currentStatus.data.status}
+              postsPromise={postsPromise}
+            />
           </div>
         </div>
       </div>

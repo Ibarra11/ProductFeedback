@@ -28,13 +28,13 @@ async function Roadmap() {
         </Link>
       </div>
       <RoadmapList
-        plannedPosts={{ status: "Planned", count: plannedPosts.length }}
-        livePosts={{ status: "Live", count: livePosts.length }}
+        plannedPosts={{ status: "planned", count: plannedPosts.length }}
+        livePosts={{ status: "live", count: livePosts.length }}
         inProgressPosts={{
-          status: "In_Progress",
+          status: "in_progress",
           count: inProgressPosts.length,
         }}
-        suggestionPosts={{ status: "Suggestion", count: suggestionPost.length }}
+        suggestionPosts={{ status: "suggestion", count: suggestionPost.length }}
       />
     </div>
   );

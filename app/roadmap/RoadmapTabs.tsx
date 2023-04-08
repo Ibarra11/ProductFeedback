@@ -21,15 +21,17 @@ import { useRouter } from "next/navigation";
 
 function RoadmapTabs({
   status,
-  posts,
+  postsPromise,
 }: {
   status: Status;
-  posts: (Post & {
-    _count: {
-      upvotes: number;
-      comments: number;
-    };
-  })[];
+  postsPromise: Promise<
+    (Post & {
+      _count: {
+        upvotes: number;
+        comments: number;
+      };
+    })[]
+  >;
 }) {
   // const [status, setStatus] = React.useState<Post["status"]>("Suggestion");
   const router = useRouter();
@@ -44,8 +46,6 @@ function RoadmapTabs({
         if (isAnimating) {
           return;
         }
-
-        // setStatus(val as Post["status"]);
         if (val === "suggestion") {
           setDirection(-1);
           React.startTransition(() => {
@@ -151,34 +151,14 @@ function RoadmapTabs({
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <RoadmapRequestList feedbackRequestList={posts} status={status} />
-
-            {/* <h1>Helo</h1> */}
+            <React.Suspense fallback={<h1>Loading</h1>}>
+              <RoadmapRequestList
+                feedbackRequestList={postsPromise}
+                status={status}
+              />
+            </React.Suspense>
           </motion.div>
         </Tabs.Content>
-        {/* {Object.entries(tabs)
-          .filter(([postStatus]) => postStatus === status) */}
-        {/* {posts.map(({ post_id }) => (
-          <Tabs.Content
-            className="px-6"
-            forceMount
-            key={post_id}
-            value={status}
-          >
-            <motion.div
-              data-id="container"
-              initial="enter"
-              animate="middle"
-              exit="exit"
-              key={status}
-              custom={direction}
-              variants={variants}
-              transition={{ duration: 0.5 }}
-            >
-              <RoadmapRequestList feedbackRequestList={posts} status={status} />
-            </motion.div>
-          </Tabs.Content>
-        ))} */}
       </AnimatePresence>
     </Tabs.Root>
   );
