@@ -5,10 +5,10 @@ import { getPostByStatus } from "@/app/lib/prisma/post";
 async function Roadmap() {
   const [livePosts, plannedPosts, inProgressPosts, suggestionPost] =
     await Promise.all([
-      getPostByStatus("Live"),
-      getPostByStatus("Planned"),
-      getPostByStatus("In_Progress"),
-      getPostByStatus("Suggestion"),
+      getPostByStatus("live"),
+      getPostByStatus("planned"),
+      getPostByStatus("in_progress"),
+      getPostByStatus("suggestion"),
     ]);
 
   return (
