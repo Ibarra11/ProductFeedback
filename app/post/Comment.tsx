@@ -5,36 +5,73 @@ import Image from "next/image";
 import TextArea from "../components/TextArea";
 import Button from "../components/Button";
 import type { T_Comment } from "../lib/prisma/post";
+import { useUserContext } from "../components/UserProvider";
+import { useRouter } from "next/navigation";
+import LoadingCircle from "../components/LoadingCircle";
+import { Comment } from "@prisma/client";
 function Comment({
   comment_id,
   post_fk_id,
+  user_fk_id,
   User,
   Post,
+  replyingTo,
   replies,
   content,
-}: T_Comment) {
+  level = 1,
+}: T_Comment & { level?: number }) {
+  const [isLoading, setIsLoading] = React.useState(false);
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
   const [reply, setReply] = React.useState("");
-  // const marginLeft = Math.round(24 * level - Math.round(24 / level));
+  const [currentReplies, setCurrentReplies] =
+    React.useState<Comment[]>(replies);
+  const [openViewMore, setOpenViewMore] = React.useState(false);
+  const currentUser = useUserContext();
+  const router = useRouter();
+
+  async function viewMoreReplies() {
+    // let ids: string[];
+    const ids = currentReplies
+      .map((reply) => {
+        return `ids=${reply.comment_id}`;
+      })
+      .join("&");
+    const res = await fetch(`/api/comment?${ids}`);
+    const data = await res.json();
+    console.log(data);
+    console.log(data.comments);
+    setCurrentReplies(data.comments);
+    setOpenViewMore(true);
+  }
+
+  const marginLeft = Math.round(24 * level - Math.round(24 / level));
   const { image, username, name } = User;
 
   async function addReply() {
+    setIsLoading(true);
     const res = await fetch("/api/comment", {
       method: "PUT",
       body: JSON.stringify({
         content: reply,
-        userId: User.user_id,
+        userId: currentUser.user_id,
         postId: post_fk_id,
         commentId: comment_id,
+        replyingTo: username,
       }),
+    });
+    setIsLoading(false);
+    setIsReplyOpen(false);
+    setReply("");
+    React.startTransition(() => {
+      router.refresh();
     });
   }
   return (
     <>
       <div
-        // style={{ marginLeft }}
+        style={{ marginLeft }}
         className={clsx("flex items-start gap-8", {
-          // "mb-8": !replyingTo,
+          "mb-8": !replyingTo,
         })}
       >
         <Image
@@ -50,23 +87,35 @@ function Comment({
               <h4 className="text-sm font-bold">{name}</h4>
               <p className="text-sm text-brand-blue_gray">@{username}</p>
             </div>
-            <button
-              className={clsx(
-                `appearance-none text-brand-royal_blue font-semibold text-xs`,
-                "hover:underline"
-              )}
-              onClick={() => setIsReplyOpen(!isReplyOpen)}
-            >
-              Reply
-            </button>
+            {user_fk_id !== currentUser.user_id && (
+              <button
+                className={clsx(
+                  `appearance-none text-brand-royal_blue font-semibold text-xs`,
+                  "hover:underline"
+                )}
+                onClick={() => setIsReplyOpen(!isReplyOpen)}
+              >
+                Reply
+              </button>
+            )}
+            {currentReplies.length > 0 && (
+              <button
+                className={clsx(
+                  `appearance-none text-brand-royal_blue font-semibold text-xs`,
+                  "hover:underline"
+                )}
+                onClick={() => viewMoreReplies()}
+              >
+                View
+              </button>
+            )}
           </div>
           <p className="text-base text-brand-blue_gray">
-            {/* {replyingTo && (
+            {replyingTo && (
               <span className=" text-brand-purple font-bold">
                 @{replyingTo}
               </span>
-            )}{" "} */}
-            {/* <span className=" text-brand-purple font-bold">@{replyingTo}</span> */}
+            )}{" "}
             {content}
           </p>
           {isReplyOpen && (
@@ -79,21 +128,27 @@ function Comment({
               <Button
                 onClick={addReply}
                 className=" bg-brand-purple text-brand-ghost_white"
+                disabled={isLoading}
               >
-                Post Reply
+                {isLoading ? <LoadingCircle /> : "Post Reply"}
               </Button>
             </div>
           )}
         </div>
       </div>
 
-      {/* {replies && (
+      {openViewMore && (
         <div className="flex flex-col gap-4">
-          {replies.map((reply) => (
-            <Comment key={reply.id} {...reply} level={level + 1} />
+          {currentReplies.map((reply) => (
+            <Comment
+              level={level + 1}
+              key={reply.comment_id}
+              {...reply}
+              Post={Post}
+            />
           ))}
         </div>
-      )} */}
+      )}
     </>
   );
 }

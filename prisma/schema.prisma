@@ -62,7 +62,7 @@ model Upvotes {
 
 model Comment {
   comment_id      Int       @id @default(autoincrement())
-  replyingTo      Boolean?
+  replyingTo      String?
   createdAt       DateTime  @default(now())
   content         String
   Post            Post      @relation(fields: [post_fk_id], references: [post_id], onDelete: Cascade)

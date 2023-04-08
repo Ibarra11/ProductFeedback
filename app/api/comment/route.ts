@@ -8,6 +8,7 @@ const replySchema = z.object({
   userId: z.number().int(),
   postId: z.number().int(),
   commentId: z.number().int(),
+  replyingTo: z.string(),
 });
 export async function PUT(req: Request) {
   const reqData = await req.json();
@@ -25,7 +26,7 @@ export async function PUT(req: Request) {
               content: data.content,
               user_fk_id: data.userId,
               post_fk_id: data.postId,
-              replyingTo: true,
+              replyingTo: data.replyingTo,
             },
           ],
         },
@@ -39,9 +40,29 @@ export async function PUT(req: Request) {
   }
 }
 
-//  await prisma.user.create({
-//    data: {
-//      name: "user 1",
-//      friends: { create: [{ name: "user 2" }, { name: "user 3" }] },
-//    },
-//  });
+const schema = z.array(z.number().int());
+
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const searchParamIds = url.searchParams.getAll("ids").map(Number);
+  try {
+    const commentIds = schema.parse(searchParamIds);
+    const commentPromises = commentIds.map((id) => {
+      return prisma.comment.findUnique({
+        where: {
+          comment_id: id,
+        },
+        include: {
+          User: true,
+          replies: true,
+        },
+      });
+    });
+    const comments = await Promise.all(commentPromises);
+    return NextResponse.json({
+      comments,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+}

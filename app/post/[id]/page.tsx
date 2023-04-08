@@ -19,7 +19,7 @@ async function getRandomUser() {
     },
   });
   const randomIndex = Math.floor(user.length * Math.random());
-  return user[user.length - 1];
+  return user[randomIndex];
 }
 
 async function Page({ params }: { params: { id: string } }) {
@@ -35,7 +35,8 @@ async function Page({ params }: { params: { id: string } }) {
     redirect("/");
   }
 
-  console.log(comments);
+  console.log(user);
+
   const isAuthor = post.user_fk_id === user.user_id;
 
   return (
