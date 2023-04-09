@@ -29,17 +29,24 @@ function Comment({
   const currentUser = useUserContext();
   const router = useRouter();
 
-  async function viewMoreReplies() {
+  function closeReplies() {
+    setOpenViewMore(false);
+  }
+
+  console.log(replies);
+
+  async function viewMoreReplies(commentId?: number) {
     // let ids: string[];
-    const ids = currentReplies
-      .map((reply) => {
-        return `ids=${reply.comment_id}`;
-      })
-      .join("&");
-    const res = await fetch(`/api/comment?${ids}`);
+    let ids = currentReplies.map((reply) => {
+      return `ids=${reply.comment_id}`;
+    });
+    if (commentId) {
+      ids.push(`ids=${commentId}`);
+    }
+
+    const res = await fetch(`/api/comment?${ids.join("&")}`);
     const data = await res.json();
-    console.log(data);
-    console.log(data.comments);
+
     setCurrentReplies(data.comments);
     setOpenViewMore(true);
   }
@@ -59,12 +66,18 @@ function Comment({
         replyingTo: username,
       }),
     });
-    setIsLoading(false);
-    setIsReplyOpen(false);
-    setReply("");
-    React.startTransition(() => {
-      router.refresh();
-    });
+
+    const comments = await res.json();
+
+    if (res.ok) {
+      setIsLoading(false);
+      setIsReplyOpen(false);
+      setReply("");
+      viewMoreReplies(comments[0].comment_id);
+      React.startTransition(() => {
+        router.refresh();
+      });
+    }
   }
   return (
     <>
@@ -87,28 +100,32 @@ function Comment({
               <h4 className="text-sm font-bold">{name}</h4>
               <p className="text-sm text-brand-blue_gray">@{username}</p>
             </div>
-            {user_fk_id !== currentUser.user_id && (
-              <button
-                className={clsx(
-                  `appearance-none text-brand-royal_blue font-semibold text-xs`,
-                  "hover:underline"
-                )}
-                onClick={() => setIsReplyOpen(!isReplyOpen)}
-              >
-                Reply
-              </button>
-            )}
-            {currentReplies.length > 0 && (
-              <button
-                className={clsx(
-                  `appearance-none text-brand-royal_blue font-semibold text-xs`,
-                  "hover:underline"
-                )}
-                onClick={() => viewMoreReplies()}
-              >
-                View
-              </button>
-            )}
+            <div className="flex gap-2">
+              {user_fk_id !== currentUser.user_id && (
+                <button
+                  className={clsx(
+                    `appearance-none text-brand-royal_blue font-semibold text-xs`,
+                    "hover:underline"
+                  )}
+                  onClick={() => setIsReplyOpen(!isReplyOpen)}
+                >
+                  Reply
+                </button>
+              )}
+              {currentReplies.length > 0 && (
+                <button
+                  className={clsx(
+                    `appearance-none text-brand-royal_blue font-semibold text-xs`,
+                    "hover:underline"
+                  )}
+                  onClick={() =>
+                    openViewMore ? closeReplies() : viewMoreReplies()
+                  }
+                >
+                  {openViewMore ? "Close" : "View"}
+                </button>
+              )}
+            </div>
           </div>
           <p className="text-base text-brand-blue_gray">
             {replyingTo && (
