@@ -19,7 +19,7 @@ async function getRandomUser() {
     },
   });
   const randomIndex = Math.floor(user.length * Math.random());
-  return user[user.length - 1];
+  return user[randomIndex];
 }
 
 async function Page({ params }: { params: { id: string } }) {
