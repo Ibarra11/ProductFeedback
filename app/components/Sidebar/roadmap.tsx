@@ -1,21 +1,12 @@
 import Link from "next/link";
 import clsx from "clsx";
-import RoadmapList from "./RoadmapList";
-import { getPostByStatus } from "@/app/lib/prisma/post";
-async function Roadmap() {
-  const [livePosts, plannedPosts, inProgressPosts, suggestionPost] =
-    await Promise.all([
-      getPostByStatus("live"),
-      getPostByStatus("planned"),
-      getPostByStatus("in_progress"),
-      getPostByStatus("suggestion"),
-    ]);
 
+async function Roadmap({ children }: React.PropsWithChildren) {
   return (
     <div
       className={clsx(
         "md:flex-1 flex flex-col gap-6 justify-between bg-white p-6 pt-4 rounded-lg",
-        "lg:flex-initial"
+        "lg:flex-initia border-2 border-red-500"
       )}
     >
       <div className="flex justify-between items-center  ">
@@ -27,15 +18,7 @@ async function Roadmap() {
           View
         </Link>
       </div>
-      <RoadmapList
-        plannedPosts={{ status: "planned", count: plannedPosts.length }}
-        livePosts={{ status: "live", count: livePosts.length }}
-        inProgressPosts={{
-          status: "in_progress",
-          count: inProgressPosts.length,
-        }}
-        suggestionPosts={{ status: "suggestion", count: suggestionPost.length }}
-      />
+      {children}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import Banner from "../Banner";
 import FilterPills from "./filter_pills";
 import Roadmap from "./roadmap";
 
-function Sidebar() {
+function Sidebar({ children }: React.PropsWithChildren<{}>) {
   return (
     <aside
       className={clsx(
@@ -15,7 +15,7 @@ function Sidebar() {
       <Banner title="Frontend Mentor" subTitle="Feedback Board" />
       <FilterPills />
       {/* @ts-expect-error Async Server Component */}
-      <Roadmap />
+      <Roadmap>{children}</Roadmap>
     </aside>
   );
 }
