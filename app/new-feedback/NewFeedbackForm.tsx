@@ -8,6 +8,7 @@ import Button from "../components/Button";
 import { User } from "@prisma/client";
 import { FormData } from "@/types";
 import { FEEDBACK_CATEGORIES } from "../constants";
+import { useRouter } from "next/navigation";
 type FormState = "idle" | "submitting" | "error";
 function NewFeedbackForm({ user }: { user: User }) {
   const [formData, setFormData] = React.useState<FormData>({
@@ -16,7 +17,7 @@ function NewFeedbackForm({ user }: { user: User }) {
     content: "",
   });
   const [formState, setFormState] = React.useState<FormState>("idle");
-
+  const router = useRouter();
   async function handleFormSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     setFormState("submitting");
@@ -35,6 +36,7 @@ function NewFeedbackForm({ user }: { user: User }) {
         category: FEEDBACK_CATEGORIES[0],
         content: "",
       });
+      router.push("/");
     }
   }
   return (
