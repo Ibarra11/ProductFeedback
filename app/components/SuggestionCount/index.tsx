@@ -1,15 +1,10 @@
 "use client";
 import { use } from "react";
-import { Prisma, Post } from "@prisma/client";
+
 import { useFilterContext } from "../FilterProvider";
+import { Post } from "@/app/lib/prisma/post";
 interface Props {
-  postsPromise: Prisma.PrismaPromise<
-    (Post & {
-      _count: {
-        comments: number;
-      };
-    })[]
-  >;
+  postsPromise: Promise<Post[]>;
 }
 function SuggestionCount({ postsPromise }: Props) {
   const posts = use(postsPromise);

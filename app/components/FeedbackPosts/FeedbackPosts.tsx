@@ -3,10 +3,10 @@ import EmptySuggestionsView from "../EmptySuggestionsView";
 import ProductRequestList from "../ProductRequestList";
 import { useFilterContext } from "../FilterProvider";
 import { useSortContext } from "../SortProvider";
-import type { T_PostWithComemntCount } from "@/app/lib/prisma/post";
+import type { Post } from "@/app/lib/prisma/post";
 import { sortPosts } from "@/app/utils";
 
-function FeedbackPosts({ posts }: { posts: T_PostWithComemntCount[] }) {
+function FeedbackPosts({ posts }: { posts: Post[] }) {
   const { filterCategory } = useFilterContext();
   const { sortBy } = useSortContext();
 

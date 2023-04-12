@@ -7,8 +7,9 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import MobileHeader from "./components/MobileHeader";
 import SuggestionCount from "./components/SuggestionCount";
-import { getAllPost } from "./lib/prisma/post";
+import { getAllPost, Post } from "./lib/prisma/post";
 import UserProvider from "./components/UserProvider";
+import { convertDateToString } from "./utils";
 import { prisma } from "@/db";
 
 async function getRandomUser() {
@@ -22,7 +23,12 @@ async function getRandomUser() {
 }
 
 export default async function Home() {
-  const posts = getAllPost();
+  const posts: Promise<Post[]> = getAllPost().then((data) => {
+    return data.map((post) => {
+      return { ...post, createdAt: convertDateToString(post.createdAt) };
+    }) as any;
+  });
+
   const user = await getRandomUser();
   return (
     <UserProvider user={user}>

@@ -7,12 +7,17 @@ export type T_PostWithComemntCount = NonNullable<
 export type T_Comment = Awaited<ReturnType<typeof getCommentsByPostId>>[number];
 export type T_Post = NonNullable<Awaited<ReturnType<typeof getPost>>>;
 
-export type Post = NonNullable<
-  Awaited<ReturnType<typeof getPostByStatus>>
->[number];
+type ConvertDateToString<T extends Promise<Array<{ createdAt: Date }>>> =
+  Awaited<T> extends Array<infer TData>
+    ? Omit<TData, "createdAt"> & { createdAt: string }
+    : never;
+export type Post = ConvertDateToString<ReturnType<typeof getAllPost>>;
+export type Comment = ConvertDateToString<
+  ReturnType<typeof getCommentsByPostId>
+>;
 
-export const getAllPost = () => {
-  return prisma.post.findMany({
+export const getAllPost = async () => {
+  return await prisma.post.findMany({
     include: {
       _count: {
         select: {
@@ -49,7 +54,7 @@ export const getPostWithCommentCount = async (id: number) => {
 };
 
 export const getCommentsByPostId = async (postId: number) => {
-  return prisma.comment.findMany({
+  return await prisma.comment.findMany({
     where: {
       post_fk_id: postId,
       replyingTo: null,

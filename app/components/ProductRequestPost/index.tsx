@@ -4,7 +4,7 @@ import Link from "next/link";
 import CounterButton from "../CounterButton";
 import CommentIcon from "../CommentIcon";
 import clsx from "clsx";
-import type { T_PostWithComemntCount } from "@/app/lib/prisma/post";
+import type { Post } from "@/app/lib/prisma/post";
 import { useUserContext } from "../UserProvider";
 import { formatStatus } from "@/app/utils";
 import { ROADMAP_OPTIONS } from "@/app/constants";
@@ -15,8 +15,9 @@ function ProductRequestPost({
   content,
   category,
   status,
+  createdAt,
   _count: { comments, upvotes },
-}: T_PostWithComemntCount) {
+}: Post) {
   const [disableAnimation, setDisableAnimation] = React.useState(false);
   const user = useUserContext();
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
@@ -24,8 +25,6 @@ function ProductRequestPost({
   React.useEffect(() => {
     // if were on /post/10, disable animation
     const isPostRoute = window.location.pathname.includes("post");
-    console.log(window.location.pathname);
-    console.log(isPostRoute);
     setDisableAnimation(isPostRoute);
   }, []);
 
@@ -34,7 +33,7 @@ function ProductRequestPost({
       <article
         className={clsx(
           !disableAnimation && "group",
-          "bg-white flex  py-7 px-8  gap-10 rounded-xl"
+          "bg-white flex  py-7 px-8  gap-10 rounded-xl relative"
         )}
       >
         <CounterButton
@@ -45,6 +44,9 @@ function ProductRequestPost({
           direction="column"
           upvoteCount={upvotes}
         />
+        <span className=" text-xs absolute top-4 right-4 text-slate-300">
+          {createdAt}
+        </span>
         <div className="flex-1">
           <h3
             className={clsx(
@@ -76,7 +78,7 @@ function ProductRequestPost({
   );
 }
 
-function Status({ status }: { status: T_PostWithComemntCount["status"] }) {
+function Status({ status }: { status: Post["status"] }) {
   const { bgWithOpacity, text } = ROADMAP_OPTIONS[status];
   return (
     <span

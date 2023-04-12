@@ -1,18 +1,10 @@
 "use client";
 import { use } from "react";
 import clsx from "clsx";
-import { Prisma, Post } from "@prisma/client";
 import FeedbackPosts from "./FeedbackPosts";
-
+import { Post } from "@/app/lib/prisma/post";
 interface Props {
-  postsPromise: Prisma.PrismaPromise<
-    (Post & {
-      _count: {
-        comments: number;
-        upvotes: number;
-      };
-    })[]
-  >;
+  postsPromise: Promise<Post[]>;
 }
 function FeedbackPostsContainer({ postsPromise }: Props) {
   const posts = use(postsPromise);

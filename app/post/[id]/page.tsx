@@ -5,6 +5,7 @@ import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import Comments from "../Comments";
 import AddComment from "../AddComment";
 import { prisma } from "@/db";
+import { convertDateToString } from "@/app/utils";
 import {
   getCommentsByPostId,
   getPostWithCommentCount,
@@ -26,8 +27,20 @@ async function Page({ params }: { params: { id: string } }) {
   const postId = Number(params.id);
 
   const [post, comments, user] = await Promise.all([
-    getPostWithCommentCount(postId),
-    getCommentsByPostId(postId),
+    getPostWithCommentCount(postId).then((post) => {
+      if (!post) {
+        return null;
+      }
+      return { ...post, createdAt: convertDateToString(post.createdAt) };
+    }),
+    getCommentsByPostId(postId).then((comments) => {
+      return comments.map((comment) => {
+        return {
+          ...comment,
+          createdAt: convertDateToString(comment.createdAt),
+        };
+      });
+    }),
     getRandomUser(),
   ]);
 

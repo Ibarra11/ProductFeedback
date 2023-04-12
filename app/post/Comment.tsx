@@ -4,14 +4,15 @@ import clsx from "clsx";
 import Image from "next/image";
 import TextArea from "../components/TextArea";
 import Button from "../components/Button";
-import type { T_Comment } from "../lib/prisma/post";
+import type { Comment } from "../lib/prisma/post";
 import { useUserContext } from "../components/UserProvider";
 import { useRouter } from "next/navigation";
 import LoadingCircle from "../components/LoadingCircle";
-import { Comment } from "@prisma/client";
-import useMeasure from "react-use-measure";
 
-type Props = T_Comment & {
+import useMeasure from "react-use-measure";
+import { convertDateToString } from "../utils";
+
+type Props = Comment & {
   level?: number;
 };
 
@@ -27,7 +28,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
       replies,
       content,
       level = 1,
-      ...props
+      createdAt,
     },
     ref
   ) => {
@@ -61,8 +62,15 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
 
       const res = await fetch(`/api/comment?${ids.join("&")}`);
       const data = await res.json();
-
-      setCurrentReplies(data.comments);
+      const comments = data.comments.map((comment) => {
+        console.log(comment);
+        return {
+          ...comment,
+          createdAt: convertDateToString(new Date(comment.createdAt)),
+        };
+      });
+      console.log(comments);
+      setCurrentReplies(comments);
       setOpenViewMore(true);
 
       React.startTransition(() => {
@@ -101,7 +109,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
 
     return (
       <>
-        <div style={{ marginLeft }} className={clsx("flex items-start gap-8 ")}>
+        <div style={{ marginLeft }} className={clsx("flex items-start gap-8")}>
           <div ref={ref ? startingImgRef : null} className="relative">
             {
               <div ref={ref ? ref : startingImgRef}>
@@ -145,7 +153,13 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
           <div className=" flex-1">
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h4 className="text-sm font-bold">{name}</h4>
+                <div className="flex items-baseline">
+                  <h4 className="text-sm font-bold">{name}</h4>
+                  <span className="ml-2 text-slate-300 text-xs">
+                    {createdAt}
+                  </span>
+                </div>
+
                 <p className="text-sm text-brand-blue_gray">@{username}</p>
               </div>
               <div className="flex gap-2">
@@ -207,12 +221,10 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
         {openViewMore && (
           <div ref={repliesContainerRef} className="flex flex-col gap-8 mt-4 ">
             {currentReplies.map((reply, index) => {
-              console.log(reply);
               return (
                 <Comment
                   key={reply.comment_id}
                   level={level + 1}
-                  Post={Post}
                   {...reply}
                   ref={
                     currentReplies.length - 1 === index
