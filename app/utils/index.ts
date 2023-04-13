@@ -1,7 +1,7 @@
 import { SortByTypes } from "@/types";
 import { Status } from "@prisma/client";
 import type { Post } from "../lib/prisma/post";
-export function sortPosts(posts: Post[], sortBy: SortByTypes) {
+export function sortPosts(posts: Post[], sortBy: SortByTypes): Post[] {
   switch (sortBy) {
     case "Most Comments": {
       return posts.sort((a, b) => b._count.comments - a._count.comments);
@@ -14,6 +14,9 @@ export function sortPosts(posts: Post[], sortBy: SortByTypes) {
     }
     case "Least Upvotes": {
       return posts.sort((a, b) => a._count.upvotes - b._count.upvotes);
+    }
+    case "Date Posted": {
+      return posts;
     }
   }
 }

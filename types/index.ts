@@ -14,6 +14,7 @@ export type FeedbackCategories =
 export type FilterCategories = FeedbackCategories | "All";
 
 export type SortByTypes =
+  | "Date Posted"
   | "Most Comments"
   | "Least Comments"
   | "Most Upvotes"

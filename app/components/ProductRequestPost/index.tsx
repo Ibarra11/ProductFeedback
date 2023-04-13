@@ -37,7 +37,6 @@ function ProductRequestPost({
   const { ref, inView } = useInView();
   const user = useUserContext();
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
-
   React.useEffect(() => {
     if (inView) {
       controls.start("show");
@@ -72,7 +71,7 @@ function ProductRequestPost({
             direction="column"
             upvoteCount={upvotes}
           />
-          <span className=" text-xs absolute top-4 right-4 text-slate-300">
+          <span className=" text-xs absolute top-4 right-4 text-slate-400">
             {createdAt}
           </span>
           <div className="flex-1">

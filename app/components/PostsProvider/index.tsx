@@ -9,7 +9,6 @@ interface Context {
   filterCategory: FilterCategories;
   sortValue: SortByTypes;
   posts: Post[];
-  updatePosts: (newPosts: Post[]) => void;
 }
 
 const PostsContext = React.createContext<Context | undefined>(undefined);
@@ -24,9 +23,11 @@ export function usePostsContext() {
   return context;
 }
 
-function PostsProvider(props: React.PropsWithChildren<{ posts: Post[] }>) {
-  const [posts, setPosts] = React.useState(props.posts);
-  const [sortBy, setSortBy] = React.useState<SortByTypes>("Most Upvotes");
+function PostsProvider({
+  posts,
+  children,
+}: React.PropsWithChildren<{ posts: Post[] }>) {
+  const [sortBy, setSortBy] = React.useState<SortByTypes>("Date Posted");
   const [filterCategory, setFilterCategory] =
     React.useState<FilterCategories>("All");
   function handleFilterChange(filter: FilterCategories) {
@@ -34,10 +35,6 @@ function PostsProvider(props: React.PropsWithChildren<{ posts: Post[] }>) {
   }
   function handleSortByChange(sortBy: SortByTypes) {
     setSortBy(sortBy);
-  }
-
-  function updatePosts(newPosts: Post[]) {
-    setPosts([...posts, ...newPosts]);
   }
 
   const filteredPosts =
@@ -58,10 +55,10 @@ function PostsProvider(props: React.PropsWithChildren<{ posts: Post[] }>) {
         handleSortByChange,
         filterCategory: filterCategory,
         sortValue: sortBy,
-        updatePosts,
+        // updatePosts,
       }}
     >
-      {props.children}
+      {children}
     </PostsContext.Provider>
   );
 }

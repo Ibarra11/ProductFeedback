@@ -35,6 +35,7 @@ function Header() {
       </div>
       <Select
         options={[
+          "Most Recent",
           "Most Upvotes",
           "Least Upvotes",
           "Most Comments",

@@ -20,13 +20,13 @@ async function getRandomUser() {
 }
 
 export default async function Home() {
-  const postsPromise: Promise<Post[]> = getAllPost().then((data) => {
-    return data.map((post) => {
-      return { ...post, createdAt: convertDateToString(post.createdAt) };
-    }) as any;
-  });
+  const postsPromise = getAllPost();
 
-  const [user, posts] = await Promise.all([getRandomUser(), postsPromise]);
+  const [user, data] = await Promise.all([getRandomUser(), postsPromise]);
+
+  const posts = data.map((post) => {
+    return { ...post, createdAt: convertDateToString(post.createdAt) };
+  });
 
   return (
     <UserProvider user={user}>

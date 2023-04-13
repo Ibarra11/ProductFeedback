@@ -5,6 +5,7 @@ import clsx from "clsx";
 import LoadingCircle from "../LoadingCircle";
 import { ButtonBase } from "@/types";
 import { useRouter } from "next/navigation";
+import { usePostsContext } from "../PostsProvider";
 
 type ButtonProps = ButtonBase<{
   upvoteCount: number;
@@ -24,6 +25,7 @@ function CounterButton({
   ...rest
 }: ButtonProps) {
   const router = useRouter();
+
   const [isFetching, setIsFetching] = React.useState(false);
   async function handleCreateUpvote() {
     setIsFetching(true);
