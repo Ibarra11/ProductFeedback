@@ -46,6 +46,7 @@ function PostsProvider({
         );
 
   const displayedPosts = sortPosts(filteredPosts, sortBy);
+  console.log(displayedPosts);
 
   return (
     <PostsContext.Provider
@@ -55,7 +56,6 @@ function PostsProvider({
         handleSortByChange,
         filterCategory: filterCategory,
         sortValue: sortBy,
-        // updatePosts,
       }}
     >
       {children}
