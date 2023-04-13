@@ -1,16 +1,13 @@
 import React from "react";
 import clsx from "clsx";
-import FilterProvider from "./components/FilterProvider";
-import PostsProvider from "./components/SortProvider";
+import PostsProvider from "./components/PostsProvider";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import SuggestionCount from "./components/SuggestionCount";
+import Posts from "./components/Posts";
 import { getAllPost, Post } from "./lib/prisma/post";
 import UserProvider from "./components/UserProvider";
-import InfiniteScroll from "./components/InfiniteScroll";
 import { convertDateToString } from "./utils";
 import { prisma } from "@/db";
-import { filterPostsByStatus } from "./utils";
 
 async function getRandomUser() {
   const user = await prisma.user.findMany({

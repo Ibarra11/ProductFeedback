@@ -18,21 +18,6 @@ async function getRandomUser() {
   return user[user.length - 1];
 }
 
-// async function getProductRequest() {
-//   const plannedPosts = getPostByStatus("Planned");
-//   const inProgressPosts = getPostByStatus("In_Progress");
-//   const livePosts = getPostByStatus("Live");
-//   const suggestionPosts = getPostByStatus("Suggestion");
-
-//   const [planned, inProgress, live, suggestion, user] = await Promise.all([
-//     plannedPosts,
-//     inProgressPosts,
-//     livePosts,
-//     suggestionPosts,
-//     getRandomUser(),
-//   ]);
-
-//   return { planned, inProgress, live, suggestion, user };
 // }
 
 const statusUnion = z.union([
