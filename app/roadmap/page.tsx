@@ -3,10 +3,9 @@ import RoadmapTabs from "./RoadmapTabs";
 import clsx from "clsx";
 import { getPostByStatus } from "../lib/prisma/post";
 import { prisma } from "@/db";
-import { z, ZodUnion } from "zod";
+import { z } from "zod";
 import UserProvider from "../components/UserProvider";
 import { redirect } from "next/navigation";
-import { Post } from "@prisma/client";
 
 async function getRandomUser() {
   const user = await prisma.user.findMany({
@@ -38,20 +37,7 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
   }
 
   const user = await getRandomUser();
-  const postsPromise = getPostByStatus(currentStatus.data.status).then(
-    (data) => {
-      return new Promise<
-        (Post & {
-          _count: {
-            upvotes: number;
-            comments: number;
-          };
-        })[]
-      >((res) => {
-        setTimeout(() => res(data), 5000);
-      });
-    }
-  );
+  const postsPromise = getPostByStatus(currentStatus.data.status);
 
   return (
     <UserProvider user={user}>

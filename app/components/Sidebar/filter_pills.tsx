@@ -2,11 +2,11 @@
 import React from "react";
 import clsx from "clsx";
 import Pill from "../Pill";
-import { useFilterContext } from "../FilterProvider";
+import { usePostsContext } from "../PostsProvider";
 import { FILTER_CATEGORIES } from "@/app/constants";
 
 function FilterPills({ closeNavModal }: { closeNavModal?: () => void }) {
-  const { handleFilterChange, filterCategory } = useFilterContext();
+  const { handleFilterChange, filterCategory } = usePostsContext();
   return (
     <div
       className={clsx(

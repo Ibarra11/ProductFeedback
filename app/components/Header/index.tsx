@@ -5,11 +5,11 @@ import Image from "next/image";
 import clsx from "clsx";
 import Select from "../Select";
 import Button from "../Button";
-import { useSortContext } from "../SortProvider";
+import { usePostsContext } from "../PostsProvider";
 
-function Header({ children }: React.PropsWithChildren) {
-  const { sortBy, handleSortByChange } = useSortContext();
+function Header() {
   const router = useRouter();
+  const { posts, sortValue, handleSortByChange } = usePostsContext();
   return (
     <header
       className={clsx(
@@ -31,8 +31,7 @@ function Header({ children }: React.PropsWithChildren) {
           alt=""
           aria-hidden
         />
-
-        {children}
+        <span className="text-lg font-bold">{posts.length} Posts</span>
       </div>
       <Select
         options={[
@@ -41,7 +40,7 @@ function Header({ children }: React.PropsWithChildren) {
           "Most Comments",
           "Least Comments",
         ]}
-        value={sortBy}
+        value={sortValue}
         selectText="Sort by:"
         className="text-brand-ghost_white"
         arrowColor="ghost_white"
