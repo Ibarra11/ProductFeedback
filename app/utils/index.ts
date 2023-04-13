@@ -39,3 +39,18 @@ export function convertDateToString(date: Date) {
     .join(" ");
   return stringDate;
 }
+
+export function filterPostsByStatus(posts: Post[]) {
+  const postStatusObj: Record<Status, { status: Status; count: number }> = {
+    live: { status: "live", count: 0 },
+    in_progress: { status: "in_progress", count: 0 },
+    planned: { status: "planned", count: 0 },
+    suggestion: { status: "suggestion", count: 0 },
+  };
+
+  posts.forEach((post) => {
+    postStatusObj[post.status].count++;
+  });
+
+  return postStatusObj;
+}

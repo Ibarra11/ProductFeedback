@@ -2,15 +2,15 @@ import React from "react";
 import clsx from "clsx";
 import FilterProvider from "./components/FilterProvider";
 import PostsProvider from "./components/SortProvider";
-import FeedbackPosts from "./components/FeedbackPosts";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import MobileHeader from "./components/MobileHeader";
 import SuggestionCount from "./components/SuggestionCount";
 import { getAllPost, Post } from "./lib/prisma/post";
 import UserProvider from "./components/UserProvider";
+import InfiniteScroll from "./components/InfiniteScroll";
 import { convertDateToString } from "./utils";
 import { prisma } from "@/db";
+import { filterPostsByStatus } from "./utils";
 
 async function getRandomUser() {
   const user = await prisma.user.findMany({
@@ -23,16 +23,17 @@ async function getRandomUser() {
 }
 
 export default async function Home() {
-  const posts: Promise<Post[]> = getAllPost().then((data) => {
+  const postsPromise: Promise<Post[]> = getAllPost().then((data) => {
     return data.map((post) => {
       return { ...post, createdAt: convertDateToString(post.createdAt) };
     }) as any;
   });
 
-  const user = await getRandomUser();
+  const [user, posts] = await Promise.all([getRandomUser(), postsPromise]);
+
   return (
     <UserProvider user={user}>
-      <FilterProvider>
+      <FilterProvider posts={posts}>
         <div className={clsx("h-full pb-14", "md:pt-14 md:pb-20 md:px-10 ")}>
           <div
             className={clsx(
@@ -41,23 +42,16 @@ export default async function Home() {
               "lg:flex-row"
             )}
           >
-            {/* shown on tablet to desktop */}
-            <Sidebar />
-
-            {/* only shown on mobile to tablet */}
-            <MobileHeader />
+            <Sidebar posts={posts} />
             <div
               className={clsx("flex h-full flex-col flex-1 gap-8", "lg:gap-6")}
             >
               <PostsProvider>
                 <Header>
-                  <React.Suspense fallback={<p>Loading</p>}>
-                    <SuggestionCount postsPromise={posts} />
-                  </React.Suspense>
+                  <SuggestionCount posts={posts} />
                 </Header>
-                <React.Suspense fallback={<p>Loading</p>}>
-                  <FeedbackPosts postsPromise={posts} />
-                </React.Suspense>
+
+                <InfiniteScroll posts={posts} />
               </PostsProvider>
             </div>
           </div>
@@ -65,8 +59,4 @@ export default async function Home() {
       </FilterProvider>
     </UserProvider>
   );
-}
-
-{
-  // /* @ts-expect-error Async Server Component */
 }
