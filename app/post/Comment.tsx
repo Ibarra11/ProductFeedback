@@ -132,7 +132,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
               <div>
                 <div className="flex items-baseline">
                   <h4 className="text-sm font-bold">{name}</h4>
-                  <span className="ml-2 text-slate-300 text-xs">
+                  <span className="ml-2 text-slate-400 text-xs">
                     {createdAt}
                   </span>
                 </div>
