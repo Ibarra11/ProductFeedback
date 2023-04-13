@@ -1,5 +1,5 @@
 import { prisma } from "@/db";
-import { Status } from "@prisma/client";
+import { Prisma, Status } from "@prisma/client";
 
 export type T_PostWithComemntCount = NonNullable<
   Awaited<ReturnType<typeof getPostWithCommentCount>>

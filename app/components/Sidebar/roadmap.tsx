@@ -6,7 +6,7 @@ async function Roadmap({ children }: React.PropsWithChildren) {
     <div
       className={clsx(
         "md:flex-1 flex flex-col gap-6 justify-between bg-white p-6 pt-4 rounded-lg",
-        "lg:flex-initia border-2 border-red-500"
+        "lg:flex-initial"
       )}
     >
       <div className="flex justify-between items-center  ">

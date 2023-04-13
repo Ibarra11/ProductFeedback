@@ -30,7 +30,7 @@ export default async function Home() {
 
   return (
     <UserProvider user={user}>
-      <FilterProvider posts={posts}>
+      <PostsProvider posts={posts}>
         <div className={clsx("h-full pb-14", "md:pt-14 md:pb-20 md:px-10 ")}>
           <div
             className={clsx(
@@ -43,17 +43,12 @@ export default async function Home() {
             <div
               className={clsx("flex h-full flex-col flex-1 gap-8", "lg:gap-6")}
             >
-              <PostsProvider>
-                <Header>
-                  <SuggestionCount posts={posts} />
-                </Header>
-
-                <InfiniteScroll posts={posts} />
-              </PostsProvider>
+              <Header />
+              <Posts />
             </div>
           </div>
         </div>
-      </FilterProvider>
+      </PostsProvider>
     </UserProvider>
   );
 }

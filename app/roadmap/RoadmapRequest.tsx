@@ -18,7 +18,7 @@ function RoadmapRequest({
   const { border, bg } = ROADMAP_OPTIONS[status];
   const user = useUserContext();
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
-  console.log(upvote);
+
   return (
     <Link
       onClick={(e) => console.log("link click")}
