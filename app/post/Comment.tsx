@@ -11,6 +11,7 @@ import LoadingCircle from "../components/LoadingCircle";
 
 import useMeasure from "react-use-measure";
 import { convertDateToString } from "../utils";
+import ReplyBox from "./ReplyBox";
 
 type Props = Comment & {
   level?: number;
@@ -32,9 +33,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     },
     ref
   ) => {
-    const [isLoading, setIsLoading] = React.useState(false);
     const [isReplyOpen, setIsReplyOpen] = React.useState(false);
-    const [reply, setReply] = React.useState("");
     const [currentReplies, setCurrentReplies] =
       React.useState<Comment[]>(replies);
     const [openViewMore, setOpenViewMore] = React.useState(false);
@@ -42,14 +41,20 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     const router = useRouter();
     const startingImgRef: React.MutableRefObject<HTMLDivElement | null> =
       React.useRef<HTMLDivElement>(null);
-    const path: React.MutableRefObject<HTMLDivElement | null> =
-      React.useRef<HTMLDivElement>(null);
     const lastChildRef: React.MutableRefObject<HTMLDivElement | null> =
       React.useRef<HTMLDivElement>(null);
     const [repliesContainerRef, repliesContainerBounds] = useMeasure();
 
     function closeReplies() {
       setOpenViewMore(false);
+    }
+
+    function handleSuccess(commentId: number) {
+      setIsReplyOpen(false);
+      viewMoreReplies(commentId);
+      React.startTransition(() => {
+        router.refresh();
+      });
     }
 
     async function viewMoreReplies(commentId?: number) {
@@ -63,13 +68,11 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
       const res = await fetch(`/api/comment?${ids.join("&")}`);
       const data = await res.json();
       const comments = data.comments.map((comment) => {
-        console.log(comment);
         return {
           ...comment,
           createdAt: convertDateToString(new Date(comment.createdAt)),
         };
       });
-      console.log(comments);
       setCurrentReplies(comments);
       setOpenViewMore(true);
 
@@ -80,32 +83,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
 
     const marginLeft = Math.round(36 * (level - 1));
     const { image, username, name } = User;
-
-    async function addReply() {
-      setIsLoading(true);
-      const res = await fetch("/api/comment", {
-        method: "PUT",
-        body: JSON.stringify({
-          content: reply,
-          userId: currentUser.user_id,
-          postId: post_fk_id,
-          commentId: comment_id,
-          replyingTo: username,
-        }),
-      });
-
-      const comments = await res.json();
-
-      if (res.ok) {
-        setIsLoading(false);
-        setIsReplyOpen(false);
-        setReply("");
-        viewMoreReplies(comments[0].comment_id);
-        React.startTransition(() => {
-          router.refresh();
-        });
-      }
-    }
 
     return (
       <>
@@ -200,20 +177,13 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
               {content}
             </p>
             {isReplyOpen && (
-              <div className="flex items-start gap-4 mt-6">
-                <TextArea
-                  className="flex-1"
-                  value={reply}
-                  onChange={(e) => setReply(e.target.value)}
-                />
-                <Button
-                  onClick={addReply}
-                  className=" bg-brand-purple text-brand-ghost_white"
-                  disabled={isLoading}
-                >
-                  {isLoading ? <LoadingCircle /> : "Post Reply"}
-                </Button>
-              </div>
+              <ReplyBox
+                replyingTo={username}
+                commentId={comment_id}
+                userId={currentUser.user_id}
+                postId={post_fk_id}
+                onSuccess={handleSuccess}
+              />
             )}
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import ProductRequestPost from "@/app/components/ProductRequestPost";
+import Post from "../Post";
 import CustomLink from "@/app/components/CustomLink";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import Comments from "../Comments";
@@ -11,6 +11,7 @@ import {
   getPostWithCommentCount,
 } from "@/app/lib/prisma/post";
 import UserProvider from "@/app/components/UserProvider";
+
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 async function getRandomUser() {
@@ -63,7 +64,7 @@ async function Page({ params }: { params: { id: string } }) {
             </CustomLink>
           )}
         </div>
-        <ProductRequestPost {...post} />
+        <Post {...post} />
         <Comments comments={comments} />
         <AddComment postFkId={post.post_id} />
       </div>
