@@ -2,13 +2,11 @@
 import React from "react";
 import clsx from "clsx";
 import Image from "next/image";
-import TextArea from "../components/TextArea";
-import Button from "../components/Button";
+
+import { BiCommentAdd, BiCommentDetail } from "react-icons/bi";
 import type { Comment } from "../lib/prisma/post";
 import { useUserContext } from "../components/UserProvider";
 import { useRouter } from "next/navigation";
-import LoadingCircle from "../components/LoadingCircle";
-
 import useMeasure from "react-use-measure";
 import { convertDateToString } from "../utils";
 import ReplyBox from "./ReplyBox";
@@ -44,10 +42,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     const lastChildRef: React.MutableRefObject<HTMLDivElement | null> =
       React.useRef<HTMLDivElement>(null);
     const [repliesContainerRef, repliesContainerBounds] = useMeasure();
-
-    function closeReplies() {
-      setOpenViewMore(false);
-    }
 
     function handleSuccess(commentId: number) {
       setIsReplyOpen(false);
@@ -139,31 +133,35 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
 
                 <p className="text-sm text-brand-blue_gray">@{username}</p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-4">
+                {currentReplies.length > 0 && (
+                  <button
+                    className={clsx(
+                      `appearance-none text-brand-royal_blue font-semibold text-lg`,
+                      "hover:underline",
+                      openViewMore
+                        ? " text-brand-royal_blue"
+                        : " text-slate-500"
+                    )}
+                    onClick={() =>
+                      openViewMore ? setOpenViewMore(false) : viewMoreReplies()
+                    }
+                  >
+                    <BiCommentDetail />
+                  </button>
+                )}
                 {user_fk_id !== currentUser.user_id && (
                   <button
                     className={clsx(
-                      `appearance-none text-brand-royal_blue font-semibold text-xs`,
-                      "hover:underline"
+                      `appearance-none  font-semibold text-lg `,
+                      "hover:underline",
+                      isReplyOpen ? " text-brand-royal_blue" : " text-slate-500"
                     )}
                     onClick={() => {
                       setIsReplyOpen(!isReplyOpen);
                     }}
                   >
-                    Reply
-                  </button>
-                )}
-                {currentReplies.length > 0 && (
-                  <button
-                    className={clsx(
-                      `appearance-none text-brand-royal_blue font-semibold text-xs`,
-                      "hover:underline"
-                    )}
-                    onClick={() =>
-                      openViewMore ? closeReplies() : viewMoreReplies()
-                    }
-                  >
-                    {openViewMore ? "Close" : "View"}
+                    <BiCommentAdd />
                   </button>
                 )}
               </div>
