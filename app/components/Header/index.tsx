@@ -1,15 +1,29 @@
-"use client";
-import React from "react";
-import { useRouter } from "next/navigation";
+import React, { Suspense, use } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import Select from "../Select";
-import Button from "../Button";
-import { usePostsContext } from "../PostsProvider";
-
-function Header() {
-  const router = useRouter();
-  const { posts, sortValue, handleSortByChange } = usePostsContext();
+import { Category, Status } from "@prisma/client";
+import LoadingCircle from "../LoadingCircle";
+import CustomLink from "../CustomLink";
+import PostsCount from "../PostsCount";
+interface Props {
+  postsPromise: Promise<
+    {
+      createdAt: string;
+      post_id: number;
+      title: string;
+      content: string;
+      category: Category;
+      status: Status;
+      user_fk_id: number;
+      _count: {
+        comments: number;
+        upvotes: number;
+      };
+    }[]
+  >;
+}
+function Header({ postsPromise }: Props) {
   return (
     <header
       className={clsx(
@@ -31,7 +45,10 @@ function Header() {
           alt=""
           aria-hidden
         />
-        <span className="text-lg font-bold">{posts.length} Posts</span>
+        <Suspense fallback={<LoadingCircle />}>
+          {/* @ts-expect-error Server Component */}
+          <PostsCount postsPromise={postsPromise} />
+        </Suspense>
       </div>
       <Select
         options={[
@@ -41,18 +58,16 @@ function Header() {
           "Most Comments",
           "Least Comments",
         ]}
-        value={sortValue}
         selectText="Sort by:"
         className="text-brand-ghost_white"
         arrowColor="ghost_white"
-        handleValueChange={handleSortByChange}
       />
-      <Button
-        onClick={() => router.push("/new-feedback")}
-        className="ml-auto bg-brand-purple font-bold text-sm text-brand-ghost_white"
+      <CustomLink
+        href="/new-feedback"
+        className="ml-auto  bg-brand-purple font-bold text-sm text-brand-ghost_white"
       >
         + Add Feedback
-      </Button>
+      </CustomLink>
     </header>
   );
 }

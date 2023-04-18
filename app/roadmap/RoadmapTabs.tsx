@@ -2,44 +2,21 @@
 import React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import RoadmapRequestList from "./RoadmapRequestList";
-import { Post, Status } from "@prisma/client";
+import { Status } from "@prisma/client";
 import clsx from "clsx";
+import RoadmapLoading from "./RoadmapLoading";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { Post } from "../lib/prisma/post";
 
-// {
-//   tabs: Record<
-//     Post["status"],
-//     (Post & {
-//       _count: {
-//         upvotes: number;
-//         comments: number;
-//       };
-//     })[]
-//   >;
-// }
-
-function RoadmapTabs({
-  status,
-  postsPromise,
-}: {
-  status: Status;
-  postsPromise: Promise<
-    (Post & {
-      _count: {
-        upvotes: number;
-        comments: number;
-      };
-    })[]
-  >;
-}) {
-  // const [status, setStatus] = React.useState<Post["status"]>("Suggestion");
+function RoadmapTabs({ status, posts }: { status: Status; posts: Post[] }) {
   const router = useRouter();
   const [direction, setDirection] = React.useState<1 | -1>();
   const [isAnimating, setIsAnimating] = React.useState(false);
-
+  console.log(posts);
   return (
     <Tabs.Root
+      className="h-full flex flex-col gap-6"
       data-id="root"
       value={status}
       onValueChange={(val) => {
@@ -78,7 +55,7 @@ function RoadmapTabs({
       }}
     >
       <Tabs.List
-        className=" h-16 flex border-b border-b-brand-blue_gray mb-6"
+        className="h-16  flex border-b border-b-brand-blue_gray "
         aria-label="select a product request status"
       >
         <Tabs.Trigger
@@ -140,7 +117,12 @@ function RoadmapTabs({
         custom={direction}
         mode="popLayout"
       >
-        <Tabs.Content className="px-6" forceMount key={status} value={status}>
+        <Tabs.Content
+          className="overflow-hidden h-full"
+          forceMount
+          key={status}
+          value={status}
+        >
           <motion.div
             data-id="container"
             initial="enter"
@@ -151,12 +133,9 @@ function RoadmapTabs({
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <React.Suspense fallback={<h1>Loading</h1>}>
-              <RoadmapRequestList
-                feedbackRequestList={postsPromise}
-                status={status}
-              />
-            </React.Suspense>
+            {/* <React.Suspense fallback={<RoadmapLoading />}> */}
+            <RoadmapRequestList posts={posts} status={status} />
+            {/* </React.Suspense> */}
           </motion.div>
         </Tabs.Content>
       </AnimatePresence>

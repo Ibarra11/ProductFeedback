@@ -1,7 +1,7 @@
 import Link from "next/link";
 import clsx from "clsx";
 
-async function Roadmap({ children }: React.PropsWithChildren) {
+function Roadmap({ children }: React.PropsWithChildren) {
   return (
     <div
       className={clsx(

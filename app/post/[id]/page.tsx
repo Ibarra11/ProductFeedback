@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
 import Post from "../Post";
 import CustomLink from "@/app/components/CustomLink";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
@@ -11,9 +12,32 @@ import {
   getPostWithCommentCount,
 } from "@/app/lib/prisma/post";
 import UserProvider from "@/app/components/UserProvider";
+import { cache } from "react";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+const getPostsForUser = cache(async (postId: number, whereFrom: string) => {
+  console.log(postId);
+  console.log(whereFrom);
+  const post = await getPostWithCommentCount(postId).then((post) => {
+    if (!post) {
+      return null;
+    }
+    return { ...post, createdAt: convertDateToString(post.createdAt) };
+  });
+  return post;
+});
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const post = await getPostsForUser(Number(params.id), "metadata");
+  if (!post) {
+    throw new Error();
+  }
+  return { title: post.title, description: post.content };
+}
+
 async function getRandomUser() {
   const user = await prisma.user.findMany({
     include: {
@@ -28,12 +52,7 @@ async function Page({ params }: { params: { id: string } }) {
   const postId = Number(params.id);
 
   const [post, comments, user] = await Promise.all([
-    getPostWithCommentCount(postId).then((post) => {
-      if (!post) {
-        return null;
-      }
-      return { ...post, createdAt: convertDateToString(post.createdAt) };
-    }),
+    getPostsForUser(postId, "page"),
     getCommentsByPostId(postId).then((comments) => {
       return comments.map((comment) => {
         return {

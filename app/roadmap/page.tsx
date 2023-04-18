@@ -6,6 +6,7 @@ import { prisma } from "@/db";
 import { z } from "zod";
 import UserProvider from "../components/UserProvider";
 import { redirect } from "next/navigation";
+import { convertDateToString } from "../utils";
 
 async function getRandomUser() {
   const user = await prisma.user.findMany({
@@ -36,20 +37,28 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
     redirect("/");
   }
 
-  const user = await getRandomUser();
-  const postsPromise = getPostByStatus(currentStatus.data.status);
+  const postsPromise = getPostByStatus(currentStatus.data.status).then(
+    (data) => {
+      return data.map((post) => ({
+        ...post,
+        createdAt: convertDateToString(post.createdAt),
+      }));
+    }
+  );
 
+  const [user, posts] = await Promise.all([getRandomUser(), postsPromise]);
+  console.log(posts);
   return (
     <UserProvider user={user}>
-      <div className={clsx("flex flex-col", "md:gap-12")}>
+      <div
+        className={clsx(
+          "flex h-full flex-col border-2 border-blue-600",
+          "md:gap-12"
+        )}
+      >
         <Header />
-        <div className="flex-1 h-full ">
-          <div className={clsx("h-full")}>
-            <RoadmapTabs
-              status={currentStatus.data.status}
-              postsPromise={postsPromise}
-            />
-          </div>
+        <div className="flex-1 ">
+          <RoadmapTabs status={currentStatus.data.status} posts={posts} />
         </div>
       </div>
     </UserProvider>

@@ -2,7 +2,6 @@
 import React from "react";
 import clsx from "clsx";
 import Image from "next/image";
-
 import { BiCommentAdd, BiCommentDetail } from "react-icons/bi";
 import type { Comment } from "../lib/prisma/post";
 import { useUserContext } from "../components/UserProvider";
@@ -187,7 +186,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
         </div>
 
         {openViewMore && (
-          <div ref={repliesContainerRef} className="flex flex-col gap-8 mt-4 ">
+          <div ref={repliesContainerRef} className="flex flex-col gap-8 mt-4">
             {currentReplies.map((reply, index) => {
               return (
                 <Comment

@@ -3,29 +3,27 @@ import React from "react";
 import * as S from "@radix-ui/react-select";
 import clsx from "clsx";
 import { ChevronDown, ChevronUp, Check } from "react-feather";
+import { usePostsContext } from "../PostsProvider";
+import { SortByTypes } from "@/types";
 
 interface Props<T extends string> {
-  options: T[];
-  value: T;
+  options: SortByTypes[];
   selectText?: string;
   className?: string;
   arrowColor: "ghost_white" | "american_blue";
-
-  handleValueChange: (arg: T) => void;
 }
 function Select<T extends string>({
   options,
   selectText,
-  value,
-  handleValueChange,
   arrowColor,
   className,
 }: Props<T>) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const { getFilteredPosts, sortValue, handleSortByChange } = usePostsContext();
   return (
     <S.Root
-      value={value}
-      onValueChange={(nextVal) => handleValueChange(nextVal as T)}
+      value={sortValue}
+      onValueChange={(nextVal) => handleSortByChange(nextVal as SortByTypes)}
       onOpenChange={setIsOpen}
     >
       <S.Trigger
@@ -42,7 +40,7 @@ function Select<T extends string>({
             Sort by:
           </span>
         )}
-        <S.Value>{value}</S.Value>
+        <S.Value>{sortValue}</S.Value>
         <S.Icon className={`ml-1 text-brand-${arrowColor}`}>
           {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </S.Icon>
@@ -60,7 +58,7 @@ function Select<T extends string>({
                 className={clsx(
                   "flex items-center py-3 px-6 outline-none justify-between ",
                   `${
-                    item !== value
+                    item !== sortValue
                       ? "hover:text-brand-purple focus:text-brand-purple "
                       : ""
                   }`,
@@ -70,12 +68,12 @@ function Select<T extends string>({
                       : ""
                   }`
                 )}
-                disabled={item === value}
+                disabled={item === sortValue}
                 key={`${item}-${index}`}
                 value={item}
               >
                 <S.ItemText>{item}</S.ItemText>
-                {item === value && (
+                {item === sortValue && (
                   <S.ItemIndicator className="text-brand-purple">
                     <Check size={16} />
                   </S.ItemIndicator>

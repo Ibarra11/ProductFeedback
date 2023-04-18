@@ -1,25 +1,17 @@
-"use client";
+import React from "react";
 import RoadmapRequest from "./RoadmapRequest";
 import { formatStatus } from "../utils";
 import clsx from "clsx";
 import { Post } from "../lib/prisma/post";
 import { ROADMAP_TAB_DESCRIPTION } from "../constants";
-import { use } from "react";
+import { Status } from "@prisma/client";
 
 interface Props {
-  status: Post["status"];
-  feedbackRequestList: Promise<
-    (Post & {
-      _count: {
-        upvotes: number;
-        comments: number;
-      };
-    })[]
-  >;
+  status: Status;
+  posts: Post[];
 }
-function RoadmapRequestList({ status, feedbackRequestList }: Props) {
-  console.log(feedbackRequestList);
-  const posts = use(feedbackRequestList);
+function RoadmapRequestList({ status, posts }: Props) {
+  console.log(posts);
   return (
     <div className="flex-1">
       <div

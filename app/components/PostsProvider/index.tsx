@@ -8,7 +8,7 @@ interface Context {
   handleSortByChange: (sortBy: SortByTypes) => void;
   filterCategory: FilterCategories;
   sortValue: SortByTypes;
-  posts: Post[];
+  getFilteredPosts: (posts: Post[]) => Post[];
 }
 
 const PostsContext = React.createContext<Context | undefined>(undefined);
@@ -23,10 +23,7 @@ export function usePostsContext() {
   return context;
 }
 
-function PostsProvider({
-  posts,
-  children,
-}: React.PropsWithChildren<{ posts: Post[] }>) {
+function PostsProvider({ children }: React.PropsWithChildren) {
   const [sortBy, setSortBy] = React.useState<SortByTypes>("Date Posted");
   const [filterCategory, setFilterCategory] =
     React.useState<FilterCategories>("All");
@@ -37,21 +34,23 @@ function PostsProvider({
     setSortBy(sortBy);
   }
 
-  const filteredPosts =
-    filterCategory === "All"
-      ? posts
-      : posts.filter(
-          (product) =>
-            product.category.toLowerCase() === filterCategory.toLowerCase()
-        );
+  function getFilteredPosts(posts: Post[]) {
+    const filteredPosts =
+      filterCategory === "All"
+        ? posts
+        : posts.filter(
+            (product) =>
+              product.category.toLowerCase() === filterCategory.toLowerCase()
+          );
 
-  const displayedPosts = sortPosts(filteredPosts, sortBy);
-  console.log(displayedPosts);
+    const displayedPosts = sortPosts(filteredPosts, sortBy);
+    return displayedPosts;
+  }
 
   return (
     <PostsContext.Provider
       value={{
-        posts: displayedPosts,
+        getFilteredPosts,
         handleFilterChange,
         handleSortByChange,
         filterCategory: filterCategory,

@@ -1,25 +1,48 @@
-import { Post } from "@/app/lib/prisma/post";
 import clsx from "clsx";
 import Banner from "../Banner";
 import FilterPills from "./filter_pills";
 import Roadmap from "./roadmap";
-import RoadmapList from "./RoadmapList";
+
 import MobileHeader from "../MobileHeader";
-function Sidebar({ posts }: { posts: Post[] }) {
+import { Category, Status } from "@prisma/client";
+import { Suspense } from "react";
+import RoadmapSkeleton from "./RoadmapSkeleton";
+import RoadmapList from "./RoadmapList";
+interface Props {
+  postsPromise: Promise<
+    {
+      createdAt: string;
+      post_id: number;
+      title: string;
+      content: string;
+      category: Category;
+      status: Status;
+      user_fk_id: number;
+      _count: {
+        comments: number;
+        upvotes: number;
+      };
+    }[]
+  >;
+}
+function Sidebar({ postsPromise }: Props) {
+  console.log(postsPromise);
   return (
     <>
       <aside
         className={clsx(
-          "hidden",
+          "hidden relative",
           "md:flex md:gap-3",
-          "lg:sticky lg:self-start lg:top-8 lg:flex-col lg:gap-6 lg:w-64"
+
+          "lg:self-start lg:sticky  lg:-top-4   lg:flex-col lg:gap-6 lg:w-64"
         )}
       >
         <Banner title="Frontend Mentor" subTitle="Feedback Board" />
         <FilterPills />
-        {/* @ts-expect-error Async Server Component */}
         <Roadmap>
-          <RoadmapList posts={posts} />
+          <Suspense fallback={<RoadmapSkeleton />}>
+            <RoadmapList postsPromise={postsPromise} />
+          </Suspense>
         </Roadmap>
       </aside>
       <MobileHeader />

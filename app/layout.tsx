@@ -1,8 +1,6 @@
 import "./globals.css";
 import clsx from "clsx";
 import { Jost } from "@next/font/google";
-import { prisma } from "@/db";
-import UserProvider from "./components/UserProvider";
 
 const jost = Jost({
   subsets: ["latin"],
@@ -17,8 +15,15 @@ export default async function RootLayout({
   return (
     <html lang="en" className={jost.className}>
       <head />
-      <body className={clsx("min-h-screen bg-brand-alice_blue")}>
-        <main>{children}</main>
+      <body>
+        <main
+          className={clsx(
+            "h-screen overflow-y-auto  bg-brand-alice_blue border-2 border-green-400",
+            "md:py-10 md:px-10"
+          )}
+        >
+          {children}
+        </main>
       </body>
     </html>
   );
