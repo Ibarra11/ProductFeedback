@@ -19,7 +19,7 @@ function Select<T extends string>({
   className,
 }: Props<T>) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { getFilteredPosts, sortValue, handleSortByChange } = usePostsContext();
+  const { sortValue, handleSortByChange } = usePostsContext();
   return (
     <S.Root
       value={sortValue}

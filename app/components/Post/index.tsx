@@ -23,7 +23,7 @@ const variants = {
   },
 };
 
-function ProductRequestPost({
+function Post({
   post_id,
   title,
   content,
@@ -120,4 +120,4 @@ function Status({ status }: { status: Post["status"] }) {
   );
 }
 
-export default ProductRequestPost;
+export default Post;

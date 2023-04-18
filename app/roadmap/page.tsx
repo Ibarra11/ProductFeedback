@@ -47,7 +47,6 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
   );
 
   const [user, posts] = await Promise.all([getRandomUser(), postsPromise]);
-  console.log(posts);
   return (
     <UserProvider user={user}>
       <div

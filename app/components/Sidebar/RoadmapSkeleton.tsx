@@ -1,4 +1,3 @@
-import clsx from "clsx";
 function RoadmapSkeleton() {
   return (
     <div className="flex flex-col gap-2">
