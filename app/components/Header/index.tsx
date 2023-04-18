@@ -46,7 +46,6 @@ function Header({ postsPromise }: Props) {
           aria-hidden
         />
         <Suspense fallback={<LoadingCircle />}>
-          {/* @ts-expect-error Server Component */}
           <PostsCount postsPromise={postsPromise} />
         </Suspense>
       </div>

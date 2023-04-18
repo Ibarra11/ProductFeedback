@@ -1,4 +1,7 @@
+"use client";
+import { use } from "react";
 import { Category, Status } from "@prisma/client";
+import { usePostsContext } from "../PostsProvider";
 
 interface Props {
   postsPromise: Promise<
@@ -17,9 +20,11 @@ interface Props {
     }[]
   >;
 }
-async function PostsCount({ postsPromise }: Props) {
-  const posts = await postsPromise;
-  return <span className="text-lg font-bold">{posts.length} Posts</span>;
+function PostsCount({ postsPromise }: Props) {
+  const posts = use(postsPromise);
+  const { getFilteredPosts } = usePostsContext();
+  const currentPosts = getFilteredPosts(posts);
+  return <span className="text-lg font-bold">{currentPosts.length} Posts</span>;
 }
 
 export default PostsCount;
