@@ -15,6 +15,14 @@ div[data-radix-popper-content-wrapper] {
   );
 }
 
+html {
+  height: 100%;
+}
+
+.post-skeleton_height {
+  height: calc(100vh - 176px);
+}
+
 /* .counter-btn:hover span {
   color: #373f68;
   transition: color 0.2s;

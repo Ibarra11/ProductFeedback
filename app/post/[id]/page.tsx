@@ -15,8 +15,6 @@ import UserProvider from "@/app/components/UserProvider";
 import { cache } from "react";
 
 const getPostsForUser = cache(async (postId: number, whereFrom: string) => {
-  console.log(postId);
-  console.log(whereFrom);
   const post = await getPostWithCommentCount(postId).then((post) => {
     if (!post) {
       return null;

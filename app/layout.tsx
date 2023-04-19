@@ -18,7 +18,7 @@ export default async function RootLayout({
       <body>
         <main
           className={clsx(
-            "h-screen overflow-y-auto  bg-brand-alice_blue border-2 border-green-400",
+            "min-h-screen  bg-brand-alice_blue",
             "md:py-10 md:px-10"
           )}
         >

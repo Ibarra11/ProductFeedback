@@ -10,6 +10,8 @@ import UserProvider from "./components/UserProvider";
 import { convertDateToString } from "./utils";
 import { prisma } from "@/db";
 import { Category, Status } from "@prisma/client";
+import PostSkeleton from "./components/PostSkeleton";
+import useMeasure from "react-use-measure";
 
 export const metadata: Metadata = {
   title: "Feedback Board",
@@ -48,7 +50,7 @@ export default async function Home() {
           return { ...post, createdAt: convertDateToString(post.createdAt) };
         });
         res(data);
-      }, 5000);
+      }, 1000);
     });
   });
 
@@ -57,7 +59,7 @@ export default async function Home() {
   return (
     <div
       className={clsx(
-        "relative min-h-full max-w-5xl mx-auto flex flex-col border-2 border-red-500",
+        "h-full max-w-5xl w-full mx-auto flex flex-col",
         "md:gap-10",
         "lg:flex-row"
       )}
@@ -65,11 +67,10 @@ export default async function Home() {
       <UserProvider user={user}>
         <PostsProvider>
           <Sidebar postsPromise={postsPromise} />
-          <div
-            className={clsx("flex h-full flex-col flex-1 gap-8", "lg:gap-6")}
-          >
+          <div className={clsx("flex flex-col flex-1   gap-8", "lg:gap-6")}>
             <Header postsPromise={postsPromise} />
-            <Suspense fallback={<h1>Posts</h1>}>
+            {/* <PostSkeleton posts={5} /> */}
+            <Suspense fallback={<PostSkeleton posts={5} />}>
               <Posts postsPromise={postsPromise} />
             </Suspense>
           </div>
