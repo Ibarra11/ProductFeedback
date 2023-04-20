@@ -1,12 +1,13 @@
 import Header from "./Header";
 import RoadmapTabs from "./RoadmapTabs";
 import clsx from "clsx";
-import { getPostByStatus } from "../lib/prisma/post";
 import { prisma } from "@/db";
 import { z } from "zod";
 import UserProvider from "../components/UserProvider";
 import { redirect } from "next/navigation";
-import { convertDateToString } from "../utils";
+import RoadmapRequestList from "./RoadmapRequestList";
+import React from "react";
+import RoadmapLoading from "./RoadmapLoading";
 
 async function getRandomUser() {
   const user = await prisma.user.findMany({
@@ -17,8 +18,6 @@ async function getRandomUser() {
   const randomIndex = Math.floor(user.length * Math.random());
   return user[user.length - 1];
 }
-
-// }
 
 const statusUnion = z.union([
   z.literal("live"),
@@ -37,27 +36,21 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
     redirect("/");
   }
 
-  const postsPromise = getPostByStatus(currentStatus.data.status).then(
-    (data) => {
-      return data.map((post) => ({
-        ...post,
-        createdAt: convertDateToString(post.createdAt),
-      }));
-    }
-  );
-
-  const [user, posts] = await Promise.all([getRandomUser(), postsPromise]);
+  const user = await getRandomUser();
   return (
     <UserProvider user={user}>
-      <div
-        className={clsx(
-          "flex h-full flex-col border-2 border-blue-600",
-          "md:gap-12"
-        )}
-      >
+      <div className={clsx("flex h-full flex-col ", "md:gap-12")}>
         <Header />
         <div className="flex-1 ">
-          <RoadmapTabs status={currentStatus.data.status} posts={posts} />
+          <RoadmapTabs status={currentStatus.data.status}>
+            <React.Suspense fallback={<RoadmapLoading />}>
+              {/* @ts-expect-error Server Component */}
+              <RoadmapRequestList
+                user={user}
+                status={currentStatus.data.status}
+              />
+            </React.Suspense>
+          </RoadmapTabs>
         </div>
       </div>
     </UserProvider>

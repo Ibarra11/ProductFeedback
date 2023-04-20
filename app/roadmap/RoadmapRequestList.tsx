@@ -1,17 +1,23 @@
-import React from "react";
 import RoadmapRequest from "./RoadmapRequest";
-import { formatStatus } from "../utils";
+import { convertDateToString, formatStatus } from "../utils";
 import clsx from "clsx";
-import { Post } from "../lib/prisma/post";
+import { getPostByStatus, Post } from "../lib/prisma/post";
 import { ROADMAP_TAB_DESCRIPTION } from "../constants";
-import { Status } from "@prisma/client";
+import { Status, Upvotes, User } from "@prisma/client";
 
 interface Props {
   status: Status;
-  posts: Post[];
+  user: User & {
+    Upvotes: Upvotes[];
+  };
 }
-function RoadmapRequestList({ status, posts }: Props) {
-  console.log(posts);
+async function RoadmapRequestList({ status, user }: Props) {
+  const posts = await getPostByStatus(status).then((data) => {
+    return data.map((post) => ({
+      ...post,
+      createdAt: convertDateToString(post.createdAt),
+    }));
+  });
   return (
     <div className="flex-1">
       <div
@@ -31,7 +37,9 @@ function RoadmapRequestList({ status, posts }: Props) {
       </div>
       <div className={clsx("grid grid-cols-3 gap-4", "md:gap-6")}>
         {posts.map((feedback) => {
-          return <RoadmapRequest key={feedback.post_id} {...feedback} />;
+          return (
+            <RoadmapRequest user={user} key={feedback.post_id} {...feedback} />
+          );
         })}
       </div>
     </div>
