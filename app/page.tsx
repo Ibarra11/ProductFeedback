@@ -27,31 +27,17 @@ async function getRandomUser() {
   const randomIndex = Math.floor(user.length * Math.random());
   return user[user.length - 1];
 }
-
+function delay(ms: number, data: any) {
+  return new Promise((res) => {
+    setTimeout(() => res(data), ms);
+  });
+}
 export default async function Home() {
-  const postsPromise: Promise<
-    {
-      createdAt: string;
-      post_id: number;
-      title: string;
-      content: string;
-      category: Category;
-      status: Status;
-      user_fk_id: number;
-      _count: {
-        comments: number;
-        upvotes: number;
-      };
-    }[]
-  > = getAllPost().then((posts) => {
-    return new Promise((res) => {
-      setTimeout(() => {
-        const data = posts.map((post) => {
-          return { ...post, createdAt: convertDateToString(post.createdAt) };
-        });
-        res(data);
-      }, 1000);
+  const postsPromise = getAllPost().then((posts) => {
+    const newPosts = posts.map((post) => {
+      return { ...post, createdAt: convertDateToString(post.createdAt) };
     });
+    return delay(500, newPosts) as Promise<typeof newPosts>;
   });
 
   const user = await getRandomUser();

@@ -11,12 +11,19 @@ interface Props {
     Upvotes: Upvotes[];
   };
 }
+
+function delay(ms: number, data: any) {
+  return new Promise((res) => {
+    setTimeout(() => res(data), ms);
+  });
+}
 async function RoadmapRequestList({ status, user }: Props) {
   const posts = await getPostByStatus(status).then((data) => {
-    return data.map((post) => ({
+    const newPosts = data.map((post) => ({
       ...post,
       createdAt: convertDateToString(post.createdAt),
     }));
+    return delay(500, newPosts) as Promise<typeof newPosts>;
   });
   return (
     <div className="flex-1">
@@ -35,7 +42,13 @@ async function RoadmapRequestList({ status, user }: Props) {
           {ROADMAP_TAB_DESCRIPTION[status]}
         </p>
       </div>
-      <div className={clsx("grid grid-cols-3 gap-4", "md:gap-6")}>
+      <div
+        className={clsx(
+          "grid grid-cols-1 gap-4",
+          "md:gap-6 md:grid-cols-2",
+          "lg:grid-cols-3"
+        )}
+      >
         {posts.map((feedback) => {
           return (
             <RoadmapRequest user={user} key={feedback.post_id} {...feedback} />

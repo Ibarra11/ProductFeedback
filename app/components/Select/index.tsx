@@ -3,27 +3,28 @@ import React from "react";
 import * as S from "@radix-ui/react-select";
 import clsx from "clsx";
 import { ChevronDown, ChevronUp, Check } from "react-feather";
-import { usePostsContext } from "../PostsProvider";
-import { SortByTypes } from "@/types";
 
 interface Props<T extends string> {
-  options: SortByTypes[];
+  options: T[];
   selectText?: string;
   className?: string;
   arrowColor: "ghost_white" | "american_blue";
+  handleChange: (value: T) => void;
+  currentValue: T;
 }
 function Select<T extends string>({
   options,
   selectText,
   arrowColor,
   className,
+  handleChange,
+  currentValue,
 }: Props<T>) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { sortValue, handleSortByChange } = usePostsContext();
   return (
     <S.Root
-      value={sortValue}
-      onValueChange={(nextVal) => handleSortByChange(nextVal as SortByTypes)}
+      value={currentValue}
+      onValueChange={(nextVal) => handleChange(nextVal as T)}
       onOpenChange={setIsOpen}
     >
       <S.Trigger
@@ -36,18 +37,17 @@ function Select<T extends string>({
         aria-label="Sort"
       >
         {selectText && (
-          <span className="text-brand-alice_blue opacity-75 mr-1">
-            Sort by:
+          <span className=" text-brand-american_blue opacity-75 mr-1">
+            {selectText}
           </span>
         )}
-        <S.Value>{sortValue}</S.Value>
+        <S.Value>{currentValue}</S.Value>
         <S.Icon className={`ml-1 text-brand-${arrowColor}`}>
           {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </S.Icon>
       </S.Trigger>
       <S.Portal>
         <S.Content
-          avoidCollisions={false}
           position="popper"
           align="start"
           className="hidden bg-white rounded-md mt-4 shadow-xl z-20"
@@ -58,7 +58,7 @@ function Select<T extends string>({
                 className={clsx(
                   "flex items-center py-3 px-6 outline-none justify-between ",
                   `${
-                    item !== sortValue
+                    item !== currentValue
                       ? "hover:text-brand-purple focus:text-brand-purple "
                       : ""
                   }`,
@@ -68,12 +68,12 @@ function Select<T extends string>({
                       : ""
                   }`
                 )}
-                disabled={item === sortValue}
+                disabled={item === currentValue}
                 key={`${item}-${index}`}
                 value={item}
               >
                 <S.ItemText>{item}</S.ItemText>
-                {item === sortValue && (
+                {item === currentValue && (
                   <S.ItemIndicator className="text-brand-purple">
                     <Check size={16} />
                   </S.ItemIndicator>

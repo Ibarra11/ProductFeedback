@@ -8,6 +8,8 @@ import { redirect } from "next/navigation";
 import RoadmapRequestList from "./RoadmapRequestList";
 import React from "react";
 import RoadmapLoading from "./RoadmapLoading";
+import Select from "../components/Select";
+import MobileView from "./MobileView";
 
 async function getRandomUser() {
   const user = await prisma.user.findMany({
@@ -41,8 +43,19 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
     <UserProvider user={user}>
       <div className={clsx("flex h-full flex-col ", "md:gap-12")}>
         <Header />
-        <div className="flex-1 ">
-          <RoadmapTabs status={currentStatus.data.status}>
+        <div className="flex-1">
+          <div className="h-full hidden md:block">
+            <RoadmapTabs status={currentStatus.data.status}>
+              <React.Suspense fallback={<RoadmapLoading />}>
+                {/* @ts-expect-error Server Component */}
+                <RoadmapRequestList
+                  user={user}
+                  status={currentStatus.data.status}
+                />
+              </React.Suspense>
+            </RoadmapTabs>
+          </div>
+          <div className="relative pt-4 pb-6 px-4 h-full md:hidden">
             <React.Suspense fallback={<RoadmapLoading />}>
               {/* @ts-expect-error Server Component */}
               <RoadmapRequestList
@@ -50,7 +63,8 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
                 status={currentStatus.data.status}
               />
             </React.Suspense>
-          </RoadmapTabs>
+            <MobileView status={currentStatus.data.status} />
+          </div>
         </div>
       </div>
     </UserProvider>
