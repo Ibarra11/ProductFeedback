@@ -18,7 +18,7 @@ export default async function RootLayout({
       <body>
         <main
           className={clsx(
-            "min-h-screen  bg-brand-alice_blue",
+            "min-h-screen grid  bg-brand-alice_blue",
             "md:py-10 md:px-10"
           )}
         >

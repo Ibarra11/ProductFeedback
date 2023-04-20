@@ -1,9 +1,10 @@
-function LoadingCircle() {
+import clsx from "clsx";
+function LoadingCircle({ className }: { className?: string }) {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
-        className="w-8 h-8 animate-spin"
+        className={clsx("animate-spin", className)}
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
