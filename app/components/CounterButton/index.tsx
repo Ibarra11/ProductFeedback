@@ -83,6 +83,7 @@ function CounterButton({
           handleCreateUpvote();
         }
       }}
+      disabled={isFetching}
     >
       {isFetching === false && (
         <>
