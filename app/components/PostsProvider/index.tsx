@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import { FilterCategories, SortByTypes } from "@/types";
+import { FeedbackCategories, FilterCategories, SortByTypes } from "@/types";
 import { Post } from "@/app/lib/prisma/post";
 import { sortPosts } from "@/app/utils";
 interface Context {
-  handleFilterChange: (filter: FilterCategories) => void;
+  handleFilterChange: (filter: FilterCategories | FilterCategories[]) => void;
   handleSortByChange: (sortBy: SortByTypes) => void;
-  filterCategory: FilterCategories;
+  filters: FeedbackCategories[];
   sortValue: SortByTypes;
   getFilteredPosts: (posts: Post[]) => Post[];
 }
@@ -25,10 +25,21 @@ export function usePostsContext() {
 
 function PostsProvider({ children }: React.PropsWithChildren) {
   const [sortBy, setSortBy] = React.useState<SortByTypes>("Date Posted");
-  const [filterCategory, setFilterCategory] =
-    React.useState<FilterCategories>("All");
-  function handleFilterChange(filter: FilterCategories) {
-    setFilterCategory(filter);
+  const [filters, setFilters] = React.useState<FilterCategories[]>([]);
+  function handleFilterChange(
+    filterArg: FilterCategories | FilterCategories[]
+  ) {
+    if (Array.isArray(filterArg)) {
+      setFilters(filterArg);
+    } else {
+      if (filters.includes(filterArg)) {
+        const nextFilters = filters.filter((filter) => filter !== filterArg);
+        setFilters(nextFilters);
+        return;
+      } else {
+        setFilters([...filters, filterArg]);
+      }
+    }
   }
   function handleSortByChange(sortBy: SortByTypes) {
     setSortBy(sortBy);
@@ -36,12 +47,13 @@ function PostsProvider({ children }: React.PropsWithChildren) {
 
   function getFilteredPosts(posts: Post[]) {
     const filteredPosts =
-      filterCategory === "All"
-        ? posts
-        : posts.filter(
-            (product) =>
-              product.category.toLowerCase() === filterCategory.toLowerCase()
-          );
+      filters.length > 0
+        ? posts.filter((post) => {
+            return filters.some(
+              (filter) => filter.toLowerCase() === post.category.toLowerCase()
+            );
+          })
+        : posts;
 
     const displayedPosts = sortPosts(filteredPosts, sortBy);
     return displayedPosts;
@@ -53,7 +65,7 @@ function PostsProvider({ children }: React.PropsWithChildren) {
         getFilteredPosts,
         handleFilterChange,
         handleSortByChange,
-        filterCategory: filterCategory,
+        filters: filters,
         sortValue: sortBy,
       }}
     >

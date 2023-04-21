@@ -14,10 +14,7 @@ export const FEEDBACK_CATEGORIES: Category[] = [
   "Bug",
 ];
 
-export const FILTER_CATEGORIES: FilterCategories[] = [
-  "All",
-  ...FEEDBACK_CATEGORIES,
-];
+export const FILTER_CATEGORIES: FilterCategories[] = [...FEEDBACK_CATEGORIES];
 
 export const FEEDBACK_STATUS: FeedbackStatus[] = [
   "planned",

@@ -7,7 +7,7 @@ import Banner from "../Banner";
 import { Menu, X } from "react-feather";
 import ModalNav from "../ModalNav";
 
-function MobileHeader() {
+function MobileHeader({ children }: React.PropsWithChildren) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isAnimating, setIsAnimating] = React.useState(false);
   const headerRef = React.useRef<HTMLElement | null>(null);
@@ -49,7 +49,11 @@ function MobileHeader() {
         </button>
       )}
       <AnimatePresence onExitComplete={() => setIsAnimating(false)}>
-        {isOpen && <ModalNav handleOpenChange={setIsOpen} isOpen={isOpen} />}
+        {isOpen && (
+          <ModalNav handleOpenChange={setIsOpen} isOpen={isOpen}>
+            {children}
+          </ModalNav>
+        )}
       </AnimatePresence>
     </header>
   );

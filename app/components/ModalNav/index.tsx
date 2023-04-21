@@ -2,18 +2,19 @@ import React from "react";
 import clsx from "clsx";
 import * as Dialog from "@radix-ui/react-dialog";
 import { motion } from "framer-motion";
-import FilterPills from "../Sidebar/filter_pills";
 import Roadmap from "../Sidebar/roadmap";
 
 import { X } from "react-feather";
+import MobileFilterPills from "./MobileFilterPills";
 
 function ModalNav({
   isOpen,
   handleOpenChange,
-}: {
+  children,
+}: React.PropsWithChildren<{
   isOpen: boolean;
   handleOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+}>) {
   function closeNavModal() {
     handleOpenChange(false);
   }
@@ -53,9 +54,9 @@ function ModalNav({
               "fixed  top-[var(--header-height)] w-72 max-w-full h-full right-0 flex flex-col gap-6 bg-brand-alice_blue  p-6 shadow-md"
             )}
           >
-            <FilterPills closeNavModal={closeNavModal} />
+            <MobileFilterPills closeNavModal={closeNavModal} />
 
-            <Roadmap />
+            {children}
           </motion.div>
         </Dialog.Content>
       </Dialog.Portal>

@@ -26,7 +26,6 @@ interface Props {
   >;
 }
 function Sidebar({ postsPromise }: Props) {
-  console.log(postsPromise);
   return (
     <>
       <aside
@@ -45,7 +44,13 @@ function Sidebar({ postsPromise }: Props) {
           </Suspense>
         </Roadmap>
       </aside>
-      <MobileHeader />
+      <MobileHeader>
+        <Roadmap>
+          <Suspense fallback={<RoadmapSkeleton />}>
+            <RoadmapList postsPromise={postsPromise} />
+          </Suspense>
+        </Roadmap>
+      </MobileHeader>
     </>
   );
 }

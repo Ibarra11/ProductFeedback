@@ -5,8 +5,8 @@ function Roadmap({ children }: React.PropsWithChildren) {
   return (
     <div
       className={clsx(
-        "md:flex-1 flex flex-col gap-6 justify-between bg-white p-6 pt-4 rounded-lg",
-        "lg:flex-initial"
+        "md:flex-1 flex flex-col gap-4 bg-white p-6 pt-4 rounded-lg",
+        "lg:flex-initial lg:gap-6"
       )}
     >
       <div className="flex justify-between items-center  ">
