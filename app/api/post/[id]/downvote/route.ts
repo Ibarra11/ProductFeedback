@@ -8,12 +8,15 @@ const downvoteSchema = z.object({
 });
 
 export async function DELETE(req: Request) {
-  const reqData = await req.json();
+  const url = new URL(req.url);
+  const upvoteId = url.searchParams.get("upvoteId");
+  console.log(upvoteId);
+
   try {
-    const data = downvoteSchema.parse(reqData);
+    const data = z.number().parse(Number(upvoteId));
     await prisma.upvotes.delete({
       where: {
-        upvote_id: data.upvoteId,
+        upvote_id: data,
       },
     });
     return new NextResponse(null, {

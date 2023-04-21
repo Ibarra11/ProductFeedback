@@ -1,12 +1,17 @@
 import clsx from "clsx";
-function LoadingCircle({ className }: { className?: string }) {
+function LoadingCircle({
+  containerStyles,
+  svgStyles,
+}: {
+  containerStyles?: string;
+  svgStyles?: string;
+}) {
   return (
-    <div role="status">
+    <div className={containerStyles} role="status">
       <svg
         aria-hidden="true"
-        className={clsx("animate-spin", className)}
+        className={clsx("animate-spin", svgStyles)}
         viewBox="0 0 24 24"
-        fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -66,7 +71,6 @@ function LoadingCircle({ className }: { className?: string }) {
           strokeLinejoin="round"
         ></path>
       </svg>
-
       <span className="sr-only">Loading ...</span>
     </div>
   );

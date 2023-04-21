@@ -45,12 +45,12 @@ function CounterButton({
 
   async function handleDeleteUpvote() {
     setIsFetching(true);
-    const res = await fetch(`/api/post/${postId}/downvote`, {
-      method: "DELETE",
-      body: JSON.stringify({
-        upvoteId,
-      }),
-    });
+    const res = await fetch(
+      `/api/post/${postId}/downvote?upvoteId=${upvoteId}`,
+      {
+        method: "DELETE",
+      }
+    );
     if (res.ok) {
       setIsFetching(false);
       React.startTransition(() => {
@@ -69,7 +69,8 @@ function CounterButton({
         className,
         flexDirection,
         upvoteId && "bg-brand-royal_blue",
-        !upvoteId && "hover:border-2 hover:border-brand-royal_blue",
+        !upvoteId &&
+          " hover:outline-brand-royal_blue hover:outline hover:outline-2",
         "duration-200 transition-colors"
       )}
       {...rest}
@@ -103,7 +104,14 @@ function CounterButton({
           </span>
         </>
       )}
-      {isFetching && <LoadingCircle />}
+      {isFetching && (
+        <LoadingCircle
+          svgStyles={`w-8 h-8 ${
+            upvoteId ? "text-brand-ghost_white" : "text-brand-american_blue"
+          }`}
+          containerStyles="w-full h-full grid place-content-center "
+        />
+      )}
     </button>
   );
 }
