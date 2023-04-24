@@ -8,7 +8,7 @@ export default function PostLayout({
   return (
     <section
       className={clsx(
-        "max-w-3xl mx-auto p-6 pb-12",
+        "max-w-3xl w-full mx-auto p-6 pb-12",
         "md:pt-14 md:px-10 md:pb-20"
       )}
     >
