@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import useMeasure from "react-use-measure";
 import { convertDateToString } from "../utils";
 import ReplyBox from "./ReplyBox";
+import LoadingCircle from "../components/LoadingCircle";
 
 type Props = Comment & {
   level?: number;
@@ -34,6 +35,9 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     const [currentReplies, setCurrentReplies] =
       React.useState<Comment[]>(replies);
     const [openViewMore, setOpenViewMore] = React.useState(false);
+    const [viewMoreStatus, setViewMoreStatus] = React.useState<
+      "pending" | "idle"
+    >("idle");
     const currentUser = useUserContext();
     const router = useRouter();
     const startingImgRef: React.MutableRefObject<HTMLDivElement | null> =
@@ -51,6 +55,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     }
 
     async function viewMoreReplies(commentId?: number) {
+      setViewMoreStatus("pending");
       let ids = currentReplies.map((reply) => {
         return `ids=${reply.comment_id}`;
       });
@@ -68,6 +73,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
       });
       setCurrentReplies(comments);
       setOpenViewMore(true);
+      setViewMoreStatus("idle");
 
       React.startTransition(() => {
         router.refresh();
@@ -79,7 +85,10 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
 
     return (
       <>
-        <div style={{ marginLeft }} className={clsx("flex items-start gap-8")}>
+        <div
+          style={{ marginLeft }}
+          className={clsx("relative  flex items-start gap-8")}
+        >
           <div ref={ref ? startingImgRef : null} className="relative">
             {
               <div ref={ref ? ref : startingImgRef}>
@@ -180,6 +189,12 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                 userId={currentUser.user_id}
                 postId={post_fk_id}
                 onSuccess={handleSuccess}
+              />
+            )}
+            {viewMoreStatus === "pending" && (
+              <LoadingCircle
+                containerStyles="absolute  -translate-x-1/2 translate-y-full left-1/2 bottom-0"
+                svgStyles="w-8 h-8 text-brand-american_blue"
               />
             )}
           </div>

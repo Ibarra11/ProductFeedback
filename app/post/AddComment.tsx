@@ -48,11 +48,19 @@ function AddComment({ postFkId }: { postFkId: number }) {
         <Button
           disabled={isPending || comment.length === 0}
           className={clsx(
-            "bg-brand-purple text-brand-ghost_white",
+            "relative bg-brand-purple text-brand-ghost_white",
             comment.length === 0 && "opacity-50"
           )}
         >
-          {isPending ? <LoadingCircle /> : "Post Comment"}
+          {!isPending && "Post Comment"}
+          {isPending && (
+            <>
+              <span className="invisible">Post Comment</span>
+              <span className="absolute inline-flex justify-center items-center top-0 left-0 h-full w-full">
+                <LoadingCircle svgStyles="w-8 h-8 text-white" />
+              </span>
+            </>
+          )}
         </Button>
       </div>
     </form>
