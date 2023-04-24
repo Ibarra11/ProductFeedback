@@ -87,7 +87,7 @@ function Post({
             <div className="flex justify-between">
               <div className="flex gap-2">
                 <span className="inline-block bg-brand-alice_blue  text-brand-royal_blue text-sm font-semibold px-4 py-2 rounded-xl">
-                  {category[0] + category.slice(1).toLowerCase()}
+                  {category}
                 </span>
                 <Status status={status} />
               </div>

@@ -35,13 +35,13 @@ const container = {
 };
 function Posts({ postsPromise }: Props) {
   const posts = use(postsPromise);
-  const { getFilteredPosts, filterCategory, sortValue } = usePostsContext();
+  const { getFilteredPosts, filters, sortValue } = usePostsContext();
   const currentPosts = getFilteredPosts(posts);
   return (
     <div className={clsx("flex-1  px-6", "md:h-full md:px-0")}>
       {currentPosts.length > 0 ? (
         <motion.ul
-          key={`${filterCategory}-${sortValue}`}
+          key={`${filters.join("")}-${sortValue}`}
           initial="hidden"
           animate="show"
           variants={container}
