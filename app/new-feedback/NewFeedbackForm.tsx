@@ -9,6 +9,7 @@ import { User } from "@prisma/client";
 import { FormData } from "@/types";
 import { FEEDBACK_CATEGORIES } from "../constants";
 import { useRouter } from "next/navigation";
+import LoadingCircle from "../components/LoadingCircle";
 type FormState = "idle" | "submitting" | "error";
 function NewFeedbackForm({ user }: { user: User }) {
   const [formData, setFormData] = React.useState<FormData>({
@@ -39,6 +40,9 @@ function NewFeedbackForm({ user }: { user: User }) {
       router.push("/");
     }
   }
+
+  const isFormCompleted =
+    formData.content.trim() !== "" && formData.title.trim() !== "";
   return (
     <form
       onSubmit={handleFormSubmit}
@@ -80,21 +84,32 @@ function NewFeedbackForm({ user }: { user: User }) {
           <Button
             disabled={formState === "submitting"}
             className={clsx(
-              "bg-brand-blue_gray transition-opacity",
+              "bg-brand-blue_gray transition-all",
+              " hover:bg-slate-600",
               formState === "submitting" && "opacity-75"
             )}
           >
             Cancel
           </Button>
           <Button
-            disabled={formState === "submitting"}
+            disabled={formState === "submitting" || !isFormCompleted}
             type="submit"
             className={clsx(
-              "bg-brand-purple transition-opacity",
-              formState === "submitting" && "opacity-75"
+              "relative bg-brand-purple  transition-all",
+              formState !== "submitting" && "hover:bg-purple-600"
             )}
           >
-            Add Feedback
+            {formState !== "submitting" && "Add Feedback"}
+            {formState === "submitting" && (
+              <>
+                <span className=" invisible">Add Feedback</span>
+                {
+                  <span className="absolute z-20 inline-flex justify-center items-center left-0 top-0 w-full h-full">
+                    <LoadingCircle svgStyles="w-8 h-8 text-white" />
+                  </span>
+                }
+              </>
+            )}
           </Button>
         </div>
       </div>
