@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/db";
-import { Prisma } from "@prisma/client";
 
 const replySchema = z.object({
   content: z.string(),
