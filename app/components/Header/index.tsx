@@ -6,6 +6,7 @@ import { Category, Status } from "@prisma/client";
 import LoadingCircle from "../LoadingCircle";
 import CustomLink from "../CustomLink";
 import PostsCount from "../PostsCount";
+import SortBySelect from "./SortBySelect";
 interface Props {
   postsPromise: Promise<
     {
@@ -49,18 +50,7 @@ function Header({ postsPromise }: Props) {
           <PostsCount postsPromise={postsPromise} />
         </Suspense>
       </div>
-      <Select
-        options={[
-          "Date Posted",
-          "Most Upvotes",
-          "Least Upvotes",
-          "Most Comments",
-          "Least Comments",
-        ]}
-        selectText="Sort by:"
-        className="text-brand-ghost_white"
-        arrowColor="ghost_white"
-      />
+      <SortBySelect />
       <CustomLink
         href="/new-feedback"
         className="ml-auto  bg-brand-purple font-bold text-sm text-brand-ghost_white"

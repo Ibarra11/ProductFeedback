@@ -12,7 +12,8 @@ function MobileView({ status }: { status: Status }) {
       <Select
         options={["Planned", "Live", "In_Progress", "Suggestion"]}
         selectText="Filter By:"
-        className="text-brand-american_blue bg-white"
+        selectTextColor="text-brand-american_blue"
+        className=" bg-white"
         arrowColor="american_blue"
         handleChange={(val) =>
           router.push(`/roadmap?status=${val.toLowerCase()}`)

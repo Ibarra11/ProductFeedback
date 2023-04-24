@@ -9,9 +9,7 @@ import { getAllPost } from "./lib/prisma/post";
 import UserProvider from "./components/UserProvider";
 import { convertDateToString } from "./utils";
 import { prisma } from "@/db";
-import { Category, Status } from "@prisma/client";
 import PostSkeleton from "./components/PostSkeleton";
-import useMeasure from "react-use-measure";
 
 export const metadata: Metadata = {
   title: "Feedback Board",

@@ -25,9 +25,9 @@ function FormSelect<T extends string>({
         <span className="text-sm font-light">{subTitle}</span>
       </label>
       <Select
-        value={value}
+        currentValue={value}
         className="bg-brand-alice_blue"
-        handleValueChange={handleValueChange}
+        handleChange={handleValueChange}
         options={options}
         arrowColor="american_blue"
       />

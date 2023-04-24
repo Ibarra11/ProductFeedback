@@ -5,48 +5,30 @@ import Pill from "../Pill";
 import { usePostsContext } from "../PostsProvider";
 import { FILTER_CATEGORIES } from "@/app/constants";
 
-function FilterPills({ closeNavModal }: { closeNavModal?: () => void }) {
-  const { handleFilterChange, filterCategory } = usePostsContext();
+function FilterPills() {
+  const { handleFilterChange, filters } = usePostsContext();
   return (
-    <div
-      className={clsx(
-        "md:flex-1 bg-white pl-6 pt-6 pr-4 pb-9 flex flex-wrap gap-2 rounded-lg",
-        "lg:flex-initial"
-      )}
-    >
-      {FILTER_CATEGORIES.map((filter, index) => {
-        return (
-          <Pill
-            onClick={() => {
-              handleFilterChange(filter);
-              if (closeNavModal) {
-                closeNavModal();
-              }
-            }}
-            key={index}
-            selected={filterCategory === filter}
-          >
-            {filter}
-          </Pill>
-        );
-      })}
+    <div className="bg-white md:flex-1 p-6 pt-4  lg:flex-initial rounded-lg">
+      <h2 className="mb-4 text-lg text-brand-american_blue font-bold">Tags</h2>
+      <div className={clsx("flex flex-wrap gap-2")}>
+        {FILTER_CATEGORIES.map((category, index) => {
+          return (
+            <Pill
+              onClick={() => {
+                handleFilterChange(category);
+              }}
+              key={index}
+              selected={filters.some(
+                (filter) => filter.toLowerCase() === category.toLowerCase()
+              )}
+            >
+              {category}
+            </Pill>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
 export default FilterPills;
-
-//   <button
-//             className={clsx(
-//               "px-4 py-1",
-//               `${
-//                 filter === currentFilter
-//                   ? "bg-brand-royal_blue text-brand-ghost_white"
-//                   : "bg-brand-alice_blue text-brand-american_blue"
-//               }`
-//             )}
-//             onClick={() => setCurrentFilter(filter)}
-//             key={index}
-//           >
-//             {filter}
-//           </button>
