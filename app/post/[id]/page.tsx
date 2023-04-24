@@ -70,13 +70,16 @@ async function Page({ params }: { params: { id: string } }) {
 
   return (
     <UserProvider user={user}>
-      <div className="flex flex-col gap-6">
+      <div className="flex h-full flex-col gap-6">
         <div className="flex justify-between">
           <LinkWithChevronLeft className="text-brand-american_blue">
             Go Back
           </LinkWithChevronLeft>
           {isAuthor && (
-            <CustomLink href={`/edit-feedback/${postId}`}>
+            <CustomLink
+              className="bg-brand-royal_blue hover:bg-blue-700 transition-colors"
+              href={`/edit-feedback/${postId}`}
+            >
               Edit Feedback
             </CustomLink>
           )}
