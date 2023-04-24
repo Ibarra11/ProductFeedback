@@ -11,7 +11,7 @@ export type FeedbackCategories =
   | "Enhancement"
   | "Bug";
 
-export type FilterCategories = FeedbackCategories | "All";
+export type FilterCategories = FeedbackCategories;
 
 export type SortByTypes =
   | "Date Posted"
