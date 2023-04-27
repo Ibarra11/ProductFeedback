@@ -42,6 +42,7 @@ function EditFeedbackForm(post: T_Post) {
       }
       setFormStatus("idle");
     } catch (e) {
+      console.error(e);
       setFormStatus("idle");
     }
   }

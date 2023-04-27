@@ -56,8 +56,8 @@ export async function PUT(req: Request) {
   const postId = Number(pathnameArr[pathnameArr.length - 1]);
   const res = await req.json();
   try {
+    // Im sending the userid with the request, but in the future would probably get it from an API.
     const data = postSchema.parse(res);
-
     await prisma.post.update({
       where: {
         post_id_user_fk_id: {
@@ -65,7 +65,12 @@ export async function PUT(req: Request) {
           user_fk_id: data.userId,
         },
       },
-      data,
+      data: {
+        title: data.title,
+        category: data.category,
+        content: data.content,
+        status: data.status,
+      },
     });
     return new NextResponse(null, {
       status: 204,
@@ -82,6 +87,7 @@ export async function PUT(req: Request) {
         status: 422,
       });
     }
+    console.log(e);
     return new NextResponse(null, {
       status: 500,
     });
