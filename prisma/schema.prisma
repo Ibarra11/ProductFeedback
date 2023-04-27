@@ -16,10 +16,10 @@ enum Category {
 }
 
 enum Status {
-  live
-  in_progress
-  planned
-  suggestion
+  Live
+  In_Progress
+  Planned
+  Suggestion
 }
 
 model User {
@@ -38,7 +38,7 @@ model Post {
   title      String
   content    String
   category   Category
-  status     Status    @default(suggestion)
+  status     Status    @default(Suggestion)
   comments   Comment[]
   User       User      @relation(fields: [user_fk_id], references: [user_id])
   user_fk_id Int

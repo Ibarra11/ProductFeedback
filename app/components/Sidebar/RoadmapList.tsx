@@ -1,6 +1,6 @@
 "use client";
 import { ROADMAP_OPTIONS } from "@/app/constants";
-import { filterPostsByStatus, formatStatus } from "@/app/utils";
+import { filterPostsByStatus } from "@/app/utils";
 import { usePostsContext } from "../PostsProvider";
 import { use } from "react";
 import { Category, Status } from "@prisma/client";
@@ -27,11 +27,11 @@ function RoadmapList({ postsPromise }: Props) {
   const posts = use(postsPromise);
   const { getFilteredPosts } = usePostsContext();
   const currentPosts = getFilteredPosts(posts);
-  const { planned, in_progress, live, suggestion } =
+  const { Planned, In_Progress, Live, Suggestion } =
     filterPostsByStatus(currentPosts);
   return (
     <ul className="flex flex-col gap-2 text-brand-blue_gray">
-      {[planned, in_progress, live, suggestion].map(({ status, count }) => (
+      {[Planned, In_Progress, Live, Suggestion].map(({ status, count }) => (
         <li
           key={`${status}`}
           aria-label={status}
@@ -41,7 +41,7 @@ function RoadmapList({ postsPromise }: Props) {
             <span
               className={`inline-block w-2 h-2 ${ROADMAP_OPTIONS[status].bg} rounded-full `}
             ></span>
-            <span className="text-base">{formatStatus(status)}</span>
+            <span className="text-base">{status}</span>
           </div>
           <span className="text-base font-bold">{count}</span>
         </li>

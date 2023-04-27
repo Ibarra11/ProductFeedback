@@ -23,11 +23,6 @@ html {
   height: calc(100vh - 176px);
 }
 
-/* .counter-btn:hover span {
-  color: #373f68;
-  transition: color 0.2s;
-} */
-
 .mobile-header {
   margin-right: -40px !important;
   border: 4px solid pink;

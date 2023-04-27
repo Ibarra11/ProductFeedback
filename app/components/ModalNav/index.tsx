@@ -2,8 +2,6 @@ import React from "react";
 import clsx from "clsx";
 import * as Dialog from "@radix-ui/react-dialog";
 import { motion } from "framer-motion";
-import Roadmap from "../Sidebar/roadmap";
-
 import { X } from "react-feather";
 import MobileFilterPills from "./MobileFilterPills";
 

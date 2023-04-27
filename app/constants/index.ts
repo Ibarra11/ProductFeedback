@@ -3,8 +3,9 @@ import {
   FeedbackStatus,
   RoadmapBorderColor,
   RoadmapCircleBg,
+  SortByTypes,
 } from "@/types";
-import { Category, Post, Status } from "@prisma/client";
+import { Category, Status } from "@prisma/client";
 
 export const FEEDBACK_CATEGORIES: Category[] = [
   "Feature",
@@ -12,6 +13,14 @@ export const FEEDBACK_CATEGORIES: Category[] = [
   "UX",
   "Enhancement",
   "Bug",
+];
+
+export const SORT_OPTIONS: SortByTypes[] = [
+  "Date Posted",
+  "Most Upvotes",
+  "Least Upvotes",
+  "Most Comments",
+  "Least Comments",
 ];
 
 export const FILTER_CATEGORIES: FilterCategories[] = [...FEEDBACK_CATEGORIES];
@@ -26,25 +35,25 @@ export const ROADMAP_OPTIONS: Record<
   Status,
   { bg: string; bgWithOpacity: string; text: string; border: string }
 > = {
-  live: {
+  Live: {
     bg: "bg-brand-maya_blue",
     bgWithOpacity: "bg-brand-maya_blue/25",
     text: "text-brand-maya_blue",
     border: "border-brand-maya_blue",
   },
-  in_progress: {
+  In_Progress: {
     bg: "bg-brand-purple",
     bgWithOpacity: "bg-brand-purple/25",
     text: "text-brand-purple",
     border: "border-brand-purple",
   },
-  planned: {
+  Planned: {
     bg: "bg-brand-tangerine",
     bgWithOpacity: "bg-brand-tangerine/25",
     text: "text-brand-tangerine",
     border: "border-brand-tangerine",
   },
-  suggestion: {
+  Suggestion: {
     bg: "bg-green-500",
     bgWithOpacity: "bg-green-500/25",
     text: "text-green-500",
@@ -60,17 +69,17 @@ export const typeToColor: Record<FeedbackStatus, string> = {
 } as const;
 
 export const roadmapBorderColor: Record<Status, RoadmapBorderColor> = {
-  planned: "border-t-brand-tangerine",
-  in_progress: "border-t-brand-purple",
-  live: "border-t-brand-maya_blue",
-  suggestion: "" as any,
+  Planned: "border-t-brand-tangerine",
+  In_Progress: "border-t-brand-purple",
+  Live: "border-t-brand-maya_blue",
+  Suggestion: "" as any,
 } as const;
 
 export const ROADMAP_CIRCLE_BG: Record<Status, RoadmapCircleBg> = {
-  planned: "bg-brand-tangerine",
-  in_progress: "bg-brand-purple",
-  live: "bg-brand-maya_blue",
-  suggestion: "" as any,
+  Planned: "bg-brand-tangerine",
+  In_Progress: "bg-brand-purple",
+  Live: "bg-brand-maya_blue",
+  Suggestion: "" as any,
 };
 
 export const BRAND_COLORS = {
@@ -87,8 +96,8 @@ export const BRAND_COLORS = {
 } as const;
 
 export const ROADMAP_TAB_DESCRIPTION: Record<Status, string> = {
-  in_progress: "Currently being developed",
-  planned: "Prioritized for research",
-  live: "Released features",
-  suggestion: "Proposed features",
+  In_Progress: "Currently being developed",
+  Planned: "Prioritized for research",
+  Live: "Released features",
+  Suggestion: "Proposed features",
 };

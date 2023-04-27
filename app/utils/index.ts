@@ -21,14 +21,6 @@ export function sortPosts(posts: Post[], sortBy: SortByTypes): Post[] {
   }
 }
 
-export function formatStatus(status: Status) {
-  return status === "in_progress"
-    ? `${status[0].toUpperCase()}${status[1].toLowerCase()}-${status[3].toUpperCase()}${status
-        .slice(4)
-        .toLowerCase()}`
-    : status[0].toUpperCase() + status.slice(1).toLowerCase();
-}
-
 export function convertDateToString(date: Date) {
   const stringDate = date
     .toLocaleString("en-us", {
@@ -43,12 +35,16 @@ export function convertDateToString(date: Date) {
   return stringDate;
 }
 
+export function formatStatus(status: Status): Status {
+  return status === "In_Progress" ? (status.replace("_", "-") as any) : status;
+}
+
 export function filterPostsByStatus(posts: Post[]) {
   const postStatusObj: Record<Status, { status: Status; count: number }> = {
-    live: { status: "live", count: 0 },
-    in_progress: { status: "in_progress", count: 0 },
-    planned: { status: "planned", count: 0 },
-    suggestion: { status: "suggestion", count: 0 },
+    Live: { status: "Live", count: 0 },
+    In_Progress: { status: "In_Progress", count: 0 },
+    Planned: { status: "Planned", count: 0 },
+    Suggestion: { status: "Suggestion", count: 0 },
   };
 
   posts.forEach((post) => {

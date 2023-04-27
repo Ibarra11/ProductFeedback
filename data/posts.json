@@ -4,28 +4,28 @@
       "user_fk_id": 15,
       "title": "Add tags for solutions",
       "category": "Enhancement",
-      "status": "planned",
+      "status": "Planned",
       "content": "Easier to search for solutions based on a specific stack."
     },
     {
       "user_fk_id": 16,
       "title": "Add a dark theme option",
       "category": "Feature",
-      "status": "live",
+      "status": "Live",
       "content": "It would help people with light sensitivities and who prefer dark mode."
     },
     {
       "user_fk_id": 17,
       "title": "Q&A within the challenge hubs",
       "category": "Feature",
-      "status": "in_progress",
+      "status": "In_Progress",
       "content": "Challenge-specific Q&A would make for easy reference."
     },
     {
       "user_fk_id": 18,
       "title": "Add image/video upload to feedback",
       "category": "Enhancement",
-      "status": "suggestion",
+      "status": "Suggestion",
       "content": "Images and screencasts can enhance comments on solutions."
     }
   ]

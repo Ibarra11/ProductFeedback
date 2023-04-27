@@ -2,7 +2,6 @@ import clsx from "clsx";
 import Banner from "../Banner";
 import FilterPills from "./filter_pills";
 import Roadmap from "./roadmap";
-
 import MobileHeader from "../MobileHeader";
 import { Category, Status } from "@prisma/client";
 import { Suspense } from "react";
@@ -32,11 +31,11 @@ function Sidebar({ postsPromise }: Props) {
         className={clsx(
           "hidden relative",
           "md:flex md:gap-3",
-
           "lg:self-start lg:sticky  lg:-top-4   lg:flex-col lg:gap-6 lg:w-64"
         )}
       >
         <Banner title="Frontend Mentor" subTitle="Feedback Board" />
+
         <FilterPills />
         <Roadmap>
           <Suspense fallback={<RoadmapSkeleton />}>

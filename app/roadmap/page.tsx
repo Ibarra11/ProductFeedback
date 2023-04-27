@@ -5,11 +5,11 @@ import { prisma } from "@/db";
 import { z } from "zod";
 import UserProvider from "../components/UserProvider";
 import { redirect } from "next/navigation";
-import RoadmapRequestList from "./RoadmapRequestList";
 import React from "react";
-import RoadmapLoading from "./RoadmapLoading";
-import Select from "../components/Select";
-import MobileView from "./MobileView";
+import RoadmapView from "./RoadmapView";
+import MobileRoadmapView from "./MobileRoadmapView";
+import { getPostByStatus } from "../lib/prisma/post";
+import { convertDateToString } from "../utils";
 
 async function getRandomUser() {
   const user = await prisma.user.findMany({
@@ -22,49 +22,50 @@ async function getRandomUser() {
 }
 
 const statusUnion = z.union([
-  z.literal("live"),
-  z.literal("planned"),
-  z.literal("in_progress"),
-  z.literal("suggestion"),
+  z.literal("Live"),
+  z.literal("Planned"),
+  z.literal("In_Progress"),
+  z.literal("Suggestion"),
 ]);
 
 const searchParamsSchema = z.object({
   status: statusUnion,
 });
 
+function delay(ms: number, data: any) {
+  return new Promise((res) => {
+    setTimeout(() => res(data), ms);
+  });
+}
+
 async function Page({ searchParams }: { searchParams: { status: string } }) {
-  const currentStatus = searchParamsSchema.safeParse(searchParams);
-  if (!currentStatus.success) {
+  const data = searchParamsSchema.safeParse(searchParams);
+  if (!data.success) {
     redirect("/");
   }
+  const {
+    data: { status },
+  } = data;
 
   const user = await getRandomUser();
+  const postsPromise = getPostByStatus(status).then((data) => {
+    const newPosts = data.map((post) => ({
+      ...post,
+      createdAt: convertDateToString(post.createdAt),
+    }));
+    return delay(500, newPosts) as Promise<typeof newPosts>;
+  });
   return (
     <UserProvider user={user}>
       <div className={clsx("flex h-full flex-col ", "md:gap-12")}>
         <Header />
         <div className="flex-1">
-          <div className="h-full hidden md:block">
-            <RoadmapTabs status={currentStatus.data.status}>
-              <React.Suspense fallback={<RoadmapLoading />}>
-                {/* @ts-expect-error Server Component */}
-                <RoadmapRequestList
-                  user={user}
-                  status={currentStatus.data.status}
-                />
-              </React.Suspense>
-            </RoadmapTabs>
-          </div>
-          <div className="relative pt-4 pb-6 px-4 h-full md:hidden">
-            <React.Suspense fallback={<RoadmapLoading />}>
-              {/* @ts-expect-error Server Component */}
-              <RoadmapRequestList
-                user={user}
-                status={currentStatus.data.status}
-              />
-            </React.Suspense>
-            <MobileView status={currentStatus.data.status} />
-          </div>
+          <RoadmapView user={user} status={status} />
+          <MobileRoadmapView
+            user={user}
+            postsPromise={postsPromise}
+            status={status}
+          />
         </div>
       </div>
     </UserProvider>

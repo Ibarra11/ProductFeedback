@@ -1,7 +1,6 @@
-import React, { Suspense, use } from "react";
+import React, { Suspense } from "react";
 import Image from "next/image";
 import clsx from "clsx";
-import Select from "../Select";
 import { Category, Status } from "@prisma/client";
 import LoadingCircle from "../LoadingCircle";
 import CustomLink from "../CustomLink";
@@ -52,6 +51,7 @@ function Header({ postsPromise }: Props) {
       </div>
       <SortBySelect />
       <CustomLink
+        // @ts-ignore
         href="/new-feedback"
         className="ml-auto  bg-brand-purple font-bold text-sm text-brand-ghost_white"
       >
