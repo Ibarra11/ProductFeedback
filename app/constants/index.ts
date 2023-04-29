@@ -1,19 +1,10 @@
 import {
-  FilterCategories,
   FeedbackStatus,
   RoadmapBorderColor,
   RoadmapCircleBg,
   SortByTypes,
 } from "@/types";
 import { Category, Status } from "@prisma/client";
-
-export const FEEDBACK_CATEGORIES: Category[] = [
-  "Feature",
-  "UI",
-  "UX",
-  "Enhancement",
-  "Bug",
-];
 
 export const SORT_OPTIONS: SortByTypes[] = [
   "Date Posted",
@@ -23,13 +14,8 @@ export const SORT_OPTIONS: SortByTypes[] = [
   "Least Comments",
 ];
 
-export const FILTER_CATEGORIES: FilterCategories[] = [...FEEDBACK_CATEGORIES];
-
-export const FEEDBACK_STATUS: FeedbackStatus[] = [
-  "planned",
-  "in-progress",
-  "live",
-];
+export const STATUS_VALUES = Object.values(Status);
+export const CATEGORY_VALUES = Object.values(Category);
 
 export const ROADMAP_OPTIONS: Record<
   Status,

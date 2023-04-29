@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import Banner from "../Banner";
-import FilterPills from "./filter_pills";
 import Roadmap from "./roadmap";
 import MobileHeader from "../MobileHeader";
 import { Category, Status } from "@prisma/client";
 import { Suspense } from "react";
 import RoadmapSkeleton from "./RoadmapSkeleton";
 import RoadmapList from "./RoadmapList";
+import SidebarCategoryPills from "./SidebarCategoryPills";
 interface Props {
   postsPromise: Promise<
     {
@@ -36,7 +36,7 @@ function Sidebar({ postsPromise }: Props) {
       >
         <Banner title="Frontend Mentor" subTitle="Feedback Board" />
 
-        <FilterPills />
+        <SidebarCategoryPills />
         <Roadmap>
           <Suspense fallback={<RoadmapSkeleton />}>
             <RoadmapList postsPromise={postsPromise} />

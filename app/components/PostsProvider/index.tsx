@@ -29,6 +29,7 @@ function PostsProvider({ children }: React.PropsWithChildren) {
   function handleFilterChange(
     filterArg: FilterCategories | FilterCategories[]
   ) {
+    console.log(filterArg);
     if (Array.isArray(filterArg)) {
       setFilters(filterArg);
     } else {

@@ -11,6 +11,7 @@ function Pill({
 }: React.PropsWithChildren<ButtonProps>) {
   return (
     <button
+      type="button"
       className={clsx(
         `${
           selected

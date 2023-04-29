@@ -33,8 +33,9 @@ function Select<T extends string>({
         className={clsx(
           className,
           `${isOpen ? "opacity-75" : ""}`,
-          `px-6 py-3 text-base rounded-md
+          ` py-2 px-2 text-sm bg-gray-200 text-slate-600 rounded-md 
         inline-flex  items-center justify-between`,
+          "md:text-base md:py-3",
           "focus:ring-2 hover:ring-2  ring-brand-american_blue  outline-none"
         )}
         aria-label="Sort"
