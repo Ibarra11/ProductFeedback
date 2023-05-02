@@ -1,5 +1,6 @@
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import clsx from "clsx";
+import { AiOutlineCheck } from "react-icons/ai";
 import { IoCheckmark } from "react-icons/io5";
 import { SORT_OPTIONS } from "../constants";
 import { SortByTypes } from "@/types";
@@ -16,29 +17,34 @@ function SortRadioGroup({
       defaultValue={value}
       value={value}
       onValueChange={(val) => onChange(val as SortByTypes)}
-      aria-label="Sort By "
+      aria-label="Sort By"
     >
       {SORT_OPTIONS.map((val) => {
         return (
-          <div key={val} className="flex items-center gap-3">
+          <div
+            key={val}
+            className="group flex items-center rounded py-1.5 px-2 transition-colors duration-200 hover:bg-brand-purple hover:text-brand-ghost_white"
+          >
+            <label className="flex-1" htmlFor={val}>
+              {val}
+            </label>
             <RadioGroup.Item
               className={clsx(
-                "bg-white h-6 w-6 shadow-sm rounded-full",
-                " hover:bg-purple-200",
-                " focus:ring-1 focus:ring-purple-200"
+                "relative ml-auto bg-slate-900   h-6 w-6 shadow-sm rounded-full",
+                "group-hover:bg-purple-300"
               )}
               value={val}
               id={val}
             >
-              <RadioGroup.Indicator className="relative bg-brand-purple flex h-full rounded-full  w-full items-center justify-center">
+              <RadioGroup.Indicator className="relative transition-colors duration-200 group-hover:bg-brand-ghost_white  bg-brand-purple flex h-full rounded-full  w-full items-center justify-center">
                 <span className="absolute inline-block text-white  rounded-full">
-                  <IoCheckmark size={16} />
+                  <AiOutlineCheck
+                    className="group-hover:text-brand-purple
+                  text-brand-ghost_white h-4 w-4 transition-colors duration-200"
+                  />
                 </span>
               </RadioGroup.Indicator>
             </RadioGroup.Item>
-            <label className="Label" htmlFor={val}>
-              {val}
-            </label>
           </div>
         );
       })}
