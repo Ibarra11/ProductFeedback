@@ -7,14 +7,14 @@ import FormSelect from "../components/FormSelect";
 import Button from "../components/Button";
 import { User } from "@prisma/client";
 import { FormData } from "@/types";
-import { FEEDBACK_CATEGORIES } from "../constants";
+import { CATEGORY_VALUES } from "../constants";
 import { useRouter } from "next/navigation";
 import LoadingCircle from "../components/LoadingCircle";
 type FormState = "idle" | "submitting" | "error";
 function NewFeedbackForm({ user }: { user: User }) {
   const [formData, setFormData] = React.useState<FormData>({
     title: "",
-    category: FEEDBACK_CATEGORIES[0],
+    category: CATEGORY_VALUES[0],
     content: "",
   });
   const [formState, setFormState] = React.useState<FormState>("idle");
@@ -34,7 +34,7 @@ function NewFeedbackForm({ user }: { user: User }) {
       setFormState("idle");
       setFormData({
         title: "",
-        category: FEEDBACK_CATEGORIES[0],
+        category: CATEGORY_VALUES[0],
         content: "",
       });
       router.push("/");
@@ -63,7 +63,7 @@ function NewFeedbackForm({ user }: { user: User }) {
         <FormSelect
           title="Category"
           subTitle="Choose a category for your feedback"
-          options={FEEDBACK_CATEGORIES}
+          options={CATEGORY_VALUES}
           value={formData.category}
           handleValueChange={(newVal) =>
             setFormData({ ...formData, category: newVal })

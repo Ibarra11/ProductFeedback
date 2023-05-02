@@ -37,6 +37,7 @@ function EditFeedbackForm(post: T_Post) {
         body: JSON.stringify({ ...formData, userId: user.user_id }),
       });
       if (res.ok) {
+        // @ts-ignore
         router.push(`/post/${formData.post_id}`);
         return;
       }
