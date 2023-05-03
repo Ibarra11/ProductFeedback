@@ -71,10 +71,11 @@ function Post({
             direction="column"
             upvoteCount={upvotes}
           />
-          <span className=" text-xs absolute top-4 right-4 text-slate-400">
-            {createdAt}
-          </span>
+
           <div className="flex-1">
+            <div className="mb-2 text-right">
+              <p className="text-sm text-slate-400">{createdAt}</p>
+            </div>
             <h3
               className={clsx(
                 `group-hover:text-brand-purple group-focus:text-brand-purple`,
