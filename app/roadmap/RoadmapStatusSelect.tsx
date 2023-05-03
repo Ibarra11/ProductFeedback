@@ -25,8 +25,9 @@ function RoadmapStatusSelect({ status }: { status: Status }) {
       options={statusOptions}
       selectText="Status: "
       currentValue={status}
-      arrowColor="american_blue"
       handleChange={handleStatusChange}
+      ariaLabel="filter post by status"
+      variant="light"
     />
   );
 }

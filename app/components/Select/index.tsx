@@ -6,23 +6,36 @@ import { ChevronDown, ChevronUp, Check } from "react-feather";
 
 interface Props<T extends string> {
   options: T[];
-  selectText?: string;
-  selectTextColor?: string;
-  className?: string;
-  arrowColor: "ghost_white" | "american_blue";
+  selectText: string;
   handleChange: (value: T) => void;
   currentValue: T;
+  ariaLabel: string;
+  variant: "light" | "dark";
 }
+
+const variants = {
+  dark: {
+    trigger: {
+      baseStyles: "text-brand-ghost_white",
+    },
+  },
+  light: {
+    trigger: {
+      baseStyles: "bg-gray-200 text-slate-700",
+    },
+  },
+};
+
 function Select<T extends string>({
   options,
   selectText,
-  selectTextColor,
-  arrowColor,
-  className,
   handleChange,
   currentValue,
+  ariaLabel,
+  variant,
 }: Props<T>) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const { baseStyles } = variants[variant].trigger;
   return (
     <S.Root
       value={currentValue}
@@ -31,22 +44,18 @@ function Select<T extends string>({
     >
       <S.Trigger
         className={clsx(
-          className,
-          `${isOpen ? "opacity-75" : ""}`,
-          ` py-2 px-2 text-sm bg-gray-200 text-slate-600 rounded-md 
+          baseStyles,
+          isOpen && "opacity-75",
+          ` py-2 px-2 text-sm rounded-md 
         inline-flex  items-center justify-between`,
-          "md:text-base md:py-3",
-          "focus:ring-2 hover:ring-2  ring-brand-american_blue  outline-none"
+          "md:text-base md:py-3"
         )}
-        aria-label="Sort"
+        aria-label={ariaLabel}
       >
-        {selectText && (
-          <span className={clsx("opacity-75 mr-2", selectTextColor)}>
-            {selectText}
-          </span>
-        )}
+        <span className={clsx("opacity-75 mr-2")}>{selectText}</span>
+
         <S.Value>{currentValue}</S.Value>
-        <S.Icon className={`ml-1 text-brand-${arrowColor}`}>
+        <S.Icon className={clsx("ml-1 text-inherit")}>
           {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </S.Icon>
       </S.Trigger>

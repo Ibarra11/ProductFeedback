@@ -5,7 +5,7 @@ import { Category, Status } from "@prisma/client";
 import LoadingCircle from "../LoadingCircle";
 import CustomLink from "../CustomLink";
 import PostsCount from "../PostsCount";
-import SortBySelect from "./SortBySelect";
+import SortBySelect from "./SortByCategorySelect";
 interface Props {
   postsPromise: Promise<
     {

@@ -3,7 +3,7 @@ import { usePostsContext } from "../PostsProvider";
 import { SORT_OPTIONS } from "@/app/constants";
 import Select from "../Select";
 
-function SortBySelect() {
+function SortByCategorySelect() {
   const { handleSortByChange, sortValue } = usePostsContext();
   return (
     <Select
@@ -11,9 +11,9 @@ function SortBySelect() {
       handleChange={handleSortByChange}
       currentValue={sortValue}
       selectText="Sort by:"
-      className="text-brand-ghost_white"
-      arrowColor="ghost_white"
+      variant="dark"
+      ariaLabel="Sort post by category"
     />
   );
 }
-export default SortBySelect;
+export default SortByCategorySelect;
