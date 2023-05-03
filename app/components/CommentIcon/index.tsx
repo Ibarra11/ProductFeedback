@@ -2,7 +2,7 @@ import Image from "next/image";
 import clsx from "clsx";
 function CommentIcon({ comments }: { comments: number }) {
   return (
-    <div className="flex gap-2  items-center">
+    <div className="flex gap-2 items-center">
       <Image
         width={18}
         height={16}

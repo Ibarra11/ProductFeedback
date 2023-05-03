@@ -51,7 +51,7 @@ export default async function Home() {
       <UserProvider user={user}>
         <PostsProvider>
           <Sidebar postsPromise={postsPromise} />
-          <div className={clsx("flex flex-col flex-1   gap-8", "lg:gap-6")}>
+          <div className={clsx("flex flex-col flex-1 gap-8", "lg:gap-6")}>
             <Header postsPromise={postsPromise} />
             <Suspense fallback={<PostSkeleton posts={5} />}>
               <Posts postsPromise={postsPromise} />
