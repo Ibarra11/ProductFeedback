@@ -14,6 +14,7 @@ function MobileFilterPills({ closeNavModal }: { closeNavModal: () => void }) {
         {CATEGORY_VALUES.map((category, index) => {
           return (
             <Pill
+              variant="light"
               onClick={() => {
                 if (localFilters.includes(category)) {
                   const nextFilters = localFilters.filter(

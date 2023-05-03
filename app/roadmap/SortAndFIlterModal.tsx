@@ -85,6 +85,7 @@ function SortAndFilterModal({
                 <h2 className="mb-4 text-lg font-bold">Filter By:</h2>
 
                 <CategoryPills
+                  variant="dark"
                   handleClick={handleCategoryChange}
                   categories={localCategoryValues}
                 />

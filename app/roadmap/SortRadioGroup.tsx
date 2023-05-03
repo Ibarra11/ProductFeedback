@@ -1,7 +1,6 @@
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import clsx from "clsx";
 import { AiOutlineCheck } from "react-icons/ai";
-import { IoCheckmark } from "react-icons/io5";
 import { SORT_OPTIONS } from "../constants";
 import { SortByTypes } from "@/types";
 function SortRadioGroup({
