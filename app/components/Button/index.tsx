@@ -1,13 +1,13 @@
 import * as React from "react";
 import clsx from "clsx";
-import { ButtonBase } from "@/types";
+import { ButtonProps } from "@/types";
 
 function Button({
   children,
   className,
   as,
   ...rest
-}: React.PropsWithChildren<ButtonBase<{ as?: "link" }>>) {
+}: React.PropsWithChildren<ButtonProps<{ as?: string }>>) {
   return (
     <button
       className={clsx(`rounded-lg h-10 px-6 ${className || ""}`, " lg:h-11")}

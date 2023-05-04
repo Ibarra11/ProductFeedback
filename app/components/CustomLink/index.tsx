@@ -1,15 +1,6 @@
-import Link, { LinkRestProps } from "next/link";
+import Link, { LinkProps } from "next/link";
 import clsx from "clsx";
-import { LinkProps } from "next/link";
-import { RouteType } from "next/dist/lib/load-custom-routes";
-function CustomLink({
-  children,
-  href,
-  className,
-}: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  className: string;
-  href: LinkProps<RouteType>["href"];
-}) {
+function CustomLink({ children, href, className }: LinkProps<any>) {
   return (
     <Link
       className={clsx(

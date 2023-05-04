@@ -1,8 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 import { BRAND_COLORS } from "@/app/constants";
 import { Category } from ".prisma/client";
-export type ButtonBase<T extends { [key: string]: any }> =
-  ButtonHTMLAttributes<HTMLButtonElement> & T;
 
 export type FeedbackCategories =
   | "Feature"
@@ -10,6 +8,8 @@ export type FeedbackCategories =
   | "UI"
   | "Enhancement"
   | "Bug";
+
+export type ButtonProps<T = {}> = React.ComponentProps<"button"> & T;
 
 export type FilterCategories = FeedbackCategories;
 

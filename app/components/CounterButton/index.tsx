@@ -3,17 +3,16 @@ import React from "react";
 import { ChevronUp } from "react-feather";
 import clsx from "clsx";
 import LoadingCircle from "../LoadingCircle";
-import { ButtonBase } from "@/types";
 import { useRouter } from "next/navigation";
-import { usePostsContext } from "../PostsProvider";
+import { ButtonProps } from "@/types";
 
-type ButtonProps = ButtonBase<{
+type Props = {
   upvoteCount: number;
   postId: number;
   userId: number;
   upvoteId?: number;
   direction: "row" | "column";
-}>;
+};
 
 function CounterButton({
   upvoteCount,
@@ -23,7 +22,7 @@ function CounterButton({
   className,
   direction,
   ...rest
-}: ButtonProps) {
+}: ButtonProps<Props>) {
   const router = useRouter();
 
   const [isFetching, setIsFetching] = React.useState(false);
