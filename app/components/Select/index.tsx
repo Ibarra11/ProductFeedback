@@ -11,22 +11,23 @@ interface Props<T extends string> {
   currentValue: T;
   ariaLabel: string;
   variant: "header" | "form" | "roadmap";
+  id: string;
 }
 
 const variants = {
   header: {
     trigger: {
-      baseStyles: "text-brand-ghost_white",
+      baseStyles: "text-brand-ghost_white py-2 px-2",
     },
   },
   form: {
     trigger: {
-      baseStyles: " text-brand-american_blue bg-brand-alice_blue",
+      baseStyles: " text-brand-american_blue bg-brand-alice_blue py-3 px-6 ",
     },
   },
   roadmap: {
     trigger: {
-      baseStyles: "bg-gray-200 text-slate-700",
+      baseStyles: "bg-gray-200 text-slate-700 py-2 px-2 ",
     },
   },
 };
@@ -38,6 +39,7 @@ function Select<T extends string>({
   currentValue,
   ariaLabel,
   variant,
+  id,
 }: Props<T>) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { baseStyles } = variants[variant].trigger;
@@ -48,12 +50,14 @@ function Select<T extends string>({
       onOpenChange={setIsOpen}
     >
       <S.Trigger
+        id={id}
         className={clsx(
           baseStyles,
           isOpen && "opacity-75 bg-brand",
-          ` py-2 px-2 text-sm rounded-md 
+          `  text-sm rounded-md 
         inline-flex  items-center justify-between`,
-          "md:text-base md:py-3"
+          "md:text-base md:py-3",
+          "focus:ring-blue-500 focus:ring-2 outline-none"
         )}
         aria-label={ariaLabel}
       >

@@ -1,5 +1,6 @@
 import React from "react";
 import Select from "../Select";
+import { Label } from "@radix-ui/react-label";
 interface Props<T extends string> {
   title: string;
   subTitle: string;
@@ -25,6 +26,7 @@ function FormSelect<T extends string>({
         <span className="text-sm font-light">{subTitle}</span>
       </label>
       <Select
+        id={id}
         currentValue={value}
         handleChange={handleValueChange}
         options={options}

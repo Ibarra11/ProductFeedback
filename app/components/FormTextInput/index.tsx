@@ -19,7 +19,7 @@ function FormTextInput({ title, value, subTitle, handleValueChange }: Props) {
       </label>
       <input
         className={clsx(
-          "bg-brand-alice_blue px-6 py-3 text-base rounded-md border-none"
+          "bg-brand-alice_blue px-6 py-3 text-base rounded-md outline-none focus:ring-2 focus:ring-blue-500"
         )}
         id={id}
         value={value}
