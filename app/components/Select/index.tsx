@@ -6,20 +6,25 @@ import { ChevronDown, ChevronUp, Check } from "react-feather";
 
 interface Props<T extends string> {
   options: T[];
-  selectText: string;
+  selectText?: string;
   handleChange: (value: T) => void;
   currentValue: T;
   ariaLabel: string;
-  variant: "light" | "dark";
+  variant: "header" | "form" | "roadmap";
 }
 
 const variants = {
-  dark: {
+  header: {
     trigger: {
       baseStyles: "text-brand-ghost_white",
     },
   },
-  light: {
+  form: {
+    trigger: {
+      baseStyles: " text-brand-american_blue bg-brand-alice_blue",
+    },
+  },
+  roadmap: {
     trigger: {
       baseStyles: "bg-gray-200 text-slate-700",
     },
@@ -45,14 +50,16 @@ function Select<T extends string>({
       <S.Trigger
         className={clsx(
           baseStyles,
-          isOpen && "opacity-75",
+          isOpen && "opacity-75 bg-brand",
           ` py-2 px-2 text-sm rounded-md 
         inline-flex  items-center justify-between`,
           "md:text-base md:py-3"
         )}
         aria-label={ariaLabel}
       >
-        <span className={clsx("opacity-75 mr-2")}>{selectText}</span>
+        {selectText && (
+          <span className={clsx("opacity-75 mr-2")}>{selectText}</span>
+        )}
 
         <S.Value>{currentValue}</S.Value>
         <S.Icon className={clsx("ml-1 text-inherit")}>

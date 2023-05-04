@@ -27,7 +27,7 @@ function RoadmapStatusSelect({ status }: { status: Status }) {
       currentValue={status}
       handleChange={handleStatusChange}
       ariaLabel="filter post by status"
-      variant="light"
+      variant="roadmap"
     />
   );
 }

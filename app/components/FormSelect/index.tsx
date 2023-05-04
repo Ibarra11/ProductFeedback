@@ -26,10 +26,10 @@ function FormSelect<T extends string>({
       </label>
       <Select
         currentValue={value}
-        className="bg-brand-alice_blue"
         handleChange={handleValueChange}
         options={options}
-        arrowColor="american_blue"
+        variant="form"
+        ariaLabel={`choose a ${title}`}
       />
     </div>
   );

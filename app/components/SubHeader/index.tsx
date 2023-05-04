@@ -50,13 +50,14 @@ function SubHeader({ postsPromise }: Props) {
         </Suspense>
       </div>
       <SortBySelect />
-      <CustomLink
-        // @ts-ignore
-        href="/new-feedback"
-        className="ml-auto  bg-brand-purple font-bold text-sm text-brand-ghost_white"
-      >
-        + Add Feedback
-      </CustomLink>
+      <div className="hidden sm:block ml-auto">
+        <CustomLink
+          // @ts-ignore
+          href="/new-feedback"
+        >
+          + Add Feedback
+        </CustomLink>
+      </div>
     </div>
   );
 }

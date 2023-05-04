@@ -4,6 +4,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { motion } from "framer-motion";
 import { X } from "react-feather";
 import MobileFilterPills from "./MobileFilterPills";
+import CustomLink from "../CustomLink";
 
 function ModalNav({
   isOpen,
@@ -52,6 +53,14 @@ function ModalNav({
               "fixed  top-[var(--header-height)] w-72 max-w-full h-full right-0 flex flex-col gap-6 bg-brand-alice_blue  p-6 shadow-md"
             )}
           >
+            <div>
+              <CustomLink
+                // @ts-ignore
+                href="/new-feedback"
+              >
+                + Add Feedback
+              </CustomLink>
+            </div>
             <MobileFilterPills closeNavModal={closeNavModal} />
 
             {children}

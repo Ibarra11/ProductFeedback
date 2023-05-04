@@ -11,7 +11,7 @@ function SortByCategorySelect() {
       handleChange={handleSortByChange}
       currentValue={sortValue}
       selectText="Sort by:"
-      variant="dark"
+      variant="header"
       ariaLabel="Sort post by category"
     />
   );
