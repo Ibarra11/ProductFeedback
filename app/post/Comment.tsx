@@ -40,10 +40,8 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     >("idle");
     const currentUser = useUserContext();
     const router = useRouter();
-    const startingImgRef: React.MutableRefObject<HTMLDivElement | null> =
-      React.useRef<HTMLDivElement>(null);
-    const lastChildRef: React.MutableRefObject<HTMLDivElement | null> =
-      React.useRef<HTMLDivElement>(null);
+    const startingImgRef = React.useRef<HTMLDivElement>(null);
+    const lastChildRef = React.useRef<HTMLDivElement>(null);
     const [repliesContainerRef, repliesContainerBounds] = useMeasure();
 
     function handleSuccess(commentId: number) {

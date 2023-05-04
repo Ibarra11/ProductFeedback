@@ -12,7 +12,7 @@ import RoadmapSkeleton from "../Sidebar/RoadmapSkeleton";
 function MobileHeader({ children }: React.PropsWithChildren) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isAnimating, setIsAnimating] = React.useState(false);
-  const headerRef = React.useRef<HTMLElement | null>(null);
+  const headerRef = React.useRef<HTMLElement>(null);
 
   React.useEffect(() => {
     if (headerRef.current) {

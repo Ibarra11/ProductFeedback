@@ -56,6 +56,7 @@ function Post({
       animate={controls}
       ref={ref}
     >
+      {/* */}
       <Link href={`/post/${post_id}`}>
         <article
           className={clsx(
