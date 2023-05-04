@@ -25,19 +25,14 @@ interface Props {
 }
 function SubHeader({ postsPromise }: Props) {
   return (
-    <div
+    <header
       className={clsx(
         "flex items-center h-14 px-6 bg-brand-american_blue",
-        "md:h-[72px] md:gap-9 md:rounded-lg md:pr-3",
-        "lg:gap-8 lg:pr-4"
+        "md:h-[72px] gap-8 md:rounded-lg md:pr-3",
+        "lg:pr-4"
       )}
     >
-      <div
-        className={clsx(
-          "hidden",
-          "md:flex md:gap-4 md:items-center  md:text-brand-ghost_white"
-        )}
-      >
+      <div className={clsx("flex  gap-4 items-center  text-brand-ghost_white")}>
         <Image
           width={24}
           height={24}
@@ -49,7 +44,10 @@ function SubHeader({ postsPromise }: Props) {
           <PostsCount postsPromise={postsPromise} />
         </Suspense>
       </div>
-      <SortBySelect />
+      <div className="ml-auto sm:ml-0">
+        <SortBySelect />
+      </div>
+
       <div className="hidden sm:block ml-auto">
         <CustomLink
           // @ts-ignore
@@ -58,7 +56,7 @@ function SubHeader({ postsPromise }: Props) {
           + Add Feedback
         </CustomLink>
       </div>
-    </div>
+    </header>
   );
 }
 

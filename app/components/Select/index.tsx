@@ -11,23 +11,24 @@ interface Props<T extends string> {
   currentValue: T;
   ariaLabel: string;
   variant: "header" | "form" | "roadmap";
-  id: string;
+  id?: string;
 }
 
 const variants = {
   header: {
     trigger: {
-      baseStyles: "text-brand-ghost_white py-2 px-2",
+      baseStyles: "text-brand-ghost_white py-2 px-2 focus:ring-gray-300 ",
     },
   },
   form: {
     trigger: {
-      baseStyles: " text-brand-american_blue bg-brand-alice_blue py-3 px-6 ",
+      baseStyles:
+        " text-brand-american_blue bg-brand-alice_blue py-3 px-6 focus:ring-blue-500  ",
     },
   },
   roadmap: {
     trigger: {
-      baseStyles: "bg-gray-200 text-slate-700 py-2 px-2 ",
+      baseStyles: "bg-gray-200 text-slate-700 py-2 px-2 focus:ring-blue-500  ",
     },
   },
 };
@@ -57,7 +58,7 @@ function Select<T extends string>({
           `  text-sm rounded-md 
         inline-flex  items-center justify-between`,
           "md:text-base md:py-3",
-          "focus:ring-blue-500 focus:ring-2 outline-none"
+          " outline-none focus:ring-2"
         )}
         aria-label={ariaLabel}
       >
