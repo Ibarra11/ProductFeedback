@@ -23,9 +23,9 @@ interface Props {
     }[]
   >;
 }
-function Header({ postsPromise }: Props) {
+function SubHeader({ postsPromise }: Props) {
   return (
-    <header
+    <div
       className={clsx(
         "flex items-center h-14 px-6 bg-brand-american_blue",
         "md:h-[72px] md:gap-9 md:rounded-lg md:pr-3",
@@ -57,8 +57,8 @@ function Header({ postsPromise }: Props) {
       >
         + Add Feedback
       </CustomLink>
-    </header>
+    </div>
   );
 }
 
-export default Header;
+export default SubHeader;

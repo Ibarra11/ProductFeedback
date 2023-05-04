@@ -43,13 +43,13 @@ function Sidebar({ postsPromise }: Props) {
           </Suspense>
         </Roadmap>
       </aside>
-      <MobileHeader>
+      {/* <MobileHeader>
         <Roadmap>
           <Suspense fallback={<RoadmapSkeleton />}>
             <RoadmapList postsPromise={postsPromise} />
           </Suspense>
         </Roadmap>
-      </MobileHeader>
+      </MobileHeader> */}
     </>
   );
 }

@@ -1,15 +1,17 @@
 import { Metadata } from "next";
-import React, { Suspense } from "react";
+import React from "react";
 import clsx from "clsx";
 import PostsProvider from "./components/PostsProvider";
-import Header from "./components/Header";
+import SubHeader from "./components/SubHeader";
 import Sidebar from "./components/Sidebar";
 import Posts from "./components/Posts";
 import { getAllPost } from "./lib/prisma/post";
 import UserProvider from "./components/UserProvider";
 import { convertDateToString } from "./utils";
 import { prisma } from "@/db";
-import PostSkeleton from "./components/PostSkeleton";
+
+import MobileHeader from "./components/MobileHeader";
+import RoadmapList from "./components/Sidebar/RoadmapList";
 
 export const metadata: Metadata = {
   title: "Feedback Board",
@@ -51,11 +53,13 @@ export default async function Home() {
       <UserProvider user={user}>
         <PostsProvider>
           <Sidebar postsPromise={postsPromise} />
+          <MobileHeader>
+            <RoadmapList postsPromise={postsPromise} />
+          </MobileHeader>
           <div className={clsx("flex flex-col flex-1 gap-8", "lg:gap-6")}>
-            <Header postsPromise={postsPromise} />
-            <Suspense fallback={<PostSkeleton posts={5} />}>
-              <Posts postsPromise={postsPromise} />
-            </Suspense>
+            <SubHeader postsPromise={postsPromise} />
+
+            <Posts postsPromise={postsPromise} />
           </div>
         </PostsProvider>
       </UserProvider>

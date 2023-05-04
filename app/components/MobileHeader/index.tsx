@@ -6,6 +6,8 @@ import { AnimatePresence } from "framer-motion";
 import Banner from "../Banner";
 import { Menu, X } from "react-feather";
 import ModalNav from "../ModalNav";
+import Roadmap from "../Sidebar/roadmap";
+import RoadmapSkeleton from "../Sidebar/RoadmapSkeleton";
 
 function MobileHeader({ children }: React.PropsWithChildren) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -51,7 +53,9 @@ function MobileHeader({ children }: React.PropsWithChildren) {
       <AnimatePresence onExitComplete={() => setIsAnimating(false)}>
         {isOpen && (
           <ModalNav handleOpenChange={setIsOpen} isOpen={isOpen}>
-            {children}
+            <React.Suspense fallback={<RoadmapSkeleton />}>
+              <Roadmap>{children}</Roadmap>
+            </React.Suspense>
           </ModalNav>
         )}
       </AnimatePresence>

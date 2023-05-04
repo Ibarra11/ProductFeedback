@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { Category, Status } from "@prisma/client";
 import clsx from "clsx";
 import { use } from "react";
@@ -7,6 +8,7 @@ import { usePostsContext } from "../PostsProvider";
 import { motion } from "framer-motion";
 
 import Post from "../Post";
+import PostSkeleton from "../PostSkeleton";
 interface Props {
   postsPromise: Promise<
     {
@@ -58,4 +60,12 @@ function Posts({ postsPromise }: Props) {
   );
 }
 
-export default Posts;
+function PostsSuspense({ postsPromise }: Props) {
+  return (
+    <React.Suspense fallback={<PostSkeleton posts={5} />}>
+      <Posts postsPromise={postsPromise} />
+    </React.Suspense>
+  );
+}
+
+export default PostsSuspense;
