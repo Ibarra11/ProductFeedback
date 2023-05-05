@@ -44,8 +44,8 @@ function Post({
               upvoteCount={upvotes}
             />
           </div>
-          <div className="flex-1 space-y-2 md:space-y-3">
-            <div className="space-y-2 md:space-y-1">
+          <div className="flex-1">
+            <div className="space-y-2 md:space-y-1 mb-2 md:mb-3">
               <h3
                 className={clsx(
                   `group-hover:text-brand-purple group-focus:text-brand-purple`,
@@ -59,7 +59,7 @@ function Post({
                 {content}
               </p>
             </div>
-            <div className="flex gap-2 flex-col sm:flex-row">
+            <div className="flex gap-2 flex-col sm:flex-row mb-6 md:mb-0">
               <span
                 className={clsx(
                   "inline-block bg-brand-alice_blue  text-brand-royal_blue text-xs font-semibold px-4 py-2 rounded-xl",
@@ -70,7 +70,7 @@ function Post({
               </span>
               <Status status={status} />
             </div>
-            <div className="flex sm:hidden justify-between items-center mt-4">
+            <div className="flex   sm:hidden justify-between items-center">
               <CounterButton
                 postId={post_id}
                 userId={user.user_id}

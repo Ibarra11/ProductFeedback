@@ -56,6 +56,7 @@ function ModalNav({
             <CustomLink
               // @ts-ignore
               href="/new-feedback"
+              variant="primary"
             >
               + Add Feedback
             </CustomLink>

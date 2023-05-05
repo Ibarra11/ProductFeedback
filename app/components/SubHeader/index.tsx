@@ -50,6 +50,7 @@ function SubHeader({ postsPromise }: Props) {
 
       <div className="hidden sm:block ml-auto">
         <CustomLink
+          variant="primary"
           // @ts-ignore
           href="/new-feedback"
         >
