@@ -41,8 +41,13 @@ function AddComment({ postFkId }: { postFkId: number }) {
           }
         }}
       ></textarea>
-      <div className="flex justify-between items-center">
-        <span className="text-sm text-brand-american_blue">
+      <div
+        className={clsx(
+          "flex flex-col gap-3",
+          "sm:flex-row sm:items-center sm:justify-between"
+        )}
+      >
+        <span className="text-sm order-2 self-end text-brand-american_blue sm:order-1 sm:self-auto">
           {COMMENT_LENGTH - comment.length} characters left
         </span>
         <Button

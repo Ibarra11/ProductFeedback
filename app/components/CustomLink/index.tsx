@@ -1,7 +1,6 @@
-import Link, { LinkProps } from "next/link";
-type Props = Omit<ComponentProps<"a">, "href"> & {
+import Link from "next/link";
+type Props = ComponentProps<"a"> & {
   variant: "primary" | "secondary";
-  href: LinkProps<any>;
 };
 import clsx from "clsx";
 import { ComponentProps } from "react";
@@ -18,6 +17,7 @@ function CustomLink({ children, href, variant }: Props) {
         ` grid place-content-center rounded-lg  transition-colors duration-200 font-bold text-sm text-brand-ghost_white h-10 px-6`,
         " lg:h-11"
       )}
+      // @ts-ignore
       href={href}
     >
       {children}
