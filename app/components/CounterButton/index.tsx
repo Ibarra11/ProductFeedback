@@ -60,11 +60,11 @@ function CounterButton({
   const flexDirection =
     direction === "column"
       ? "flex-col gap-1 items-center justify-center w-10 h-14"
-      : "flex- gap-2 h-10 w-[69px] px-3 items-center";
+      : "flex- gap-2 h-10 w-16  px-3 items-center";
   return (
     <button
       className={clsx(
-        "counter-btn bg-brand-alice_blue flex rounded-lg",
+        "counter-btn bg-brand-alice_blue w- flex rounded-lg",
         className,
         flexDirection,
         upvoteId && "bg-brand-royal_blue",

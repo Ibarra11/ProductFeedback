@@ -56,19 +56,19 @@ function Post({
       animate={controls}
       ref={ref}
     >
-      {/* */}
+      {/* @ts-ignore */}
       <Link href={`/post/${post_id}`}>
         <article
           className={clsx(
             !disableAnimation && "group",
-            "bg-white   py-7 px-8   rounded-xl"
+            "bg-white p-6 md:py-7 md:px-8 rounded-xl"
           )}
         >
-          <div className="mb-2 text-right">
+          <div className="text-right mb-2">
             <p className="text-sm text-slate-400">{createdAt}</p>
           </div>
-          <div className="flex  gap-6 md:gap-10">
-            <div className="flex flex-col justify-between  md:block">
+          <div className="flex sm:gap-10  md:gap-6">
+            <div className="hidden sm:block">
               <CounterButton
                 postId={post_id}
                 userId={user.user_id}
@@ -77,37 +77,46 @@ function Post({
                 direction="column"
                 upvoteCount={upvotes}
               />
-              <div className={clsx(" sm:hidden", "md:hidden")}>
-                <CommentIcon comments={comments} />
-              </div>
             </div>
-            <div className="flex-1">
-              <div className=" space-y-2 mb-6">
+            <div className="flex-1 space-y-2 md:space-y-3">
+              <div className="space-y-2 md:space-y-1">
                 <h3
                   className={clsx(
                     `group-hover:text-brand-purple group-focus:text-brand-purple`,
-                    "text-brand-gray_blue text-lg font-bold"
+                    " text-sm text-brand-gray_blue font-bold",
+                    " md:text-lg"
                   )}
                 >
                   {title}
                 </h3>
-                <p className=" text-base text-slate-500">{content}</p>
+                <p className={clsx("text-sm text-slate-500", "md:text-base ")}>
+                  {content}
+                </p>
               </div>
-
-              <div className="flex justify-between items-center ">
-                <div className="flex gap-2">
-                  <span className="inline-block bg-brand-alice_blue  text-brand-royal_blue text-sm font-semibold px-4 py-2 rounded-xl">
-                    {category}
-                  </span>
-                  <Status status={status} />
-                </div>
-
-                <div className={clsx("hidden sm:block", "md:hidden")}>
-                  <CommentIcon comments={comments} />
-                </div>
+              <div className="flex gap-2 flex-col sm:flex-row">
+                <span
+                  className={clsx(
+                    "inline-block bg-brand-alice_blue  text-brand-royal_blue text-xs font-semibold px-4 py-2 rounded-xl",
+                    "md:text-sm"
+                  )}
+                >
+                  {category}
+                </span>
+                <Status status={status} />
+              </div>
+              <div className="flex sm:hidden justify-between items-center mt-4">
+                <CounterButton
+                  postId={post_id}
+                  userId={user.user_id}
+                  upvoteId={upvote && upvote.upvote_id}
+                  className="z-10"
+                  direction="column"
+                  upvoteCount={upvotes}
+                />
+                <CommentIcon comments={comments} />
               </div>
             </div>
-            <div className={clsx("hidden", "md:flex items-center")}>
+            <div className={clsx("hidden sm:flex items-center")}>
               <CommentIcon comments={comments} />
             </div>
           </div>
@@ -122,7 +131,8 @@ function Status({ status }: { status: Post["status"] }) {
   return (
     <span
       className={clsx(
-        "inline-block  text-sm font-bold px-4 py-2 rounded-xl",
+        "inline-block  text-xs font-bold px-4 py-2 rounded-xl",
+        "md:text-sm",
         `${bgWithOpacity} ${text} `
       )}
     >
