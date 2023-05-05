@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
-import Post from "../Post";
+import Post from "@/app/components/Post";
+// import Post from "../Post";
 import CustomLink from "@/app/components/CustomLink";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import Comments from "../Comments";
@@ -67,7 +68,6 @@ async function Page({ params }: { params: { id: string } }) {
   }
 
   const isAuthor = post.user_fk_id === user.user_id;
-
   return (
     <UserProvider user={user}>
       <div className="flex h-full flex-col gap-6">
@@ -78,13 +78,14 @@ async function Page({ params }: { params: { id: string } }) {
           {isAuthor && (
             <CustomLink
               className="bg-brand-royal_blue hover:bg-blue-700 transition-colors"
+              // @ts-ignore
               href={`/edit-feedback/${postId}`}
             >
               Edit Feedback
             </CustomLink>
           )}
         </div>
-        <Post {...post} />
+        <Post disableHighlightAnimation={true} {...post} />
         <Comments comments={comments} />
         <AddComment postFkId={post.post_id} />
       </div>

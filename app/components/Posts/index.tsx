@@ -6,9 +6,8 @@ import { use } from "react";
 import EmptySuggestionsView from "../EmptySuggestionsView";
 import { usePostsContext } from "../PostsProvider";
 import { motion } from "framer-motion";
-
-import Post from "../Post";
 import PostSkeleton from "../PostSkeleton";
+import AnimatedPost from "../Post/AnimatedPost";
 interface Props {
   postsPromise: Promise<
     {
@@ -50,7 +49,7 @@ function Posts({ postsPromise }: Props) {
           className={clsx("flex flex-col gap-4", "lg:gap-5")}
         >
           {currentPosts.map((post) => (
-            <Post key={post.post_id} {...post} />
+            <AnimatedPost key={post.post_id} {...post} />
           ))}
         </motion.ul>
       ) : (
