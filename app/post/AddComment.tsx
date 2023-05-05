@@ -48,7 +48,8 @@ function AddComment({ postFkId }: { postFkId: number }) {
         <Button
           disabled={isPending || comment.length === 0}
           className={clsx(
-            "relative bg-brand-purple text-brand-ghost_white",
+            "relative bg-brand-purple text-brand-ghost_white transition-all duration-200",
+            comment.length !== 0 && "hover:bg-purple-700",
             comment.length === 0 && "opacity-50"
           )}
         >

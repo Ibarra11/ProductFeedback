@@ -77,7 +77,7 @@ async function Page({ params }: { params: { id: string } }) {
           </LinkWithChevronLeft>
           {isAuthor && (
             <CustomLink
-              className="bg-brand-royal_blue hover:bg-blue-700 transition-colors"
+              variant="secondary"
               // @ts-ignore
               href={`/edit-feedback/${postId}`}
             >
