@@ -53,14 +53,13 @@ function ModalNav({
               "fixed  top-[var(--header-height)] w-72 max-w-full h-full right-0 flex flex-col gap-6 bg-brand-alice_blue  p-6 shadow-md"
             )}
           >
-            <div>
-              <CustomLink
-                // @ts-ignore
-                href="/new-feedback"
-              >
-                + Add Feedback
-              </CustomLink>
-            </div>
+            <CustomLink
+              // @ts-ignore
+              href="/new-feedback"
+            >
+              + Add Feedback
+            </CustomLink>
+
             <MobileFilterPills closeNavModal={closeNavModal} />
 
             {children}

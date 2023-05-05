@@ -40,7 +40,7 @@ function MobileFilterPills({ closeNavModal }: { closeNavModal: () => void }) {
           handleFilterChange(localFilters);
           closeNavModal();
         }}
-        className="p-2 rounded-md bg-brand-purple hover:bg-purple-600 text-brand-ghost_white text-sm"
+        className="py-2 px-4 rounded-md bg-slate-500 text-brand-ghost_white hover:bg-slate-700 transition-colors duration-200 text-sm"
       >
         Show Posts
       </button>
