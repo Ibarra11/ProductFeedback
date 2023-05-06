@@ -16,10 +16,7 @@ function Header() {
         </LinkWithChevronLeft>
         <h1 className="text-2xl font-bold">Roadmap</h1>
       </div>
-      <CustomLink
-        href="/new-feedback"
-        className=" bg-brand-purple text-brand-ghost_white"
-      >
+      <CustomLink variant="primary" href="/new-feedback">
         + Add Feedback
       </CustomLink>
     </header>

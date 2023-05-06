@@ -1,5 +1,4 @@
 import Header from "./Header";
-import RoadmapTabs from "./RoadmapTabs";
 import clsx from "clsx";
 import { prisma } from "@/db";
 import { z } from "zod";
@@ -9,7 +8,9 @@ import React from "react";
 import RoadmapView from "./RoadmapView";
 import MobileRoadmapView from "./MobileRoadmapView";
 import { getPostByStatus } from "../lib/prisma/post";
-import { convertDateToString } from "../utils";
+import { convertDateToString, formatStatus } from "../utils";
+import PostsProvider from "../components/PostsProvider";
+import { Status } from "@prisma/client";
 
 async function getRandomUser() {
   const user = await prisma.user.findMany({
@@ -22,10 +23,10 @@ async function getRandomUser() {
 }
 
 const statusUnion = z.union([
-  z.literal("Live"),
-  z.literal("Planned"),
-  z.literal("In_Progress"),
-  z.literal("Suggestion"),
+  z.literal("live"),
+  z.literal("planned"),
+  z.literal("in-progress"),
+  z.literal("suggestion"),
 ]);
 
 const searchParamsSchema = z.object({
@@ -38,14 +39,27 @@ function delay(ms: number, data: any) {
   });
 }
 
+function transformStatus(rawStatus: z.infer<typeof statusUnion>): Status {
+  if (rawStatus === "in-progress") {
+    return rawStatus
+      .split("-")
+      .map((str) => str[0].toUpperCase() + str.slice(1))
+      .join("_") as any;
+  }
+  return (rawStatus[0].toUpperCase() + rawStatus.slice(1)) as any;
+}
+
 async function Page({ searchParams }: { searchParams: { status: string } }) {
-  const data = searchParamsSchema.safeParse(searchParams);
-  if (!data.success) {
+  const rawInput = searchParamsSchema.safeParse(searchParams);
+  if (!rawInput.success) {
     redirect("/");
   }
-  const {
-    data: { status },
-  } = data;
+  /*
+  I just convert the status from lowercase to how they are stored in the db.  I just think it looks better lowercase.
+  suggestion => Suggestion
+  in-progress => In_Progress
+  */
+  const status = transformStatus(rawInput.data.status as any);
 
   const user = await getRandomUser();
   const postsPromise = getPostByStatus(status).then((data) => {
@@ -57,17 +71,23 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
   });
   return (
     <UserProvider user={user}>
-      <div className={clsx("flex h-full flex-col ", "md:gap-12")}>
-        <Header />
-        <div className="flex-1">
-          <RoadmapView user={user} status={status} />
-          <MobileRoadmapView
-            user={user}
-            postsPromise={postsPromise}
-            status={status}
-          />
+      <PostsProvider>
+        <div className={clsx("flex h-full flex-col ", "md:gap-12")}>
+          <Header />
+          <div className="flex-1">
+            <RoadmapView
+              postsPromise={postsPromise}
+              user={user}
+              status={status}
+            />
+            <MobileRoadmapView
+              user={user}
+              postsPromise={postsPromise}
+              status={status}
+            />
+          </div>
         </div>
-      </div>
+      </PostsProvider>
     </UserProvider>
   );
 }

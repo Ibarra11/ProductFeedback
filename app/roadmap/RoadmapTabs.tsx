@@ -11,13 +11,13 @@ interface Props {
 
 function RoadmapTabs({ children, status }: React.PropsWithChildren<Props>) {
   const router = useRouter();
-
   return (
     <Tabs.Root
       className="relative  h-full pt-4 md:p-0 flex flex-col gap-6"
       data-id="root"
       value={status}
       onValueChange={(val) => {
+        // @ts-ignore
         router.push(`/roadmap?status=${val}`);
       }}
     >
@@ -45,7 +45,7 @@ function TabsList({ status }: { status: Status }) {
         className={clsx(
           "flex-1",
           `${
-            status === "suggestion"
+            status === "Suggestion"
               ? "border-b-4 border-b-green-500 outline-none"
               : "opacity-40"
           }`
@@ -58,7 +58,7 @@ function TabsList({ status }: { status: Status }) {
         className={clsx(
           "flex-1",
           `${
-            status === "planned"
+            status === "Planned"
               ? "border-b-4 border-b-brand-tangerine outline-none"
               : "opacity-40"
           }`
@@ -71,12 +71,12 @@ function TabsList({ status }: { status: Status }) {
         className={clsx(
           "flex-1",
           `${
-            status === "in_progress"
+            status === "In_Progress"
               ? "border-b-4 border-b-brand-purple outline-none"
               : "opacity-40"
           }`
         )}
-        value="in_progress"
+        value="in-progress"
       >
         In-Progress
       </Tabs.Trigger>
@@ -84,7 +84,7 @@ function TabsList({ status }: { status: Status }) {
         className={clsx(
           "flex-1",
           `${
-            status === "live"
+            status === "Live"
               ? "border-b-4 border-b-brand-maya_blue outline-none"
               : "opacity-40"
           }`

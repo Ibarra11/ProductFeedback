@@ -1,9 +1,8 @@
 import React from "react";
 import { Category, Status, Upvotes, User } from "@prisma/client";
-import PostsProvider from "../components/PostsProvider";
+
 import RoadmapPostList from "./RoadmapPostList";
-import SortAndFilterButton from "./SortAndFilterButton";
-import SortAndFilterModal from "./SortAndFIlterModal";
+
 import RoadmapLoading from "./RoadmapLoading";
 import RoadmapControls from "./RoadmapControls";
 
@@ -31,17 +30,14 @@ interface Props {
 function MobileRoadmapView({ user, postsPromise, status }: Props) {
   return (
     <div className="relative pt-4 pb-6 px-4 h-full md:hidden">
-      <PostsProvider>
-        <RoadmapControls status={status} />
-
-        <React.Suspense fallback={<RoadmapLoading />}>
-          <RoadmapPostList
-            status={status}
-            user={user}
-            postsPromise={postsPromise}
-          />
-        </React.Suspense>
-      </PostsProvider>
+      <RoadmapControls status={status} />
+      <React.Suspense fallback={<RoadmapLoading />}>
+        <RoadmapPostList
+          status={status}
+          user={user}
+          postsPromise={postsPromise}
+        />
+      </React.Suspense>
     </div>
   );
 }
