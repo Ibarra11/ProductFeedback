@@ -70,7 +70,7 @@ function Post({
               </span>
               <Status status={status} />
             </div>
-            <div className="flex   sm:hidden justify-between items-center">
+            <div className="flex sm:hidden justify-between items-center">
               <CounterButton
                 postId={post_id}
                 userId={user.user_id}

@@ -24,7 +24,6 @@ function CounterButton({
   ...rest
 }: ButtonProps<Props>) {
   const router = useRouter();
-
   const [isFetching, setIsFetching] = React.useState(false);
   async function handleCreateUpvote() {
     setIsFetching(true);
@@ -64,12 +63,14 @@ function CounterButton({
   return (
     <button
       className={clsx(
-        "counter-btn bg-brand-alice_blue w- flex rounded-lg",
+        "counter-btn bg-brand-alice_blue  flex rounded-lg",
         className,
         flexDirection,
-        upvoteId && "bg-brand-royal_blue",
-        !upvoteId &&
-          " hover:outline-brand-royal_blue hover:outline hover:outline-2",
+        upvoteId
+          ? "bg-brand-royal_blue text-brand-ghost_white"
+          : "text-brand-american_blue",
+        !upvoteId && " hover:bg-blue-100",
+        " outline-none focus:outline-brand-royal_blue focus:outline focus:outline-2",
         "duration-200 transition-colors"
       )}
       {...rest}
@@ -88,7 +89,7 @@ function CounterButton({
         <>
           <span
             className={clsx(
-              "flex w-full justify-center text-brand-american_blue",
+              "flex w-full justify-center ",
               upvoteId && "text-white"
             )}
           >
@@ -96,7 +97,7 @@ function CounterButton({
           </span>
           <span
             className={clsx(
-              "text-sm font-bold text-brand-american_blue flex w-full justify-center",
+              "text-sm font-bold  flex w-full justify-center",
               upvoteId && "text-white"
             )}
           >
