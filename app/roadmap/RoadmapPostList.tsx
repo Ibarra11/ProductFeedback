@@ -6,6 +6,7 @@ import { Category, Status, Upvotes, User } from "@prisma/client";
 import { use } from "react";
 import { usePostsContext } from "../components/PostsProvider";
 import { formatStatus } from "../utils";
+import EmptySuggestionsView from "../components/EmptySuggestionsView";
 
 interface Props {
   postsPromise: Promise<
@@ -34,7 +35,7 @@ function RoadmapPostList({ postsPromise, user, status }: Props) {
   const { getFilteredPosts } = usePostsContext();
   const currentPosts = getFilteredPosts(posts);
   return (
-    <div className="flex-1">
+    <div className="flex flex-1 flex-col h-full">
       <div
         className={clsx("text-brand-american_blue mb-2", " md:mb-6", "lg:mb-4")}
       >
@@ -50,18 +51,33 @@ function RoadmapPostList({ postsPromise, user, status }: Props) {
           {ROADMAP_TAB_DESCRIPTION[status]}
         </p>
       </div>
-      <div
-        className={clsx(
-          "grid grid-cols-1 gap-4",
-          "md:gap-6 md:grid-cols-2",
-          "lg:grid-cols-3"
+      <div className={clsx("flex-1")}>
+        {currentPosts.length > 0 && (
+          <div
+            className={clsx(
+              "h-full content-start  grid grid-cols-1 gap-4",
+              "md:gap-6 md:grid-cols-2",
+              "lg:grid-cols-3"
+            )}
+          >
+            {currentPosts.map((feedback) => {
+              return (
+                <RoadmapRequest
+                  user={user}
+                  key={feedback.post_id}
+                  {...feedback}
+                />
+              );
+            })}
+          </div>
         )}
-      >
-        {currentPosts.map((feedback) => {
-          return (
-            <RoadmapRequest user={user} key={feedback.post_id} {...feedback} />
-          );
-        })}
+
+        {currentPosts.length === 0 && (
+          <div className="h-full">
+            {" "}
+            <EmptySuggestionsView />{" "}
+          </div>
+        )}
       </div>
     </div>
   );

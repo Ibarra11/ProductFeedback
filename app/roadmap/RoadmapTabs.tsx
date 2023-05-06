@@ -23,12 +23,7 @@ function RoadmapTabs({ children, status }: React.PropsWithChildren<Props>) {
     >
       <TabsList status={status} />
 
-      <Tabs.Content
-        className="flex-1 px-6 "
-        forceMount
-        key={status}
-        value={status}
-      >
+      <Tabs.Content className="flex-1" forceMount key={status} value={status}>
         {children}
       </Tabs.Content>
     </Tabs.Root>

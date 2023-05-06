@@ -2,10 +2,10 @@ import Image from "next/image";
 import CustomLink from "../CustomLink";
 function EmptySuggestionsView() {
   return (
-    <div className="h-[600px] grid place-content-center bg-white rounded-lg p-6">
+    <div className="h-full grid place-content-center bg-white rounded-lg p-6">
       <div className="max-w-md mx-auto flex flex-col items-center">
         <Image
-          className=" mb-12"
+          className="mb-12"
           src="/suggestions/illustration-empty.svg"
           alt=""
           aria-hidden
@@ -18,7 +18,9 @@ function EmptySuggestionsView() {
           Got a suggestion? Found a bug that needs to be squashed? We love
           hearing about new ideas to improve our app.
         </p>
-        <CustomLink href="/new-feedback">+ Add Feedback</CustomLink>
+        <CustomLink variant="primary" href="/new-feedback">
+          + Add Feedback
+        </CustomLink>
       </div>
     </div>
   );
