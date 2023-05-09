@@ -15,7 +15,7 @@ import {
 import UserProvider from "@/app/components/UserProvider";
 import { cache } from "react";
 
-const getPostsForUser = cache(async (postId: number, whereFrom: string) => {
+const getPostsForUser = cache(async (postId: number) => {
   const post = await getPostWithCommentCount(postId).then((post) => {
     if (!post) {
       return null;
@@ -30,7 +30,7 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const post = await getPostsForUser(Number(params.id), "metadata");
+  const post = await getPostsForUser(Number(params.id));
   if (!post) {
     throw new Error();
   }
@@ -51,7 +51,7 @@ async function Page({ params }: { params: { id: string } }) {
   const postId = Number(params.id);
 
   const [post, comments, user] = await Promise.all([
-    getPostsForUser(postId, "page"),
+    getPostsForUser(postId),
     getCommentsByPostId(postId).then((comments) => {
       return comments.map((comment) => {
         return {

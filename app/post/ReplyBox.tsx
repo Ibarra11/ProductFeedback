@@ -4,12 +4,13 @@ import clsx from "clsx";
 import Button from "../components/Button";
 import LoadingCircle from "../components/LoadingCircle";
 import TextArea from "../components/TextArea";
+import { Comment } from "../lib/prisma/post";
 interface Props {
   userId: number;
   postId: number;
   commentId: number;
   replyingTo: string;
-  onSuccess: (commentId: number) => void;
+  onSuccess: (commentId: Comment["replies"]) => void;
 }
 function ReplyBox({ onSuccess, userId, postId, commentId, replyingTo }: Props) {
   const [isPending, setIsPending] = React.useState(false);
@@ -31,7 +32,7 @@ function ReplyBox({ onSuccess, userId, postId, commentId, replyingTo }: Props) {
     if (res.ok) {
       setIsPending(false);
       setReply("");
-      onSuccess(comments[0].comment_id);
+      onSuccess(comments);
     }
   }
 

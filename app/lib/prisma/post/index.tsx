@@ -65,7 +65,11 @@ export const getCommentsByPostId = async (postId: number) => {
     },
     include: {
       User: true,
-      replies: true,
+      replies: {
+        select: {
+          comment_id: true,
+        },
+      },
       Post: {
         select: {
           User: {

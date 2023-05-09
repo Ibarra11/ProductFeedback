@@ -14,25 +14,31 @@ export async function PUT(req: Request) {
   try {
     const data = replySchema.parse(reqData);
 
-    const replies = await prisma.comment
-      .update({
-        where: {
-          comment_id: data.commentId,
-        },
-        data: {
-          replies: {
-            create: [
-              {
-                content: data.content,
-                user_fk_id: data.userId,
-                post_fk_id: data.postId,
-                replyingTo: data.replyingTo,
-              },
-            ],
+    const replies = await prisma.comment.update({
+      where: {
+        comment_id: data.commentId,
+      },
+      select: {
+        replies: {
+          select: {
+            comment_id: true,
           },
         },
-      })
-      .replies();
+      },
+      data: {
+        replies: {
+          create: [
+            {
+              content: data.content,
+              user_fk_id: data.userId,
+              post_fk_id: data.postId,
+              replyingTo: data.replyingTo,
+            },
+          ],
+        },
+      },
+    });
+    console.log(replies);
     return NextResponse.json(replies);
   } catch (e) {
     console.log(e);

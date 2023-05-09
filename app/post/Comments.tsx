@@ -3,7 +3,7 @@ import Comment from "./Comment";
 
 function Comments({ comments }: { comments: Comment[] }) {
   return (
-    <div className="bg-white shadow-sm px-8 pt-6 pb-10 max-h-[920px] h-full rounded-lg overflow-y-auto overflow-x-hidden">
+    <div className="bg-white shadow-sm px-8 pt-6 pb-10 max-h-[920px]  rounded-lg overflow-y-auto overflow-x-hidden">
       {comments.length > 0 ? (
         comments.map((comment, index) => (
           <>

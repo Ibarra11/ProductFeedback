@@ -22,7 +22,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
       post_fk_id,
       user_fk_id,
       User,
-      Post,
       replyingTo,
       replies,
       content,
@@ -33,7 +32,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
   ) => {
     const [isReplyOpen, setIsReplyOpen] = React.useState(false);
     const [currentReplies, setCurrentReplies] =
-      React.useState<Comment[]>(replies);
+      React.useState<Comment["replies"]>(replies);
     const [openViewMore, setOpenViewMore] = React.useState(false);
     const [viewMoreStatus, setViewMoreStatus] = React.useState<
       "pending" | "idle"
@@ -44,25 +43,27 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     const lastChildRef = React.useRef<HTMLDivElement>(null);
     const [repliesContainerRef, repliesContainerBounds] = useMeasure();
 
-    function handleSuccess(commentId: number) {
+    function handleSuccess(commentIds: Comment["replies"]) {
       setIsReplyOpen(false);
-      viewMoreReplies(commentId);
+      viewMoreReplies(commentIds.replies);
       React.startTransition(() => {
         router.refresh();
       });
     }
 
-    async function viewMoreReplies(commentId?: number) {
+    async function viewMoreReplies(replyIds?: Comment["replies"]) {
       setViewMoreStatus("pending");
-      let ids = currentReplies.map((reply) => {
-        return `ids=${reply.comment_id}`;
-      });
-      if (commentId) {
-        ids.push(`ids=${commentId}`);
+      let ids: string[];
+      if (replyIds) {
+        ids = replyIds.map((reply) => `ids=${reply.comment_id}`);
+      } else {
+        ids = currentReplies.map((reply) => {
+          return `ids=${reply.comment_id}`;
+        });
       }
-
       const res = await fetch(`/api/comment?${ids.join("&")}`);
       const data = await res.json();
+
       const comments = data.comments.map((comment) => {
         return {
           ...comment,
@@ -72,7 +73,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
       setCurrentReplies(comments);
       setOpenViewMore(true);
       setViewMoreStatus("idle");
-
       React.startTransition(() => {
         router.refresh();
       });
@@ -154,6 +154,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                     }
                   >
                     <BiCommentDetail />
+                    <span className="sr-only">Open Comments</span>
                   </button>
                 )}
                 {user_fk_id !== currentUser.user_id && (
@@ -168,6 +169,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                     }}
                   >
                     <BiCommentAdd />
+                    <span className=" sr-only"> Add Comment</span>
                   </button>
                 )}
               </div>
