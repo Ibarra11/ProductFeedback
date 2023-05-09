@@ -46,13 +46,13 @@ function ReplyBox({ onSuccess, userId, postId, commentId, replyingTo }: Props) {
       <Button
         onClick={addReply}
         className={clsx(
-          "bg-brand-purple text-brand-ghost_white",
+          "relative bg-brand-purple text-brand-ghost_white",
           reply.length === 0 && " opacity-50"
         )}
         disabled={isPending || reply.length === 0}
       >
         <span className={` ${isPending ? "invisible" : ""} `}>Post Reply</span>
-        {isPending && <LoadingCircle />}
+        {isPending && <LoadingCircle size="md" color="primary" />}
       </Button>
     </div>
   );

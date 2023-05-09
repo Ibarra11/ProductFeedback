@@ -1,16 +1,35 @@
 import clsx from "clsx";
+const variants = {
+  size: {
+    sm: "h-6 w-6",
+    md: "h-8 w-8",
+    lg: "h-12 w-12",
+  },
+  color: {
+    primary: "text-white",
+    secondary: "text-brand-american_blue",
+  },
+};
 function LoadingCircle({
-  containerStyles,
-  svgStyles,
+  size,
+  color,
 }: {
-  containerStyles?: string;
   svgStyles?: string;
+  size: "sm" | "md" | "lg";
+  color: "primary" | "secondary";
 }) {
   return (
-    <div className={containerStyles} role="status">
+    <div
+      className={clsx("absolute  flex items-center justify-center ")}
+      role="status"
+    >
       <svg
         aria-hidden="true"
-        className={clsx("animate-spin", svgStyles)}
+        className={clsx(
+          "animate-spin",
+          variants.size[size],
+          variants.color[color]
+        )}
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >

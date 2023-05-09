@@ -58,15 +58,10 @@ function AddComment({ postFkId }: { postFkId: number }) {
             comment.length === 0 && "opacity-50"
           )}
         >
-          {!isPending && "Post Comment"}
-          {isPending && (
-            <>
-              <span className="invisible">Post Comment</span>
-              <span className="absolute inline-flex justify-center items-center top-0 left-0 h-full w-full">
-                <LoadingCircle svgStyles="w-8 h-8 text-white" />
-              </span>
-            </>
-          )}
+          <span className={` ${isPending ? "invisible" : ""} `}>
+            Post Comment
+          </span>
+          {isPending && <LoadingCircle size="md" color="primary" />}
         </Button>
       </div>
     </form>

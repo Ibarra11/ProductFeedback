@@ -10,7 +10,10 @@ function Button({
 }: React.PropsWithChildren<ButtonProps<{ as?: string }>>) {
   return (
     <button
-      className={clsx(`rounded-lg h-10 px-6 ${className || ""}`, " lg:h-11")}
+      className={clsx(
+        `inline-block rounded-lg h-10 px-6 ${className || ""}`,
+        " lg:h-11"
+      )}
       {...rest}
     >
       {children}

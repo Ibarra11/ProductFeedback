@@ -149,6 +149,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                         ? " text-brand-royal_blue"
                         : " text-slate-500"
                     )}
+                    disabled={viewMoreStatus === "pending"}
                     onClick={() =>
                       openViewMore ? setOpenViewMore(false) : viewMoreReplies()
                     }
@@ -192,10 +193,9 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
               />
             )}
             {viewMoreStatus === "pending" && (
-              <LoadingCircle
-                containerStyles="absolute  -translate-x-1/2 translate-y-full left-1/2 bottom-0"
-                svgStyles="w-8 h-8 text-brand-american_blue"
-              />
+              <div className="absolute h-6 w-6 -bottom-8 left-1/2 -translate-x-1/2">
+                <LoadingCircle color="secondary" size="sm" />
+              </div>
             )}
           </div>
         </div>
