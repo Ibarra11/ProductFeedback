@@ -10,13 +10,13 @@ const replySchema = z.object({
   replyingTo: z.string(),
 });
 export async function PUT(req: Request) {
-  const reqData = await req.json();
+  const rawData = await req.json();
   try {
-    const data = replySchema.parse(reqData);
+    const parsedData = replySchema.parse(rawData);
 
-    const replies = await prisma.comment.update({
+    const data = await prisma.comment.update({
       where: {
-        comment_id: data.commentId,
+        comment_id: parsedData.commentId,
       },
       select: {
         replies: {
@@ -25,21 +25,22 @@ export async function PUT(req: Request) {
           },
         },
       },
+
       data: {
         replies: {
           create: [
             {
-              content: data.content,
-              user_fk_id: data.userId,
-              post_fk_id: data.postId,
-              replyingTo: data.replyingTo,
+              content: parsedData.content,
+              user_fk_id: parsedData.userId,
+              post_fk_id: parsedData.postId,
+              replyingTo: parsedData.replyingTo,
             },
           ],
         },
       },
     });
-    console.log(replies);
-    return NextResponse.json(replies);
+
+    return NextResponse.json({ replies: data.replies.reverse() });
   } catch (e) {
     console.log(e);
   }

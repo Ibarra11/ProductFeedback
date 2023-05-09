@@ -51,7 +51,8 @@ function ReplyBox({ onSuccess, userId, postId, commentId, replyingTo }: Props) {
         )}
         disabled={isPending || reply.length === 0}
       >
-        {isPending ? <LoadingCircle /> : "Post Reply"}
+        <span className={` ${isPending ? "invisible" : ""} `}>Post Reply</span>
+        {isPending && <LoadingCircle />}
       </Button>
     </div>
   );
