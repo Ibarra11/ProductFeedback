@@ -3,7 +3,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import { prisma } from "@/db";
 import EditFeedbackForm from "../EditFeedbackForm";
-import { getPost } from "@/app/lib/prisma/post";
+import { getPost } from "@/app/lib/prisma/Post";
 import { redirect } from "next/navigation";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import UserProvider from "@/app/components/UserProvider";

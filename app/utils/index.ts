@@ -1,6 +1,6 @@
 import { SortByTypes } from "@/types";
 import { Status } from "@prisma/client";
-import type { Post } from "../lib/prisma/post";
+import type { Post } from "../lib/prisma/Post";
 export function sortPosts(posts: Post[], sortBy: SortByTypes): Post[] {
   switch (sortBy) {
     case "Most Comments": {

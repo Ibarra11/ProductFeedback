@@ -7,7 +7,7 @@ import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import FormSelect from "../components/FormSelect";
 import FormTextArea from "../components/FormTextArea";
-import { T_Post } from "../lib/prisma/post";
+import { T_Post } from "../lib/prisma/Post";
 import { useUserContext } from "../components/UserProvider";
 
 function EditFeedbackForm(post: T_Post) {

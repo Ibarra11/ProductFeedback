@@ -3,7 +3,7 @@ import React from "react";
 import clsx from "clsx";
 import Image from "next/image";
 import { BiCommentAdd, BiCommentDetail } from "react-icons/bi";
-import type { Comment } from "../lib/prisma/post";
+import type { Comment } from "../lib/prisma/Post";
 import { useUserContext } from "../components/UserProvider";
 import { useRouter } from "next/navigation";
 import useMeasure from "react-use-measure";

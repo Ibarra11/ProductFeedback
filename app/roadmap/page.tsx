@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 import RoadmapView from "./RoadmapView";
 import MobileRoadmapView from "./MobileRoadmapView";
-import { getPostByStatus } from "../lib/prisma/post";
+import { getPostByStatus } from "../lib/prisma/Post";
 import { convertDateToString, formatStatus } from "../utils";
 import PostsProvider from "../components/PostsProvider";
 import { Status } from "@prisma/client";

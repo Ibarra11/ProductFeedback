@@ -1,24 +1,16 @@
-import { prisma } from "@/db";
+import { deleteUpvote } from "@/app/lib/prisma";
+import { UpvoteSchema } from "@/app/lib/zod";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextResponse } from "next/server";
-import { z, ZodError } from "zod";
-
-const downvoteSchema = z.object({
-  upvoteId: z.number().int(),
-});
+import { ZodError } from "zod";
 
 export async function DELETE(req: Request) {
   const url = new URL(req.url);
-  const upvoteId = url.searchParams.get("upvoteId");
-  console.log(upvoteId);
-
+  // I send the upvote id through search params becuase a delete HTTP verb can not accept a body.
+  const rawData = url.searchParams.get("upvoteId");
   try {
-    const data = z.number().parse(Number(upvoteId));
-    await prisma.upvotes.delete({
-      where: {
-        upvote_id: data,
-      },
-    });
+    const upvote_id = UpvoteSchema.DeleteUpvote.parse(Number(rawData));
+    await deleteUpvote({ upvote_id });
     return new NextResponse(null, {
       status: 204,
     });

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { FeedbackCategories, FilterCategories, SortByTypes } from "@/types";
-import { Post } from "@/app/lib/prisma/post";
+import { Post } from "@/app/lib/prisma/Post";
 import { sortPosts } from "@/app/utils";
 interface Context {
   handleFilterChange: (filter: FilterCategories | FilterCategories[]) => void;

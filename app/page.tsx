@@ -5,7 +5,7 @@ import PostsProvider from "./components/PostsProvider";
 import SubHeader from "./components/SubHeader";
 import Sidebar from "./components/Sidebar";
 import Posts from "./components/Posts";
-import { getAllPost } from "./lib/prisma/post";
+import { getAllPost } from "./lib/prisma/Post";
 import UserProvider from "./components/UserProvider";
 import { convertDateToString } from "./utils";
 import { prisma } from "@/db";

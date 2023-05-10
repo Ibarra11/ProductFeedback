@@ -4,7 +4,7 @@ import clsx from "clsx";
 import Button from "../components/Button";
 import LoadingCircle from "../components/LoadingCircle";
 import TextArea from "../components/TextArea";
-import { Comment } from "../lib/prisma/post";
+import { Comment } from "../lib/prisma/Post";
 import { RepliesSchema } from "./helpers/zod";
 
 interface Props {

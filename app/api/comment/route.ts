@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { CommentRepliesSchema } from "@/app/post/helpers/zod";
-import { createReply, getRepliesToComments } from "@/app/lib/prisma/comments";
+import { createReply, getRepliesToComments } from "@/app/lib/prisma/Comment";
 import { CommentSchema } from "@/app/lib/zod";
+import { ZodError } from "zod";
 
 export async function PUT(req: Request) {
   const rawData = await req.json();
@@ -11,7 +12,22 @@ export async function PUT(req: Request) {
     const replies = await createReply(parsedData);
     return NextResponse.json(replies);
   } catch (e) {
-    console.log(e);
+    // error was a zod error either we passed invalid ids
+    if (e instanceof ZodError) {
+      return new NextResponse(
+        JSON.stringify({ message: "Invalid arguments" }),
+        {
+          status: 404,
+        }
+      );
+    }
+    // database error
+    return NextResponse.json(
+      { message: "Something wen't wrong please try again" },
+      {
+        status: 500,
+      }
+    );
   }
 }
 
@@ -28,10 +44,20 @@ export async function GET(req: Request) {
       comments: comments,
     });
   } catch (e) {
+    // error was a zod error either we passed invalid ids
+    if (e instanceof ZodError) {
+      return new NextResponse(
+        JSON.stringify({ message: "Comments not found" }),
+        {
+          status: 404,
+        }
+      );
+    }
+    // database error
     return NextResponse.json(
-      { message: "comments not found" },
+      { message: "Something wen't wrong please try again" },
       {
-        status: 404,
+        status: 500,
       }
     );
   }

@@ -4,7 +4,7 @@ import CommentIcon from "../components/CommentIcon";
 import CounterButton from "../components/CounterButton";
 import { ROADMAP_OPTIONS } from "../constants";
 import Link from "next/link";
-import { Post } from "../lib/prisma/post";
+import { Post } from "../lib/prisma/Post";
 import { Upvotes, User } from "@prisma/client";
 function RoadmapPost({
   post_id,

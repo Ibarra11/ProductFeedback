@@ -3,7 +3,7 @@ import Link from "next/link";
 import CounterButton from "../CounterButton";
 import CommentIcon from "../CommentIcon";
 import clsx from "clsx";
-import type { Post } from "@/app/lib/prisma/post";
+import type { Post } from "@/app/lib/prisma/Post";
 import { useUserContext } from "../UserProvider";
 import { formatStatus } from "@/app/utils";
 import { ROADMAP_OPTIONS } from "@/app/constants";

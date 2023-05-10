@@ -11,7 +11,7 @@ import { convertDateToString } from "@/app/utils";
 import {
   getCommentsByPostId,
   getPostWithCommentCount,
-} from "@/app/lib/prisma/post";
+} from "@/app/lib/prisma/Post";
 import UserProvider from "@/app/components/UserProvider";
 import { cache } from "react";
 

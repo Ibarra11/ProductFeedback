@@ -83,19 +83,28 @@ export const getCommentsByPostId = async (postId: number) => {
   });
 };
 
-export const updateForm = async (id: number, data: Partial<T_Post>) => {
-  return prisma.post.update({
+export const updatePost = async ({
+  post_id,
+  user_fk_id,
+  data,
+}: {
+  post_id: number;
+  user_fk_id: number;
+  data: Partial<T_Post>;
+}) => {
+  return await prisma.post.update({
     where: {
-      post_id: id,
+      post_id_user_fk_id: {
+        post_id,
+        user_fk_id,
+      },
     },
-    data: data,
+    data,
   });
 };
 
-type X = Status;
-
 export const getPostByStatus = async (option: Status) => {
-  return prisma.post.findMany({
+  return await prisma.post.findMany({
     where: {
       status: Status[option],
     },
@@ -105,6 +114,23 @@ export const getPostByStatus = async (option: Status) => {
           comments: true,
           upvotes: true,
         },
+      },
+    },
+  });
+};
+
+export const deletePost = async ({
+  post_id,
+  user_fk_id,
+}: {
+  post_id: number;
+  user_fk_id: number;
+}) => {
+  return await prisma.post.delete({
+    where: {
+      post_id_user_fk_id: {
+        post_id,
+        user_fk_id,
       },
     },
   });
