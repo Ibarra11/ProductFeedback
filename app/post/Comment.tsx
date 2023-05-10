@@ -10,6 +10,7 @@ import useMeasure from "react-use-measure";
 import { convertDateToString } from "../utils";
 import ReplyBox from "./ReplyBox";
 import LoadingCircle from "../components/LoadingCircle";
+import { CommentRepliesSchema } from "./helpers/zod";
 
 type Props = Comment & {
   level?: number;
@@ -31,8 +32,9 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     ref
   ) => {
     const [isReplyOpen, setIsReplyOpen] = React.useState(false);
-    const [currentReplies, setCurrentReplies] =
+    const [currentReplyIds, setCurrentReplyIds] =
       React.useState<Comment["replies"]>(replies);
+    const [currentReplies, setCurrentReplies] = React.useState<Comment[]>([]);
     const [openViewMore, setOpenViewMore] = React.useState(false);
     const [viewMoreStatus, setViewMoreStatus] = React.useState<
       "pending" | "idle"
@@ -45,7 +47,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
 
     function handleSuccess(commentIds: Comment["replies"]) {
       setIsReplyOpen(false);
-      viewMoreReplies(commentIds.replies);
+      viewMoreReplies(commentIds);
       React.startTransition(() => {
         router.refresh();
       });
@@ -57,25 +59,24 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
       if (replyIds) {
         ids = replyIds.map((reply) => `ids=${reply.comment_id}`);
       } else {
-        ids = currentReplies.map((reply) => {
+        ids = currentReplyIds.map((reply) => {
           return `ids=${reply.comment_id}`;
         });
       }
       const res = await fetch(`/api/comment?${ids.join("&")}`);
-      const data = await res.json();
-
-      const comments = data.comments.map((comment) => {
-        return {
-          ...comment,
-          createdAt: convertDateToString(new Date(comment.createdAt)),
-        };
-      });
-      setCurrentReplies(comments);
-      setOpenViewMore(true);
-      setViewMoreStatus("idle");
-      React.startTransition(() => {
-        router.refresh();
-      });
+      const rawData = await res.json();
+      try {
+        const { comments } = CommentRepliesSchema.parse(rawData);
+        setCurrentReplies(comments);
+        setOpenViewMore(true);
+        React.startTransition(() => {
+          router.refresh();
+        });
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setViewMoreStatus("idle");
+      }
     }
 
     const marginLeft = Math.round(36 * (level - 1));
@@ -140,7 +141,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                 <p className="text-sm text-brand-blue_gray">@{username}</p>
               </div>
               <div className="flex gap-4">
-                {currentReplies.length > 0 && (
+                {currentReplyIds.length > 0 && (
                   <button
                     className={clsx(
                       `appearance-none text-brand-royal_blue font-semibold text-lg`,

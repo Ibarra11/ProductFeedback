@@ -5,6 +5,8 @@ import Button from "../components/Button";
 import LoadingCircle from "../components/LoadingCircle";
 import TextArea from "../components/TextArea";
 import { Comment } from "../lib/prisma/post";
+import { RepliesSchema } from "./helpers/zod";
+
 interface Props {
   userId: number;
   postId: number;
@@ -28,11 +30,20 @@ function ReplyBox({ onSuccess, userId, postId, commentId, replyingTo }: Props) {
         replyingTo,
       }),
     });
-    const comments = await res.json();
     if (res.ok) {
+      const rawData = await res.json();
+      try {
+        const { replies } = RepliesSchema.parse(rawData);
+        onSuccess(replies);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsPending(false);
+        setReply("");
+      }
+    } else {
       setIsPending(false);
       setReply("");
-      onSuccess(comments);
     }
   }
 
