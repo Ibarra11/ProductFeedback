@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import clsx from "clsx";
-import Button from "../components/Button";
-import LoadingCircle from "../components/LoadingCircle";
-import TextArea from "../components/TextArea";
-import { Comment } from "../lib/prisma/Post";
-import { RepliesSchema } from "./helpers/zod";
+import Button from "../../components/Button";
+import LoadingCircle from "../../components/LoadingCircle";
+import TextArea from "../../components/TextArea";
+import { Comment } from "../../lib/prisma/Post";
+import { CommentSchema } from "@/app/lib/zod";
 
 interface Props {
   userId: number;
@@ -33,8 +33,8 @@ function ReplyBox({ onSuccess, userId, postId, commentId, replyingTo }: Props) {
     if (res.ok) {
       const rawData = await res.json();
       try {
-        const { replies } = RepliesSchema.parse(rawData);
-        onSuccess(replies);
+        const { comments } = CommentSchema.replies.parse(rawData);
+        onSuccess(comments);
       } catch (e) {
         console.error(e);
       } finally {

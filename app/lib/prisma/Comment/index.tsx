@@ -38,6 +38,24 @@ export async function getRepliesToComments(
   });
 }
 
+export async function createComment({
+  content,
+  post_fk_id,
+  user_fk_id,
+}: {
+  content: string;
+  post_fk_id: number;
+  user_fk_id: number;
+}) {
+  return await prisma.comment.create({
+    data: {
+      content,
+      post_fk_id,
+      user_fk_id,
+    },
+  });
+}
+
 export async function createReply({
   commentId,
   content,

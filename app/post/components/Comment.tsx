@@ -3,14 +3,13 @@ import React from "react";
 import clsx from "clsx";
 import Image from "next/image";
 import { BiCommentAdd, BiCommentDetail } from "react-icons/bi";
-import type { Comment } from "../lib/prisma/Post";
-import { useUserContext } from "../components/UserProvider";
+import type { Comment } from "../../lib/prisma/Post";
 import { useRouter } from "next/navigation";
 import useMeasure from "react-use-measure";
-import { convertDateToString } from "../utils";
 import ReplyBox from "./ReplyBox";
-import LoadingCircle from "../components/LoadingCircle";
-import { CommentRepliesSchema } from "./helpers/zod";
+import { useUserContext } from "@/app/components/UserProvider";
+import { CommentSchema } from "@/app/lib/zod";
+import LoadingCircle from "@/app/components/LoadingCircle";
 
 type Props = Comment & {
   level?: number;
@@ -66,7 +65,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
       const res = await fetch(`/api/comment?${ids.join("&")}`);
       const rawData = await res.json();
       try {
-        const { comments } = CommentRepliesSchema.parse(rawData);
+        const { comments } = CommentSchema.replies.parse(rawData);
         setCurrentReplies(comments);
         setOpenViewMore(true);
         React.startTransition(() => {

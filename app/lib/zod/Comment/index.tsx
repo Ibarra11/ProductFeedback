@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const ReplySchema = z.object({
+const createReply = z.object({
   content: z.string(),
   userId: z.number().int(),
   postId: z.number().int(),
@@ -8,9 +8,49 @@ const ReplySchema = z.object({
   replyingTo: z.string(),
 });
 
+export const RepliesSchema = z.object({
+  replies: z.array(
+    z.object({
+      comment_id: z.number(),
+    })
+  ),
+});
+
+export const CommentRepliesSchema = z.object({
+  comments: z.array(
+    z.object({
+      comment_id: z.number(),
+      replyingTo: z.string(),
+      createdAt: z.string(),
+      post_fk_id: z.number(),
+      user_fk_id: z.number(),
+      content: z.string(),
+      Post: z.object({
+        User: z.object({
+          username: z.string(),
+        }),
+      }),
+      User: z.object({
+        user_id: z.number(),
+        image: z.string(),
+        name: z.string(),
+        username: z.string(),
+      }),
+      replies: RepliesSchema.shape.replies,
+    })
+  ),
+});
+
+export const createComment = z.object({
+  post_fk_id: z.number(),
+  content: z.string().nonempty(),
+});
+
 export const CommentSchema = {
   replyIds: z.array(z.number().int()),
-  createReply: ReplySchema,
+  createReply,
+  createComment,
+  replies: CommentRepliesSchema,
 };
 
 export type ZCommentSchema = {

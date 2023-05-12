@@ -3,8 +3,8 @@ import { Metadata } from "next";
 import Post from "@/app/components/Post";
 import CustomLink from "@/app/components/CustomLink";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
-import Comments from "../Comments";
-import AddComment from "../AddComment";
+import Comments from "../components/Comments";
+import AddComment from "../components/AddComment";
 import { prisma } from "@/db";
 import { convertDateToString } from "@/app/utils";
 import {

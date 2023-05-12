@@ -2,9 +2,8 @@
 import React from "react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import Button from "../components/Button";
-import { createComment } from "./helpers";
-import LoadingCircle from "../components/LoadingCircle";
+import LoadingCircle from "@/app/components/LoadingCircle";
+import Button from "@/app/components/Button";
 const COMMENT_LENGTH = 250;
 
 function AddComment({ postFkId }: { postFkId: number }) {
@@ -15,9 +14,9 @@ function AddComment({ postFkId }: { postFkId: number }) {
     ev.preventDefault();
     setIsPending(true);
     try {
-      const res = await createComment({
-        content: comment,
-        post_fk_id: postFkId,
+      const res = await fetch("/api/comment", {
+        method: "POST",
+        body: JSON.stringify({ content: comment, post_fk_id: postFkId }),
       });
       if (res.ok) {
         setComment("");
