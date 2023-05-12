@@ -43,10 +43,17 @@ export async function PUT(req: Request) {
     // Im sending the userid with the request, but in the future would probably get it from an API.
     const postIdValue = PostSchema.PostIdSegment.parse(postIdSegment);
     const data = PostSchema.UpdatePost.parse(res);
+    const postValues = Object.keys(data)
+      .filter((val) => val !== "userId")
+      .reduce((acc, curr) => {
+        (acc as any)[curr] = (data as any)[curr];
+        return acc;
+      }, {} as typeof data);
+
     await updatePost({
       post_id: postIdValue,
       user_fk_id: data.userId,
-      data,
+      data: postValues,
     });
     return new NextResponse(null, {
       status: 204,
@@ -63,7 +70,6 @@ export async function PUT(req: Request) {
         status: 422,
       });
     }
-
     return new NextResponse(null, {
       status: 500,
     });

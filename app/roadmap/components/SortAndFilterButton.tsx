@@ -7,7 +7,7 @@ function SortAndFilterButton({ onClick }: { onClick: () => void }) {
     <button
       onClick={onClick}
       className={clsx(
-        "inline-flex items-center gap-2  bg-gray-200 p-2 rounded-md shadow-sm text-sm text-slate-700 transition-opacity duration-200"
+        "inline-flex items-center gap-2  bg-gray-200 p-2 rounded-md shadow-sm text-sm text-slate-700 transition-opacity duration-200 outline-none focus:ring-2  focus:ring-blue-500"
       )}
     >
       <BiSortAlt2 />

@@ -18,7 +18,6 @@ function Post({
   disableHighlightAnimation = false,
   _count: { comments, upvotes },
 }: Post & { disableHighlightAnimation?: boolean }) {
-  console.log(disableHighlightAnimation);
   const user = useUserContext();
   const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
   return (

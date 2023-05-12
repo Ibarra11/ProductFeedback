@@ -1,8 +1,13 @@
 import { z } from "zod";
-const PostIdSegment = z.number().int();
+const PostIdSegment = z
+  .string()
+  .transform((val) => Number(val))
+  .refine((val) => !Number.isNaN(val), {
+    message: "invalid input",
+  });
 
 const CreateUpvote = z.object({
-  userId: z.number().int(),
+  userId: z.number(),
 });
 const DeleteUpvote = z.number();
 export const UpvoteSchema = {

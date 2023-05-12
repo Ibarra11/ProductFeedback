@@ -1,12 +1,12 @@
-import Header from "./Header";
+import Header from "./components/Header";
 import clsx from "clsx";
 import { prisma } from "@/db";
 import { z } from "zod";
 import UserProvider from "../components/UserProvider";
 import { redirect } from "next/navigation";
 import React from "react";
-import RoadmapView from "./RoadmapView";
-import MobileRoadmapView from "./MobileRoadmapView";
+import RoadmapView from "./components/RoadmapView";
+import MobileRoadmapView from "./components/MobileRoadmapView";
 import { getPostByStatus } from "../lib/prisma/Post";
 import { convertDateToString, formatStatus } from "../utils";
 import PostsProvider from "../components/PostsProvider";
@@ -60,7 +60,6 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
   in-progress => In_Progress
   */
   const status = transformStatus(rawInput.data.status as any);
-
   const user = await getRandomUser();
   const postsPromise = getPostByStatus(status).then((data) => {
     const newPosts = data.map((post) => ({

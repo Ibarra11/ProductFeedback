@@ -10,28 +10,28 @@ import { FormData } from "@/types";
 import { CATEGORY_VALUES } from "../constants";
 import { useRouter } from "next/navigation";
 import LoadingCircle from "../components/LoadingCircle";
-type FormState = "idle" | "submitting" | "error";
+type FormState = "idle" | "pending" | "error";
 function NewFeedbackForm({ user }: { user: User }) {
   const [formData, setFormData] = React.useState<FormData>({
     title: "",
     category: CATEGORY_VALUES[0],
     content: "",
   });
-  const [formState, setFormState] = React.useState<FormState>("idle");
+  const [formStatus, setFormStatus] = React.useState<FormState>("idle");
   const router = useRouter();
   async function handleFormSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
-    setFormState("submitting");
+    setFormStatus("pending");
     const res = await fetch("/new-feedback/api", {
       method: "POST",
       body: JSON.stringify({ ...formData, user_fk_id: user.user_id }),
     });
     if (!res.ok) {
       const errors = await res.json();
-      setFormState("error");
+      setFormStatus("error");
       return;
     } else {
-      setFormState("idle");
+      setFormStatus("idle");
       setFormData({
         title: "",
         category: CATEGORY_VALUES[0],
@@ -43,6 +43,7 @@ function NewFeedbackForm({ user }: { user: User }) {
 
   const isFormCompleted =
     formData.content.trim() !== "" && formData.title.trim() !== "";
+
   return (
     <form
       onSubmit={handleFormSubmit}
@@ -82,33 +83,28 @@ function NewFeedbackForm({ user }: { user: User }) {
           )}
         >
           <Button
-            disabled={formState === "submitting"}
+            disabled={formStatus === "pending"}
             className={clsx(
               "bg-brand-blue_gray transition-all",
               " hover:bg-slate-600",
-              formState === "submitting" && "opacity-75"
+              formStatus === "pending" && "opacity-75"
             )}
           >
             Cancel
           </Button>
           <Button
-            disabled={formState === "submitting" || !isFormCompleted}
+            disabled={formStatus === "pending" || !isFormCompleted}
             type="submit"
             className={clsx(
               "relative bg-brand-purple  transition-all",
-              formState !== "submitting" && "hover:bg-purple-600"
+              formStatus !== "pending" && "hover:bg-purple-600"
             )}
           >
-            {formState !== "submitting" && "Add Feedback"}
-            {formState === "submitting" && (
-              <>
-                <span className=" invisible">Add Feedback</span>
-                {
-                  <span className="absolute z-20 inline-flex justify-center items-center left-0 top-0 w-full h-full">
-                    <LoadingCircle svgStyles="w-8 h-8 text-white" />
-                  </span>
-                }
-              </>
+            <span className={`${formStatus === "pending" ? "invisible" : ""}`}>
+              Add Feedback
+            </span>
+            {formStatus === "pending" && (
+              <LoadingCircle size="md" color="primary" />
             )}
           </Button>
         </div>

@@ -30,8 +30,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-// export async function GET(req: NextApiRequest, res: NextApiResponse) {
-//   console.log("hello");
-//   NextResponse.json({ hello: "world" });
-// }

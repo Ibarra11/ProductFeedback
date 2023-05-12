@@ -63,7 +63,7 @@ function CounterButton({
   return (
     <button
       className={clsx(
-        "counter-btn bg-brand-alice_blue  flex rounded-lg",
+        "relative counter-btn bg-brand-alice_blue  flex rounded-lg",
         className,
         flexDirection,
         upvoteId
@@ -106,12 +106,7 @@ function CounterButton({
         </>
       )}
       {isFetching && (
-        <LoadingCircle
-          svgStyles={`w-8 h-8 ${
-            upvoteId ? "text-brand-ghost_white" : "text-brand-american_blue"
-          }`}
-          containerStyles="w-full h-full grid place-content-center "
-        />
+        <LoadingCircle size="md" color={upvoteId ? "primary" : "secondary"} />
       )}
     </button>
   );

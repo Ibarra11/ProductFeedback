@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import LinkWithChevronLeft from "../components/LinkWithChevronLeft";
-import CustomLink from "../components/CustomLink";
+import LinkWithChevronLeft from "../../components/LinkWithChevronLeft";
+import CustomLink from "../../components/CustomLink";
 
 function Header() {
   return (

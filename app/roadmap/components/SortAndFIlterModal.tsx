@@ -5,11 +5,11 @@ import { motion } from "framer-motion";
 import { BiSortAlt2 } from "react-icons/bi";
 import { Category } from ".prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
-import { usePostsContext } from "../components/PostsProvider";
 import { SortByTypes } from "@/types";
-import CategoryPills from "../components/CategoryPills";
 import SortRadioGroup from "./SortRadioGroup";
-import { SORT_OPTIONS } from "../constants";
+import { usePostsContext } from "@/app/components/PostsProvider";
+import { SORT_OPTIONS } from "@/app/constants";
+import CategoryPills from "@/app/components/CategoryPills";
 
 function SortAndFilterModal({
   handleOpenChange,

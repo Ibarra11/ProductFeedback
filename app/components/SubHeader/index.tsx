@@ -40,7 +40,13 @@ function SubHeader({ postsPromise }: Props) {
           alt=""
           aria-hidden
         />
-        <Suspense fallback={<LoadingCircle />}>
+        <Suspense
+          fallback={
+            <div className="relative w-8 h-8">
+              <LoadingCircle size="md" color="primary" />
+            </div>
+          }
+        >
           <PostsCount postsPromise={postsPromise} />
         </Suspense>
       </div>

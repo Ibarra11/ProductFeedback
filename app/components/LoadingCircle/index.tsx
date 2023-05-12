@@ -14,13 +14,12 @@ function LoadingCircle({
   size,
   color,
 }: {
-  svgStyles?: string;
   size: "sm" | "md" | "lg";
   color: "primary" | "secondary";
 }) {
   return (
     <div
-      className={clsx("absolute  flex items-center justify-center ")}
+      className={clsx("absolute inset-0  flex items-center justify-center")}
       role="status"
     >
       <svg

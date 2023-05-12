@@ -1,11 +1,12 @@
 import React from "react";
 import clsx from "clsx";
-import CommentIcon from "../components/CommentIcon";
-import CounterButton from "../components/CounterButton";
-import { ROADMAP_OPTIONS } from "../constants";
+
+import CounterButton from "../../components/CounterButton";
+import { ROADMAP_OPTIONS } from "../../constants";
 import Link from "next/link";
-import { Post } from "../lib/prisma/Post";
+import { Post } from "../../lib/prisma";
 import { Upvotes, User } from "@prisma/client";
+import CommentIcon from "@/app/components/CommentIcon";
 function RoadmapPost({
   post_id,
   status,

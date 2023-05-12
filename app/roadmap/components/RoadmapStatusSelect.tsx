@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Select from "../components/Select";
+import Select from "../../components/Select";
 import { Status } from ".prisma/client";
 import { useRouter } from "next/navigation";
 

@@ -1,13 +1,12 @@
 "use client";
+import { use } from "react";
 import RoadmapRequest from "./RoadmapPost";
 import clsx from "clsx";
-import { ROADMAP_TAB_DESCRIPTION } from "../constants";
+import { usePostsContext } from "@/app/components/PostsProvider";
+import { formatStatus } from "@/app/utils";
+import { ROADMAP_TAB_DESCRIPTION } from "@/app/constants";
+import EmptySuggestionsView from "@/app/components/EmptySuggestionsView";
 import { Category, Status, Upvotes, User } from "@prisma/client";
-import { use } from "react";
-import { usePostsContext } from "../components/PostsProvider";
-import { formatStatus } from "../utils";
-import EmptySuggestionsView from "../components/EmptySuggestionsView";
-
 interface Props {
   postsPromise: Promise<
     {
