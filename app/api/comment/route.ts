@@ -20,7 +20,6 @@ export async function POST(req: Request) {
       post_fk_id,
       user_fk_id: users[randomUserIndex].user_id,
     });
-
     return new NextResponse(null, {
       status: 200,
     });

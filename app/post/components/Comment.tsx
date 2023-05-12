@@ -151,7 +151,9 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                     )}
                     disabled={viewMoreStatus === "pending"}
                     onClick={() =>
-                      openViewMore ? setOpenViewMore(false) : viewMoreReplies()
+                      // openViewMore ? setOpenViewMore(false) : viewMoreReplies()
+                      // @ts-ignore
+                      router.push(`${window.location.pathname}/${comment_id}`)
                     }
                   >
                     <BiCommentDetail />
