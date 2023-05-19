@@ -1,3 +1,4 @@
+import { convertDateToString } from "@/app/utils";
 import { prisma } from "@/db";
 import { Prisma, Status } from "@prisma/client";
 
@@ -39,7 +40,7 @@ export const getPost = async (id: number) => {
 };
 
 export const getPostWithCommentCount = async (id: number) => {
-  return prisma.post.findUnique({
+  const result = await prisma.post.findUnique({
     where: {
       post_id: id,
     },
@@ -52,6 +53,10 @@ export const getPostWithCommentCount = async (id: number) => {
       },
     },
   });
+  if (!result) {
+    return null;
+  }
+  return { ...result, createdAt: convertDateToString(result.createdAt) };
 };
 
 export const getCommentsByPostId = async (postId: number) => {

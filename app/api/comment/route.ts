@@ -68,7 +68,7 @@ export async function GET(req: Request) {
     const commentIds = CommentSchema.replyIds.parse(searchParamIds);
 
     const data = await getRepliesToComments(commentIds);
-    console.log(data);
+
     // If there are any null comments from data, it will throw an error because an id was not found.
     const comments = CommentSchema.replies.shape.comments.parse(data);
     return NextResponse.json({

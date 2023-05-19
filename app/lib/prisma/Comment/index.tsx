@@ -9,6 +9,7 @@ export async function getRepliesToComments(
       where: {
         comment_id: id,
       },
+
       include: {
         User: true,
         Post: {
@@ -32,7 +33,10 @@ export async function getRepliesToComments(
   // Convert the date to string before sending back to client
   return comments.map((comment) => {
     if (comment) {
-      return { ...comment, createdAt: convertDateToString(comment.createdAt) };
+      return {
+        ...comment,
+        createdAt: convertDateToString(comment.createdAt),
+      };
     }
     return comment;
   });

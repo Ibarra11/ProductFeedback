@@ -22,7 +22,7 @@ interface Props {
 export default function PostContainer({ post, user }: Props) {
   const isAuthor = post.user_fk_id === user.user_id;
   return (
-    <article className="border-2 border-red-500">
+    <article className="border-2 border-red-500 isolate">
       <div className="flex justify-between border-2 border-green-500">
         <LinkWithChevronLeft className="text-brand-american_blue">
           Go Back

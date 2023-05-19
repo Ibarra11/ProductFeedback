@@ -6,6 +6,10 @@ div[data-radix-popper-content-wrapper] {
   width: var(--radix-popper-anchor-width);
 }
 
+.comment-modal {
+  width: calc(100% - 48px - 15px);
+}
+
 .banner-gradient {
   background: radial-gradient(
     128.88% 128.88% at 103.9% -10.39%,

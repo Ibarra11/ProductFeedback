@@ -1,13 +1,21 @@
+"use client";
+import React from "react";
 import EmptyCommentsView from "./EmptyCommentsView";
 import Comment from "./Comment";
 
-function Comments({ comments }: { comments: Comment[] }) {
+function Comments({
+  comments,
+  variant,
+}: {
+  comments: Comment[];
+  variant?: "modal";
+}) {
   return (
-    <div className="bg-white shadow-sm p-8 pb-10 h-[720px]  border-2 border-green-500  overflow-auto rounded-lg overflow-y-auto overflow-x-hidden">
+    <div className="bg-white shadow-sm p-8 pb-10 h-full  border-2 border-green-500  overflow-auto rounded-lg">
       {comments.length > 0 ? (
         comments.map((comment, index) => (
           <>
-            <Comment key={comment.comment_id} {...comment} />
+            <Comment variant={variant} key={comment.comment_id} {...comment} />
             {index != comments.length - 1 && <Divder />}
           </>
         ))

@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { z } from "zod";
 import { Metadata } from "next";
 import Post from "@/app/components/Post";
 import CustomLink from "@/app/components/CustomLink";
@@ -7,8 +8,12 @@ import Comments from "../components/Comments";
 import AddComment from "../components/AddComment";
 import { prisma } from "@/db";
 import { convertDateToString } from "@/app/utils";
-import { getCommentsByPostId } from "@/app/lib/prisma/Post";
+import {
+  getCommentsByPostId,
+  getPostWithCommentCount,
+} from "@/app/lib/prisma/Post";
 import UserProvider from "@/app/components/UserProvider";
+import PostContainer from "../components/PostContainer";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -25,9 +30,30 @@ export const revalidate = 0;
 //   return { title: post.title, description: post.content };
 // }
 
-async function Page({ params: { id } }: { params: { id: string } }) {
-  const postId = Number(id);
-  const comments = await getCommentsByPostId(postId).then((comments) => {
+async function getRandomUser() {
+  const user = await prisma.user.findMany({
+    include: {
+      Upvotes: true,
+    },
+  });
+  const randomIndex = Math.floor(user.length * Math.random());
+  return user[randomIndex];
+}
+
+async function Page({ params: { id } }: { params: { id: string[] } }) {
+  const rawPostId = z
+    .string()
+    .transform(Number)
+    .refine((val) => !Number.isNaN(val))
+    .safeParse(id);
+  if (!rawPostId.success) {
+    redirect("/");
+  }
+
+  const postId = rawPostId.data;
+
+  const postPromise = getPostWithCommentCount(postId);
+  const commentsPromise = getCommentsByPostId(postId).then((comments) => {
     return comments.map((comment) => {
       return {
         ...comment,
@@ -35,11 +61,23 @@ async function Page({ params: { id } }: { params: { id: string } }) {
       };
     });
   });
+
+  const [post, comments, user] = await Promise.all([
+    postPromise,
+    commentsPromise,
+    getRandomUser(),
+  ]);
+  if (!post) {
+    redirect("/");
+  }
   return (
-    <div className="border-4 border-red-500 space-y-6 ">
-      <Comments comments={comments} />
-      <AddComment postFkId={postId} />
-    </div>
+    <UserProvider user={user}>
+      <div className="space-y-6">
+        <PostContainer user={user} post={post} />
+        <Comments comments={comments} />
+        <AddComment postFkId={postId} />
+      </div>
+    </UserProvider>
   );
 }
 
