@@ -11,13 +11,13 @@ function Comments({
   variant?: "modal";
 }) {
   return (
-    <div className="bg-white shadow-sm p-8 pb-10 h-full  border-2 border-green-500  overflow-auto rounded-lg">
+    <div className="bg-white shadow-sm p-8 pb-10 h-full  overflow-auto rounded-lg">
       {comments.length > 0 ? (
         comments.map((comment, index) => (
-          <>
-            <Comment variant={variant} key={comment.comment_id} {...comment} />
+          <React.Fragment key={comment.comment_id}>
+            <Comment variant={variant} {...comment} />
             {index != comments.length - 1 && <Divder />}
-          </>
+          </React.Fragment>
         ))
       ) : (
         <EmptyCommentsView />

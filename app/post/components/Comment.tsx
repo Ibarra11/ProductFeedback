@@ -88,9 +88,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
       <>
         <div
           style={{ marginLeft }}
-          className={clsx(
-            "relative flex gap-8 min-h-[150px] border-2 border-green-500"
-          )}
+          className={clsx("relative flex gap-8 min-h-[150px]")}
         >
           <div
             ref={ref ? startingImgRef : null}
@@ -137,21 +135,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                   />
                 </div>
               )}
-              {/* {replies.length > 0 &&
-                modalContext &&
-                modalContext.comment.comment_id !== comment_id && (
-                  <div className="sm:hidden">
-                    <ViewMoreCommentsButton
-                      size={20}
-                      disabled={viewMoreStatus === "pending"}
-                      onClick={() =>
-                        // @ts-ignore
-                        setIsModalOpen(true)
-                      }
-                      isOpen={openViewMore}
-                    />
-                  </div>
-                )} */}
             </div>
             {level > 1 && (
               <div
@@ -182,8 +165,8 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
 
           <div className="flex-1">
             <div className="sm:flex sm:justify-between sm:items-center mb-4">
-              <div className="border-2 border-red-500 ">
-                <div className="flex items-baseline justify-between sm:justify-start border-2 border-green-500">
+              <div>
+                <div className="flex items-baseline justify-between sm:justify-start">
                   <h4 className="text-sm font-bold">{name}</h4>
                   <span className="ml-2 text-slate-400 text-xs">
                     {createdAt}
@@ -239,7 +222,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
           <CommentModal
             userId={currentUser.user_id}
             comment={comment}
-            isOpen={isModalOpen}
             closeModal={() => setIsModalOpen(false)}
           />
         )}

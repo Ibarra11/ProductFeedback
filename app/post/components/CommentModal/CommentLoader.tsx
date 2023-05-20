@@ -2,6 +2,7 @@
 import React from "react";
 import { GetReplies } from "@/app/lib/mutations";
 import Comments from "../Comments";
+import LoadingCircle from "@/app/components/LoadingCircle";
 interface Props {
   commentsPromise: ReturnType<GetReplies>;
 }
@@ -12,9 +13,17 @@ function ModalComments({ commentsPromise }: Props) {
 
 function CommentLoader({ commentsPromise }: Props) {
   return (
-    <React.Suspense fallback={<h1>Loading</h1>}>
+    <React.Suspense fallback={<CommentFallback />}>
       <ModalComments commentsPromise={commentsPromise} />
     </React.Suspense>
+  );
+}
+
+function CommentFallback() {
+  return (
+    <div className="relative h-full border-2">
+      <LoadingCircle size="lg" color="secondary" />
+    </div>
   );
 }
 
