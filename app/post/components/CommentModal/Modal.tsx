@@ -3,7 +3,7 @@ import React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Comment } from "@/app/lib/prisma";
 import CommentContainer from "./CommentContainer";
-import AddComment from "../AddComment";
+import AddCommentModal from "./AddCommentModal";
 import { getReplies } from "@/app/lib/mutations";
 import CommentLoader from "./CommentLoader";
 import CommentModalProvider from "./CommentModalProvider";
@@ -20,27 +20,6 @@ function CommentModal({ closeModal, comment, userId }: Props) {
   const [comments, setComments] = React.useState<Comment[]>([comment]);
   const [commentIndex, setCommentIndex] = React.useState(0);
 
-  async function addReply(content: string) {
-    const res = await fetch("/api/comment", {
-      method: "PUT",
-      body: JSON.stringify({
-        content: content,
-        userId: userId,
-        postId: comments[commentIndex].post_fk_id,
-        commentId: comments[commentIndex].comment_id,
-        replyingTo: comments[commentIndex].User.username,
-      }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      const updatedComment = { ...comments[commentIndex] };
-      updatedComment.replies = data.replies;
-      setComments([...comments.slice(0, commentIndex), updatedComment]);
-      return true;
-    }
-    return false;
-  }
-
   function handleCommentChange(comment: Comment) {
     setComments([...comments, comment]);
     setCommentIndex(comments.length);
@@ -52,6 +31,15 @@ function CommentModal({ closeModal, comment, userId }: Props) {
     } else {
       setCommentIndex(commentIndex + 1);
     }
+  }
+
+  function updateComment(newReplies: Comment["replies"]) {
+    console.log(comments);
+    setComments([
+      ...comments.slice(0, commentIndex),
+      { ...currentComment, replies: newReplies },
+      ...comments.slice(commentIndex + 1),
+    ]);
   }
 
   const currentComment = comments[commentIndex];
@@ -81,9 +69,10 @@ function CommentModal({ closeModal, comment, userId }: Props) {
             <div className="flex-1 h-full overflow-auto">
               <CommentLoader commentsPromise={commentsPromise} />
             </div>
-            <AddComment
-              postFkId={currentComment.comment_id}
-              mutation={addReply}
+            <AddCommentModal
+              updateComment={updateComment}
+              comment={comments[commentIndex]}
+              userId={userId}
             />
           </Dialog.Content>
         </Dialog.Portal>

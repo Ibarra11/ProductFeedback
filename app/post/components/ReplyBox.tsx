@@ -33,8 +33,8 @@ function ReplyBox({ onSuccess, userId, postId, commentId, replyingTo }: Props) {
     if (res.ok) {
       const rawData = await res.json();
       try {
-        const { comments } = CommentSchema.replies.parse(rawData);
-        onSuccess(comments);
+        const { replies } = CommentSchema.replies.parse(rawData);
+        onSuccess(replies);
       } catch (e) {
         console.error(e);
       } finally {

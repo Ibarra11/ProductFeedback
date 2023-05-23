@@ -70,7 +70,7 @@ export async function GET(req: Request) {
     const data = await getRepliesToComments(commentIds);
 
     // If there are any null comments from data, it will throw an error because an id was not found.
-    const comments = CommentSchema.replies.shape.comments.parse(data);
+    const comments = CommentSchema.comments.shape.comments.parse(data);
     return NextResponse.json({
       comments,
     });

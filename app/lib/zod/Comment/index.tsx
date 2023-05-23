@@ -16,7 +16,7 @@ export const RepliesSchema = z.object({
   ),
 });
 
-export const CommentRepliesSchema = z.object({
+export const Comments = z.object({
   comments: z.array(
     z.object({
       comment_id: z.number(),
@@ -50,7 +50,8 @@ export const CommentSchema = {
   replyIds: z.array(z.number().int()),
   createReply,
   createComment,
-  replies: CommentRepliesSchema,
+  comments: Comments,
+  replies: RepliesSchema,
 };
 
 export type ZCommentSchema = {

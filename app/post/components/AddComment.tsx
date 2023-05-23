@@ -6,13 +6,7 @@ import LoadingCircle from "@/app/components/LoadingCircle";
 import Button from "@/app/components/Button";
 const COMMENT_LENGTH = 250;
 
-function AddComment({
-  postFkId,
-  mutation,
-}: {
-  postFkId: number;
-  mutation: (content: string) => Promise<Boolean>;
-}) {
+function AddComment({ postFkId }: { postFkId: number }) {
   const [isPending, setIsPending] = React.useState(false);
   const [comment, setComment] = React.useState("");
   const router = useRouter();
@@ -20,23 +14,18 @@ function AddComment({
     ev.preventDefault();
     setIsPending(true);
     try {
-      const res = await mutation(comment);
-      if (res) {
+      const res = await fetch("/api/comment", {
+        method: "POST",
+        body: JSON.stringify({ content: comment, post_fk_id: postFkId }),
+      });
+      if (res.ok) {
         setComment("");
         setIsPending(false);
+        React.startTransition(() => {
+          // refreshes the current route with losing client side state
+          router.refresh();
+        });
       }
-      //   fetch("/api/comment", {
-      //   method: "POST",
-      //   body: JSON.stringify({ content: comment, post_fk_id: postFkId }),
-      // });
-      // if (res.ok) {
-      //   setComment("");
-      //   setIsPending(false);
-      //   // React.startTransition(() => {
-      //   //   // refreshes the current route with losing client side state
-      //   //   router.refresh();
-      //   // });
-      // }
     } catch (error) {}
   }
   return (

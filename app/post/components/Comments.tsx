@@ -2,12 +2,13 @@
 import React from "react";
 import EmptyCommentsView from "./EmptyCommentsView";
 import Comment from "./Comment";
+import { Comment as T_Comment } from "@/app/lib/prisma";
 
 function Comments({
   comments,
   variant,
 }: {
-  comments: Comment[];
+  comments: T_Comment[];
   variant?: "modal";
 }) {
   return (

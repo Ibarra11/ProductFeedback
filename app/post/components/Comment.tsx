@@ -14,6 +14,7 @@ import ReplyButton from "./ReplyButton";
 import CommentModal from "./CommentModal/Modal";
 import CommentIcon from "@/app/components/CommentIcon";
 import { useCommentModalContext } from "./CommentModal/CommentModalProvider";
+import { getReplies } from "@/app/lib/mutations";
 
 type Props = Comment & {
   level?: number;
@@ -51,25 +52,18 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     function handleSuccess(commentIds: Comment["replies"]) {
       setIsReplyOpen(false);
       viewMoreReplies(commentIds);
-      React.startTransition(() => {
-        router.refresh();
-      });
     }
-
+    /* 
+      Either the user clicked the viewMoreReplies button, which will get all the replies for that comment.  Or the user created a new reply at which point it is called from handleSuccess with the new replyIds.
+    */
     async function viewMoreReplies(replyIds?: Comment["replies"]) {
       setViewMoreStatus("pending");
-      let ids: string[];
-      if (replyIds) {
-        ids = replyIds.map((reply) => `ids=${reply.comment_id}`);
-      } else {
-        ids = replies.map((reply) => {
-          return `ids=${reply.comment_id}`;
-        });
-      }
-      const res = await fetch(`/api/comment?${ids.join("&")}`);
-      const rawData = await res.json();
+      const nextReplies = await getReplies(
+        replyIds || replies.map((reply) => ({ comment_id: reply.comment_id }))
+      );
+
       try {
-        const { comments } = CommentSchema.replies.parse(rawData);
+        const { comments } = CommentSchema.comments.parse(nextReplies);
         setCurrentReplies(comments);
         setOpenViewMore(true);
         React.startTransition(() => {
@@ -122,15 +116,12 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                   )}
                 </div>
               )}
-              {!variant && currentUser.user_id !== user_fk_id && (
-                <div className="sm:hidden">
+              {!variant && (
+                <div className="flex items-end sm:hidden">
                   <ViewMoreCommentsButton
                     size={20}
                     disabled={viewMoreStatus === "pending"}
-                    onClick={() =>
-                      // @ts-ignore
-                      setIsModalOpen(true)
-                    }
+                    onClick={() => setIsModalOpen(true)}
                     isOpen={openViewMore}
                   />
                 </div>
@@ -162,7 +153,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
               ></div>
             )}
           </div>
-
           <div className="flex-1">
             <div className="sm:flex sm:justify-between sm:items-center mb-4">
               <div>
@@ -187,7 +177,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                 )}
 
                 <ReplyButton
-                  isOpen={openViewMore}
+                  isOpen={isReplyOpen}
                   onClick={() => {
                     setIsReplyOpen(!isReplyOpen);
                   }}

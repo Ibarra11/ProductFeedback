@@ -22,7 +22,6 @@ export default function CommentModalProvider({
   comment: Comment;
   handleCommentChange: (comment: Comment) => void;
 }>) {
-  console.log(comment);
   return (
     <CommentModalContext.Provider value={{ comment, handleCommentChange }}>
       {children}
