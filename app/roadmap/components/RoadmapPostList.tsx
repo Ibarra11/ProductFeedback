@@ -1,8 +1,5 @@
-"use client";
-import { use } from "react";
 import RoadmapRequest from "./RoadmapPost";
 import clsx from "clsx";
-import { usePostsContext } from "@/app/components/PostsProvider";
 import { formatStatus } from "@/app/utils";
 import { ROADMAP_TAB_DESCRIPTION } from "@/app/constants";
 import EmptySuggestionsView from "@/app/components/EmptySuggestionsView";
@@ -29,10 +26,8 @@ interface Props {
   status: Status;
 }
 
-function RoadmapPostList({ postsPromise, user, status }: Props) {
-  const posts = use(postsPromise);
-  const { getFilteredPosts } = usePostsContext();
-  const currentPosts = getFilteredPosts(posts);
+async function RoadmapPostList({ postsPromise, user, status }: Props) {
+  const currentPosts = await postsPromise;
   return (
     <div className="flex flex-1 flex-col h-full">
       <div

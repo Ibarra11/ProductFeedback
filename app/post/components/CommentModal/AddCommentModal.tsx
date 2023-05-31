@@ -2,20 +2,26 @@
 import React from "react";
 import clsx from "clsx";
 import LoadingCircle from "@/app/components/LoadingCircle";
+import { IoMdClose } from "react-icons/io";
 import Button from "@/app/components/Button";
+import AddCommentButton from "./AddCommentButton";
 import { addReply } from "@/app/lib/mutations";
 import { Comment } from "@/app/lib/prisma";
 const COMMENT_LENGTH = 250;
+
+interface Props {
+  userId: number;
+  comment: Comment;
+  updateComment: (newReplies: Comment["replies"]) => void;
+  closeComment: () => void;
+}
 
 function AddCommentModal({
   userId,
   comment,
   updateComment,
-}: {
-  userId: number;
-  comment: Comment;
-  updateComment: (newReplies: Comment["replies"]) => void;
-}) {
+  closeComment,
+}: Props) {
   const [isPending, setIsPending] = React.useState(false);
   const [content, setContent] = React.useState("");
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
@@ -32,37 +38,23 @@ function AddCommentModal({
       setIsPending(false);
       setContent("");
       updateComment(replies);
+      closeComment();
     } catch (error) {
       console.log(error);
     }
   }
 
-  // async function addReply(content: string) {
-  //   //  const res = await fetch("/api/comment", {
-  //   //    method: "PUT",
-  //   //    body: JSON.stringify({
-  //   //      content: content,
-  //   //      userId: userId,
-  //   //      postId: comments[commentIndex].post_fk_id,
-  //   //      commentId: comments[commentIndex].comment_id,
-  //   //      replyingTo: comments[commentIndex].User.username,
-  //   //    }),
-  //   //  });
-  //   //  if (res.ok) {
-  //   //    const data = await res.json();
-  //   //    const updatedComment = { ...comments[commentIndex] };
-  //   //    updatedComment.replies = data.replies;
-  //   //    setComments([...comments.slice(0, commentIndex), updatedComment]);
-  //   //    return true;
-  //   //  }
-  //   //  return false;
-  // }
-
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-8 pt-6 rounded-lg">
-      <h3 className="text-lg font-bold mb-6">Add Comment</h3>
+    <form onSubmit={handleSubmit} className="bg-white p-8 pt-6">
+      <div className=" flex justify-between items-center mb-4">
+        <h3 className="text-lg font-bold">Add Comment</h3>
+        <AddCommentButton disabled={isPending} onClick={() => closeComment()}>
+          <IoMdClose className=" text-brand-ghost_white" size={20} />
+          <span className="sr-only">Close comment</span>
+        </AddCommentButton>
+      </div>
       <textarea
-        className="h-20 w-full mb-4 resize-none overflow-y-auto bg-brand-alice_blue rounded-md"
+        className="h-20 w-full mb-4 resize-none overflow-y-auto bg-brand-alice_blue"
         value={content}
         onChange={(ev) => {
           if (ev.target.value.length <= COMMENT_LENGTH) {

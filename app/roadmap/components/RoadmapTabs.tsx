@@ -4,6 +4,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { Status } from "@prisma/client";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
+import RoadmapLoading from "./RoadmapLoading";
 
 interface Props {
   status: Status;
@@ -18,7 +19,10 @@ function RoadmapTabs({ children, status }: React.PropsWithChildren<Props>) {
       value={status}
       onValueChange={(val) => {
         // @ts-ignore
-        router.push(`/roadmap?status=${val}`);
+        React.startTransition(() => router.push(`/roadmap?status=${val}`));
+        // React.startTransition(() => {
+        //   router.refresh();
+        // });
       }}
     >
       <TabsList status={status} />
@@ -38,7 +42,7 @@ function TabsList({ status }: { status: Status }) {
     >
       <Tabs.Trigger
         className={clsx(
-          "flex-1",
+          "flex-1 hover:opacity-100",
           `${
             status === "Suggestion"
               ? "border-b-4 border-b-green-500 outline-none"
@@ -51,7 +55,7 @@ function TabsList({ status }: { status: Status }) {
       </Tabs.Trigger>
       <Tabs.Trigger
         className={clsx(
-          "flex-1",
+          "flex-1 hover:opacity-100",
           `${
             status === "Planned"
               ? "border-b-4 border-b-brand-tangerine outline-none"
@@ -64,7 +68,7 @@ function TabsList({ status }: { status: Status }) {
       </Tabs.Trigger>
       <Tabs.Trigger
         className={clsx(
-          "flex-1",
+          "flex-1 hover:opacity-100",
           `${
             status === "In_Progress"
               ? "border-b-4 border-b-brand-purple outline-none"
@@ -77,7 +81,7 @@ function TabsList({ status }: { status: Status }) {
       </Tabs.Trigger>
       <Tabs.Trigger
         className={clsx(
-          "flex-1",
+          "flex-1 hover:opacity-100",
           `${
             status === "Live"
               ? "border-b-4 border-b-brand-maya_blue outline-none"

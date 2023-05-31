@@ -1,7 +1,7 @@
 import Image from "next/image";
 function EmptyCommentsView() {
   return (
-    <div className="h-[600px] grid place-content-center bg-white rounded-lg p-6">
+    <div className="h-full grid place-content-center bg-white rounded-lg p-6">
       <div className="max-w-md mx-auto flex flex-col items-center">
         <Image
           className=" mb-12"

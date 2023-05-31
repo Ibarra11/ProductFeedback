@@ -30,6 +30,7 @@ function RoadmapView({ user, postsPromise, status }: Props) {
     <div className="h-full hidden md:block">
       <RoadmapTabs status={status}>
         <React.Suspense fallback={<RoadmapLoading />}>
+          {/* @ts-expect-error Server Component */}
           <RoadmapPostList
             postsPromise={postsPromise}
             status={status}

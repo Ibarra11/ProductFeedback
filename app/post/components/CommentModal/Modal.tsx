@@ -3,11 +3,13 @@ import React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Comment } from "@/app/lib/prisma";
 import CommentContainer from "./CommentContainer";
+import { IoMdAdd } from "react-icons/io";
 import AddCommentModal from "./AddCommentModal";
 import { getReplies } from "@/app/lib/mutations";
 import CommentLoader from "./CommentLoader";
 import CommentModalProvider from "./CommentModalProvider";
 import ModalControls from "./ModalControls";
+import clsx from "clsx";
 
 interface Props {
   closeModal: () => void;
@@ -34,7 +36,6 @@ function CommentModal({ closeModal, comment, userId }: Props) {
   }
 
   function updateComment(newReplies: Comment["replies"]) {
-    console.log(comments);
     setComments([
       ...comments.slice(0, commentIndex),
       { ...currentComment, replies: newReplies },
@@ -65,15 +66,15 @@ function CommentModal({ closeModal, comment, userId }: Props) {
                 forward: commentIndex === comments.length - 1,
               }}
             />
-            <CommentContainer comment={comments[commentIndex]} />
+            <CommentContainer comment={currentComment} />
             <div className="flex-1 h-full overflow-auto">
-              <CommentLoader commentsPromise={commentsPromise} />
+              <CommentLoader
+                comment={currentComment}
+                updateComment={updateComment}
+                userId={userId}
+                commentsPromise={commentsPromise}
+              />
             </div>
-            <AddCommentModal
-              updateComment={updateComment}
-              comment={comments[commentIndex]}
-              userId={userId}
-            />
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>

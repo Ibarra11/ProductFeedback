@@ -58,7 +58,7 @@ function Post({
                 {content}
               </p>
             </div>
-            <div className="flex gap-2 flex-col sm:flex-row mb-6 md:mb-0">
+            <div className="flex gap-2 flex-col items-start sm:flex-row mb-6 md:mb-0">
               <span
                 className={clsx(
                   "inline-block bg-brand-alice_blue  text-brand-royal_blue text-xs font-semibold px-4 py-2 rounded-xl",

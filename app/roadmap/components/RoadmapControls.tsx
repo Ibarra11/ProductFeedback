@@ -16,15 +16,15 @@ function RoadmapControls({ status }: { status: Status }) {
   return (
     <div className="flex justify-between  mb-4">
       <RoadmapStatusSelect status={status} />
-      <SortAndFilterButton onClick={handleOpenChange} />
-      <AnimatePresence>
+      {/* <SortAndFilterButton onClick={handleOpenChange} /> */}
+      {/* <AnimatePresence>
         {isOpen && (
           <SortAndFilterModal
             isOpen={isOpen}
             handleOpenChange={handleOpenChange}
           />
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
   );
 }

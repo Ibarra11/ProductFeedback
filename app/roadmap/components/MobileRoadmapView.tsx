@@ -1,11 +1,8 @@
 import React from "react";
 import { Category, Status, Upvotes, User } from "@prisma/client";
-
 import RoadmapPostList from "./RoadmapPostList";
-
 import RoadmapLoading from "./RoadmapLoading";
 import RoadmapControls from "./RoadmapControls";
-
 interface Props {
   user: User & {
     Upvotes: Upvotes[];
@@ -32,6 +29,7 @@ function MobileRoadmapView({ user, postsPromise, status }: Props) {
     <div className="relative pt-4 pb-6 px-4 h-full md:hidden">
       <RoadmapControls status={status} />
       <React.Suspense fallback={<RoadmapLoading />}>
+        {/* @ts-expect-error Server Component */}
         <RoadmapPostList
           status={status}
           user={user}

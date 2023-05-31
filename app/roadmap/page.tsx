@@ -12,6 +12,7 @@ import { convertDateToString, formatStatus } from "../utils";
 import PostsProvider from "../components/PostsProvider";
 import { Status } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
 async function getRandomUser() {
   const user = await prisma.user.findMany({
     include: {
@@ -68,25 +69,26 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
     }));
     return delay(500, newPosts) as Promise<typeof newPosts>;
   });
+
   return (
     <UserProvider user={user}>
-      <PostsProvider>
-        <div className={clsx("flex h-full flex-col ", "md:gap-12")}>
-          <Header />
-          <div className="flex-1">
-            <RoadmapView
-              postsPromise={postsPromise}
-              user={user}
-              status={status}
-            />
-            <MobileRoadmapView
-              user={user}
-              postsPromise={postsPromise}
-              status={status}
-            />
-          </div>
+      {/* <PostsProvider> */}
+      <div className={clsx("flex h-full flex-col ", "md:gap-12")}>
+        <Header />
+        <div className="flex-1">
+          <RoadmapView
+            postsPromise={postsPromise}
+            user={user}
+            status={status}
+          />
+          <MobileRoadmapView
+            user={user}
+            postsPromise={postsPromise}
+            status={status}
+          />
         </div>
-      </PostsProvider>
+      </div>
+      {/* </PostsProvider> */}
     </UserProvider>
   );
 }
