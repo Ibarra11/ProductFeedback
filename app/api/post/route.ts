@@ -1,12 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import { createPost } from "@/app/lib/prisma";
+import { PostSchema } from "@/app/lib/zod";
+import { NextResponse } from "next/server";
 import { z } from "zod";
-import { formSchema, addPost } from "../helpers";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
+  console.log("test");
   try {
     const res = await req.json();
-    const data = formSchema.parse(res);
-    await addPost(data);
+    const data = PostSchema.CreatePost.parse(res);
+    await createPost(data);
     return new NextResponse(null, {
       status: 200,
     });

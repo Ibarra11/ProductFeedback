@@ -22,7 +22,7 @@ function NewFeedbackForm({ user }: { user: User }) {
   async function handleFormSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     setFormStatus("pending");
-    const res = await fetch("/new-feedback/api", {
+    const res = await fetch("/api/post/", {
       method: "POST",
       body: JSON.stringify({ ...formData, user_fk_id: user.user_id }),
     });

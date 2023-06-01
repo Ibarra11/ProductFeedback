@@ -29,7 +29,7 @@ function Sidebar({ postsPromise }: Props) {
       className={clsx(
         "hidden relative",
         "md:flex md:gap-3",
-        "lg:self-start lg:sticky  lg:-top-4   lg:flex-col lg:gap-6 lg:w-64"
+        "lg:self-start lg:sticky  lg:top-4   lg:flex-col lg:gap-6 lg:w-64"
       )}
     >
       <Banner title="Frontend Mentor" subTitle="Feedback Board" />

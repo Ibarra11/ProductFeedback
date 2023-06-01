@@ -140,3 +140,11 @@ export const deletePost = async ({
     },
   });
 };
+
+export const createPost = (post: Prisma.PostUncheckedCreateInput) => {
+  return prisma.post.create({
+    data: {
+      ...post,
+    },
+  });
+};
