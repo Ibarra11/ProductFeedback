@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import clsx from "clsx";
+import { z } from "zod";
 import FormTextArea from "../components/FormTextArea";
 import FormTextInput from "../components/FormTextInput";
 import FormSelect from "../components/FormSelect";
@@ -10,39 +11,25 @@ import { FormData } from "@/types";
 import { CATEGORY_VALUES } from "../constants";
 import { useRouter } from "next/navigation";
 import LoadingCircle from "../components/LoadingCircle";
-type FormState = "idle" | "pending" | "error";
+import useFormState from "../lib/hooks/useFormState";
 function NewFeedbackForm({ user }: { user: User }) {
-  const [formData, setFormData] = React.useState<FormData>({
-    title: "",
-    category: CATEGORY_VALUES[0],
-    content: "",
+  const { formData, setFormData, status, handleFormSubmit } = useFormState({
+    formValues: {
+      title: "",
+      category: "",
+      content: "",
+    },
+    validation: z.object({
+      title: z.string().min(1),
+      category: z.string().min(1),
+      content: z.string().min(1),
+    }),
+    fetchConfig: {
+      url: "/api/post/",
+      data: { user_fk_id: user.user_id },
+      onSuccessRedirect: "/",
+    },
   });
-  const [formStatus, setFormStatus] = React.useState<FormState>("idle");
-  const router = useRouter();
-  async function handleFormSubmit(ev: React.FormEvent<HTMLFormElement>) {
-    ev.preventDefault();
-    setFormStatus("pending");
-    const res = await fetch("/api/post/", {
-      method: "POST",
-      body: JSON.stringify({ ...formData, user_fk_id: user.user_id }),
-    });
-    if (!res.ok) {
-      const errors = await res.json();
-      setFormStatus("error");
-      return;
-    } else {
-      setFormStatus("idle");
-      setFormData({
-        title: "",
-        category: CATEGORY_VALUES[0],
-        content: "",
-      });
-      router.push("/");
-    }
-  }
-
-  const isFormCompleted =
-    formData.content.trim() !== "" && formData.title.trim() !== "";
 
   return (
     <form
@@ -66,15 +53,13 @@ function NewFeedbackForm({ user }: { user: User }) {
           subTitle="Choose a category for your feedback"
           options={CATEGORY_VALUES}
           value={formData.category}
-          handleValueChange={(newVal) =>
-            setFormData({ ...formData, category: newVal })
-          }
+          handleValueChange={(newVal) => setFormData({ category: newVal })}
         />
         <FormTextArea
           title="Feedback Detail"
           subTitle="Include any specific comments on what should be improved, added, etc."
           value={formData.content}
-          handleValueChange={(content) => setFormData({ ...formData, content })}
+          handleValueChange={(content) => setFormData({ content })}
         />
         <div
           className={clsx(
@@ -83,27 +68,27 @@ function NewFeedbackForm({ user }: { user: User }) {
           )}
         >
           <Button
-            disabled={formStatus === "pending"}
+            disabled={status === "pending"}
             className={clsx(
               "bg-brand-blue_gray transition-all",
               " hover:bg-slate-600",
-              formStatus === "pending" && "opacity-75"
+              status === "pending" && "opacity-75"
             )}
           >
             Cancel
           </Button>
           <Button
-            disabled={formStatus === "pending" || !isFormCompleted}
+            disabled={status === "pending"}
             type="submit"
             className={clsx(
               "relative bg-brand-purple  transition-all",
-              formStatus !== "pending" && "hover:bg-purple-600"
+              status !== "pending" && "hover:bg-purple-600"
             )}
           >
-            <span className={`${formStatus === "pending" ? "invisible" : ""}`}>
+            <span className={`${status === "pending" ? "invisible" : ""}`}>
               Add Feedback
             </span>
-            {formStatus === "pending" && (
+            {status === "pending" && (
               <LoadingCircle size="md" color="primary" />
             )}
           </Button>
