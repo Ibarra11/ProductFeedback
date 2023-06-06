@@ -1,29 +1,13 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
 import clsx from "clsx";
-import { Category, Status } from "@prisma/client";
 import LoadingCircle from "../LoadingCircle";
 import CustomLink from "../CustomLink";
 import PostsCount from "../PostsCount";
 import SortBySelect from "./SortByCategorySelect";
-interface Props {
-  postsPromise: Promise<
-    {
-      createdAt: string;
-      post_id: number;
-      title: string;
-      content: string;
-      category: Category;
-      status: Status;
-      user_fk_id: number;
-      _count: {
-        comments: number;
-        upvotes: number;
-      };
-    }[]
-  >;
-}
-function SubHeader({ postsPromise }: Props) {
+import { PostsPromise } from "@/types";
+
+function SubHeader({ postsPromise }: { postsPromise: PostsPromise }) {
   return (
     <header
       className={clsx(

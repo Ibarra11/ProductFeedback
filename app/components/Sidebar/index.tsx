@@ -6,24 +6,9 @@ import { Suspense } from "react";
 import RoadmapSkeleton from "./RoadmapSkeleton";
 import RoadmapList from "./RoadmapList";
 import SidebarCategoryPills from "./SidebarCategoryPills";
-interface Props {
-  postsPromise: Promise<
-    {
-      createdAt: string;
-      post_id: number;
-      title: string;
-      content: string;
-      category: Category;
-      status: Status;
-      user_fk_id: number;
-      _count: {
-        comments: number;
-        upvotes: number;
-      };
-    }[]
-  >;
-}
-function Sidebar({ postsPromise }: Props) {
+import { PostsPromise } from "@/types";
+
+function Sidebar({ postsPromise }: { postsPromise: PostsPromise }) {
   return (
     <aside
       className={clsx(

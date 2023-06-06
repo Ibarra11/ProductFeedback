@@ -1,7 +1,11 @@
 import * as React from "react";
 import clsx from "clsx";
 import { ButtonProps } from "@/types";
+import { LinkProps } from "next/link";
 
+type X = LinkProps<{
+  href: "/roadmap" | "/post";
+}>;
 function Button({
   children,
   className,

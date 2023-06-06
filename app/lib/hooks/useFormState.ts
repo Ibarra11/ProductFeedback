@@ -77,6 +77,7 @@ export default function useFormState<T>({
         };
       }
       setFormValidationErrors(errors);
+      return;
     }
     const res = await fetch(fetchConfig.url, {
       method: "POST",

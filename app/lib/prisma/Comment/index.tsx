@@ -44,18 +44,18 @@ export async function getRepliesToComments(
 
 export async function createComment({
   content,
-  post_fk_id,
-  user_fk_id,
+  postId,
+  userId,
 }: {
   content: string;
-  post_fk_id: number;
-  user_fk_id: number;
+  postId: number;
+  userId: string;
 }) {
   return await prisma.comment.create({
     data: {
       content,
-      post_fk_id,
-      user_fk_id,
+      post_id: postId,
+      user_id: userId,
     },
   });
 }
@@ -82,15 +82,15 @@ export async function createReply({
       replies: {
         create: [
           {
+            user_id: userId,
             content,
-            user_fk_id: userId,
-            post_fk_id: postId,
-            replyingTo: replyingTo,
+            post_id: postId,
+            replyingTo,
           },
         ],
       },
     },
   });
-  // we reverse the replies to get the last inserted first, I would preferably like to do this in prisma,but have not found a way.
+  // we reverse the replies to get the last inserted first, I would preferably like to do this in prisma,but I have not found a way.
   return { replies: replies.reverse() };
 }

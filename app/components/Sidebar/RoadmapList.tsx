@@ -4,26 +4,9 @@ import { filterPostsByStatus, formatStatus } from "@/app/utils";
 import { usePostsContext } from "../PostsProvider";
 import { use } from "react";
 import { Category, Status } from "@prisma/client";
+import { PostsPromise } from "@/types";
 
-interface Props {
-  postsPromise: Promise<
-    {
-      createdAt: string;
-      post_id: number;
-      title: string;
-      content: string;
-      category: Category;
-      status: Status;
-      user_fk_id: number;
-      _count: {
-        comments: number;
-        upvotes: number;
-      };
-    }[]
-  >;
-}
-
-function RoadmapList({ postsPromise }: Props) {
+function RoadmapList({ postsPromise }: { postsPromise: PostsPromise }) {
   const posts = use(postsPromise);
   const { getFilteredPosts } = usePostsContext();
   const currentPosts = getFilteredPosts(posts);

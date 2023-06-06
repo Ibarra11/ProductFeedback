@@ -1,6 +1,6 @@
-import { ButtonHTMLAttributes } from "react";
 import { BRAND_COLORS } from "@/app/constants";
 import { Category } from ".prisma/client";
+import { getAllPost } from "@/app/lib/prisma";
 
 export type FeedbackCategories =
   | "Feature"
@@ -49,15 +49,6 @@ export type CommentType = {
   level?: number;
   replies?: CommentType[];
 };
-export interface Post {
-  status: FeedbackStatus;
-  id: number;
-  title: string;
-  description: string;
-  upvotes: number;
-  comments?: CommentType[];
-  category: FeedbackCategories;
-}
 
 export interface FormData {
   title: string;
@@ -69,8 +60,17 @@ export interface EditFormData extends FormData {
   status: FeedbackStatus;
 }
 
-type BrandColors = keyof typeof BRAND_COLORS["brand"];
+type BrandColors = keyof (typeof BRAND_COLORS)["brand"];
 
 export type RoadmapBorderColor = `border-t-brand-${BrandColors}`;
 
 export type RoadmapCircleBg = `bg-brand-${BrandColors}`;
+
+type ConvertDateToString<T extends Promise<Array<{ createdAt: Date }>>> =
+  Awaited<T> extends Array<infer TData>
+    ? Omit<TData, "createdAt"> & { createdAt: string }
+    : never;
+
+export type Post = ConvertDateToString<ReturnType<typeof getAllPost>>;
+
+export type PostsPromise = Promise<Post[]>;

@@ -2,25 +2,8 @@
 import { use } from "react";
 import { Category, Status } from "@prisma/client";
 import { usePostsContext } from "../PostsProvider";
-
-interface Props {
-  postsPromise: Promise<
-    {
-      createdAt: string;
-      post_id: number;
-      title: string;
-      content: string;
-      category: Category;
-      status: Status;
-      user_fk_id: number;
-      _count: {
-        comments: number;
-        upvotes: number;
-      };
-    }[]
-  >;
-}
-function PostsCount({ postsPromise }: Props) {
+import { PostsPromise } from "@/types";
+function PostsCount({ postsPromise }: { postsPromise: PostsPromise }) {
   const posts = use(postsPromise);
   const { getFilteredPosts } = usePostsContext();
   const currentPosts = getFilteredPosts(posts);

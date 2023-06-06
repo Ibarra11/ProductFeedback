@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const createReply = z.object({
   content: z.string(),
-  userId: z.number().int(),
+  userId: z.string(),
   postId: z.number().int(),
   commentId: z.number().int(),
   replyingTo: z.string(),

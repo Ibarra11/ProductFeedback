@@ -31,6 +31,10 @@ function NewFeedbackForm({ user }: { user: User }) {
     },
   });
 
+  if (status === "formValidationError") {
+    console.log();
+  }
+
   return (
     <form
       onSubmit={handleFormSubmit}

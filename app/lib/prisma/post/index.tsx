@@ -6,7 +6,7 @@ export type T_PostWithComemntCount = NonNullable<
   Awaited<ReturnType<typeof getPostWithCommentCount>>
 >;
 export type T_Comment = Awaited<ReturnType<typeof getCommentsByPostId>>[number];
-export type T_Post = NonNullable<Awaited<ReturnType<typeof getPost>>>;
+// export type T_Post = NonNullable<Awaited<ReturnType<typeof getPost>>>;
 
 type ConvertDateToString<T extends Promise<Array<{ createdAt: Date }>>> =
   Awaited<T> extends Array<infer TData>
@@ -19,7 +19,7 @@ export type Comment = ConvertDateToString<
 
 export const getAllPost = async () => {
   return await prisma.post.findMany({
-    orderBy: [{ createdAt: "desc" }, { post_id: "desc" }],
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
     include: {
       _count: {
         select: {
@@ -34,7 +34,7 @@ export const getAllPost = async () => {
 export const getPost = async (id: number) => {
   return prisma.post.findUnique({
     where: {
-      post_id: id,
+      id,
     },
   });
 };
@@ -42,7 +42,7 @@ export const getPost = async (id: number) => {
 export const getPostWithCommentCount = async (id: number) => {
   const result = await prisma.post.findUnique({
     where: {
-      post_id: id,
+      id,
     },
     include: {
       _count: {
@@ -65,7 +65,7 @@ export const getCommentsByPostId = async (postId: number) => {
       createdAt: "desc",
     },
     where: {
-      post_fk_id: postId,
+      post_id: postId,
       replyingTo: null,
     },
     include: {
@@ -80,6 +80,8 @@ export const getCommentsByPostId = async (postId: number) => {
           User: {
             select: {
               username: true,
+              name: true,
+              email: true,
             },
           },
         },
@@ -89,19 +91,19 @@ export const getCommentsByPostId = async (postId: number) => {
 };
 
 export const updatePost = async ({
-  post_id,
-  user_fk_id,
+  postId,
+  userId,
   data,
 }: {
-  post_id: number;
-  user_fk_id: number;
-  data: Partial<T_Post>;
+  postId: number;
+  userId: string;
+  data: Prisma.PostUpdateInput;
 }) => {
   return await prisma.post.update({
     where: {
-      post_id_user_fk_id: {
-        post_id,
-        user_fk_id,
+      id_user_id: {
+        id: postId,
+        user_id: userId,
       },
     },
     data,
@@ -125,17 +127,17 @@ export const getPostByStatus = async (option: Status) => {
 };
 
 export const deletePost = async ({
-  post_id,
-  user_fk_id,
+  postId,
+  userId,
 }: {
-  post_id: number;
-  user_fk_id: number;
+  postId: number;
+  userId: string;
 }) => {
   return await prisma.post.delete({
     where: {
-      post_id_user_fk_id: {
-        post_id,
-        user_fk_id,
+      id_user_id: {
+        id: postId,
+        user_id: userId,
       },
     },
   });

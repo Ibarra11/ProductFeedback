@@ -1,16 +1,16 @@
 import { prisma } from "@/db";
 
 export const createUpvote = async ({
-  user_fk_id,
-  post_fk_id,
+  userId,
+  postId,
 }: {
-  post_fk_id: number;
-  user_fk_id: number;
+  postId: number;
+  userId: string;
 }) => {
   return await prisma.upvotes.create({
     data: {
-      post_fk_id,
-      user_fk_id,
+      post_id: postId,
+      user_id: userId,
     },
   });
 };
