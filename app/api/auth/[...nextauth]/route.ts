@@ -2,21 +2,61 @@ import NextAuth from "next-auth";
 import type { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import EmailProvider from "next-auth/providers/email";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/db";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     }),
   ],
+  callbacks: {
+    async session({ token, session }) {
+      if (token && session.user) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.image = token.image;
+        session.user.newUser = token.newUser;
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      console.log(token);
+      console.log(user);
+      const dbUser = await prisma.user.findUnique({
+        where: {
+          email: token.email ?? "",
+        },
+      });
+      if (!dbUser) {
+        if (user) {
+          token.id = user.id;
+          token.newUser = true;
+          token.image = user.image;
+          token.email = user.email;
+          token.name = user.email;
+        }
+        return token;
+      }
+      token.id = dbUser.id;
+      token.name = dbUser.name;
+      token.email = dbUser.email;
+      token.image = dbUser.image;
+      token.newUser = dbUser.newUser;
+      return token;
+    },
+  },
+
   pages: {
     signIn: "/login",
   },
-  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);

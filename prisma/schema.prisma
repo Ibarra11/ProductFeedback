@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// I added the initial values, so I know when the user creates a profile for the first time, so I could send them to setting page to setup their profile.
+
 model Account {
   id                       String  @id @default(cuid())
   userId                   String
@@ -34,6 +36,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// I add a newUser value, so I can redirect new users to setup their profile
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -42,10 +45,10 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  username      String?
   posts         Post[]
   comments      Comment[]
   Upvotes       Upvotes[]
+  newUser       Boolean   @default(true)
 }
 
 model VerificationToken {

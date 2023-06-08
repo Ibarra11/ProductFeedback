@@ -63,12 +63,11 @@ export default function UserAuthForm({
             <input
               id="email"
               placeholder="name@example.com"
-              className="my-0 mb-2 block h-9 w-full rounded-md border border-slate-300 py-2 px-3 text-sm placeholder:text-slate-400 hover:border-slate-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-800 focus:ring-offset-1"
+              className="my-0 mb-2 block h-9 w-full rounded-md border border-slate-300 py-2 px-3 text-sm placeholder:text-slate-400 hover:border-slate-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-1"
               type="email"
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              //   name="email"
               disabled={isLoading}
               {...register("email")}
             />
@@ -79,7 +78,7 @@ export default function UserAuthForm({
             )}
           </div>
           <button
-            className="inline-flex w-full items-center justify-center rounded-lg bg-brand-american_blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-brand-american_blue/90 focus:outline-none focus:ring-4 focus:ring-slate-400 disabled:opacity-50 transition-colors"
+            className="inline-flex w-full items-center justify-center rounded-lg bg-brand-american_blue px-5 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-brand-american_blue/90 focus:outline-none focus:ring-4 focus:ring-slate-300 disabled:opacity-50"
             disabled={isLoading}
           >
             {isLoading && <span className="mr-2">...</span>}
@@ -98,8 +97,8 @@ export default function UserAuthForm({
       </div>
       <button
         type="button"
-        className="inline-flex w-full items-center justify-center rounded-lg border  px-5 py-2.5 text-center text-sm font-medium  text-slate-700 hover:bg-neutral-50 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 disabled:opacity-50 dark:hover:bg-[#050708]/30 dark:focus:ring-slate-500"
-        onClick={() => signIn("github", { callbackUrl: "/" })}
+        className="inline-flex w-full items-center justify-center rounded-lg border  px-5 py-2.5 text-center text-sm font-medium  text-slate-700  hover:bg-neutral-100 focus:outline-none focus:ring-4 focus:ring-slate-300 disabled:opacity-50"
+        onClick={() => signIn("github")}
         disabled={isLoading}
       >
         <svg

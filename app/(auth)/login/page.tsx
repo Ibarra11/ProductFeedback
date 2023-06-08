@@ -16,10 +16,10 @@ export default async function Login() {
   //   }
   return (
     <div className="relative flex items-center justify-center h-full`">
-      <LinkWithChevronLeft className="absolute top-0 left-0">
+      <LinkWithChevronLeft className="absolute top-0 left-0 outline-none focus:outline-2 focus:outline-slate-300 focus:outline-offset-1">
         Back
       </LinkWithChevronLeft>
-      <div className="sm:w-[350px] p-6 rounded-md shadow-sm mx-auto flex flex-col justify-center space-y-6 bg-brand-ghost_white">
+      <div className="sm:w-[350px] p-6 rounded-md shadow-md mx-auto flex flex-col justify-center space-y-6 bg-brand-ghost_white">
         <div className="flex flex-col space-y-2 text-center">
           {/* <Icons.logo className="mx-auto h-6 w-6" /> */}
           <h1 className="text-2xl font-bold heading-text-gradient">
@@ -32,7 +32,10 @@ export default async function Login() {
         </div>
         <UserAuthForm />
         <p className="px-8 text-center text-sm text-slate-600">
-          <Link href="/register" className="underline hover:text-brand">
+          <Link
+            href="/register"
+            className="underline hover:text-slate-800 outline-none focus:outline-2 focus:outline-slate-300 focus:outline-offset-1"
+          >
             Don&apos;t have an account? Sign Up
           </Link>
         </p>
