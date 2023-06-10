@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function POST(req: Request) {
-  console.log("test");
   try {
     const res = await req.json();
     const data = PostSchema.CreatePost.parse(res);

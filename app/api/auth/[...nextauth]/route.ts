@@ -27,28 +27,33 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    async jwt({ token, user }) {
-      const dbUser = await prisma.user.findUnique({
-        where: {
-          email: token.email ?? "",
-        },
-      });
-      if (!dbUser) {
-        if (user) {
-          token.id = user.id;
-          token.newUser = true;
-          token.image = user.image;
-          token.email = user.email;
-          token.name = user.email;
+    async jwt({ token, user, trigger }) {
+      if (trigger === "signUp") {
+        token.id = user.id;
+        token.newUser = true;
+        token.image = user.image;
+        token.email = user.email;
+        token.name = user.name;
+        return token;
+      } else {
+        // user already exist
+        const dbUser = await prisma.user.findUnique({
+          where: {
+            id: token.id,
+          },
+        });
+
+        if (!dbUser) {
+          return token;
         }
+
+        token.id = dbUser.id;
+        token.name = dbUser.name;
+        token.email = dbUser.email;
+        token.image = dbUser.image;
+        token.newUser = dbUser.newUser;
         return token;
       }
-      token.id = dbUser.id;
-      token.name = dbUser.name;
-      token.email = dbUser.email;
-      token.image = dbUser.image;
-      token.newUser = dbUser.newUser;
-      return token;
     },
   },
 

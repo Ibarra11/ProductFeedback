@@ -5,10 +5,21 @@ import { getToken } from "next-auth/jwt";
 export default withAuth(
   async function middleware(req) {
     const token = await getToken({ req });
+
     const isAuth = !!token;
     const isAuthPage =
       req.nextUrl.pathname.startsWith("/login") ||
       req.nextUrl.pathname.startsWith("/register");
+
+    if (req.nextUrl.pathname.startsWith("/api")) {
+      if (!isAuth) {
+        return new NextResponse(
+          JSON.stringify({ success: false, message: "authentication failed" }),
+          { status: 401, headers: { "content-type": "application/json" } }
+        );
+      }
+      return null;
+    }
 
     // if there authenticated and there a new user we redirected to setup profile
     if (isAuth && token.newUser) {
@@ -25,10 +36,8 @@ export default withAuth(
       }
       return null;
     }
-
     if (!isAuth) {
       let from = req.nextUrl.pathname;
-
       if (req.nextUrl.search) {
         from += req.nextUrl.search;
       }

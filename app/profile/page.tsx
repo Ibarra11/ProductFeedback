@@ -9,8 +9,6 @@ export default async function Profile() {
     redirect(authOptions.pages?.signIn || "/login");
   }
 
-  console.log(user);
-
   return (
     <div className=" grid items-center">
       <div className="mx-auto  w-full max-w-2xl rounded bg-white  p-8">

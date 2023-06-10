@@ -1,27 +1,18 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, BaseSyntheticEvent } from "react";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userAuthSchema } from "@/app/lib/zod/Auth";
-import { z } from "zod";
+import { useRouter } from "next/navigation";
+import { profileFormSchema, ProfileFormData } from "../lib/zod/Profile";
 import clsx from "clsx";
 import Image from "next/image";
 import { FiUpload } from "react-icons/fi";
 import LoadingCircle from "../components/LoadingCircle";
 import { IoMdWarning } from "react-icons/io";
 
-const userProfileSchema = z.object({
-  image: z.string(),
-  username: z.string().refine((val) => {
-    return /^[A-Za-z][A-Za-z0-9_]{4,14}$/.test(val);
-  }, "Your username should be between 5 & 15 characters long and must start with a letter followed by letters, numbers, or _."),
-  email: z.string().email("Please enter a valid email address!"),
-});
-
 type UserProfileFormProps = React.HTMLAttributes<HTMLFormElement> &
-  Partial<FormData>;
-
-type FormData = z.infer<typeof userProfileSchema>;
+  Partial<ProfileFormData>;
 
 export default function UserProfileForm({
   className,
@@ -36,30 +27,42 @@ export default function UserProfileForm({
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(userProfileSchema),
+  } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileFormSchema),
     defaultValues: {
       email,
       username,
       image,
     },
   });
+  const router = useRouter();
+  // I am going to update the session after the user completes the onboarding process.  Essentially, I have a property on the session token called newUser, which is set to true by default.  When the user completes the form, I will change it to false and they can go to other pages in the app.
+
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const formValues = watch();
-  console.log(formValues);
-
-  console.log(errors);
-
-  function onSubmit(data: FormData) {
-    console.log("test");
-    console.log(data);
+  //
+  async function onSubmit(data: ProfileFormData, e?: React.BaseSyntheticEvent) {
+    e?.preventDefault();
     setIsLoading(true);
+    try {
+      await fetch("/api/profile", {
+        method: "PUT",
+        body: JSON.stringify(data),
+      });
+      // refresh the session because I have updated some info in the db
+      await fetch("/api/auth/session");
+      router.push("/");
+    } catch (e) {
+    } finally {
+      setIsLoading(false);
+    }
+
     setTimeout(() => {
       setIsLoading(false);
     }, 500);
-    console.log(data);
   }
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
