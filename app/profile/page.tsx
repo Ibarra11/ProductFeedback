@@ -17,7 +17,7 @@ export default async function Profile() {
         <UserProfileForm
           image={user.image ?? undefined}
           email={user.email ?? ""}
-          username={user.name ?? ""}
+          name={user.name ?? ""}
         />
       </div>
     </div>

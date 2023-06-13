@@ -75,4 +75,4 @@ export type Post = ConvertDateToString<ReturnType<typeof getAllPost>>;
 
 export type PostsPromise = Promise<Post[]>;
 
-export type WithUserId<T> = T & { userId: string };
+export type WithUserId<T> = T & { id: string };

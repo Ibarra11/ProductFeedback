@@ -1,23 +1,39 @@
 "use client";
-import { useState, useRef, BaseSyntheticEvent } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { profileFormSchema, ProfileFormData } from "../lib/zod/Profile";
+import {
+  profileFormSchema,
+  ProfileFormData,
+  profileFormRequestErrors,
+} from "../lib/zod/Profile";
 import clsx from "clsx";
 import Image from "next/image";
 import { FiUpload } from "react-icons/fi";
 import LoadingCircle from "../components/LoadingCircle";
 import { IoMdWarning } from "react-icons/io";
+import { refreshSession } from "../lib/hooks/Auth";
 
 type UserProfileFormProps = React.HTMLAttributes<HTMLFormElement> &
   Partial<ProfileFormData>;
+function getDirtyValues(
+  formData: ProfileFormData,
+  dirtyFields: Partial<
+    Readonly<{
+      [K in keyof ProfileFormData]?: boolean;
+    }>
+  >
+) {
+  return Object.keys(dirtyFields).reduce((acc, curr) => {
+    return { ...acc, [curr]: formData[curr as keyof ProfileFormData] };
+  }, {} as ProfileFormData);
+}
 
 export default function UserProfileForm({
   className,
   image,
-  username,
+  name,
   email,
   ...props
 }: UserProfileFormProps) {
@@ -26,41 +42,68 @@ export default function UserProfileForm({
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    setError,
+    clearErrors,
+
+    formState: { errors, isSubmitting, isDirty, dirtyFields },
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
       email,
-      username,
+      name,
       image,
     },
   });
   const router = useRouter();
   // I am going to update the session after the user completes the onboarding process.  Essentially, I have a property on the session token called newUser, which is set to true by default.  When the user completes the form, I will change it to false and they can go to other pages in the app.
-
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const formValues = watch();
   //
   async function onSubmit(data: ProfileFormData, e?: React.BaseSyntheticEvent) {
     e?.preventDefault();
-    setIsLoading(true);
+    const dirtyFieldValues = getDirtyValues(data, dirtyFields);
+    console.log(dirtyFields);
+    console.log(dirtyFieldValues);
+    // setIsLoading(true);
     try {
-      await fetch("/api/profile", {
+      const result = await fetch("/api/profile", {
         method: "PUT",
-        body: JSON.stringify(data),
+        body: JSON.stringify(dirtyFieldValues),
       });
+
+      if (!result.ok) {
+        // validation error
+        if (result.status === 400) {
+          const raw = await result.json();
+          const {
+            errors: { name, email },
+          } = profileFormRequestErrors.parse(raw);
+          if (name) {
+            setError(
+              "name",
+              { type: "focus", message: name },
+              { shouldFocus: true }
+            );
+          }
+          if (email) {
+            setError(
+              "email",
+              { type: "fopcus", message: email },
+              { shouldFocus: true }
+            );
+          }
+        }
+        return;
+      }
       // refresh the session because I have updated some info in the db
-      await fetch("/api/auth/session");
+      await refreshSession();
       router.push("/");
     } catch (e) {
+      clearErrors();
     } finally {
       setIsLoading(false);
     }
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
   }
 
   return (
@@ -92,14 +135,17 @@ export default function UserProfileForm({
             onChange={(e) => {
               if (e.target.files) {
                 const imageSrc = URL.createObjectURL(e.target.files[0]);
-                setValue("image", imageSrc, { shouldValidate: true });
+                setValue("image", imageSrc, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                });
               }
             }}
           />
           <label
             className={clsx(
               "block rounded-md    border border-dashed border-slate-300   text-slate-700",
-              "focus:outline-2 focus:outline-offset-0 focus:outline-slate-400",
+              "outline-none focus:outline-2 focus:outline-offset-0 focus:outline-slate-400",
               "hover:bg-slate-50"
             )}
             htmlFor="upload"
@@ -123,23 +169,23 @@ export default function UserProfileForm({
         </div>
       </div>
       <div className={clsx(`col-span-1 flex flex-col gap-1`, "text-slate-700")}>
-        <label htmlFor="username">
+        <label htmlFor="name">
           Username<span className="text-red-500">*</span>
         </label>
         <input
           className={clsx(
             "rounded border border-slate-300 p-2 outline-none",
-            "focus:outline-2 focus:outline-offset-0 focus:outline-slate-400",
-            errors.username &&
-              "border-red-500 text-red-500  focus:outline-red-500"
+            !errors.name &&
+              "focus:outline-2 focus:outline-offset-0 focus:outline-slate-400",
+            errors.name && "border-red-500 text-red-500  focus:outline-red-500"
           )}
           type="text"
-          id="username"
-          aria-invalid={errors.username ? true : false}
-          {...register("username")}
+          id="name"
+          aria-invalid={errors.name ? true : false}
+          {...register("name")}
         />
-        {errors.username && (
-          <span className="text-red-500">{errors.username.message}</span>
+        {errors.name && (
+          <span className="text-red-500">{errors.name.message}</span>
         )}
       </div>
       <div className={clsx(`col-span-1 flex flex-col gap-1 text-slate-700`)}>
@@ -148,8 +194,9 @@ export default function UserProfileForm({
         </label>
         <input
           className={clsx(
-            "rounded border border-slate-300 p-2 outline-none",
-            "focus:outline-2 focus:outline-offset-0 focus:outline-slate-400",
+            "rounded border border-slate-300 p-2 outline-none ring-0",
+            !errors.email &&
+              "focus:outline-2 focus:outline-offset-0 focus:outline-slate-400",
             errors.email && "border-red-500 text-red-500  focus:outline-red-500"
           )}
           aria-invalid={errors.email ? true : false}
@@ -164,9 +211,12 @@ export default function UserProfileForm({
 
       <button
         className={clsx(
-          "rounded-lg bg-brand-purple p-3 text-base font-medium text-brand-ghost_white outline-none transition-colors hover:bg-purple-700",
-          "focus:outline-2 focus:outline-offset-2 focus:outline-slate-400"
+          "rounded-lg bg-brand-purple p-3 text-base font-medium text-brand-ghost_white outline-none transition-all duration-200 ",
+          "focus:outline-2 focus:outline-offset-2 focus:outline-slate-400",
+          isDirty && "hover:bg-purple-700",
+          !isDirty && " opacity-50"
         )}
+        disabled={!isDirty}
       >
         Update Profile
         {isLoading && (

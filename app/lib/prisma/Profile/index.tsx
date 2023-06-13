@@ -6,14 +6,10 @@ type UpdateProfile = WithUserId<ProfileFormData & { newUser?: boolean }>;
 export async function updateProfile(data: UpdateProfile) {
   return await prisma.user.update({
     where: {
-      id: data.userId,
+      id: data.id,
     },
     data: {
-      id: data.userId,
-      email: data.email,
-      name: data.username,
-      image: data.image,
-      newUser: data.newUser,
+      ...data,
     },
   });
 }
