@@ -11,9 +11,8 @@ import {
 import clsx from "clsx";
 import Image from "next/image";
 import { FiUpload } from "react-icons/fi";
-import LoadingCircle from "../components/LoadingCircle";
-import { IoMdWarning } from "react-icons/io";
 import { refreshSession } from "../lib/hooks/Auth";
+import { ImSpinner8 } from "react-icons/im";
 
 type UserProfileFormProps = React.HTMLAttributes<HTMLFormElement> &
   Partial<ProfileFormData>;
@@ -45,7 +44,7 @@ export default function UserProfileForm({
     setError,
     clearErrors,
 
-    formState: { errors, isSubmitting, isDirty, dirtyFields },
+    formState: { errors, isDirty, dirtyFields },
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
@@ -57,12 +56,13 @@ export default function UserProfileForm({
   const router = useRouter();
 
   const fileUploadRef = useRef<HTMLInputElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formValues = watch();
   //
   async function onSubmit(data: ProfileFormData, e?: React.BaseSyntheticEvent) {
     e?.preventDefault();
+    setIsSubmitting(true);
     const dirtyFieldValues = getDirtyValues(data, dirtyFields);
     console.log(dirtyFields);
     console.log(dirtyFieldValues);
@@ -95,15 +95,15 @@ export default function UserProfileForm({
             );
           }
         }
-        return;
+      } else {
+        // I am going to update the session after the user completes the onboarding process.  Essentially, I have a property on the session token called newUser, which is set to true by default.  When the user completes the form, I will change it to false and they can go to other pages in the app.
+        await refreshSession();
+        router.push("/");
       }
-      // I am going to update the session after the user completes the onboarding process.  Essentially, I have a property on the session token called newUser, which is set to true by default.  When the user completes the form, I will change it to false and they can go to other pages in the app.
-      await refreshSession();
-      router.push("/");
     } catch (e) {
       clearErrors();
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   }
 
@@ -212,21 +212,22 @@ export default function UserProfileForm({
 
       <button
         className={clsx(
-          "rounded-lg bg-brand-purple p-3 text-base font-medium text-brand-ghost_white outline-none transition-all duration-200 ",
+          "inline-flex items-center justify-center rounded-lg bg-brand-purple p-3 text-base font-medium text-brand-ghost_white outline-none transition-all duration-200 ",
           "focus:outline-2 focus:outline-offset-2 focus:outline-slate-400",
           isDirty && "hover:bg-purple-700",
-          !isDirty && " opacity-50"
+          !isDirty && "opacity-50"
         )}
-        disabled={!isDirty}
+        disabled={!isDirty || isSubmitting}
       >
-        Update Profile
-        {isLoading && (
-          <span className="relative ">
-            <LoadingCircle size="sm" color="secondary" />
-          </span>
-        )}
+        <div className="relative">
+          {isSubmitting && (
+            <span className="absolute -left-2 top-1/2 -translate-y-1/2 -translate-x-full">
+              <ImSpinner8 className="  h-4 w-4 animate-spin" />
+            </span>
+          )}
+          Update Profile
+        </div>
       </button>
-
       <div className="col-span-2">
         <h5 className="b-1 text-lg font-semibold text-slate-700">
           Danger Zone
