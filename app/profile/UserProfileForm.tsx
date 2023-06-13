@@ -55,9 +55,10 @@ export default function UserProfileForm({
     },
   });
   const router = useRouter();
-  // I am going to update the session after the user completes the onboarding process.  Essentially, I have a property on the session token called newUser, which is set to true by default.  When the user completes the form, I will change it to false and they can go to other pages in the app.
+
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+
   const formValues = watch();
   //
   async function onSubmit(data: ProfileFormData, e?: React.BaseSyntheticEvent) {
@@ -96,7 +97,7 @@ export default function UserProfileForm({
         }
         return;
       }
-      // refresh the session because I have updated some info in the db
+      // I am going to update the session after the user completes the onboarding process.  Essentially, I have a property on the session token called newUser, which is set to true by default.  When the user completes the form, I will change it to false and they can go to other pages in the app.
       await refreshSession();
       router.push("/");
     } catch (e) {

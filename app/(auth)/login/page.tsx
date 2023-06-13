@@ -1,28 +1,20 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Metadata } from "next";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import UserAuthForm from "@/app/components/UserAuthForm";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 export const metadata: Metadata = {
   title: "Login",
   description: "Login to your account",
 };
 export default async function Login() {
-  const session = await getServerSession(authOptions);
-  //   if (session) {
-  //     redirect("/");
-  //   }
   return (
-    <div className="relative flex items-center justify-center h-full`">
-      <LinkWithChevronLeft className="absolute top-0 left-0 outline-none focus:outline-2 focus:outline-slate-300 focus:outline-offset-1">
+    <div className="h-full` relative flex items-center justify-center">
+      <LinkWithChevronLeft className="absolute top-0 left-0 outline-none focus:outline-2 focus:outline-offset-1 focus:outline-slate-300">
         Back
       </LinkWithChevronLeft>
-      <div className="sm:w-[350px] p-6 rounded-md shadow-md mx-auto flex flex-col justify-center space-y-6 bg-brand-ghost_white">
+      <div className="mx-auto flex flex-col justify-center space-y-6 rounded-md bg-brand-ghost_white p-6 shadow-md sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
-          {/* <Icons.logo className="mx-auto h-6 w-6" /> */}
-          <h1 className="text-2xl font-bold heading-text-gradient">
+          <h1 className="heading-text-gradient text-2xl font-bold">
             Feedback Board
           </h1>
           <h1 className="text-xl">Welcome back</h1>
@@ -34,7 +26,7 @@ export default async function Login() {
         <p className="px-8 text-center text-sm text-slate-600">
           <Link
             href="/register"
-            className="underline hover:text-slate-800 outline-none focus:outline-2 focus:outline-slate-300 focus:outline-offset-1"
+            className="underline outline-none hover:text-slate-800 focus:outline-2 focus:outline-offset-1 focus:outline-slate-300"
           >
             Don&apos;t have an account? Sign Up
           </Link>
