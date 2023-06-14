@@ -1,5 +1,6 @@
 import { z } from "zod";
-export const profileFormSchema = z.object({
+import { Blob } from "buffer";
+const profileBaseSchema = z.object({
   image: z.string().optional(),
   name: z
     .string()
@@ -7,6 +8,8 @@ export const profileFormSchema = z.object({
       return /^[A-Za-z][A-Za-z0-9_]{4,14}$/.test(val);
     }, "Your username should be between 5 & 15 characters long and must start with a letter followed by letters, numbers, or _.")
     .optional(),
+});
+export const profileFormSchema = profileBaseSchema.extend({
   email: z.string().email("Please enter a valid email address!").optional(),
 });
 

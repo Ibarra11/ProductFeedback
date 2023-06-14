@@ -29,6 +29,19 @@ function getDirtyValues(
   }, {} as ProfileFormData);
 }
 
+const getBase64FromUrl = async (url: string): Promise<string> => {
+  const data = await fetch(url);
+  const blob = await data.blob();
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      resolve(base64data as string);
+    };
+  });
+};
+
 export default function UserProfileForm({
   className,
   image,
@@ -57,15 +70,19 @@ export default function UserProfileForm({
 
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [buffer, setBuffer] = useState<ArrayBuffer>();
 
   const formValues = watch();
   //
   async function onSubmit(data: ProfileFormData, e?: React.BaseSyntheticEvent) {
     e?.preventDefault();
     setIsSubmitting(true);
-    const dirtyFieldValues = getDirtyValues(data, dirtyFields);
-    console.log(dirtyFields);
-    console.log(dirtyFieldValues);
+    let dirtyFieldValues = getDirtyValues(data, dirtyFields);
+
+    if (dirtyFieldValues.image) {
+      dirtyFieldValues.image = await getBase64FromUrl(dirtyFieldValues.image);
+    }
+
     // setIsLoading(true);
     try {
       const result = await fetch("/api/profile", {
@@ -90,7 +107,7 @@ export default function UserProfileForm({
           if (email) {
             setError(
               "email",
-              { type: "fopcus", message: email },
+              { type: "focus", message: email },
               { shouldFocus: true }
             );
           }
@@ -135,7 +152,8 @@ export default function UserProfileForm({
             ref={fileUploadRef}
             onChange={(e) => {
               if (e.target.files) {
-                const imageSrc = URL.createObjectURL(e.target.files[0]);
+                const file = e.target.files[0];
+                const imageSrc = URL.createObjectURL(file);
                 setValue("image", imageSrc, {
                   shouldValidate: true,
                   shouldDirty: true,
