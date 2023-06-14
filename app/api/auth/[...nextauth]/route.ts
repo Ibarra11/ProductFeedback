@@ -36,14 +36,20 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name;
         return token;
       } else {
-        if (!user) {
+        const dbUser = await prisma.user.findUnique({
+          where: {
+            id: token.id,
+          },
+        });
+        if (!dbUser) {
           return token;
         }
-        token.id = user.id;
-        token.name = user.name;
-        token.email = user.email;
-        token.image = user.image;
-        token.newUser = user.newUser;
+
+        token.id = dbUser.id;
+        token.name = dbUser.name;
+        token.email = dbUser.email;
+        token.image = dbUser.image;
+        token.newUser = dbUser.newUser;
         return token;
       }
     },
