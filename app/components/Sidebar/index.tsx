@@ -6,18 +6,26 @@ import { Suspense } from "react";
 import RoadmapSkeleton from "./RoadmapSkeleton";
 import RoadmapList from "./RoadmapList";
 import SidebarCategoryPills from "./SidebarCategoryPills";
-import { PostsPromise } from "@/types";
+import { PostsPromise, User } from "@/types";
+import UserProfile from "../UserProfile";
 
-function Sidebar({ postsPromise }: { postsPromise: PostsPromise }) {
+function Sidebar({
+  postsPromise,
+  user,
+}: {
+  postsPromise: PostsPromise;
+  user: User;
+}) {
   return (
     <aside
       className={clsx(
-        "hidden relative",
+        "relative hidden",
         "md:flex md:gap-3",
-        "lg:self-start lg:sticky  lg:top-4   lg:flex-col lg:gap-6 lg:w-64"
+        "lg:sticky lg:top-4  lg:w-64   lg:flex-col lg:gap-6 lg:self-start"
       )}
     >
       <Banner title="Frontend Mentor" subTitle="Feedback Board" />
+      <UserProfile user={user} />
       <SidebarCategoryPills />
       <Roadmap>
         <Suspense fallback={<RoadmapSkeleton />}>

@@ -7,13 +7,6 @@ import { getUser } from "@/app/lib/prisma";
 import * as crypto from "crypto";
 
 const CLOUDINARY_ENDPOINT = `https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/upload`;
-// `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
-// cloudinary.config({
-//   cloud_name: process.env.CLOUD_NAME,
-//   api_key: process.env.CLOUD_API_KEY,
-//   api_secret: process.env.CLOUD_API_SECRET,
-//   secure: true,
-// });
 
 function generateHash(str: string) {
   return crypto.createHash("sha1").update(str).digest("hex");
@@ -33,6 +26,19 @@ export async function PUT(req: Request) {
       return new NextResponse("Unauthorized", { status: 403 });
     }
 
+    let errors: Record<keyof typeof data, string> = {} as any;
+    if (dbUser.email === data.email) {
+      errors.email = "Email already exist!";
+    }
+    if (dbUser.name === data.name) {
+      errors.name = "Username already exist!";
+    }
+    if ("name" in errors || "email" in errors) {
+      return new NextResponse(JSON.stringify({ errors: errors }), {
+        status: 400,
+      });
+    }
+
     if (data.image) {
       const formData = new FormData();
       const timestamp = String(Math.round(new Date().getTime() / 1000));
@@ -43,6 +49,8 @@ export async function PUT(req: Request) {
       formData.append("public_id", public_id);
       formData.append("folder", "avatars");
       formData.append("timestamp", timestamp);
+      formData.append("eager", "f_auto,q_auto,w_100,h_100,g_face,c_thumb");
+
       const hashString = [...formData.entries()]
         .slice(2)
         .sort((a, b) => (a[0] > b[0] ? 1 : -1))
@@ -58,20 +66,7 @@ export async function PUT(req: Request) {
       });
 
       const result = await res.json();
-      data.image = result.secure_url;
-    }
-
-    let errors: Record<keyof typeof data, string> = {} as any;
-    if (dbUser.email === data.email) {
-      errors.email = "Email already exist!";
-    }
-    if (dbUser.name === data.name) {
-      errors.name = "Username already exist!";
-    }
-    if ("name" in errors || "email" in errors) {
-      return new NextResponse(JSON.stringify({ errors: errors }), {
-        status: 400,
-      });
+      data.image = result.eager[0].secure_url;
     }
 
     if (user.newUser) {

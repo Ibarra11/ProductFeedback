@@ -8,25 +8,16 @@ import Posts from "./components/Posts";
 import { getAllPost } from "./lib/prisma/Post";
 import UserProvider from "./components/UserProvider";
 import { convertDateToString } from "./utils";
-import { prisma } from "@/db";
-
 import MobileHeader from "./components/MobileHeader";
 import RoadmapList from "./components/Sidebar/RoadmapList";
+import { getCurrentUser } from "./lib/auth/session";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Feedback Board",
   description: "A forum for feedback",
 };
 
-async function getRandomUser() {
-  const user = await prisma.user.findMany({
-    include: {
-      Upvotes: true,
-    },
-  });
-  const randomIndex = Math.floor(user.length * Math.random());
-  return user[user.length - 1];
-}
 function delay(ms: number, data: any) {
   return new Promise((res) => {
     setTimeout(() => res(data), ms);
@@ -40,25 +31,29 @@ export default async function Home() {
     return delay(500, newPosts) as Promise<typeof newPosts>;
   });
 
-  const user = await getRandomUser();
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/");
+  }
+
+  console.log(user);
 
   return (
     <div
       className={clsx(
-        "h-full max-w-5xl w-full mx-auto flex flex-col",
+        "mx-auto flex h-full w-full max-w-5xl flex-col",
         "md:gap-10",
         "lg:flex-row"
       )}
     >
       <UserProvider user={user}>
         <PostsProvider>
-          <Sidebar postsPromise={postsPromise} />
+          <Sidebar user={user} postsPromise={postsPromise} />
           <MobileHeader>
             <RoadmapList postsPromise={postsPromise} />
           </MobileHeader>
-          <div className={clsx("flex flex-col flex-1 gap-8", "lg:gap-6")}>
+          <div className={clsx("flex flex-1 flex-col gap-8", "lg:gap-6")}>
             <SubHeader postsPromise={postsPromise} />
-
             <Posts postsPromise={postsPromise} />
           </div>
         </PostsProvider>

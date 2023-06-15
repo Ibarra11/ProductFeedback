@@ -1,6 +1,7 @@
 import { BRAND_COLORS } from "@/app/constants";
 import { Category } from ".prisma/client";
 import { getAllPost } from "@/app/lib/prisma";
+import { getCurrentUser } from "@/app/lib/auth/session";
 
 export type FeedbackCategories =
   | "Feature"
@@ -76,3 +77,7 @@ export type Post = ConvertDateToString<ReturnType<typeof getAllPost>>;
 export type PostsPromise = Promise<Post[]>;
 
 export type WithUserId<T> = T & { id: string };
+
+export type User = RemoveUndefined<Awaited<ReturnType<typeof getCurrentUser>>>;
+
+type RemoveUndefined<T> = T extends undefined ? never : T;
