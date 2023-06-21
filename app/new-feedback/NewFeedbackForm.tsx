@@ -13,13 +13,12 @@ import { User } from "@/types";
 import { CATEGORY_VALUES } from "../constants";
 import { Category } from "@prisma/client";
 import { createPostRequest } from "../lib/mutations";
-import { redirect } from "next/navigation";
 import { ImSpinner8 } from "react-icons/im";
 
 const feedbackFormSchema = z.object({
-  title: z.string(),
+  title: z.string().trim().min(1, { message: "Title is required!" }),
   category: z.nativeEnum(Category),
-  content: z.string(),
+  content: z.string().trim().min(1, { message: "Content is required!" }),
 });
 
 export type FeedbackFormData = z.infer<typeof feedbackFormSchema>;
@@ -73,6 +72,7 @@ function NewFeedbackForm() {
           subTitle="Add a short, descriptive headline"
           register={register}
           field="title"
+          error={errors.title?.message}
         />
         <FormSelect
           title="Category"
@@ -80,12 +80,14 @@ function NewFeedbackForm() {
           options={CATEGORY_VALUES}
           currentValue={category}
           handleChange={(value: Category) => setValue("category", value)}
+          error={errors.category?.message}
         />
         <FormTextArea
           title="Feedback Detail"
           subTitle="Include any specific comments on what should be improved, added, etc."
           register={register}
           field="content"
+          error={errors.content?.message}
         />
         <div
           className={clsx(

@@ -1,5 +1,6 @@
 import React from "react";
 import Select from "../Select";
+import FormFieldError from "../FormFieldError";
 
 interface Props<T extends string> {
   title: string;
@@ -7,6 +8,7 @@ interface Props<T extends string> {
   options: T[];
   currentValue: T;
   handleChange: (value: T) => void;
+  error?: string;
 }
 function FormSelect<T extends string>({
   title,
@@ -14,6 +16,7 @@ function FormSelect<T extends string>({
   options,
   currentValue,
   handleChange,
+  error,
 }: Props<T>) {
   const id = React.useId();
   return (
@@ -33,6 +36,7 @@ function FormSelect<T extends string>({
         variant="form"
         ariaLabel={`choose a ${title}`}
       />
+      {error && <FormFieldError>{error}</FormFieldError>}
     </div>
   );
 }
