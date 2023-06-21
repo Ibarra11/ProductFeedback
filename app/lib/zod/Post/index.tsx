@@ -21,10 +21,10 @@ const UpdatePost: z.ZodSchema<
 
 export const CreatePost: z.ZodSchema<Prisma.PostUncheckedCreateInput> =
   z.object({
-    user_fk_id: z.number(),
-    title: z.string().nonempty(),
+    user_id: z.string().trim().min(1, { message: "Is Required" }),
+    title: z.string().trim().min(1, { message: "Is Required" }),
     category: z.nativeEnum(Category),
-    content: z.string().nonempty(),
+    content: z.string().trim().min(1, { message: "Is Required" }),
   });
 
 export const PostSchema = {
@@ -32,4 +32,8 @@ export const PostSchema = {
   PostIdSegment,
   UpdatePost,
   CreatePost,
+};
+
+export type ZPostSchema = {
+  [K in keyof typeof PostSchema]: z.infer<(typeof PostSchema)[K]>;
 };

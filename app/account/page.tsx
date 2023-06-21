@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import UserProfileForm from "./UserProfileForm";
 import { getCurrentUser } from "../lib/auth/session";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-export default async function Profile() {
+export default async function Account() {
   const user = await getCurrentUser();
 
   if (!user) {

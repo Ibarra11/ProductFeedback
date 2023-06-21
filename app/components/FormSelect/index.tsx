@@ -1,19 +1,19 @@
 import React from "react";
 import Select from "../Select";
-import { Label } from "@radix-ui/react-label";
+
 interface Props<T extends string> {
   title: string;
   subTitle: string;
   options: T[];
-  value: T;
-  handleValueChange: (newVal: T) => void;
+  currentValue: T;
+  handleChange: (value: T) => void;
 }
 function FormSelect<T extends string>({
   title,
   subTitle,
   options,
-  value,
-  handleValueChange,
+  currentValue,
+  handleChange,
 }: Props<T>) {
   const id = React.useId();
   return (
@@ -22,13 +22,13 @@ function FormSelect<T extends string>({
         htmlFor={id}
         className=" flex flex-col gap-0.5 text-brand-american_blue"
       >
-        <span className="text-sm font-bold">{title}</span>
+        <span className="text-base font-bold">{title}</span>
         <span className="text-sm font-light">{subTitle}</span>
       </label>
       <Select
         id={id}
-        currentValue={value}
-        handleChange={handleValueChange}
+        currentValue={currentValue}
+        handleChange={handleChange}
         options={options}
         variant="form"
         ariaLabel={`choose a ${title}`}

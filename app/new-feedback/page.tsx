@@ -3,18 +3,7 @@ import clsx from "clsx";
 import LinkWithChevronLeft from "../components/LinkWithChevronLeft";
 import NewFeedbackForm from "./NewFeedbackForm";
 
-import { prisma } from "@/db";
-async function getRandomUser() {
-  const user = await prisma.user.findMany({
-    include: {
-      Upvotes: true,
-    },
-  });
-  const randomIndex = Math.floor(user.length * Math.random());
-  return user[user.length - 1];
-}
 async function Page() {
-  const user = await getRandomUser();
   return (
     <>
       <LinkWithChevronLeft className="mb-10">Go Back</LinkWithChevronLeft>
@@ -29,13 +18,13 @@ async function Page() {
         />
         <Image
           src="/shared/icon-new-feedback.svg"
-          className={clsx("hidden top-0 left-10", "md:block md:absolute")}
+          className={clsx("top-0 left-10 hidden", "md:absolute md:block")}
           width={56}
           height={56}
           alt=""
           aria-hidden
         />
-        <NewFeedbackForm user={user} />
+        <NewFeedbackForm />
       </section>
     </>
   );

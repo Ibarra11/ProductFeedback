@@ -67,11 +67,8 @@ export default function UserProfileForm({
     },
   });
   const router = useRouter();
-
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [buffer, setBuffer] = useState<ArrayBuffer>();
-
   const formValues = watch();
   //
   async function onSubmit(data: ProfileFormData, e?: React.BaseSyntheticEvent) {
@@ -82,8 +79,6 @@ export default function UserProfileForm({
     if (dirtyFieldValues.image) {
       dirtyFieldValues.image = await getBase64FromUrl(dirtyFieldValues.image);
     }
-
-    // setIsLoading(true);
     try {
       const result = await fetch("/api/profile", {
         method: "PUT",

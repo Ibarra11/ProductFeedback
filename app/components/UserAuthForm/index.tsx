@@ -9,7 +9,6 @@ import { z } from "zod";
 import clsx from "clsx";
 import { FaGithub } from "react-icons/fa";
 import { ImSpinner8 } from "react-icons/im";
-import LoadingCircle from "../LoadingCircle";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 type FormData = z.infer<typeof userAuthSchema>;

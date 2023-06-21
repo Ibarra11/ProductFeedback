@@ -6,7 +6,7 @@ function TextArea({
 }: TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
-      className={`h-20 resize-none overflow-y-auto bg-brand-alice_blue rounded-md ${className}`}
+      className={`h-20 resize-none overflow-y-auto rounded-md bg-brand-alice_blue px-6 ${className}`}
       {...rest}
     />
   );
