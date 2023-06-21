@@ -91,10 +91,39 @@ function NewFeedbackForm() {
           field="content"
           error={errors.content?.message}
         />
+        {/* Rendering two different button containers one for mobile and one for tablet and up to not mess with tab order.  Previosly, was using flex-col-reverse, but this what cause tab issues.   */}
+        <div className="mt-4 flex flex-col gap-4 text-brand-ghost_white md:hidden">
+          <Button
+            disabled={isFetching}
+            className={clsx(
+              "relative inline-flex items-center justify-center bg-brand-purple  outline-none ring-offset-2 transition-all focus:ring-2 focus:ring-blue-500",
+              !isFetching && "hover:bg-purple-600",
+              isFetching && "opacity-50"
+            )}
+          >
+            <span className={isFetching ? "invisible" : undefined}>
+              Add Feedback
+            </span>
+            {isFetching && (
+              <ImSpinner8 className=" absolute h-4 w-4 animate-spin" />
+            )}
+          </Button>
+          <Button
+            type="button"
+            disabled={isFetching}
+            className={clsx(
+              "bg-brand-blue_gray outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+              !isFetching && " hover:bg-slate-600",
+              isFetching && "opacity-50"
+            )}
+            onClick={() => router.push("/")}
+          >
+            Cancel
+          </Button>
+        </div>
         <div
           className={clsx(
-            "mt-4  flex flex-col-reverse gap-4 text-brand-ghost_white",
-            "md:flex-row md:justify-end"
+            "mt-4 hidden gap-4 text-brand-ghost_white   md:flex md:justify-end"
           )}
         >
           <Button
