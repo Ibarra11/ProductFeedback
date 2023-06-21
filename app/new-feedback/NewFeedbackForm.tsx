@@ -79,7 +79,9 @@ function NewFeedbackForm() {
           subTitle="Choose a category for your feedback"
           options={CATEGORY_VALUES}
           currentValue={category}
-          handleChange={(value: Category) => setValue("category", value)}
+          handleChange={(value: Category) => {
+            setValue("category", value, { shouldValidate: true });
+          }}
           error={errors.category?.message}
         />
         <FormTextArea
