@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import CounterButton from "../CounterButton";
 import CommentIcon from "../CommentIcon";
@@ -7,48 +6,51 @@ import type { Post } from "@/app/lib/prisma/Post";
 import { useUserContext } from "../UserProvider";
 import { formatStatus } from "@/app/utils";
 import { ROADMAP_OPTIONS } from "@/app/constants";
+import { getCurrentUser } from "@/app/lib/auth/session";
 
-function Post({
-  post_id,
+async function Post({
+  id,
   title,
   content,
   category,
   status,
   createdAt,
   disableHighlightAnimation = false,
-  _count: { comments, upvotes },
+  _count,
+  upvotes,
 }: Post & { disableHighlightAnimation?: boolean }) {
-  const user = useUserContext();
-  const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
+  const user = await getCurrentUser();
+
+  const upvote = upvotes.find((upvote) => upvote.User.id === user.id);
   return (
     // @ts-ignore
-    <Link href={`/post/${post_id}`}>
+    <Link href={`/post/${id}`}>
       <article
         className={clsx(
           !disableHighlightAnimation && "group",
-          "bg-white p-6 md:py-7 md:px-8 rounded-xl"
+          "rounded-xl bg-white p-6 md:py-7 md:px-8"
         )}
       >
-        <div className="text-right mb-2">
+        <div className="mb-2 text-right">
           <p className="text-sm text-slate-400">{createdAt}</p>
         </div>
         <div className="flex sm:gap-10  md:gap-6">
           <div className="hidden sm:block">
             <CounterButton
-              postId={post_id}
-              userId={user.user_id}
-              upvoteId={upvote && upvote.upvote_id}
+              postId={id}
+              userId={user.id}
+              upvoteId={upvote?.id}
               className="z-10"
               direction="column"
-              upvoteCount={upvotes}
+              upvoteCount={_count.upvotes}
             />
           </div>
           <div className="flex-1">
-            <div className="space-y-2 md:space-y-1 mb-2 md:mb-3">
+            <div className="mb-2 space-y-2 md:mb-3 md:space-y-1">
               <h3
                 className={clsx(
                   `group-hover:text-brand-purple group-focus:text-brand-purple`,
-                  " text-sm text-brand-gray_blue font-bold",
+                  " text-brand-gray_blue text-sm font-bold",
                   " md:text-lg"
                 )}
               >
@@ -58,10 +60,10 @@ function Post({
                 {content}
               </p>
             </div>
-            <div className="flex gap-2 flex-col items-start sm:flex-row mb-6 md:mb-0">
+            <div className="mb-6 flex flex-col items-start gap-2 sm:flex-row md:mb-0">
               <span
                 className={clsx(
-                  "inline-block bg-brand-alice_blue  text-brand-royal_blue text-xs font-semibold px-4 py-2 rounded-xl",
+                  "inline-block rounded-xl  bg-brand-alice_blue px-4 py-2 text-xs font-semibold text-brand-royal_blue",
                   "md:text-sm"
                 )}
               >
@@ -69,20 +71,20 @@ function Post({
               </span>
               <Status status={status} />
             </div>
-            <div className="flex sm:hidden justify-between items-center">
+            <div className="flex items-center justify-between sm:hidden">
               <CounterButton
-                postId={post_id}
-                userId={user.user_id}
-                upvoteId={upvote && upvote.upvote_id}
+                postId={id}
+                userId={user.id}
+                upvoteId={upvote?.id}
                 className="z-10"
                 direction="column"
-                upvoteCount={upvotes}
+                upvoteCount={_count.upvotes}
               />
-              <CommentIcon comments={comments} />
+              <CommentIcon comments={_count.comments} />
             </div>
           </div>
-          <div className={clsx("hidden sm:flex items-center")}>
-            <CommentIcon comments={comments} />
+          <div className={clsx("hidden items-center sm:flex")}>
+            <CommentIcon comments={_count.comments} />
           </div>
         </div>
       </article>
@@ -95,7 +97,7 @@ function Status({ status }: { status: Post["status"] }) {
   return (
     <span
       className={clsx(
-        "inline-block  text-xs font-bold px-4 py-2 rounded-xl",
+        "inline-block  rounded-xl px-4 py-2 text-xs font-bold",
         "md:text-sm",
         `${bgWithOpacity} ${text} `
       )}

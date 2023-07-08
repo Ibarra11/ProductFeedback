@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Category, Status } from "@prisma/client";
+
 import clsx from "clsx";
 import { use } from "react";
 import EmptySuggestionsView from "../EmptySuggestionsView";
@@ -25,6 +25,7 @@ function Posts({ postsPromise }: Props) {
   const posts = use(postsPromise);
   const { getFilteredPosts, filters, sortValue } = usePostsContext();
   const currentPosts = getFilteredPosts(posts);
+
   return (
     <div className={clsx("flex-1  px-6", "md:h-full md:px-0")}>
       {currentPosts.length > 0 ? (

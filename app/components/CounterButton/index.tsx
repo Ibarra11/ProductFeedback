@@ -9,7 +9,7 @@ import { ButtonProps } from "@/types";
 type Props = {
   upvoteCount: number;
   postId: number;
-  userId: number;
+  userId: string;
   upvoteId?: number;
   direction: "row" | "column";
 };
@@ -63,15 +63,15 @@ function CounterButton({
   return (
     <button
       className={clsx(
-        "relative counter-btn bg-brand-alice_blue  flex rounded-lg",
+        "counter-btn relative flex  rounded-lg bg-brand-alice_blue",
         className,
         flexDirection,
         upvoteId
           ? "bg-brand-royal_blue text-brand-ghost_white"
           : "text-brand-american_blue",
         !upvoteId && " hover:bg-blue-100",
-        " outline-none focus:outline-brand-royal_blue focus:outline focus:outline-2",
-        "duration-200 transition-colors"
+        " outline-none focus:outline focus:outline-2 focus:outline-brand-royal_blue",
+        "transition-colors duration-200"
       )}
       {...rest}
       onClick={(e) => {
@@ -97,7 +97,7 @@ function CounterButton({
           </span>
           <span
             className={clsx(
-              "text-sm font-bold  flex w-full justify-center",
+              "flex w-full  justify-center text-sm font-bold",
               upvoteId && "text-white"
             )}
           >

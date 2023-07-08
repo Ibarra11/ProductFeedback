@@ -9,7 +9,6 @@ import FormTextArea from "../components/FormTextArea";
 import FormTextInput from "../components/FormTextInput";
 import FormSelect from "../components/FormSelect";
 import Button from "../components/Button";
-import { User } from "@/types";
 import { CATEGORY_VALUES } from "../constants";
 import { Category } from "@prisma/client";
 import { createPostRequest } from "../lib/mutations";

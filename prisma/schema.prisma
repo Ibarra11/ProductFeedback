@@ -90,11 +90,11 @@ model Post {
 }
 
 model Upvotes {
-  upvote_id Int    @id @default(autoincrement())
-  post_id   Int
-  Post      Post   @relation(fields: [post_id], references: [id], onDelete: Cascade)
-  user_id   String
-  User      User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id      Int    @id @default(autoincrement())
+  post_id Int
+  Post    Post   @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  user_id String
+  User    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@unique([post_id, user_id])
 }

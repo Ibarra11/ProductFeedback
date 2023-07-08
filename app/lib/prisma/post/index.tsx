@@ -19,8 +19,18 @@ export type Comment = ConvertDateToString<
 
 export const getAllPost = async () => {
   return await prisma.post.findMany({
-    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    orderBy: [{ createdAt: "desc" }],
     include: {
+      upvotes: {
+        select: {
+          id: true,
+          User: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
       _count: {
         select: {
           comments: true,
@@ -79,7 +89,6 @@ export const getCommentsByPostId = async (postId: number) => {
         select: {
           User: {
             select: {
-              username: true,
               name: true,
               email: true,
             },
