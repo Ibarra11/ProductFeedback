@@ -7,7 +7,7 @@ const PostIdSegment = z
   });
 
 const CreateUpvote = z.object({
-  userId: z.number(),
+  userId: z.string(),
 });
 const DeleteUpvote = z.number();
 export const UpvoteSchema = {

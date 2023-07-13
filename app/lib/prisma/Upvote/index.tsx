@@ -18,7 +18,7 @@ export const createUpvote = async ({
 export const deleteUpvote = async ({ upvote_id }: { upvote_id: number }) => {
   await prisma.upvotes.delete({
     where: {
-      upvote_id,
+      id: upvote_id,
     },
   });
 };

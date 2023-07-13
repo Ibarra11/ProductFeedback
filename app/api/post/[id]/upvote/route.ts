@@ -1,16 +1,19 @@
 import { createUpvote } from "@/app/lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { UpvoteSchema } from "@/app/lib/zod";
 
-export async function POST(req: Request) {
-  const postIdSegment = new URL(req.url).pathname.split("/").slice(-2)[0];
+export async function POST(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const postIdSegment = params.id;
   const reqData = await req.json();
   try {
     const data = UpvoteSchema.CreateUpvote.parse(reqData);
     const postIdValue = UpvoteSchema.PostIdSegment.parse(postIdSegment);
-    await createUpvote({ user_fk_id: data.userId, post_fk_id: postIdValue });
+    await createUpvote({ userId: data.userId, postId: postIdValue });
     return new NextResponse(null, {
       status: 204,
     });

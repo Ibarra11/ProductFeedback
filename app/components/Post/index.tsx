@@ -36,7 +36,7 @@ function Post({
           <div className="flex items-center gap-2">
             <Image
               className="rounded-full"
-              src={user.image}
+              src={user.image || ""}
               width={24}
               height={24}
               alt={`${user.name} avatar`}
