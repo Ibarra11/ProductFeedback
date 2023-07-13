@@ -14,7 +14,7 @@ const variants = {
     transition: { ease: [0.78, 0.14, 0.15, 0.86] },
   },
 };
-function AnimatedPost(props: Post) {
+function AnimatedPost({ children }: React.PropsWithChildren) {
   const controls = useAnimation();
   const { ref, inView } = useInView();
   React.useEffect(() => {
@@ -29,7 +29,8 @@ function AnimatedPost(props: Post) {
       animate={controls}
       ref={ref}
     >
-      <Post {...props} />
+      {children}
+      {/* <Post {...props} /> */}
     </motion.li>
   );
 }

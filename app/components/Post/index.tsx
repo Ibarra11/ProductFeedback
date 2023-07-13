@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import Image from "next/image";
 import CounterButton from "../CounterButton";
 import CommentIcon from "../CommentIcon";
 import clsx from "clsx";
@@ -6,9 +8,8 @@ import type { Post } from "@/app/lib/prisma/Post";
 import { useUserContext } from "../UserProvider";
 import { formatStatus } from "@/app/utils";
 import { ROADMAP_OPTIONS } from "@/app/constants";
-import { getCurrentUser } from "@/app/lib/auth/session";
 
-async function Post({
+function Post({
   id,
   title,
   content,
@@ -19,7 +20,7 @@ async function Post({
   _count,
   upvotes,
 }: Post & { disableHighlightAnimation?: boolean }) {
-  const user = await getCurrentUser();
+  const user = useUserContext();
 
   const upvote = upvotes.find((upvote) => upvote.User.id === user.id);
   return (
@@ -31,7 +32,18 @@ async function Post({
           "rounded-xl bg-white p-6 md:py-7 md:px-8"
         )}
       >
-        <div className="mb-2 text-right">
+        <div className="mb-4 flex justify-between">
+          <div className="flex items-center gap-2">
+            <Image
+              className="rounded-full"
+              src={user.image}
+              width={24}
+              height={24}
+              alt={`${user.name} avatar`}
+            />
+            <h4 className="text-sm text-slate-400">{user.name}</h4>
+          </div>
+
           <p className="text-sm text-slate-400">{createdAt}</p>
         </div>
         <div className="flex sm:gap-10  md:gap-6">

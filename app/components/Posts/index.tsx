@@ -1,14 +1,15 @@
 "use client";
 import React from "react";
-
 import clsx from "clsx";
 import { use } from "react";
 import EmptySuggestionsView from "../EmptySuggestionsView";
+import Post from "../Post";
 import { usePostsContext } from "../PostsProvider";
 import { motion } from "framer-motion";
 import PostSkeleton from "../PostSkeleton";
 import AnimatedPost from "../Post/AnimatedPost";
 import { PostsPromise } from "@/types";
+
 interface Props {
   postsPromise: PostsPromise;
 }
@@ -37,7 +38,9 @@ function Posts({ postsPromise }: Props) {
           className={clsx("flex flex-col gap-4", "lg:gap-5")}
         >
           {currentPosts.map((post) => (
-            <AnimatedPost key={post.id} {...post} />
+            <AnimatedPost key={post.id}>
+              <Post {...post} />
+            </AnimatedPost>
           ))}
         </motion.ul>
       ) : (
