@@ -15,10 +15,11 @@ export default async function RootLayout({
   return (
     <html lang="en" className={jost.className}>
       <head />
-      <body>
+      {/* marginRight needed to offset the margin applied when modal is opened otherwise there is a gap. */}
+      <body style={{ marginRight: "0px !important" }}>
         <main
           className={clsx(
-            "min-h-screen grid pb-10   bg-brand-alice_blue",
+            "grid min-h-screen bg-brand-alice_blue   pb-10",
             "md:py-10 md:px-10"
           )}
         >

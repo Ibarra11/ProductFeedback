@@ -6,7 +6,7 @@ import { User } from "@/types";
 import { FiLogOut } from "react-icons/fi";
 import { MdPersonOutline } from "react-icons/md";
 
-export default async function UserProfile({ user }: { user: User }) {
+export default function UserProfile({ user }: { user: User }) {
   return (
     <div className="space-y-3 rounded-lg bg-white py-4">
       <div className="flex items-center gap-4 px-4">

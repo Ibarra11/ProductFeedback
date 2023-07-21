@@ -18,11 +18,11 @@ function RoadmapList({ postsPromise }: { postsPromise: PostsPromise }) {
         <li
           key={`${status}`}
           aria-label={status}
-          className="flex gap-4 justify-between"
+          className="flex justify-between gap-4"
         >
           <div className="flex items-center gap-4">
             <span
-              className={`inline-block w-2 h-2 ${ROADMAP_OPTIONS[status].bg} rounded-full `}
+              className={`inline-block h-2 w-2 ${ROADMAP_OPTIONS[status].bg} rounded-full `}
             ></span>
             <span className="text-base">{formatStatus(status)}</span>
           </div>

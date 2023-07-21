@@ -13,6 +13,7 @@ import MobileHeader from "./components/MobileHeader";
 import RoadmapList from "./components/Sidebar/RoadmapList";
 import { getCurrentUser } from "./lib/auth/session";
 import { redirect } from "next/navigation";
+import UserProfile from "./components/UserProfile";
 
 export const metadata: Metadata = {
   title: "Feedback Board",
@@ -51,9 +52,7 @@ export default async function Home() {
       <UserProvider user={user}>
         <PostsProvider>
           <Sidebar user={user} postsPromise={postsPromise} />
-          <MobileHeader>
-            <RoadmapList postsPromise={postsPromise} />
-          </MobileHeader>
+          <MobileHeader user={user} postsPromise={postsPromise} />
           <div className={clsx("flex flex-1 flex-col gap-8", "lg:gap-6")}>
             <SubHeader postsPromise={postsPromise} />
             <Posts postsPromise={postsPromise} />

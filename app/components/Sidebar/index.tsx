@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import Banner from "../Banner";
 import Roadmap from "./roadmap";
-import { Category, Status } from "@prisma/client";
 import { Suspense } from "react";
 import RoadmapSkeleton from "./RoadmapSkeleton";
 import RoadmapList from "./RoadmapList";
@@ -20,18 +19,32 @@ function Sidebar({
     <aside
       className={clsx(
         "relative hidden",
-        "md:flex md:gap-3",
+        "md:block",
         "lg:sticky lg:top-4  lg:w-64   lg:flex-col lg:gap-6 lg:self-start"
       )}
     >
-      <Banner title="Frontend Mentor" subTitle="Feedback Board" />
-      <UserProfile user={user} />
-      <SidebarCategoryPills />
-      <Roadmap>
-        <Suspense fallback={<RoadmapSkeleton />}>
-          <RoadmapList postsPromise={postsPromise} />
-        </Suspense>
-      </Roadmap>
+      {/* Desktop View */}
+      <div className="hidden lg:flex lg:flex-col lg:gap-3">
+        <Banner title="Frontend Mentor" subTitle="Feedback Board" />
+        <UserProfile user={user} />
+        <SidebarCategoryPills />
+        <Roadmap>
+          <Suspense fallback={<RoadmapSkeleton />}>
+            <RoadmapList postsPromise={postsPromise} />
+          </Suspense>
+        </Roadmap>
+      </div>
+      {/* tablet view */}
+      <div className="hidden md:grid md:grid-cols-2 md:gap-4 lg:hidden">
+        <Banner title="Frontend Mentor" subTitle="Feedback Board" />
+        <UserProfile user={user} />
+        <SidebarCategoryPills />
+        <Roadmap>
+          <Suspense fallback={<RoadmapSkeleton />}>
+            <RoadmapList postsPromise={postsPromise} />
+          </Suspense>
+        </Roadmap>
+      </div>
     </aside>
   );
 }
