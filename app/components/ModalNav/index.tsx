@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import * as Dialog from "@radix-ui/react-dialog";
 import { motion } from "framer-motion";
-import { X } from "react-feather";
+import { AnimatedMenuIcon } from "../MenuIcon";
 import UserProfile from "../UserProfile";
 import MobileFilterPills from "./MobileFilterPills";
 import RoadmapSkeleton from "../Sidebar/RoadmapSkeleton";
@@ -25,19 +25,6 @@ function ModalNav({
   return (
     <Dialog.Root open={isOpen}>
       <Dialog.Portal>
-        {/* <div className="fixed inset-0 isolate z-50 flex flex-col"> */}
-        {/* <div className="relative h-[var(--header-height)]"> */}
-        {/* <button
-              aria-label={isOpen ? "Close menu" : "Open Menu"}
-              onClick={closeNavModal}
-              className="absolute top-1/2 right-6 -translate-y-1/2 cursor-pointer text-brand-ghost_white"
-            >
-             
-              <MenuIcon isOpen={true} />
-              <span className="sr-only">Toggle mobile menu</span>
-            </button> */}
-        {/* </div> */}
-
         <Dialog.Content className="fixed inset-0  flex flex-col">
           <Dialog.Overlay onClick={closeNavModal} asChild>
             <motion.div
@@ -53,9 +40,9 @@ function ModalNav({
             <button
               aria-label={isOpen ? "Close menu" : "Open Menu"}
               onClick={closeNavModal}
-              className="absolute top-1/2 right-6 -translate-y-1/2 cursor-pointer text-brand-ghost_white"
+              className="absolute top-1/2 right-6 -translate-x-[var(--removed-body-scroll-bar-size)] -translate-y-1/2 cursor-pointer text-brand-ghost_white "
             >
-              <MenuIcon isOpen={true} />
+              <AnimatedMenuIcon />
               <span className="sr-only">Toggle mobile menu</span>
             </button>
           </div>
@@ -88,74 +75,6 @@ function ModalNav({
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  );
-}
-
-function MenuIcon({ isOpen }: { isOpen: boolean }) {
-  return (
-    <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      initial={{
-        rotate: 0,
-      }}
-      animate={{
-        rotate: "-45deg",
-      }}
-      transition={{
-        type: "spring",
-        duration: 1,
-      }}
-      className={` overflow-visible `}
-    >
-      <motion.line
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{
-          type: "spring",
-          duration: 0.5,
-          delay: 0.25,
-        }}
-        x1={isOpen ? "16" : "0"}
-        y1={isOpen ? "0" : "8"}
-        x2={isOpen ? "16" : "32"}
-        y2={isOpen ? "32" : "8"}
-      ></motion.line>
-      <motion.line
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{
-          type: "spring",
-          duration: 0.5,
-          delay: 0.25,
-        }}
-        x1={isOpen ? "0" : "0"}
-        y1={isOpen ? "16" : "16"}
-        x2={isOpen ? "32" : "32"}
-        y2={isOpen ? "16" : "16"}
-      ></motion.line>
-      {/* <line x1="0" y1="16" x2="32" y2="16"></line> */}
-      {/* <line x1="0" y1="24" x2="32" y2="24"></line> */}
-      <motion.line
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{
-          type: "spring",
-          duration: 1.5,
-        }}
-        x1={isOpen ? "0" : "0"}
-        y1={isOpen ? "16" : "24"}
-        x2={isOpen ? "32" : "32"}
-        y2={isOpen ? "16" : "24"}
-      ></motion.line>
-    </motion.svg>
   );
 }
 
