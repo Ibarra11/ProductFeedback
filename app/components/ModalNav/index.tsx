@@ -52,7 +52,7 @@ function ModalNav({
             exit={{ x: "100%", transition: { duration: 0.25 } }}
             transition={{ duration: 0.5 }}
             className={clsx(
-              "relative z-20 flex h-full w-72 flex-1 flex-col gap-4 self-end overflow-auto    bg-brand-alice_blue py-6 shadow-md "
+              "relative z-20 flex h-full w-72 flex-1 flex-col gap-4 self-end overflow-auto    bg-brand-alice_blue py-6 px-4 shadow-md"
             )}
           >
             <div className="px-4">
