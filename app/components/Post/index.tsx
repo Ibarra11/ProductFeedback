@@ -72,7 +72,7 @@ function Post({
                 {content}
               </p>
             </div>
-            <div className="mb-6 flex flex-col items-start gap-2 sm:flex-row md:mb-0">
+            <div className="mb-6 flex  flex-wrap gap-2   md:mb-0">
               <span
                 className={clsx(
                   "inline-block rounded-xl  bg-brand-alice_blue px-4 py-2 text-xs font-semibold text-brand-royal_blue",
