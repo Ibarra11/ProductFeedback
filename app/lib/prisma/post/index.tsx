@@ -17,27 +17,29 @@ export type Comment = ConvertDateToString<
   ReturnType<typeof getCommentsByPostId>
 >;
 
-export const getAllPost = async () => {
-  return await prisma.post.findMany({
-    orderBy: [{ createdAt: "desc" }],
-    include: {
-      upvotes: {
+const postInclude = {
+  upvotes: {
+    select: {
+      id: true,
+      User: {
         select: {
           id: true,
-          User: {
-            select: {
-              id: true,
-            },
-          },
-        },
-      },
-      _count: {
-        select: {
-          comments: true,
-          upvotes: true,
         },
       },
     },
+  },
+  _count: {
+    select: {
+      comments: true,
+      upvotes: true,
+    },
+  },
+};
+
+export const getAllPost = async () => {
+  return await prisma.post.findMany({
+    orderBy: [{ createdAt: "desc" }],
+    include: postInclude,
   });
 };
 
@@ -54,14 +56,7 @@ export const getPostWithCommentCount = async (id: number) => {
     where: {
       id,
     },
-    include: {
-      _count: {
-        select: {
-          comments: true,
-          upvotes: true,
-        },
-      },
-    },
+    include: postInclude,
   });
   if (!result) {
     return null;

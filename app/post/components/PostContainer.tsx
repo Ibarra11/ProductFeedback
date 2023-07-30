@@ -1,29 +1,18 @@
 import CustomLink from "@/app/components/CustomLink";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import Post from "@/app/components/Post";
-import { Category, Status, User } from "@prisma/client";
+import { Post as Post_T } from "@/types";
+import { Session } from "next-auth";
 interface Props {
-  post: {
-    createdAt: string;
-    post_id: number;
-    title: string;
-    content: string;
-    category: Category;
-    status: Status;
-    user_fk_id: number;
-    _count: {
-      upvotes: number;
-      comments: number;
-    };
-  };
-  user: User;
+  post: Post_T;
+  user: Session["user"];
 }
 
 export default function PostContainer({ post, user }: Props) {
-  const isAuthor = post.user_fk_id === user.user_id;
+  const isAuthor = post.user_id === user.id;
   return (
     <article className="isolate">
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-4">
         <LinkWithChevronLeft className="text-brand-american_blue">
           Go Back
         </LinkWithChevronLeft>
@@ -38,7 +27,7 @@ export default function PostContainer({ post, user }: Props) {
         )}
       </div>
 
-      <Post {...post} />
+      <Post user={user} {...post} />
     </article>
   );
 }

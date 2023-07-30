@@ -14,6 +14,8 @@ import {
 } from "@/app/lib/prisma/Post";
 import UserProvider from "@/app/components/UserProvider";
 import PostContainer from "../components/PostContainer";
+import { getUser } from "@/app/lib/prisma";
+import { getCurrentUser } from "@/app/lib/auth/session";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -30,16 +32,6 @@ export const revalidate = 0;
 //   return { title: post.title, description: post.content };
 // }
 
-async function getRandomUser() {
-  const user = await prisma.user.findMany({
-    include: {
-      Upvotes: true,
-    },
-  });
-  const randomIndex = Math.floor(user.length * Math.random());
-  return user[randomIndex];
-}
-
 async function Page({ params: { id } }: { params: { id: string[] } }) {
   const rawPostId = z
     .string()
@@ -51,7 +43,6 @@ async function Page({ params: { id } }: { params: { id: string[] } }) {
   }
 
   const postId = rawPostId.data;
-
   const postPromise = getPostWithCommentCount(postId);
   const commentsPromise = getCommentsByPostId(postId).then((comments) => {
     return comments.map((comment) => {
@@ -61,23 +52,20 @@ async function Page({ params: { id } }: { params: { id: string[] } }) {
       };
     });
   });
-
   const [post, comments, user] = await Promise.all([
     postPromise,
     commentsPromise,
-    getRandomUser(),
+    getCurrentUser(),
   ]);
   if (!post) {
     redirect("/");
   }
   return (
-    <UserProvider user={user}>
-      <div className="space-y-6">
-        <PostContainer user={user} post={post} />
-        <Comments comments={comments} />
-        <AddComment postFkId={postId} />
-      </div>
-    </UserProvider>
+    <div className="space-y-6">
+      <PostContainer user={user} post={post} />
+      <Comments comments={comments} />
+      <AddComment postFkId={postId} />
+    </div>
   );
 }
 

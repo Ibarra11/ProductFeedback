@@ -8,6 +8,13 @@ import type { Post } from "@/app/lib/prisma/Post";
 import { useUserContext } from "../UserProvider";
 import { formatStatus } from "@/app/utils";
 import { ROADMAP_OPTIONS } from "@/app/constants";
+import { User } from "@prisma/client";
+import { Session } from "next-auth";
+
+interface Props extends Post {
+  disableHighlightAnimation?: boolean;
+  user: Pick<Session["user"], "name" | "image" | "id">;
+}
 
 function Post({
   id,
@@ -19,9 +26,8 @@ function Post({
   disableHighlightAnimation = false,
   _count,
   upvotes,
-}: Post & { disableHighlightAnimation?: boolean }) {
-  const user = useUserContext();
-
+  user,
+}: Props) {
   const upvote = upvotes.find((upvote) => upvote.User.id === user.id);
   return (
     // @ts-ignore

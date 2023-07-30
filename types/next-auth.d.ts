@@ -1,5 +1,6 @@
 import { User } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import { Session } from "next-auth";
 
 type UserId = string;
 

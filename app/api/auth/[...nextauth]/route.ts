@@ -34,6 +34,7 @@ export const authOptions: NextAuthOptions = {
         token.image = user.image;
         token.email = user.email;
         token.name = user.name;
+
         return token;
       } else {
         const dbUser = await prisma.user.findUnique({
