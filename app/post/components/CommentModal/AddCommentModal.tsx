@@ -7,10 +7,11 @@ import Button from "@/app/components/Button";
 import AddCommentButton from "./AddCommentButton";
 import { addReply } from "@/app/lib/mutations";
 import { Comment } from "@/app/lib/prisma";
+import { Session } from "next-auth";
 const COMMENT_LENGTH = 250;
 
 interface Props {
-  userId: number;
+  userId: Session["user"]["id"];
   comment: Comment;
   updateComment: (newReplies: Comment["replies"]) => void;
   closeComment: () => void;
@@ -31,9 +32,9 @@ function AddCommentModal({
       const { replies } = await addReply({
         content,
         userId,
-        postId: comment.post_fk_id,
+        postId: comment.post_id,
         commentId: comment.comment_id,
-        replyingTo: comment.User.username,
+        replyingTo: comment.User.name!,
       });
       setIsPending(false);
       setContent("");

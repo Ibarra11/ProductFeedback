@@ -4,9 +4,13 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import LoadingCircle from "@/app/components/LoadingCircle";
 import Button from "@/app/components/Button";
+import { ZCommentSchema } from "@/app/lib/zod";
 const COMMENT_LENGTH = 250;
 
-function AddComment({ postFkId }: { postFkId: number }) {
+function AddComment({
+  postId,
+  userId,
+}: Omit<ZCommentSchema["createComment"], "content">) {
   const [isPending, setIsPending] = React.useState(false);
   const [comment, setComment] = React.useState("");
   const router = useRouter();
@@ -16,7 +20,7 @@ function AddComment({ postFkId }: { postFkId: number }) {
     try {
       const res = await fetch("/api/comment", {
         method: "POST",
-        body: JSON.stringify({ content: comment, post_fk_id: postFkId }),
+        body: JSON.stringify({ content: comment, postId, userId }),
       });
       if (res.ok) {
         setComment("");

@@ -10,14 +10,15 @@ import CommentLoader from "./CommentLoader";
 import CommentModalProvider from "./CommentModalProvider";
 import ModalControls from "./ModalControls";
 import clsx from "clsx";
+import { Session } from "next-auth";
 
 interface Props {
   closeModal: () => void;
   comment: Comment;
-  userId: number;
+  user: Session["user"];
 }
 
-function CommentModal({ closeModal, comment, userId }: Props) {
+function CommentModal({ closeModal, comment, user }: Props) {
   const [isOpen, setIsOpen] = React.useState(true);
   const [comments, setComments] = React.useState<Comment[]>([comment]);
   const [commentIndex, setCommentIndex] = React.useState(0);
@@ -71,7 +72,7 @@ function CommentModal({ closeModal, comment, userId }: Props) {
               <CommentLoader
                 comment={currentComment}
                 updateComment={updateComment}
-                userId={userId}
+                user={user}
                 commentsPromise={commentsPromise}
               />
             </div>

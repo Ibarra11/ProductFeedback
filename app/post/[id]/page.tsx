@@ -1,12 +1,8 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { Metadata } from "next";
-import Post from "@/app/components/Post";
-import CustomLink from "@/app/components/CustomLink";
-import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import Comments from "../components/Comments";
 import AddComment from "../components/AddComment";
-import { prisma } from "@/db";
 import { convertDateToString } from "@/app/utils";
 import {
   getCommentsByPostId,
@@ -14,7 +10,6 @@ import {
 } from "@/app/lib/prisma/Post";
 import UserProvider from "@/app/components/UserProvider";
 import PostContainer from "../components/PostContainer";
-import { getUser } from "@/app/lib/prisma";
 import { getCurrentUser } from "@/app/lib/auth/session";
 
 export const dynamic = "force-dynamic";
@@ -63,8 +58,8 @@ async function Page({ params: { id } }: { params: { id: string[] } }) {
   return (
     <div className="space-y-6">
       <PostContainer user={user} post={post} />
-      <Comments comments={comments} />
-      <AddComment postFkId={postId} />
+      <Comments user={user} comments={comments} />
+      <AddComment userId={user.id} postId={postId} />
     </div>
   );
 }

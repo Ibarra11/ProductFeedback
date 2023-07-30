@@ -6,15 +6,22 @@ import LoadingCircle from "../../components/LoadingCircle";
 import TextArea from "../../components/TextArea";
 import { Comment } from "../../lib/prisma/Post";
 import { CommentSchema } from "@/app/lib/zod";
+import { Session } from "next-auth";
 
 interface Props {
-  userId: number;
+  currentUserId: Session["user"]["id"];
   postId: number;
   commentId: number;
   replyingTo: string;
   onSuccess: (commentId: Comment["replies"]) => void;
 }
-function ReplyBox({ onSuccess, userId, postId, commentId, replyingTo }: Props) {
+function ReplyBox({
+  onSuccess,
+  currentUserId,
+  postId,
+  commentId,
+  replyingTo,
+}: Props) {
   const [isPending, setIsPending] = React.useState(false);
   const [reply, setReply] = React.useState("");
 
@@ -24,7 +31,7 @@ function ReplyBox({ onSuccess, userId, postId, commentId, replyingTo }: Props) {
       method: "PUT",
       body: JSON.stringify({
         content: reply,
-        userId,
+        userId: currentUserId,
         postId,
         commentId,
         replyingTo,

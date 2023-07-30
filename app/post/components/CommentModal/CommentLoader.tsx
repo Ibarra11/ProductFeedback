@@ -8,17 +8,18 @@ import { IoMdAdd } from "react-icons/io";
 import AddCommentModal from "./AddCommentModal";
 import AddCommentButton from "./AddCommentButton";
 import { Comment as T_Comment } from "@/app/lib/prisma";
+import { Session } from "next-auth";
 
 interface Props {
   commentsPromise: ReturnType<GetReplies>;
   updateComment: (newReplies: Comment["replies"]) => void;
-  userId: number;
+  user: Session["user"];
   comment: T_Comment;
 }
 function ModalComments({
   commentsPromise,
   updateComment,
-  userId,
+  user,
   comment,
 }: Props) {
   const { comments } = React.use(commentsPromise);
@@ -31,7 +32,7 @@ function ModalComments({
   return (
     <div className="flex h-full flex-col justify-between">
       <div className="flex-1 overflow-auto">
-        <Comments variant="modal" comments={comments} />
+        <Comments user={user} variant="modal" comments={comments} />
       </div>
 
       {!isOpen && (
@@ -47,7 +48,7 @@ function ModalComments({
           closeComment={closeComment}
           comment={comment}
           updateComment={updateComment}
-          userId={userId}
+          userId={user.id}
         />
       )}
     </div>
@@ -57,7 +58,7 @@ function ModalComments({
 function CommentLoader({
   commentsPromise,
   updateComment,
-  userId,
+  user,
   comment,
 }: Props) {
   return (
@@ -66,7 +67,7 @@ function CommentLoader({
         // I add a key because when the addComment is set to open and we set a new comment.  I want to reset the addComment back to false
         key={comment.comment_id}
         updateComment={updateComment}
-        userId={userId}
+        user={user}
         commentsPromise={commentsPromise}
         comment={comment}
       />

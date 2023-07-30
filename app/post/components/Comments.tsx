@@ -3,20 +3,21 @@ import React from "react";
 import EmptyCommentsView from "./EmptyCommentsView";
 import Comment from "./Comment";
 import { Comment as T_Comment } from "@/app/lib/prisma";
+import { Session } from "next-auth";
 
-function Comments({
-  comments,
-  variant,
-}: {
+interface Props {
   comments: T_Comment[];
   variant?: "modal";
-}) {
+  user: Session["user"];
+}
+
+function Comments({ comments, variant, user }: Props) {
   return (
     <div className="bg-white shadow-sm p-8 pb-10 h-full  overflow-auto rounded-lg">
       {comments.length > 0 ? (
         comments.map((comment, index) => (
           <React.Fragment key={comment.comment_id}>
-            <Comment variant={variant} {...comment} />
+            <Comment currentUser={user} variant={variant} {...comment} />
             {index != comments.length - 1 && <Divder />}
           </React.Fragment>
         ))

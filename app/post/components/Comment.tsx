@@ -15,24 +15,26 @@ import CommentModal from "./CommentModal/Modal";
 import CommentIcon from "@/app/components/CommentIcon";
 import { useCommentModalContext } from "./CommentModal/CommentModalProvider";
 import { getReplies } from "@/app/lib/mutations";
+import { Session } from "next-auth";
 
 type Props = Comment & {
   level?: number;
   variant?: "modal";
+  currentUser: Session["user"];
 };
 
 const Comment = React.forwardRef<HTMLDivElement | null, Props>(
   ({ level = 1, ...comment }, ref) => {
     const {
       comment_id,
-      post_fk_id,
-      user_fk_id,
-      User,
+      post_id,
+      User: author,
       replyingTo,
       replies,
       content,
       createdAt,
       variant,
+      currentUser,
     } = comment;
 
     const [isReplyOpen, setIsReplyOpen] = React.useState(false);
@@ -43,7 +45,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     const [viewMoreStatus, setViewMoreStatus] = React.useState<
       "pending" | "idle"
     >("idle");
-    const currentUser = useUserContext();
+    // const currentUser = useUserContext();
     const router = useRouter();
     const startingImgRef = React.useRef<HTMLDivElement>(null);
     const lastChildRef = React.useRef<HTMLDivElement>(null);
@@ -77,7 +79,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     }
 
     const marginLeft = Math.round(36 * (level - 1));
-    const { image, username, name } = User;
+    const { image, name, email } = author;
     return (
       <>
         <div
@@ -93,11 +95,11 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
               ref={ref ? ref : startingImgRef}
             >
               <Image
-                src={image}
+                src={image!}
                 className="rounded-full block "
                 width={40}
                 height={40}
-                alt={`${username} profile picture`}
+                alt={`${name} profile picture`}
               />
 
               {variant && modalContext && (
@@ -162,7 +164,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                     {createdAt}
                   </span>
                 </div>
-                <p className="text-sm text-brand-blue_gray">@{username}</p>
+                <p className="text-sm text-brand-blue_gray">{email}</p>
               </div>
               <div className="hidden sm:flex sm:gap-4">
                 {replies.length > 0 && (
@@ -194,10 +196,10 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
             </p>
             {isReplyOpen && (
               <ReplyBox
-                replyingTo={username}
+                replyingTo={name!}
                 commentId={comment_id}
-                userId={currentUser.user_id}
-                postId={post_fk_id}
+                currentUserId={currentUser.id}
+                postId={post_id}
                 onSuccess={handleSuccess}
               />
             )}
@@ -210,7 +212,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
         </div>
         {isModalOpen && (
           <CommentModal
-            userId={currentUser.user_id}
+            user={currentUser}
             comment={comment}
             closeModal={() => setIsModalOpen(false)}
           />
@@ -223,6 +225,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                   key={reply.comment_id}
                   level={level + 1}
                   {...reply}
+                  currentUser={currentUser}
                   ref={
                     currentReplies.length - 1 === index
                       ? lastChildRef

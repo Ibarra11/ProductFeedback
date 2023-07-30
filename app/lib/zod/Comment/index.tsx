@@ -22,19 +22,20 @@ export const Comments = z.object({
       comment_id: z.number(),
       replyingTo: z.string(),
       createdAt: z.string(),
-      post_fk_id: z.number(),
-      user_fk_id: z.number(),
+      post_id: z.number(),
+      user_id: z.string(),
       content: z.string(),
       Post: z.object({
         User: z.object({
-          username: z.string(),
+          name: z.string(),
+          email: z.string(),
         }),
       }),
       User: z.object({
-        user_id: z.number(),
+        id: z.string(),
         image: z.string(),
         name: z.string(),
-        username: z.string(),
+        email: z.string(),
       }),
       replies: RepliesSchema.shape.replies,
     })
@@ -42,8 +43,9 @@ export const Comments = z.object({
 });
 
 export const createComment = z.object({
-  post_fk_id: z.number(),
+  postId: z.number(),
   content: z.string().nonempty(),
+  userId: z.string(),
 });
 
 export const CommentSchema = {

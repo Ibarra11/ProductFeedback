@@ -12,18 +12,17 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const { content, post_fk_id } = CommentSchema.createComment.parse(data);
-    const users = await prisma.user.findMany();
-    const randomUserIndex = Math.floor(Math.random() * users.length);
+    const { content, postId, userId } = CommentSchema.createComment.parse(data);
     await createComment({
       content,
-      post_fk_id,
-      user_fk_id: users[randomUserIndex].user_id,
+      postId,
+      userId,
     });
     return new NextResponse(null, {
       status: 200,
     });
   } catch (error) {
+    console.log(error);
     return new NextResponse(null, {
       status: 500,
     });
@@ -68,7 +67,7 @@ export async function GET(req: Request) {
     const commentIds = CommentSchema.replyIds.parse(searchParamIds);
 
     const data = await getRepliesToComments(commentIds);
-
+    console.log(data);
     // If there are any null comments from data, it will throw an error because an id was not found.
     const comments = CommentSchema.comments.shape.comments.parse(data);
     return NextResponse.json({
@@ -77,7 +76,8 @@ export async function GET(req: Request) {
   } catch (e) {
     // error was a zod error either we passed invalid ids
     if (e instanceof ZodError) {
-      console.error(e);
+      console.log("errror");
+      console.log(e);
       return new NextResponse(
         JSON.stringify({ message: "Comments not found" }),
         {

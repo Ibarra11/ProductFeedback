@@ -1,6 +1,7 @@
 import { convertDateToString } from "@/app/utils";
 import { prisma } from "@/db";
 import { ZCommentSchema } from "../../zod";
+
 export async function getRepliesToComments(
   commentIds: ZCommentSchema["replyIds"]
 ) {
@@ -16,7 +17,9 @@ export async function getRepliesToComments(
           select: {
             User: {
               select: {
-                username: true,
+                id: true,
+                name: true,
+                email: true,
               },
             },
           },
@@ -30,6 +33,7 @@ export async function getRepliesToComments(
     });
   });
   const comments = await Promise.all(commentPromises);
+
   // Convert the date to string before sending back to client
   return comments.map((comment) => {
     if (comment) {
@@ -46,16 +50,22 @@ export async function createComment({
   content,
   postId,
   userId,
-}: {
-  content: string;
-  postId: number;
-  userId: string;
-}) {
-  return await prisma.comment.create({
+}: ZCommentSchema["createComment"]) {
+  return await prisma.post.update({
+    where: {
+      id: postId,
+    },
     data: {
-      content,
-      post_id: postId,
-      user_id: userId,
+      comments: {
+        create: {
+          content,
+          User: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+      },
     },
   });
 }

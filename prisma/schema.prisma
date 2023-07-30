@@ -85,8 +85,6 @@ model Post {
   User      User      @relation(fields: [user_id], references: [id])
   user_id   String
   upvotes   Upvotes[]
-
-  @@unique([id, user_id])
 }
 
 model Upvotes {

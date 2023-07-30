@@ -74,7 +74,13 @@ export const getCommentsByPostId = async (postId: number) => {
       replyingTo: null,
     },
     include: {
-      User: true,
+      User: {
+        select: {
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
       replies: {
         select: {
           comment_id: true,
@@ -105,10 +111,7 @@ export const updatePost = async ({
 }) => {
   return await prisma.post.update({
     where: {
-      id_user_id: {
-        id: postId,
-        user_id: userId,
-      },
+      id: postId,
     },
     data,
   });
@@ -139,10 +142,7 @@ export const deletePost = async ({
 }) => {
   return await prisma.post.delete({
     where: {
-      id_user_id: {
-        id: postId,
-        user_id: userId,
-      },
+      id: postId,
     },
   });
 };
