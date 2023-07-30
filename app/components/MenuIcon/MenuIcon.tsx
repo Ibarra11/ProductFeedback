@@ -7,9 +7,9 @@ export function MenuIcon() {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={` overflow-visible`}
     >
       <line x1={0} y1={6} x2={24} y2={6}></line>
