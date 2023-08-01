@@ -1,6 +1,7 @@
 import { convertDateToString } from "@/app/utils";
 import { prisma } from "@/db";
 import { Prisma, Status } from "@prisma/client";
+import React from "react";
 
 export type T_PostWithComemntCount = NonNullable<
   Awaited<ReturnType<typeof getPostWithCommentCount>>
@@ -51,7 +52,7 @@ export const getPost = async (id: number) => {
   });
 };
 
-export const getPostWithCommentCount = async (id: number) => {
+export const getPostWithCommentCount = React.cache(async (id: number) => {
   const result = await prisma.post.findUnique({
     where: {
       id,
@@ -62,7 +63,7 @@ export const getPostWithCommentCount = async (id: number) => {
     return null;
   }
   return { ...result, createdAt: convertDateToString(result.createdAt) };
-};
+});
 
 export const getCommentsByPostId = async (postId: number) => {
   return await prisma.comment.findMany({
@@ -86,27 +87,16 @@ export const getCommentsByPostId = async (postId: number) => {
           comment_id: true,
         },
       },
-      // Post: {
-      //   select: {
-      //     User: {
-      //       select: {
-      //         name: true,
-      //         email: true,
-      //       },
-      //     },
-      //   },
-      // },
     },
   });
 };
 
 export const updatePost = async ({
   postId,
-  userId,
+
   data,
 }: {
   postId: number;
-  userId: string;
   data: Prisma.PostUpdateInput;
 }) => {
   return await prisma.post.update({
@@ -133,13 +123,7 @@ export const getPostByStatus = async (option: Status) => {
   });
 };
 
-export const deletePost = async ({
-  postId,
-  userId,
-}: {
-  postId: number;
-  userId: string;
-}) => {
+export const deletePost = async ({ postId }: { postId: number }) => {
   return await prisma.post.delete({
     where: {
       id: postId,

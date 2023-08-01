@@ -15,17 +15,17 @@ import { getCurrentUser } from "@/app/lib/auth/session";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-// export async function generateMetadata({
-//   params,
-// }: {
-//   params: { id: string };
-// }): Promise<Metadata> {
-//   const post = await getPostById(Number(params.id));
-//   if (!post) {
-//     throw new Error();
-//   }
-//   return { title: post.title, description: post.content };
-// }
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const post = await getPostWithCommentCount(Number(params.id));
+  if (!post) {
+    throw new Error();
+  }
+  return { title: post.title, description: post.content };
+}
 
 async function Page({ params: { id } }: { params: { id: string[] } }) {
   const rawPostId = z
