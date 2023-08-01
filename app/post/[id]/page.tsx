@@ -56,11 +56,13 @@ async function Page({ params: { id } }: { params: { id: string[] } }) {
     redirect("/");
   }
   return (
-    <div className="space-y-6">
-      <PostContainer user={user} post={post} />
-      <Comments user={user} comments={comments} />
-      <AddComment userId={user.id} postId={postId} />
-    </div>
+    <UserProvider user={user}>
+      <div className="space-y-6">
+        <PostContainer userId={user.id} post={post} />
+        <Comments comments={comments} />
+        <AddComment userId={user.id} postId={postId} />
+      </div>
+    </UserProvider>
   );
 }
 

@@ -104,7 +104,7 @@ model Comment {
   content         String
   Post            Post      @relation(fields: [post_id], references: [id], onDelete: Cascade)
   post_id         Int
-  User            User      @relation(fields: [user_id], references: [id])
+  Author          User      @relation(fields: [user_id], references: [id])
   user_id         String
   replies         Comment[] @relation("replies")
   repliesRelation Comment[] @relation("replies")

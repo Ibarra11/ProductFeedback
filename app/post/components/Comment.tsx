@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import useMeasure from "react-use-measure";
 import ReplyBox from "./ReplyBox";
 import ViewMoreCommentsButton from "./ViewMoreCommentsButton";
-import { useUserContext } from "@/app/components/UserProvider";
 import { CommentSchema } from "@/app/lib/zod";
 import LoadingCircle from "@/app/components/LoadingCircle";
 import ReplyButton from "./ReplyButton";
@@ -20,7 +19,6 @@ import { Session } from "next-auth";
 type Props = Comment & {
   level?: number;
   variant?: "modal";
-  currentUser: Session["user"];
 };
 
 const Comment = React.forwardRef<HTMLDivElement | null, Props>(
@@ -28,13 +26,12 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     const {
       comment_id,
       post_id,
-      User: author,
       replyingTo,
       replies,
       content,
       createdAt,
       variant,
-      currentUser,
+      Author,
     } = comment;
 
     const [isReplyOpen, setIsReplyOpen] = React.useState(false);
@@ -45,7 +42,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     const [viewMoreStatus, setViewMoreStatus] = React.useState<
       "pending" | "idle"
     >("idle");
-    // const currentUser = useUserContext();
     const router = useRouter();
     const startingImgRef = React.useRef<HTMLDivElement>(null);
     const lastChildRef = React.useRef<HTMLDivElement>(null);
@@ -79,7 +75,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     }
 
     const marginLeft = Math.round(36 * (level - 1));
-    const { image, name, email } = author;
+    const { image, name, email } = Author;
     return (
       <>
         <div
@@ -198,7 +194,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
               <ReplyBox
                 replyingTo={name!}
                 commentId={comment_id}
-                currentUserId={currentUser.id}
                 postId={post_id}
                 onSuccess={handleSuccess}
               />
@@ -212,7 +207,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
         </div>
         {isModalOpen && (
           <CommentModal
-            user={currentUser}
             comment={comment}
             closeModal={() => setIsModalOpen(false)}
           />
@@ -225,7 +219,6 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
                   key={reply.comment_id}
                   level={level + 1}
                   {...reply}
-                  currentUser={currentUser}
                   ref={
                     currentReplies.length - 1 === index
                       ? lastChildRef

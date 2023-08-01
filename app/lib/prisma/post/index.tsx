@@ -74,7 +74,7 @@ export const getCommentsByPostId = async (postId: number) => {
       replyingTo: null,
     },
     include: {
-      User: {
+      Author: {
         select: {
           name: true,
           email: true,
@@ -86,16 +86,16 @@ export const getCommentsByPostId = async (postId: number) => {
           comment_id: true,
         },
       },
-      Post: {
-        select: {
-          User: {
-            select: {
-              name: true,
-              email: true,
-            },
-          },
-        },
-      },
+      // Post: {
+      //   select: {
+      //     User: {
+      //       select: {
+      //         name: true,
+      //         email: true,
+      //       },
+      //     },
+      //   },
+      // },
     },
   });
 };

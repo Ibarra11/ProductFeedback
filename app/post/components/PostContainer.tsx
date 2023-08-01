@@ -5,11 +5,11 @@ import { Post as Post_T } from "@/types";
 import { Session } from "next-auth";
 interface Props {
   post: Post_T;
-  user: Session["user"];
+  userId: Session["user"]["id"];
 }
 
-export default function PostContainer({ post, user }: Props) {
-  const isAuthor = post.user_id === user.id;
+export default function PostContainer({ post, userId }: Props) {
+  const isAuthor = post.user_id === userId;
   return (
     <article className="isolate">
       <div className="flex justify-between mb-4">
@@ -27,7 +27,7 @@ export default function PostContainer({ post, user }: Props) {
         )}
       </div>
 
-      <Post user={user} {...post} />
+      <Post {...post} />
     </article>
   );
 }

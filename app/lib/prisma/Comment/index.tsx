@@ -12,7 +12,7 @@ export async function getRepliesToComments(
       },
 
       include: {
-        User: true,
+        Author: true,
         Post: {
           select: {
             User: {
@@ -59,7 +59,7 @@ export async function createComment({
       comments: {
         create: {
           content,
-          User: {
+          Author: {
             connect: {
               id: userId,
             },

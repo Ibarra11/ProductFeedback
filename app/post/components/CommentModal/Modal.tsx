@@ -11,14 +11,15 @@ import CommentModalProvider from "./CommentModalProvider";
 import ModalControls from "./ModalControls";
 import clsx from "clsx";
 import { Session } from "next-auth";
+import { useUserContext } from "@/app/components/UserProvider";
 
 interface Props {
   closeModal: () => void;
   comment: Comment;
-  user: Session["user"];
 }
 
-function CommentModal({ closeModal, comment, user }: Props) {
+function CommentModal({ closeModal, comment }: Props) {
+  const user = useUserContext();
   const [isOpen, setIsOpen] = React.useState(true);
   const [comments, setComments] = React.useState<Comment[]>([comment]);
   const [commentIndex, setCommentIndex] = React.useState(0);

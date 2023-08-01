@@ -13,7 +13,6 @@ import { Session } from "next-auth";
 
 interface Props extends Post {
   disableHighlightAnimation?: boolean;
-  user: Pick<Session["user"], "name" | "image" | "id">;
 }
 
 function Post({
@@ -26,8 +25,8 @@ function Post({
   disableHighlightAnimation = false,
   _count,
   upvotes,
-  user,
 }: Props) {
+  const user = useUserContext();
   const upvote = upvotes.find((upvote) => upvote.User.id === user.id);
   return (
     // @ts-ignore

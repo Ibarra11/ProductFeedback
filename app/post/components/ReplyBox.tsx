@@ -7,21 +7,16 @@ import TextArea from "../../components/TextArea";
 import { Comment } from "../../lib/prisma/Post";
 import { CommentSchema } from "@/app/lib/zod";
 import { Session } from "next-auth";
+import { useUserContext } from "@/app/components/UserProvider";
 
 interface Props {
-  currentUserId: Session["user"]["id"];
   postId: number;
   commentId: number;
   replyingTo: string;
   onSuccess: (commentId: Comment["replies"]) => void;
 }
-function ReplyBox({
-  onSuccess,
-  currentUserId,
-  postId,
-  commentId,
-  replyingTo,
-}: Props) {
+function ReplyBox({ onSuccess, postId, commentId, replyingTo }: Props) {
+  const user = useUserContext();
   const [isPending, setIsPending] = React.useState(false);
   const [reply, setReply] = React.useState("");
 
@@ -31,7 +26,7 @@ function ReplyBox({
       method: "PUT",
       body: JSON.stringify({
         content: reply,
-        userId: currentUserId,
+        userId: user.id,
         postId,
         commentId,
         replyingTo,

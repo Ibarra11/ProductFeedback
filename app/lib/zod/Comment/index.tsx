@@ -25,13 +25,13 @@ export const Comments = z.object({
       post_id: z.number(),
       user_id: z.string(),
       content: z.string(),
-      Post: z.object({
-        User: z.object({
-          name: z.string(),
-          email: z.string(),
-        }),
-      }),
-      User: z.object({
+      // Post: z.object({
+      //   User: z.object({
+      //     name: z.string(),
+      //     email: z.string(),
+      //   }),
+      // }),
+      Author: z.object({
         id: z.string(),
         image: z.string(),
         name: z.string(),
