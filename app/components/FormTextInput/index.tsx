@@ -9,7 +9,6 @@ import FormFieldError from "../FormFieldError";
 type Props = {
   title: string;
   subTitle: string;
-  register: Register;
   field: FeedbackFormFields;
   error?: string;
 };
