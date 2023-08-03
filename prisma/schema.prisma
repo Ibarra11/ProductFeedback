@@ -85,6 +85,9 @@ model Post {
   User      User      @relation(fields: [user_id], references: [id])
   user_id   String
   upvotes   Upvotes[]
+
+  // make this unique so that when I update,it will fail if I try to update a post with a different user
+  @@unique([id, user_id])
 }
 
 model Upvotes {
