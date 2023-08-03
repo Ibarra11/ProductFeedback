@@ -1,7 +1,7 @@
-import { FeedbackFormData } from "@/app/new-feedback/NewFeedbackForm";
+import { CreateFeedbackFormData } from "../../zod";
 
 export async function createPostRequest(
-  data: FeedbackFormData
+  data: CreateFeedbackFormData
 ): Promise<{ status: "success" | "error"; error?: string }> {
   const res = await fetch("/api/post", {
     method: "POST",
@@ -15,3 +15,7 @@ export async function createPostRequest(
     error: "Request can not be made at this time please try again",
   };
 }
+
+// export async function updatePostRequest(data: ) {
+
+// }

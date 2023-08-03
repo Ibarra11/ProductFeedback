@@ -1,6 +1,7 @@
 import { convertDateToString } from "@/app/utils";
 import { prisma } from "@/db";
-import { Prisma, Status } from "@prisma/client";
+import { Prisma, Status, User } from "@prisma/client";
+import { Session } from "next-auth";
 import React from "react";
 
 export type T_PostWithComemntCount = NonNullable<
@@ -93,15 +94,19 @@ export const getCommentsByPostId = async (postId: number) => {
 
 export const updatePost = async ({
   postId,
-
+  userId,
   data,
 }: {
   postId: number;
+  userId: User["id"];
   data: Prisma.PostUpdateInput;
 }) => {
   return await prisma.post.update({
     where: {
-      id: postId,
+      id_user_id: {
+        id: postId,
+        user_id: userId,
+      },
     },
     data,
   });
@@ -123,10 +128,19 @@ export const getPostByStatus = async (option: Status) => {
   });
 };
 
-export const deletePost = async ({ postId }: { postId: number }) => {
+export const deletePost = async ({
+  postId,
+  userId,
+}: {
+  postId: number;
+  userId: User["id"];
+}) => {
   return await prisma.post.delete({
     where: {
-      id: postId,
+      id_user_id: {
+        id: postId,
+        user_id: userId,
+      },
     },
   });
 };

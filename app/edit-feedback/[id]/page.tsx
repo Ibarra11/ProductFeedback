@@ -1,37 +1,43 @@
 import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
-import { prisma } from "@/db";
 import EditFeedbackForm from "../EditFeedbackForm";
 import { getPost } from "@/app/lib/prisma/Post";
 import { redirect } from "next/navigation";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import UserProvider from "@/app/components/UserProvider";
+import { getCurrentUser } from "@/app/lib/auth/session";
+import { z } from "zod";
+
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
-async function getRandomUser() {
-  const user = await prisma.user.findMany({
-    include: {
-      Upvotes: true,
-    },
-  });
-  const randomIndex = Math.floor(user.length * Math.random());
-  return user[user.length - 1];
-}
+
 async function EditFeedback({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const post = await getPost(Number(id));
-  const user = await getRandomUser();
+  const id = z
+    .string()
+    .transform(Number)
+    .refine((val) => !Number.isNaN(val))
+    .safeParse(params.id);
+  /* 
+    this will fail if the url does not contain a number.  I know this fails without checking the db because post are given numbers as id's.
+    valid: post/1 post/2
+    invalid: post/hello post/example
+  */
+  if (!id.success) {
+    redirect("/");
+  }
+
+  const [post, user] = await Promise.all([getPost(id.data), getCurrentUser()]);
   if (!post) {
     redirect("/");
   }
-  const isAuthor = post.user_fk_id === user.user_id;
+  const isAuthor = post.user_id === user.id;
+  // If there not the author of the post, then we redirec them.
   if (!isAuthor) {
     redirect("/");
   }
 
   return (
-    <UserProvider user={user}>
+    <>
       <LinkWithChevronLeft className=" mb-6">Go Back</LinkWithChevronLeft>
       <section className="relative pt-5 md:pt-7">
         <Image
@@ -50,9 +56,9 @@ async function EditFeedback({ params }: { params: { id: string } }) {
           alt=""
           aria-hidden
         />
-        <EditFeedbackForm {...post} />
+        <EditFeedbackForm post={post} />
       </section>
-    </UserProvider>
+    </>
   );
 }
 

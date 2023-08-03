@@ -13,16 +13,7 @@ import { CATEGORY_VALUES } from "../constants";
 import { Category } from "@prisma/client";
 import { createPostRequest } from "../lib/mutations";
 import { ImSpinner8 } from "react-icons/im";
-
-const feedbackFormSchema = z.object({
-  title: z.string().trim().min(1, { message: "Title is required!" }),
-  category: z.nativeEnum(Category),
-  content: z.string().trim().min(1, { message: "Content is required!" }),
-});
-
-export type FeedbackFormData = z.infer<typeof feedbackFormSchema>;
-export type Register = UseFormRegister<FeedbackFormData>;
-export type FeedbackFormFields = keyof FeedbackFormData;
+import { CreateFeedbackFormSchema, CreateFeedbackFormData } from "../lib/zod";
 
 function NewFeedbackForm() {
   const {
@@ -32,8 +23,8 @@ function NewFeedbackForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FeedbackFormData>({
-    resolver: zodResolver(feedbackFormSchema),
+  } = useForm<CreateFeedbackFormData>({
+    resolver: zodResolver(CreateFeedbackFormSchema),
     defaultValues: {
       category: CATEGORY_VALUES[0],
     },
@@ -43,7 +34,7 @@ function NewFeedbackForm() {
   const router = useRouter();
   const { category } = getValues();
 
-  async function onSubmit(data: FeedbackFormData) {
+  async function onSubmit(data: CreateFeedbackFormData) {
     setIsFetching(true);
     try {
       const result = await createPostRequest(data);
@@ -66,10 +57,10 @@ function NewFeedbackForm() {
         Create New Feedback
       </h1>
       <div className="flex flex-col gap-6">
-        <FormTextInput
+        <FormTextInput<"create">
           title="Feedback Title"
           subTitle="Add a short, descriptive headline"
-          register={register}
+          register={(field) => register(field)}
           field="title"
           error={errors.title?.message}
         />
@@ -83,7 +74,8 @@ function NewFeedbackForm() {
           }}
           error={errors.category?.message}
         />
-        <FormTextArea
+
+        <FormTextArea<"create">
           title="Feedback Detail"
           subTitle="Include any specific comments on what should be improved, added, etc."
           register={register}

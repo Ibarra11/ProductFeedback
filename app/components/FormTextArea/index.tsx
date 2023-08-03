@@ -1,23 +1,29 @@
 import React from "react";
-import {
-  Register,
-  FeedbackFormFields,
-} from "@/app/new-feedback/NewFeedbackForm";
-import FormFieldError from "../FormFieldError";
 
-function FormTextArea({
+import FormFieldError from "../FormFieldError";
+import {
+  CreateFeedbackFormFields,
+  EditFeedbackFormFields,
+} from "@/app/lib/zod";
+import { UseFormRegisterReturn } from "react-hook-form";
+
+type Props<T extends "edit" | "create"> = {
+  title: string;
+  subTitle: string;
+  register: (
+    field: T extends "edit" ? EditFeedbackFormFields : CreateFeedbackFormFields
+  ) => UseFormRegisterReturn;
+  field: T extends "edit" ? EditFeedbackFormFields : CreateFeedbackFormFields;
+  error?: string;
+};
+
+function FormTextArea<T extends "edit" | "create">({
   title,
   subTitle,
   register,
   field,
   error,
-}: {
-  title: string;
-  subTitle: string;
-  register: Register;
-  field: FeedbackFormFields;
-  error?: string;
-}) {
+}: Props<T>) {
   const id = React.useId();
   return (
     <div className="flex flex-col">

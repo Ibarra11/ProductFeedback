@@ -18,9 +18,9 @@ export default function PostContainer({ post, userId }: Props) {
         </LinkWithChevronLeft>
         {isAuthor && (
           <CustomLink
-            variant="secondary"
+            variant="primary"
             // @ts-ignore
-            href={`/edit-feedback/${post.post_id}`}
+            href={`/edit-feedback/${post.id}`}
           >
             Edit Feedback
           </CustomLink>

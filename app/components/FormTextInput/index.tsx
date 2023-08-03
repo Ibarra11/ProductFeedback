@@ -1,18 +1,29 @@
 import React from "react";
 import clsx from "clsx";
-import {
-  FeedbackFormFields,
-  Register,
-} from "@/app/new-feedback/NewFeedbackForm";
-import FormFieldError from "../FormFieldError";
 
-type Props = {
+import FormFieldError from "../FormFieldError";
+import {
+  CreateFeedbackFormFields,
+  EditFeedbackFormFields,
+} from "@/app/lib/zod";
+import { UseFormRegisterReturn } from "react-hook-form";
+
+type Props<T extends "edit" | "create"> = {
   title: string;
   subTitle: string;
-  field: FeedbackFormFields;
+  field: T extends "edit" ? EditFeedbackFormFields : CreateFeedbackFormFields;
   error?: string;
+  register: (
+    field: T extends "edit" ? EditFeedbackFormFields : CreateFeedbackFormFields
+  ) => UseFormRegisterReturn;
 };
-function FormTextInput({ title, subTitle, register, field, error }: Props) {
+function FormTextInput<T extends "edit" | "create">({
+  title,
+  subTitle,
+  register,
+  field,
+  error,
+}: Props<T>) {
   const id = React.useId();
   return (
     <div className="flex flex-col">

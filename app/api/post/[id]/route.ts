@@ -3,19 +3,23 @@ import { ZodError } from "zod";
 import { deletePost, updatePost } from "@/app/lib/prisma";
 import { PostSchema } from "@/app/lib/zod";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
-export async function DELETE(req: Request) {
-  const pathnameArr = new URL(req.url).pathname.split("/");
-  const rawData = await req.json();
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return new NextResponse("Unauthorized", { status: 403 });
+  }
   try {
-    const data = PostSchema.DeletePost.parse(rawData);
-    const postIdSegment = PostSchema.PostIdSegment.parse(
-      Number(pathnameArr[pathnameArr.length - 1])
-    );
+    const postIdValue = PostSchema.PostIdSegment.parse(params.id);
 
     await deletePost({
-      user_fk_id: data.userId,
-      post_id: postIdSegment,
+      userId: session.user.id,
+      postId: postIdValue,
     });
     // status 204 indicates that the deletion was successful, and not returning any content.
     return new NextResponse(null, {
@@ -35,32 +39,32 @@ export async function DELETE(req: Request) {
   }
 }
 
-export async function PUT(req: Request) {
-  const pathnameArr = new URL(req.url).pathname.split("/");
-  const postIdSegment = Number(pathnameArr[pathnameArr.length - 1]);
-  const res = await req.json();
+export async function PUT(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return new NextResponse("Unauthorized", { status: 403 });
+  }
+
   try {
-    // Im sending the userid with the request, but in the future would probably get it from an API.
-    const postIdValue = PostSchema.PostIdSegment.parse(postIdSegment);
+    const res = await req.json();
+    const postIdValue = PostSchema.PostIdSegment.parse(params.id);
     const data = PostSchema.UpdatePost.parse(res);
-    const postValues = Object.keys(data)
-      .filter((val) => val !== "userId")
-      .reduce((acc, curr) => {
-        (acc as any)[curr] = (data as any)[curr];
-        return acc;
-      }, {} as typeof data);
 
     await updatePost({
-      post_id: postIdValue,
-      user_fk_id: data.userId,
-      data: postValues,
+      postId: postIdValue,
+      userId: session.user.id,
+      data,
     });
     return new NextResponse(null, {
       status: 204,
     });
   } catch (e) {
     if (e instanceof PrismaClientKnownRequestError) {
-      // there was no post found for that id, so return a 404
+      // there was no post found for that id or the user can't edit the post
+      console.error(e);
       return new NextResponse(null, {
         status: 404,
       });
@@ -70,6 +74,7 @@ export async function PUT(req: Request) {
         status: 422,
       });
     }
+    console.error(e);
     return new NextResponse(null, {
       status: 500,
     });

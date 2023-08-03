@@ -7,111 +7,131 @@ import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import FormSelect from "../components/FormSelect";
 import FormTextArea from "../components/FormTextArea";
-import { T_Post } from "../lib/prisma/Post";
-import { useUserContext } from "../components/UserProvider";
+import { Post } from "@prisma/client";
+import { useForm } from "react-hook-form";
+import { EditFeedbackSchema, EditFeedbackFormData } from "../lib/zod";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CATEGORY_VALUES, STATUS_VALUES } from "../constants";
 
-function EditFeedbackForm(post: T_Post) {
+function EditFeedbackForm({ post }: { post: Post }) {
   const router = useRouter();
-  const [formData, setFormData] = React.useState(post);
-  const user = useUserContext();
-  const [formStatus, setFormStatus] = React.useState<
-    "pending" | "idle" | "error"
-  >("idle");
-  const prevFormData = React.useRef(post);
-  let touched = false;
 
-  for (const prop of Object.keys(formData) as (keyof T_Post)[]) {
-    if (prevFormData.current[prop] !== formData[prop]) {
-      touched = true;
-      prevFormData.current = formData;
-      break;
-    }
-  }
+  const {
+    register,
+    setValue,
+    getValues,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<EditFeedbackFormData>({
+    resolver: zodResolver(EditFeedbackSchema),
+    defaultValues: {
+      title: post.title,
+      category: post.category,
+      status: post.status,
+      content: post.content,
+    },
+  });
 
-  async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
-    ev.preventDefault();
-    setFormStatus("pending");
+  const [isFetching, setIsFetching] = React.useState(false);
+
+  const { category, status } = getValues();
+
+  async function onSubmit(formData: EditFeedbackFormData) {
+    setIsFetching(true);
     try {
-      const res = await fetch(`/api/post/${formData.post_id}`, {
+      const res = await fetch(`/api/post/${post.id}`, {
         method: "PUT",
-        body: JSON.stringify({ ...formData, userId: user.user_id }),
+        body: JSON.stringify({ ...formData }),
       });
       if (res.ok) {
         // @ts-ignore
-        router.push(`/post/${formData.post_id}`);
+        router.push(`/post/${post.id}`);
+        setIsFetching(false);
         return;
       }
-      setFormStatus("idle");
+      throw new Error();
     } catch (e) {
-      console.error(e);
-      setFormStatus("idle");
+      setIsFetching(false);
     }
   }
 
-  async function handlePostDelete() {
-    setFormStatus("pending");
+  // async function onSubmit(data: FeedbackFormData) {
+  //   setIsFetching(true);
+  //   try {
+  //     const result = await createPostRequest(data);
+  //     if (result.status === "success") {
+  //       router.push("/");
+  //     }
+  //   } catch (e) {
+  //   } finally {
+  //     setIsFetching(false);
+  //     reset();
+  //   }
+  // }
 
+  async function handlePostDelete() {
+    setIsFetching(true);
     try {
-      const res = await fetch(`/api/post/${formData.post_id}`, {
+      const res = await fetch(`/api/post/${post.id}`, {
         method: "DELETE",
-        body: JSON.stringify({ userId: user.user_id }),
       });
 
       if (res.ok) {
         router.push("/");
         return;
       }
-      setFormStatus("error");
+      throw new Error();
     } catch (e) {
-      setFormStatus("idle");
+      setIsFetching(false);
     }
   }
-  const disabled = formStatus === "pending";
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className={clsx("bg-white p-6 pt-11 rounded-lg", "md:p-10 md:pt-14")}
     >
       <h1 className={clsx("text-lg font-bold mb-6", "md:mb-10  md:text-2xl")}>
         Editing `{post.title}`
       </h1>
       <div className="flex flex-col gap-6">
-        <FormTextInput
+        <FormTextInput<"edit">
           title="Feedback Title"
           subTitle="Add a short, descriptive headline"
-          value={formData.title}
-          handleValueChange={(newVal) =>
-            setFormData({ ...formData, title: newVal })
-          }
+          register={(field) => register(field)}
+          field="title"
+          error={errors.title?.message}
         />
         <FormSelect
-          title="Update Status"
+          title="Category"
           subTitle="Choose a category for your feedback"
-          options={Object.keys(Category) as Category[]}
-          value={formData.category}
-          handleValueChange={(newVal) =>
-            setFormData({ ...formData, category: newVal })
-          }
+          options={CATEGORY_VALUES}
+          currentValue={category}
+          handleChange={(value: Category) => {
+            setValue("category", value, { shouldValidate: true });
+          }}
+          error={errors.category?.message}
         />
 
         <FormSelect
           title="Update Status"
-          subTitle="Change feedback state"
-          options={Object.keys(Status) as Status[]}
-          value={formData.status}
-          handleValueChange={(newVal) =>
-            setFormData({ ...formData, status: newVal })
-          }
+          subTitle="Change feature state"
+          options={STATUS_VALUES}
+          currentValue={status}
+          handleChange={(value: Status) => {
+            setValue("status", value, { shouldValidate: true });
+          }}
+          error={errors.status?.message}
         />
 
-        <FormTextArea
+        <FormTextArea<"edit">
           title="Feedback Detail"
           subTitle="Include any specific comments on what should be improved, added, etc."
-          value={formData.content}
-          handleValueChange={(newVal) =>
-            setFormData({ ...formData, content: newVal })
-          }
+          register={register}
+          field="content"
+          error={errors.content?.message}
         />
         <div
           className={clsx("flex flex-col-reverse mt-4 gap-4", "md:flex-row")}
@@ -121,9 +141,9 @@ function EditFeedbackForm(post: T_Post) {
             type="button"
             className={clsx(
               "bg-red-500 text-brand-ghost_white",
-              disabled && "opacity-50"
+              isFetching && "opacity-50"
             )}
-            disabled={disabled}
+            disabled={isFetching}
           >
             Delete
           </Button>
@@ -133,17 +153,17 @@ function EditFeedbackForm(post: T_Post) {
             className={clsx(
               "bg-brand-blue_gray text-brand-ghost_white",
               "md:ml-auto",
-              disabled && "opacity-50"
+              isFetching && "opacity-50"
             )}
-            disabled={disabled}
+            disabled={isFetching}
           >
             Cancel
           </Button>
           <Button
-            disabled={disabled || !touched}
+            disabled={isFetching}
             className={clsx(
               "bg-brand-purple text-brand-ghost_white",
-              (disabled || !touched) && "opacity-50"
+              isFetching && "opacity-50"
             )}
           >
             Save Changes

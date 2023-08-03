@@ -1,22 +1,16 @@
 import { Category, Post, Prisma, Status } from "@prisma/client";
 import { z } from "zod";
 
-const DeletePost = z.object({
-  userId: z.number(),
-});
+const PostIdSegment = z
+  .string()
+  .transform((val) => +val)
+  .refine((arg) => !Number.isNaN(arg));
 
-const PostIdSegment = z.number().int();
-
-const UpdatePost: z.ZodSchema<
-  Partial<Pick<Post, "title" | "category" | "status" | "content">> & {
-    userId: number;
-  }
-> = z.object({
+const UpdatePost: z.ZodSchema<Prisma.PostUpdateInput> = z.object({
   title: z.string().nonempty(),
   category: z.nativeEnum(Category),
   content: z.string().nonempty(),
   status: z.nativeEnum(Status),
-  userId: z.number().int(),
 });
 
 export const CreatePost: z.ZodSchema<Prisma.PostUncheckedCreateInput> =
@@ -28,7 +22,6 @@ export const CreatePost: z.ZodSchema<Prisma.PostUncheckedCreateInput> =
   });
 
 export const PostSchema = {
-  DeletePost,
   PostIdSegment,
   UpdatePost,
   CreatePost,
