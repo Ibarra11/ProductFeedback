@@ -24,13 +24,14 @@ function AddComment({
       });
       if (res.ok) {
         setComment("");
-        setIsPending(false);
         React.startTransition(() => {
           // refreshes the current route with losing client side state
           router.refresh();
         });
       }
-    } catch (error) {}
+    } finally {
+      setIsPending(false);
+    }
   }
   return (
     <form onSubmit={handleSubmit} className="bg-white p-8 pt-6 rounded-lg">
