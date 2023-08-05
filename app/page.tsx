@@ -10,21 +10,14 @@ import { minDelay } from "./lib/helpers";
 import UserProvider from "./components/UserProvider";
 import { convertDateToString } from "./utils";
 import MobileHeader from "./components/MobileHeader";
-import RoadmapList from "./components/Sidebar/RoadmapList";
 import { getCurrentUser } from "./lib/auth/session";
 import { redirect } from "next/navigation";
-import UserProfile from "./components/UserProfile";
 
 export const metadata: Metadata = {
   title: "Feedback Board",
   description: "A forum for feedback",
 };
 
-function delay(ms: number, data: any) {
-  return new Promise((res) => {
-    setTimeout(() => res(data), ms);
-  });
-}
 export default async function Home() {
   const postsPromise = minDelay(
     getAllPost().then((posts) =>
@@ -33,7 +26,7 @@ export default async function Home() {
         createdAt: convertDateToString(post.createdAt),
       }))
     ),
-    500
+    750
   );
 
   const user = await getCurrentUser();

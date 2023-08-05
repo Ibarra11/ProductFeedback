@@ -5,7 +5,7 @@ import { use } from "react";
 import EmptySuggestionsView from "../EmptySuggestionsView";
 import Post from "../Post";
 import { usePostsContext } from "../PostsProvider";
-import { motion } from "framer-motion";
+
 import PostSkeleton from "../PostSkeleton";
 import AnimatedPost from "../Post/AnimatedPost";
 import { PostsPromise } from "@/types";
@@ -13,15 +13,7 @@ import { PostsPromise } from "@/types";
 interface Props {
   postsPromise: PostsPromise;
 }
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.5,
-    },
-  },
-};
+
 function Posts({ postsPromise }: Props) {
   const posts = use(postsPromise);
   const { getFilteredPosts, filters, sortValue } = usePostsContext();
@@ -30,11 +22,8 @@ function Posts({ postsPromise }: Props) {
   return (
     <div className={clsx("flex-1  px-6", "md:h-full md:px-0")}>
       {currentPosts.length > 0 ? (
-        <motion.ul
+        <ul
           key={`${filters.join("")}-${sortValue}`}
-          initial="hidden"
-          animate="show"
-          variants={container}
           className={clsx("flex flex-col gap-4", "lg:gap-5")}
         >
           {currentPosts.map((post) => (
@@ -42,7 +31,7 @@ function Posts({ postsPromise }: Props) {
               <Post {...post} />
             </AnimatedPost>
           ))}
-        </motion.ul>
+        </ul>
       ) : (
         <EmptySuggestionsView />
       )}
