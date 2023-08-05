@@ -45,13 +45,13 @@ export const getAllPost = async () => {
   });
 };
 
-export const getPost = async (id: number) => {
+export const getPost = React.cache(async (id: number) => {
   return prisma.post.findUnique({
     where: {
       id,
     },
   });
-};
+});
 
 export const getPostWithCommentCount = React.cache(async (id: number) => {
   const result = await prisma.post.findUnique({

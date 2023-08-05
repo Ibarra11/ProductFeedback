@@ -7,6 +7,19 @@ import { redirect } from "next/navigation";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
 import { getCurrentUser } from "@/app/lib/auth/session";
 import { z } from "zod";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const post = await getPost(Number(params.id));
+  if (!post) {
+    throw new Error();
+  }
+  return { title: `Editing Post: ${post.id}`, description: post.content };
+}
 
 async function EditFeedback({ params }: { params: { id: string } }) {
   const id = z
