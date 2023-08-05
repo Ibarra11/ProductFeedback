@@ -5,7 +5,6 @@ import { getToken } from "next-auth/jwt";
 export default withAuth(
   async function middleware(req) {
     const token = await getToken({ req });
-
     const isAuth = !!token;
     const isAuthPage =
       req.nextUrl.pathname.startsWith("/login") ||
@@ -13,10 +12,7 @@ export default withAuth(
 
     if (req.nextUrl.pathname.startsWith("/api")) {
       if (!isAuth) {
-        return new NextResponse(
-          JSON.stringify({ success: false, message: "authentication failed" }),
-          { status: 401, headers: { "content-type": "application/json" } }
-        );
+        return new NextResponse("Unauthorized", { status: 403 });
       }
       return null;
     }
