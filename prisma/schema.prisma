@@ -47,7 +47,7 @@ model User {
   sessions      Session[]
   posts         Post[]
   comments      Comment[]
-  Upvotes       Upvotes[]
+  Upvotes       Upvote[]
   newUser       Boolean   @default(true)
 }
 
@@ -84,13 +84,13 @@ model Post {
   comments  Comment[]
   User      User      @relation(fields: [user_id], references: [id])
   user_id   String
-  upvotes   Upvotes[]
+  upvotes   Upvote[]
 
   // make this unique so that when I update,it will fail if I try to update a post with a different user
   @@unique([id, user_id])
 }
 
-model Upvotes {
+model Upvote {
   id      Int    @id @default(autoincrement())
   post_id Int
   Post    Post   @relation(fields: [post_id], references: [id], onDelete: Cascade)
