@@ -1,23 +1,31 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { deleteUpvote } from "@/app/lib/prisma";
 import { UpvoteSchema } from "@/app/lib/zod";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { Prisma } from "@prisma/client";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
-export async function DELETE(req: Request) {
-  const url = new URL(req.url);
-  // I send the upvote id through search params becuase a delete HTTP verb can not accept a body.
-  const rawData = url.searchParams.get("upvoteId");
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const upvote_id = UpvoteSchema.DeleteUpvote.parse(Number(rawData));
-    await deleteUpvote({ upvote_id });
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return new NextResponse("Unauthorized", { status: 403 });
+    }
+    const postId = UpvoteSchema.DeleteUpvote.parse(Number(params.id));
+
+    // This will throw an error if there isn't an upvote with a matching userId and postId.  This will make sure that the post belongs to the user.
+    await deleteUpvote({ userId: session.user.id, postId });
     return new NextResponse(null, {
       status: 204,
     });
   } catch (e) {
-    if (e instanceof PrismaClientKnownRequestError) {
-      return new NextResponse(e.message, {
-        status: 404,
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      return new NextResponse("Unauthorized", {
+        status: 403,
       });
     }
     if (e instanceof ZodError) {

@@ -11,7 +11,6 @@ export async function POST(req: Request) {
     if (!session) {
       return new NextResponse("Unauthorized", { status: 403 });
     }
-
     const res = await req.json();
     const data = PostSchema.CreatePost.parse({
       ...res,

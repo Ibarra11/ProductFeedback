@@ -5,6 +5,7 @@ import { PostSchema } from "@/app/lib/zod";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { revalidatePath } from "next/cache";
 
 export async function DELETE(
   req: Request,
@@ -58,13 +59,15 @@ export async function PUT(
       userId: session.user.id,
       data,
     });
+    revalidatePath(`/post/${params.id}`);
     return new NextResponse(null, {
       status: 204,
     });
   } catch (e) {
     if (e instanceof PrismaClientKnownRequestError) {
       // there was no post found for that id or the user can't edit the post
-      console.error(e);
+      revalidatePath("/post/[id]");
+      // revalidatePath("/edit-feedback/[id]");
       return new NextResponse(null, {
         status: 404,
       });
@@ -74,7 +77,7 @@ export async function PUT(
         status: 422,
       });
     }
-    console.error(e);
+
     return new NextResponse(null, {
       status: 500,
     });
