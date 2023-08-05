@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import CounterButton from "../CounterButton";
+import UpvoteButton from "../UpvoteButton";
 import CommentIcon from "../CommentIcon";
 import clsx from "clsx";
 import type { Post } from "@/app/lib/prisma/Post";
@@ -53,7 +53,7 @@ function Post({
         </div>
         <div className="flex sm:gap-10  md:gap-6">
           <div className="hidden sm:block">
-            <CounterButton
+            <UpvoteButton
               postId={id}
               userId={user.id}
               upvoteId={upvote?.id}
@@ -89,7 +89,7 @@ function Post({
               <Status status={status} />
             </div>
             <div className="isolate flex items-center justify-between  sm:hidden">
-              <CounterButton
+              <UpvoteButton
                 postId={id}
                 userId={user.id}
                 upvoteId={upvote?.id}

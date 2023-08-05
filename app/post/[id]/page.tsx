@@ -12,9 +12,6 @@ import UserProvider from "@/app/components/UserProvider";
 import PostContainer from "../components/PostContainer";
 import { getCurrentUser } from "@/app/lib/auth/session";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 export async function generateMetadata({
   params,
 }: {

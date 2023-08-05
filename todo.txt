@@ -3,3 +3,4 @@
 4.  Input text has blue ring.  Need to remove it.
 5. add a toast when the user signs up on the profile page
 6. user images should be cropped to 100 x 100
+7. middleware handles unauntenicated api request

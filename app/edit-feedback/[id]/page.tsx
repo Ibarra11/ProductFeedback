@@ -5,11 +5,8 @@ import EditFeedbackForm from "../EditFeedbackForm";
 import { getPost } from "@/app/lib/prisma/Post";
 import { redirect } from "next/navigation";
 import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
-import UserProvider from "@/app/components/UserProvider";
 import { getCurrentUser } from "@/app/lib/auth/session";
 import { z } from "zod";
-
-export const dynamic = "force-dynamic";
 
 async function EditFeedback({ params }: { params: { id: string } }) {
   const id = z

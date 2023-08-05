@@ -57,20 +57,6 @@ function EditFeedbackForm({ post }: { post: Post }) {
     }
   }
 
-  // async function onSubmit(data: FeedbackFormData) {
-  //   setIsFetching(true);
-  //   try {
-  //     const result = await createPostRequest(data);
-  //     if (result.status === "success") {
-  //       router.push("/");
-  //     }
-  //   } catch (e) {
-  //   } finally {
-  //     setIsFetching(false);
-  //     reset();
-  //   }
-  // }
-
   async function handlePostDelete() {
     setIsFetching(true);
     try {

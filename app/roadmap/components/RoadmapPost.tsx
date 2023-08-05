@@ -1,14 +1,13 @@
 import React from "react";
 import clsx from "clsx";
-
-import CounterButton from "../../components/CounterButton";
 import { ROADMAP_OPTIONS } from "../../constants";
 import Link from "next/link";
 import { Post } from "../../lib/prisma";
-import { Upvotes, User } from "@prisma/client";
+import { Upvote, User } from "@prisma/client";
 import CommentIcon from "@/app/components/CommentIcon";
+import UpvoteButton from "../../components/UpvoteButton";
 function RoadmapPost({
-  post_id,
+  id,
   status,
   title,
   content,
@@ -18,11 +17,11 @@ function RoadmapPost({
   user,
 }: Post & {
   user: User & {
-    Upvotes: Upvotes[];
+    Upvotes: Upvote[];
   };
 }) {
   const { border } = ROADMAP_OPTIONS[status];
-  const upvote = user.Upvotes.find((upvote) => upvote.post_fk_id === post_id);
+  const upvote = user.Upvotes.find((upvote) => upvote.post_id === id);
 
   return (
     <Link
@@ -57,11 +56,11 @@ function RoadmapPost({
         </h4>
       </div>
       <div className="flex justify-between items-center ">
-        <CounterButton
-          postId={post_id}
-          userId={user.user_id}
+        <UpvoteButton
+          postId={id}
+          userId={user.id}
           upvoteCount={upvotes}
-          upvoteId={upvote && upvote.upvote_id}
+          upvoteId={upvote && upvote.id}
           direction="row"
           value={upvotes}
         />
