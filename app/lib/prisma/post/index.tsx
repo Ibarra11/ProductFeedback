@@ -3,6 +3,7 @@ import { prisma } from "@/db";
 import { Prisma, Status, User } from "@prisma/client";
 import { Session } from "next-auth";
 import React from "react";
+import { minDelay } from "../../helpers";
 
 export type T_PostWithComemntCount = NonNullable<
   Awaited<ReturnType<typeof getPostWithCommentCount>>
@@ -112,21 +113,27 @@ export const updatePost = async ({
   });
 };
 
-export const getPostByStatus = async (option: Status) => {
-  return await prisma.post.findMany({
+export const getPostByStatus = React.cache(async (option: Status) => {
+  const query = prisma.post.findMany({
     where: {
       status: Status[option],
     },
     include: {
+      upvotes: {
+        select: {
+          user_id: true,
+          id: true,
+        },
+      },
       _count: {
         select: {
           comments: true,
-          upvotes: true,
         },
       },
     },
   });
-};
+  return await minDelay(query, 500);
+});
 
 export const deletePost = async ({
   postId,

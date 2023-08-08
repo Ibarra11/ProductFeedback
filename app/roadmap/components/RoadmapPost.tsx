@@ -2,38 +2,44 @@ import React from "react";
 import clsx from "clsx";
 import { ROADMAP_OPTIONS } from "../../constants";
 import Link from "next/link";
-import { Post } from "../../lib/prisma";
-import { Upvote, User } from "@prisma/client";
 import CommentIcon from "@/app/components/CommentIcon";
 import UpvoteButton from "../../components/UpvoteButton";
-function RoadmapPost({
+import { Roadmap_Post } from "../page";
+import { getCurrentUser } from "@/app/lib/auth/session";
+async function RoadmapPost({
   id,
   status,
   title,
   content,
   category,
   createdAt,
-  _count: { comments, upvotes },
-  user,
-}: Post & {
-  user: User & {
-    Upvotes: Upvote[];
-  };
-}) {
+  _count: { comments },
+  upvotes,
+}: Roadmap_Post) {
+  const user = await getCurrentUser();
   const { border } = ROADMAP_OPTIONS[status];
-  const upvote = user.Upvotes.find((upvote) => upvote.post_id === id);
-
+  const upvote = upvotes.find((upvote) => upvote.user_id === user.id);
   return (
     <Link
       // @ts-ignore
-      href={`/post/${post_id}`}
+      href={`/post/${id}`}
       className={clsx(
         `relative group border-t-[5px] ${border} flex flex-col `,
         "bg-white p-8 rounded-md"
       )}
     >
       <span className=" text-xs absolute top-2 right-4 text-slate-400">
-        {createdAt}
+        {new Date(createdAt)
+          .toLocaleString("en-us", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+          .split(", ")
+          .join(" ")}
+        <br />
       </span>
       <div className={clsx("mb-2 flex-1", "md:mb-6", "lg:mb-4")}>
         <h3
@@ -49,20 +55,16 @@ function RoadmapPost({
           {content}
         </p>
       </div>
-
-      <div className="inline-block rounded-lg bg-brand-alice_blue px-4 py-1 text-brand-american_blue mb-4">
-        <h4 className="text-sm text-brand-royal_blue font-semibold">
-          {category}
-        </h4>
-      </div>
+      <h4 className=" self-start text-sm text-brand-royal_blue font-semibold rounded-lg bg-brand-alice_blue px-4 py-1 t mb-4">
+        {category}
+      </h4>
       <div className="flex justify-between items-center ">
         <UpvoteButton
           postId={id}
           userId={user.id}
-          upvoteCount={upvotes}
+          upvoteCount={upvotes.length}
           upvoteId={upvote && upvote.id}
           direction="row"
-          value={upvotes}
         />
         <CommentIcon comments={comments} />
       </div>

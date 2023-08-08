@@ -4,8 +4,6 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { Status } from "@prisma/client";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import RoadmapLoading from "./RoadmapLoading";
-
 interface Props {
   status: Status;
 }
@@ -18,11 +16,7 @@ function RoadmapTabs({ children, status }: React.PropsWithChildren<Props>) {
       data-id="root"
       value={status}
       onValueChange={(val) => {
-        // @ts-ignore
-        React.startTransition(() => router.push(`/roadmap?status=${val}`));
-        // React.startTransition(() => {
-        //   router.refresh();
-        // });
+        router.push(`/roadmap?status=${val}`);
       }}
     >
       <TabsList status={status} />
@@ -75,7 +69,7 @@ function TabsList({ status }: { status: Status }) {
               : "opacity-40"
           }`
         )}
-        value="in-progress"
+        value="in_progress"
       >
         In-Progress
       </Tabs.Trigger>
