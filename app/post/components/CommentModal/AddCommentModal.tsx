@@ -36,12 +36,11 @@ function AddCommentModal({
         commentId: comment.comment_id,
         replyingTo: comment.User.name!,
       });
-      setIsPending(false);
       setContent("");
       updateComment(replies);
       closeComment();
-    } catch (error) {
-      console.log(error);
+    } finally {
+      setIsPending(false);
     }
   }
 

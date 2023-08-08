@@ -21,7 +21,6 @@ export async function POST(req: Request) {
       status: 200,
     });
   } catch (error) {
-    console.log(error);
     return new NextResponse(null, {
       status: 500,
     });
@@ -66,7 +65,6 @@ export async function GET(req: Request) {
     const commentIds = CommentSchema.replyIds.parse(searchParamIds);
 
     const data = await getRepliesToComments(commentIds);
-    console.log(data);
     // If there are any null comments from data, it will throw an error because an id was not found.
     const comments = CommentSchema.comments.shape.comments.parse(data);
     return NextResponse.json({
@@ -75,8 +73,6 @@ export async function GET(req: Request) {
   } catch (e) {
     // error was a zod error either we passed invalid ids
     if (e instanceof ZodError) {
-      console.log("errror");
-      console.log(e);
       return new NextResponse(
         JSON.stringify({ message: "Comments not found" }),
         {

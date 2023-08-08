@@ -7,8 +7,6 @@ export async function getReplies(replies: Comment["replies"]) {
   const replyIds = replies.map((reply) => `ids=${reply.comment_id}`).join("&");
   const res = await fetch(`/api/comment/?${replyIds}`);
   const rawData = await res.json();
-  console.log("test ----------");
-  console.log(rawData);
   const { comments } = CommentSchema.comments.parse(rawData);
   return { comments };
 }

@@ -80,7 +80,6 @@ export async function PUT(req: Request) {
     }
     return new NextResponse(null, { status: 204 });
   } catch (e) {
-    console.log(e);
     return new NextResponse(null, { status: 500 });
   }
 }
