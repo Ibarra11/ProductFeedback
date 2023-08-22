@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ token, session }) {
-      if (token && session.user) {
+      if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
@@ -27,31 +27,54 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    async jwt({ token, user, trigger }) {
-      if (trigger === "signUp") {
-        token.id = user.id;
-        token.newUser = true;
-        token.image = user.image;
-        token.email = user.email;
-        token.name = user.name;
+    async jwt({ token, user }) {
+      const dbUser = await prisma.user.findFirst({
+        where: {
+          email: token.email,
+        },
+      });
 
-        return token;
-      } else {
-        const dbUser = await prisma.user.findUnique({
-          where: {
-            id: token.id,
-          },
-        });
-        if (!dbUser) {
-          return token;
+      if (!dbUser) {
+        if (user) {
+          token.id = user?.id;
+          token.newUser = true;
         }
-        token.id = dbUser.id;
-        token.name = dbUser.name;
-        token.email = dbUser.email;
-        token.image = dbUser.image;
-        token.newUser = dbUser.newUser;
         return token;
       }
+
+      return {
+        id: dbUser.id,
+        name: dbUser.name,
+        email: dbUser.email,
+        image: dbUser.image,
+        newUser: token.newUser,
+      };
+
+      // if (trigger === "signUp") {
+      //   token.id = user.id;
+      //   token.newUser = true;
+      //   token.image = user.image;
+      //   token.email = user.email;
+      //   token.name = user.name;
+      //   return token;
+      // } else {
+      //   console.log(user);
+      //   console.log(token);
+      //   const dbUser = await prisma.user.findUnique({
+      //     where: {
+      //       id: token.id,
+      //     },
+      //   });
+      //   if (!dbUser) {
+      //     return token;
+      //   }
+      //   token.id = dbUser.id;
+      //   token.name = dbUser.name;
+      //   token.email = dbUser.email;
+      //   token.image = dbUser.image;
+      //   token.newUser = dbUser.newUser;
+      //   return token;
+      // }
     },
   },
   pages: {
