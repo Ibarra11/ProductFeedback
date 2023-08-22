@@ -6,9 +6,8 @@ import RoadmapView from "./components/RoadmapView";
 import MobileRoadmapView from "./components/MobileRoadmapView";
 import { getPostByStatus } from "../lib/prisma/Post";
 import { Status } from "@prisma/client";
-import { minDelay } from "../lib/helpers";
 import { getCurrentUser } from "../lib/auth/session";
-import RoadmapLoading from "@/loading";
+import { STATUS_VALUES } from "../constants";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 /* 
@@ -17,7 +16,7 @@ export const revalidate = 0;
 const statusUnion = z
   .string()
   .refine((val) => {
-    const statusValues = Object.keys(Status);
+    const statusValues = STATUS_VALUES;
     const statusResult = statusValues.find((status) => {
       if (status.toLowerCase() === val) {
         return true;
@@ -51,20 +50,10 @@ async function Page({ searchParams }: { searchParams: { status: string } }) {
     redirect("/");
   }
   const { status } = rawInput.data;
-
   return (
     <UserProvider user={user}>
-      {/* <PostsProvider> */}
-
       <RoadmapView status={status as Status} />
-
-      {/* <MobileRoadmapView
-            user={user}
-            postsPromise={postsPromise}
-            status={status}
-          /> */}
-
-      {/* </PostsProvider> */}
+      <MobileRoadmapView status={status as Status} />
     </UserProvider>
   );
 }

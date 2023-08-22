@@ -80,7 +80,9 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
       <>
         <div
           style={{ marginLeft }}
-          className={clsx("relative flex gap-8 min-h-[150px]")}
+          className={clsx(
+            "relative flex gap-8 min-h-[100px]  md:min-h-[150px]"
+          )}
         >
           <div
             ref={ref ? startingImgRef : null}

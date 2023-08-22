@@ -32,11 +32,11 @@ function ModalComments({
   return (
     <div className="flex h-full flex-col justify-between">
       <div className="flex-1 overflow-auto">
-        <Comments user={user} variant="modal" comments={comments} />
+        <Comments variant="modal" comments={comments} />
       </div>
 
       {!isOpen && (
-        <div className="grid place-content-center py-2 border-t-2 border-t-slate-200">
+        <div className="grid place-content-center py-3 border-t-2 border-t-slate-200">
           <AddCommentButton disabled={false} onClick={() => setIsOpen(!isOpen)}>
             <IoMdAdd className=" text-brand-ghost_white" size={24} />
             <span className="sr-only">Add Comment</span>

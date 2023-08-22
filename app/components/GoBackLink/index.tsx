@@ -5,7 +5,7 @@ import { ChevronLeft } from "react-feather";
 
 import clsx from "clsx";
 
-function LinkWithChevronLeft({
+function GoBackLink({
   className,
   children,
 }: React.PropsWithChildren<{
@@ -14,19 +14,18 @@ function LinkWithChevronLeft({
   const router = useRouter();
   return (
     <button
-      className={clsx(
-        "inline-flex items-center gap-3  py-2",
-        `${className ? className : ""}`
-      )}
+      className={clsx("group inline-flex  items-center gap-3 py-2", className)}
       onClick={() => router.back()}
     >
-      <span>
-        <ChevronLeft size={16} />
-      </span>
+      <ChevronLeft
+        className="group-hover:-translate-x-1 group-focus:-translate-x-1 transition-transform duration-200"
+        size={16}
+      />
+
       <span
         className={clsx(
-          "hover:underline hover:underline-offset-4 transition-all duration-200",
-          "focus:underline focus:underline-offset-4"
+          "group-hover:underline group-hover:underline-offset-4 transition-all duration-200",
+          "group-focus:underline group-focus:underline-offset-4"
         )}
       >
         {children}
@@ -35,4 +34,4 @@ function LinkWithChevronLeft({
   );
 }
 
-export default LinkWithChevronLeft;
+export default GoBackLink;

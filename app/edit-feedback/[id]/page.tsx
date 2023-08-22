@@ -4,7 +4,7 @@ import clsx from "clsx";
 import EditFeedbackForm from "../EditFeedbackForm";
 import { getPost } from "@/app/lib/prisma/Post";
 import { redirect } from "next/navigation";
-import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
+import GoBackLink from "@/app/components/GoBackLink";
 import { getCurrentUser } from "@/app/lib/auth/session";
 import { z } from "zod";
 import { Metadata } from "next";
@@ -48,7 +48,7 @@ async function EditFeedback({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <LinkWithChevronLeft className=" mb-6">Go Back</LinkWithChevronLeft>
+      <GoBackLink className=" mb-6">Go Back</GoBackLink>
       <section className="relative pt-5 md:pt-7">
         <Image
           src="/shared/icon-edit-feedback.svg"

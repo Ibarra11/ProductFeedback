@@ -49,6 +49,7 @@ async function Page({ params: { id } }: { params: { id: string[] } }) {
     commentsPromise,
     getCurrentUser(),
   ]);
+
   if (!post) {
     redirect("/");
   }

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
+import GoBackLink from "@/app/components/GoBackLink";
 import UserAuthForm from "@/app/components/UserAuthForm";
 import Link from "next/link";
 export const metadata: Metadata = {
@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 export default async function Login() {
   return (
     <div className="h-full` relative flex items-center justify-center">
-      <LinkWithChevronLeft className="absolute top-0 left-0 outline-none focus:outline-2 focus:outline-offset-1 focus:outline-slate-300">
+      <GoBackLink className="absolute top-0 left-0 outline-none focus:outline-2 focus:outline-offset-1 focus:outline-slate-300">
         Back
-      </LinkWithChevronLeft>
+      </GoBackLink>
       <div className="mx-auto flex flex-col justify-center space-y-6 rounded-md bg-brand-ghost_white p-6 shadow-md sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="heading-text-gradient text-2xl font-bold">

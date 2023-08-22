@@ -118,6 +118,9 @@ export const getPostByStatus = React.cache(async (option: Status) => {
     where: {
       status: Status[option],
     },
+    orderBy: {
+      createdAt: "desc",
+    },
     include: {
       upvotes: {
         select: {
