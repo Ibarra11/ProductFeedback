@@ -3,31 +3,19 @@ import React from "react";
 import Select from "../../components/Select";
 import { Status } from ".prisma/client";
 import { useRouter } from "next/navigation";
-
-function reformatStatus(status: Status) {
-  if (status === "In_Progress") {
-    return status.toLowerCase().replace("_", "-");
-  }
-  return status.toLowerCase();
-}
-const statusOptions = Object.values(Status).map((status) =>
-  status === "In_Progress" ? status.replace("_", "-") : status
-) as Status[];
+import { STATUS_VALUES } from "@/app/constants";
+import { formatStatus } from "@/app/utils";
 
 function RoadmapStatusSelect({ status }: { status: Status }) {
   const router = useRouter();
   function handleStatusChange(status: Status) {
     React.startTransition(() => {
-      router.push(
-        // @ts-ignore
-        `/roadmap?status=${reformatStatus(status)}`
-      );
+      router.push(`/roadmap?status=${status.toLowerCase()}`);
     });
   }
-
   return (
     <Select
-      options={statusOptions}
+      options={STATUS_VALUES}
       selectText="Status: "
       currentValue={status}
       handleChange={handleStatusChange}

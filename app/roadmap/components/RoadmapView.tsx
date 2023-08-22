@@ -2,8 +2,8 @@ import React from "react";
 import { Status } from "@prisma/client";
 import RoadmapPostList from "./RoadmapPostList";
 import RoadmapTabs from "./RoadmapTabs";
-import { Roadmap_Post } from "../page";
-import RoadmapLoading from "@/loading";
+import RoadmapLoading from "./RoadmapLoading";
+
 interface Props {
   // postsPromise: Promise<Roadmap_Post[]>;
   status: Status;

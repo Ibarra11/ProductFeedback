@@ -21,7 +21,6 @@ async function RoadmapPost({
   const upvote = upvotes.find((upvote) => upvote.user_id === user.id);
   return (
     <Link
-      // @ts-ignore
       href={`/post/${id}`}
       className={clsx(
         `relative group border-t-[5px] ${border} flex flex-col `,

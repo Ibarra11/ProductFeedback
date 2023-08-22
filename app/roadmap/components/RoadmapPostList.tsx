@@ -45,7 +45,6 @@ async function RoadmapPostList({ status }: Props) {
 
         {posts.length === 0 && (
           <div className="h-full">
-            {" "}
             <EmptySuggestionsView />{" "}
           </div>
         )}
