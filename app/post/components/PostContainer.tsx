@@ -1,5 +1,5 @@
 import CustomLink from "@/app/components/CustomLink";
-import LinkWithChevronLeft from "@/app/components/LinkWithChevronLeft";
+import GoBackLink from "@/app/components/GoBackLink";
 import Post from "@/app/components/Post";
 import { Post as Post_T } from "@/types";
 import { Session } from "next-auth";
@@ -13,15 +13,9 @@ export default function PostContainer({ post, userId }: Props) {
   return (
     <article className="isolate">
       <div className="flex justify-between mb-4">
-        <LinkWithChevronLeft className="text-brand-american_blue">
-          Go Back
-        </LinkWithChevronLeft>
+        <GoBackLink className="text-brand-american_blue">Go Back</GoBackLink>
         {isAuthor && (
-          <CustomLink
-            variant="primary"
-            // @ts-ignore
-            href={`/edit-feedback/${post.id}`}
-          >
+          <CustomLink variant="primary" href={`/edit-feedback/${post.id}`}>
             Edit Feedback
           </CustomLink>
         )}

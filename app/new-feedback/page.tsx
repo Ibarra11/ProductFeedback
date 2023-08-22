@@ -1,12 +1,12 @@
 import Image from "next/image";
 import clsx from "clsx";
-import LinkWithChevronLeft from "../components/LinkWithChevronLeft";
+import GoBackLink from "../components/GoBackLink";
 import NewFeedbackForm from "./NewFeedbackForm";
 
 async function Page() {
   return (
     <>
-      <LinkWithChevronLeft className="mb-10">Go Back</LinkWithChevronLeft>
+      <GoBackLink className="mb-10">Go Back</GoBackLink>
       <section className={clsx("relative  pt-5", "md:pt-7")}>
         <Image
           src="/shared/icon-new-feedback.svg"

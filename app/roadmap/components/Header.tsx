@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import LinkWithChevronLeft from "../../components/LinkWithChevronLeft";
+import GoBackLink from "../../components/GoBackLink";
 import CustomLink from "../../components/CustomLink";
 
 function Header() {
@@ -11,9 +11,7 @@ function Header() {
       )}
     >
       <div className="flex flex-col gap-1">
-        <LinkWithChevronLeft className=" text-brand-ghost_white">
-          Go Back
-        </LinkWithChevronLeft>
+        <GoBackLink className=" text-brand-ghost_white">Go Back</GoBackLink>
         <h1 className="text-2xl font-bold">Roadmap</h1>
       </div>
       <CustomLink variant="primary" href="/new-feedback">
