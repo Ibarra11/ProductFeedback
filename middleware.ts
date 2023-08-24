@@ -20,10 +20,10 @@ export default withAuth(
     // if there authenticated and there a new user we redirected to setup profile
     if (isAuth && token.newUser) {
       // Without this it causes a inifinte redirects.  So, if we are on /profile, we don't redirect back to /profile
-      if (req.nextUrl.pathname.startsWith("/profile")) {
+      if (req.nextUrl.pathname.startsWith("/account")) {
         return null;
       }
-      return NextResponse.redirect(new URL("/profile", req.url));
+      return NextResponse.redirect(new URL("/account", req.url));
     }
 
     if (isAuthPage) {
