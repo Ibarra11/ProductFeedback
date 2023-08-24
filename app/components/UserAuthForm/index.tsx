@@ -32,24 +32,12 @@ export default function UserAuthForm({
     const signInResult = await signIn("email", {
       email: data.email.toLowerCase(),
       redirect: false,
-      callbackUrl: searchParams?.get("from") || "/dashboard",
+      callbackUrl: searchParams?.get("from") || "/",
     });
 
+    console.log(signInResult);
+
     setIsLoading(false);
-
-    //   if (!signInResult?.ok) {
-    //     return toast({
-    //       title: "Something went wrong.",
-    //       message: "Your sign in request failed. Please try again.",
-    //       type: "error",
-    //     });
-    //   }
-
-    //   return toast({
-    //     title: "Check your email",
-    //     message: "We sent you a login link. Be sure to check your spam too.",
-    //     type: "success",
-    //   });
   }
 
   return (
