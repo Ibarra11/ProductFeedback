@@ -13,6 +13,7 @@ import Image from "next/image";
 import { FiUpload } from "react-icons/fi";
 import { refreshSession } from "../lib/hooks/Auth";
 import { ImSpinner8 } from "react-icons/im";
+import { signOut } from "next-auth/react";
 
 type UserProfileFormProps = React.HTMLAttributes<HTMLFormElement> &
   Partial<ProfileFormData>;
@@ -116,6 +117,21 @@ export default function UserProfileForm({
       clearErrors();
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function deleteAccount() {
+    try {
+      // const result = await fetch("/api/profile", {
+      //   method: "PUT",
+      //   body: JSON.stringify(dirtyFieldValues),
+      // });
+      const res = await fetch("/api/profile", {
+        method: "DELETE",
+      });
+      await signOut();
+    } catch (e) {
+      console.error(e);
     }
   }
 
@@ -249,6 +265,7 @@ export default function UserProfileForm({
           Delete this account and all the data assocaited with it.
         </p>
         <button
+          onClick={deleteAccount}
           type="button"
           className={clsx("text-sm text-red-500", "hover:underline")}
         >

@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { profileFormSchema } from "@/app/lib/zod/Profile";
-import { updateProfile } from "@/app/lib/prisma";
+import { deleteAccount, updateProfile } from "@/app/lib/prisma";
 import { getUser } from "@/app/lib/prisma";
 import * as crypto from "crypto";
+import { prisma } from "@/db";
 
 const CLOUDINARY_ENDPOINT = `https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/upload`;
 
@@ -81,5 +82,32 @@ export async function PUT(req: Request) {
     return new NextResponse(null, { status: 204 });
   } catch (e) {
     return new NextResponse(null, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return new NextResponse("Unauthorized", { status: 403 });
+  }
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+    });
+    if (user) {
+      await deleteAccount(session.user.id);
+      return new NextResponse(null, { status: 204 });
+    }
+    return new NextResponse("Unauthorized", { status: 403 });
+  } catch (e) {
+    return new NextResponse("Something went wrong with the request", {
+      status: 500,
+    });
   }
 }

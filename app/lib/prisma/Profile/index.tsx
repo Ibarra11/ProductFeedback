@@ -13,3 +13,11 @@ export async function updateProfile(data: UpdateProfile) {
     },
   });
 }
+
+export async function deleteAccount(id: string) {
+  return await prisma.user.delete({
+    where: {
+      id,
+    },
+  });
+}
