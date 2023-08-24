@@ -27,13 +27,14 @@ export const authOptions: NextAuthOptions = {
       from: process.env.EMAIL_FROM,
     }),
   ],
+
   callbacks: {
     async session({ token, session }) {
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
-        session.user.image = token.image;
+        session.user.image = token.image || "/user.png";
         session.user.newUser = token.newUser;
       }
       return session;
@@ -57,7 +58,7 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         image: dbUser.image,
-        newUser: token.newUser,
+        newUser: dbUser.newUser,
       };
     },
   },
