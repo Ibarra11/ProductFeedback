@@ -15,6 +15,17 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     }),
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_FROM,
+    }),
   ],
   callbacks: {
     async session({ token, session }) {
@@ -41,7 +52,6 @@ export const authOptions: NextAuthOptions = {
         }
         return token;
       }
-
       return {
         id: dbUser.id,
         name: dbUser.name,
@@ -49,32 +59,6 @@ export const authOptions: NextAuthOptions = {
         image: dbUser.image,
         newUser: token.newUser,
       };
-
-      // if (trigger === "signUp") {
-      //   token.id = user.id;
-      //   token.newUser = true;
-      //   token.image = user.image;
-      //   token.email = user.email;
-      //   token.name = user.name;
-      //   return token;
-      // } else {
-      //   console.log(user);
-      //   console.log(token);
-      //   const dbUser = await prisma.user.findUnique({
-      //     where: {
-      //       id: token.id,
-      //     },
-      //   });
-      //   if (!dbUser) {
-      //     return token;
-      //   }
-      //   token.id = dbUser.id;
-      //   token.name = dbUser.name;
-      //   token.email = dbUser.email;
-      //   token.image = dbUser.image;
-      //   token.newUser = dbUser.newUser;
-      //   return token;
-      // }
     },
   },
   pages: {
