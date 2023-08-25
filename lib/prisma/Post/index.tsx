@@ -1,4 +1,4 @@
-import { convertDateToString } from "@/app/utils";
+import { convertDateToString } from "@/utils";
 import { prisma } from "@/db";
 import { Prisma, Status, User } from "@prisma/client";
 import { Session } from "next-auth";

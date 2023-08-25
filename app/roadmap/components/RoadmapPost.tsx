@@ -3,9 +3,9 @@ import clsx from "clsx";
 import { ROADMAP_OPTIONS } from "../../constants";
 import Link from "next/link";
 import CommentIcon from "@/app/components/CommentIcon";
-import UpvoteButton from "../../components/UpvoteButton";
+import UpvoteButton from "../.@/components/UpvoteButton";
 import { Roadmap_Post } from "../page";
-import { getCurrentUser } from "@/app/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth/session";
 async function RoadmapPost({
   id,
   status,

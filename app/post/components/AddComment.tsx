@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import LoadingCircle from "@/app/components/LoadingCircle";
 import Button from "@/app/components/Button";
-import { ZCommentSchema } from "@/app/lib/zod";
+import { ZCommentSchema } from "@/lib/zod";
 const COMMENT_LENGTH = 250;
 
 function AddComment({

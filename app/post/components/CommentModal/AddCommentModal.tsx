@@ -5,8 +5,8 @@ import LoadingCircle from "@/app/components/LoadingCircle";
 import { IoMdClose } from "react-icons/io";
 import Button from "@/app/components/Button";
 import AddCommentButton from "./AddCommentButton";
-import { addReply } from "@/app/lib/mutations";
-import { Comment } from "@/app/lib/prisma";
+import { addReply } from "@/lib/mutations";
+import { Comment } from "@/lib/prisma";
 import { Session } from "next-auth";
 const COMMENT_LENGTH = 250;
 

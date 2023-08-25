@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import GoBackLink from "../../components/GoBackLink";
-import CustomLink from "../../components/CustomLink";
+import GoBackLink from "../.@/components/GoBackLink";
+import CustomLink from "../.@/components/CustomLink";
 
 function Header() {
   return (

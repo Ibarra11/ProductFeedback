@@ -1,7 +1,7 @@
 import { BRAND_COLORS } from "@/app/constants";
 import { Category } from ".prisma/client";
-import { getAllPost } from "@/app/lib/prisma";
-import { getCurrentUser } from "@/app/lib/auth/session";
+import { getAllPost } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth/session";
 
 export type FeedbackCategories =
   | "Feature"

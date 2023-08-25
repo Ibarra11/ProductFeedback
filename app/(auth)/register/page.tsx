@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import GoBackLink from "@/app/components/GoBackLink";
-import UserAuthForm from "@/app/components/UserAuthForm";
+import GoBackLink from "@/components/GoBackLink";
+import UserAuthForm from "@/components/UserAuthForm";
 import Link from "next/link";
 export const metadata = {
   title: "Create an account",

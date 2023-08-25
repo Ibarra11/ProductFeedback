@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
-import { profileFormSchema } from "@/app/lib/zod/Profile";
-import { deleteAccount, updateProfile } from "@/app/lib/prisma";
-import { getUser } from "@/app/lib/prisma";
+import { profileFormSchema } from "@/lib/zod/Profile";
+import { deleteAccount, updateProfile } from "@/lib/prisma";
+import { getUser } from "@/lib/prisma";
 import * as crypto from "crypto";
 import { prisma } from "@/db";
 

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
-import { deletePost, updatePost } from "@/app/lib/prisma";
-import { PostSchema } from "@/app/lib/zod";
+import { deletePost, updatePost } from "@/lib/prisma";
+import { PostSchema } from "@/lib/zod";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";

@@ -1,6 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { deleteUpvote } from "@/app/lib/prisma";
-import { UpvoteSchema } from "@/app/lib/zod";
+import { deleteUpvote } from "@/lib/prisma";
+import { UpvoteSchema } from "@/lib/zod";
 import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";

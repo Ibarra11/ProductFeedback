@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userAuthSchema } from "@/app/lib/zod/Auth";
+import { userAuthSchema } from "@/lib/zod/Auth";
 import { z } from "zod";
 import clsx from "clsx";
 import { FaGithub } from "react-icons/fa";

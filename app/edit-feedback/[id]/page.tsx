@@ -2,10 +2,10 @@ import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import EditFeedbackForm from "../EditFeedbackForm";
-import { getPost } from "@/app/lib/prisma/Post";
+import { getPost } from "@/lib/prisma/Post";
 import { redirect } from "next/navigation";
 import GoBackLink from "@/app/components/GoBackLink";
-import { getCurrentUser } from "@/app/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth/session";
 import { z } from "zod";
 import { Metadata } from "next";
 

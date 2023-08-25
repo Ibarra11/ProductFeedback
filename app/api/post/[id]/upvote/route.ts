@@ -1,7 +1,7 @@
-import { createUpvote } from "@/app/lib/prisma";
+import { createUpvote } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
-import { UpvoteSchema } from "@/app/lib/zod";
+import { UpvoteSchema } from "@/lib/zod";
 import { Prisma } from "@prisma/client";
 
 export async function POST(

@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import clsx from "clsx";
-import Button from "../../components/Button";
-import LoadingCircle from "../../components/LoadingCircle";
-import TextArea from "../../components/TextArea";
-import { Comment } from "../../lib/prisma/Post";
-import { CommentSchema } from "@/app/lib/zod";
+import Button from "../.@/components/Button";
+import LoadingCircle from "../.@/components/LoadingCircle";
+import TextArea from "../.@/components/TextArea";
+import { Comment } from "../../../lib/prisma/Post";
+import { CommentSchema } from "@/lib/zod";
 import { Session } from "next-auth";
 import { useUserContext } from "@/app/components/UserProvider";
 

@@ -3,8 +3,8 @@ import {
   createComment,
   createReply,
   getRepliesToComments,
-} from "@/app/lib/prisma/Comment";
-import { CommentSchema } from "@/app/lib/zod";
+} from "@/lib/prisma/Comment";
+import { CommentSchema } from "@/lib/zod";
 import { ZodError } from "zod";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 

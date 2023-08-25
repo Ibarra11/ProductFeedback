@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
-import { GetReplies } from "@/app/lib/mutations";
+import { GetReplies } from "@/lib/mutations";
 import Comments from "../Comments";
 import LoadingCircle from "@/app/components/LoadingCircle";
-import { Comment } from "@/app/lib/prisma";
+import { Comment } from "@/lib/prisma";
 import { IoMdAdd } from "react-icons/io";
 import AddCommentModal from "./AddCommentModal";
 import AddCommentButton from "./AddCommentButton";
-import { Comment as T_Comment } from "@/app/lib/prisma";
+import { Comment as T_Comment } from "@/lib/prisma";
 import { Session } from "next-auth";
 
 interface Props {

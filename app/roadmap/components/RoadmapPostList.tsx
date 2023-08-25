@@ -3,8 +3,8 @@ import { ROADMAP_TAB_DESCRIPTION } from "@/app/constants";
 import EmptySuggestionsView from "@/app/components/EmptySuggestionsView";
 import { Status } from "@prisma/client";
 import RoadmapPost from "./RoadmapPost";
-import { getPostByStatus } from "@/app/lib/prisma";
-import { formatStatus } from "@/app/utils";
+import { getPostByStatus } from "@/lib/prisma";
+import { formatStatus } from "@/utils";
 interface Props {
   status: Status;
 }

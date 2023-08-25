@@ -5,15 +5,18 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { UseFormRegister, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormTextArea from "../components/FormTextArea";
-import FormTextInput from "../components/FormTextInput";
-import FormSelect from "../components/FormSelect";
-import Button from "../components/Button";
+import FormTextArea from ".@/components/FormTextArea";
+import FormTextInput from ".@/components/FormTextInput";
+import FormSelect from ".@/components/FormSelect";
+import Button from ".@/components/Button";
 import { CATEGORY_VALUES } from "../constants";
 import { Category } from "@prisma/client";
-import { createPostRequest } from "../lib/mutations";
+import { createPostRequest } from "../../lib/mutations";
 import { ImSpinner8 } from "react-icons/im";
-import { CreateFeedbackFormSchema, CreateFeedbackFormData } from "../lib/zod";
+import {
+  CreateFeedbackFormSchema,
+  CreateFeedbackFormData,
+} from "../../lib/zod";
 
 function NewFeedbackForm() {
   const {

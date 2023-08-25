@@ -13,7 +13,7 @@ function CommentIcon({ comments }: { comments: number }) {
       <p
         className={clsx(
           `${comments === 0 ? "opacity-50" : ""}`,
-          "text-brand-blue_gray text-base font-semibold "
+          " text0- text-base font-semibold "
         )}
       >
         <span className="sr-only">Number of comments</span>

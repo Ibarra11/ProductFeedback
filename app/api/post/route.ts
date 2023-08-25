@@ -1,5 +1,5 @@
-import { createPost } from "@/app/lib/prisma";
-import { PostSchema } from "@/app/lib/zod";
+import { createPost } from "@/lib/prisma";
+import { PostSchema } from "@/lib/zod";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";

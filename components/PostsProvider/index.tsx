@@ -2,7 +2,7 @@
 import React from "react";
 import { FeedbackCategories, FilterCategories, SortByTypes } from "@/types";
 import { Post } from "@/types";
-import { sortPosts } from "@/app/utils";
+import { sortPosts } from "@/utils";
 interface Context {
   handleFilterChange: (filter: FilterCategories | FilterCategories[]) => void;
   handleSortByChange: (sortBy: SortByTypes) => void;

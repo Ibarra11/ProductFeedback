@@ -1,5 +1,5 @@
 "use client";
-import { Comment } from "@/app/lib/prisma";
+import { Comment } from "@/lib/prisma";
 import React from "react";
 
 interface Context {

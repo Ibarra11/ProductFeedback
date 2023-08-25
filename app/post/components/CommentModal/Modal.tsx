@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Comment } from "@/app/lib/prisma";
+import { Comment } from "@/lib/prisma";
 import CommentContainer from "./CommentContainer";
 import { IoMdAdd } from "react-icons/io";
 import AddCommentModal from "./AddCommentModal";
-import { getReplies } from "@/app/lib/mutations";
+import { getReplies } from "@/lib/mutations";
 import CommentLoader from "./CommentLoader";
 import CommentModalProvider from "./CommentModalProvider";
 import ModalControls from "./ModalControls";

@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 import UserProfileForm from "./UserProfileForm";
-import { getCurrentUser } from "../lib/auth/session";
+import { getCurrentUser } from "../../lib/auth/session";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import GoBackLink from "../components/GoBackLink";
+import GoBackLink from "@/components/GoBackLink";
 export default async function Account() {
   const user = await getCurrentUser();
   if (!user) {

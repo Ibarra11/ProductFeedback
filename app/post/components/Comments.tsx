@@ -1,7 +1,7 @@
 import React from "react";
 import EmptyCommentsView from "./EmptyCommentsView";
 import Comment from "./Comment";
-import { Comment as T_Comment } from "@/app/lib/prisma";
+import { Comment as T_Comment } from "@/lib/prisma";
 
 interface Props {
   comments: T_Comment[];

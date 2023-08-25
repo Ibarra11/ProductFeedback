@@ -2,18 +2,18 @@
 import React from "react";
 import clsx from "clsx";
 import Image from "next/image";
-import type { Comment } from "../../lib/prisma/Post";
+import type { Comment } from "../../../lib/prisma/Post";
 import { useRouter } from "next/navigation";
 import useMeasure from "react-use-measure";
 import ReplyBox from "./ReplyBox";
 import ViewMoreCommentsButton from "./ViewMoreCommentsButton";
-import { CommentSchema } from "@/app/lib/zod";
+import { CommentSchema } from "@/lib/zod";
 import LoadingCircle from "@/app/components/LoadingCircle";
 import ReplyButton from "./ReplyButton";
 import CommentModal from "./CommentModal/Modal";
 import CommentIcon from "@/app/components/CommentIcon";
 import { useCommentModalContext } from "./CommentModal/CommentModalProvider";
-import { getReplies } from "@/app/lib/mutations";
+import { getReplies } from "@/lib/mutations";
 import { Session } from "next-auth";
 
 type Props = Comment & {

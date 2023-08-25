@@ -7,11 +7,11 @@ import {
   profileFormSchema,
   ProfileFormData,
   profileFormRequestErrors,
-} from "../lib/zod/Profile";
+} from "../../lib/zod/Profile";
 import clsx from "clsx";
 import Image from "next/image";
 import { FiUpload } from "react-icons/fi";
-import { refreshSession } from "../lib/hooks/Auth";
+import { refreshSession } from "../../lib/hooks/Auth";
 import { ImSpinner8 } from "react-icons/im";
 import { signOut } from "next-auth/react";
 

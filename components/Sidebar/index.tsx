@@ -6,7 +6,7 @@ import RoadmapSkeleton from "./RoadmapSkeleton";
 import RoadmapList from "./RoadmapList";
 import SidebarCategoryPills from "./SidebarCategoryPills";
 import { PostsPromise, User } from "@/types";
-import UserProfile from "../UserProfile";
+import UserProfile from "@/components/UserProfile";
 
 function Sidebar({
   postsPromise,

@@ -1,4 +1,4 @@
-import LoadingCircle from "../../components/LoadingCircle";
+import LoadingCircle from "../.@/components/LoadingCircle";
 function RoadmapLoading() {
   return (
     <div className="relative h-full grid place-content-center ">

@@ -1,4 +1,4 @@
-import { Comment as Comment_Type } from "@/app/lib/prisma";
+import { Comment as Comment_Type } from "@/lib/prisma";
 
 import Comment from "../Comment";
 function CommentContainer({ comment }: { comment: Comment_Type }) {
