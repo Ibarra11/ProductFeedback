@@ -33,7 +33,7 @@ function ModalNav({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="fixed inset-0 top-[var(--header-height)]  z-10  bg-black/25 "
+              className="fixed  inset-0 top-[var(--header-height)]    bg-black/25 "
             ></motion.div>
           </Dialog.Overlay>
           <div className="relative h-[var(--header-height)] w-full">

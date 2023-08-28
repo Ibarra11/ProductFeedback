@@ -1,9 +1,9 @@
 import React from "react";
 import clsx from "clsx";
-import { ROADMAP_OPTIONS } from "../../constants";
+import { ROADMAP_OPTIONS } from "../../../lib/constants";
 import Link from "next/link";
-import CommentIcon from "@/app/components/CommentIcon";
-import UpvoteButton from "../.@/components/UpvoteButton";
+import CommentIcon from "@/components/CommentIcon";
+import UpvoteButton from "@/components/UpvoteButton";
 import { Roadmap_Post } from "../page";
 import { getCurrentUser } from "@/lib/auth/session";
 async function RoadmapPost({

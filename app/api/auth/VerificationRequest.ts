@@ -1,5 +1,5 @@
 import { createTransport } from "nodemailer";
-import { BRAND_COLORS } from "@/app/constants";
+import { BRAND_COLORS } from "@/lib/constants";
 import { SendVerificationRequestParams } from "next-auth/providers";
 
 export async function verificationRequest(

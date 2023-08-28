@@ -9,6 +9,7 @@ import { z } from "zod";
 import clsx from "clsx";
 import { FaGithub } from "react-icons/fa";
 import { ImSpinner8 } from "react-icons/im";
+import { toast } from "../ui/use-toast";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 type FormData = z.infer<typeof userAuthSchema>;
@@ -35,9 +36,20 @@ export default function UserAuthForm({
       callbackUrl: searchParams?.get("from") || "/",
     });
 
-    console.log(signInResult);
-
     setIsLoading(false);
+
+    if (!signInResult?.ok) {
+      return toast({
+        title: "Something went wrong.",
+        description: "Your sign in request failed. Please try again.",
+        variant: "destructive",
+      });
+    }
+
+    return toast({
+      title: "Check your email",
+      description: "We sent you a login link. Be sure to check your spam too.",
+    });
   }
 
   return (

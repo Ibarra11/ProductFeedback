@@ -1,6 +1,6 @@
-import CustomLink from "@/app/components/CustomLink";
-import GoBackLink from "@/app/components/GoBackLink";
-import Post from "@/app/components/Post";
+import CustomLink from "@/components/CustomLink";
+import GoBackLink from "@/components/GoBackLink";
+import Post from "@/components/Post";
 import { Post as Post_T } from "@/types";
 import { Session } from "next-auth";
 interface Props {

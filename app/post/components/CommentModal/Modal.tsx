@@ -11,7 +11,7 @@ import CommentModalProvider from "./CommentModalProvider";
 import ModalControls from "./ModalControls";
 import clsx from "clsx";
 import { Session } from "next-auth";
-import { useUserContext } from "@/app/components/UserProvider";
+import { useUserContext } from "@/components/UserProvider";
 
 interface Props {
   closeModal: () => void;

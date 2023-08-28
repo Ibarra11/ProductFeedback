@@ -12,7 +12,7 @@ function SubHeader({ postsPromise }: { postsPromise: PostsPromise }) {
     <header
       className={clsx(
         "flex items-center h-14 px-6 bg-brand-american_blue",
-        "md:h-[72px] gap-8 md:rounded-lg md:pr-3",
+        " md:h-[72px]    gap-8 md:rounded-lg md:pr-3",
         "lg:pr-4"
       )}
     >

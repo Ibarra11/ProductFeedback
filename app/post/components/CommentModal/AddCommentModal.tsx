@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import clsx from "clsx";
-import LoadingCircle from "@/app/components/LoadingCircle";
+import LoadingCircle from "@/components/LoadingCircle";
 import { IoMdClose } from "react-icons/io";
-import Button from "@/app/components/Button";
+import Button from "@/components/Button";
 import AddCommentButton from "./AddCommentButton";
 import { addReply } from "@/lib/mutations";
 import { Comment } from "@/lib/prisma";

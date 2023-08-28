@@ -1,6 +1,9 @@
 import { SortByTypes } from "@/types";
 import { Status } from "@prisma/client";
-import type { Post } from "../lib/prisma/Post";
+import type { Post } from "../prisma/Post";
+
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function sortPosts(posts: Post[], sortBy: SortByTypes): Post[] {
   switch (sortBy) {
@@ -53,4 +56,18 @@ export function filterPostsByStatus(posts: Post[]) {
   });
 
   return postStatusObj;
+}
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+function sleep(ms: number) {
+  return new Promise((res) => {
+    setTimeout(res, ms);
+  });
+}
+export async function minDelay<T>(promise: Promise<T>, ms: number): Promise<T> {
+  const [p] = await Promise.all([promise, sleep(ms)]);
+  return p;
 }

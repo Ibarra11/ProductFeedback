@@ -14,7 +14,7 @@ function CustomLink({ children, href, variant }: Props) {
     <Link
       className={clsx(
         `${variants[variant]}`,
-        ` grid h-10 place-content-center  rounded-lg px-6 text-sm font-bold text-brand-ghost_white transition-colors duration-200`,
+        ` grid h-10  place-content-center  rounded-lg px-6 text-sm font-bold text-brand-ghost_white transition-colors duration-200`,
         " lg:h-11"
       )}
       // @ts-ignore

@@ -1,6 +1,6 @@
 "use client";
-import { ROADMAP_OPTIONS } from "@/app/constants";
-import { filterPostsByStatus, formatStatus } from "@/utils";
+import { ROADMAP_OPTIONS } from "@/lib/constants";
+import { filterPostsByStatus, formatStatus } from "@/lib/utils";
 import { usePostsContext } from "../PostsProvider";
 import { use } from "react";
 import { Category, Status } from "@prisma/client";

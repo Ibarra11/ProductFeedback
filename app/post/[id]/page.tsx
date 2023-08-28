@@ -1,15 +1,15 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { Metadata } from "next";
-import Comments from ".@/components/Comments";
-import AddComment from ".@/components/AddComment";
-import { convertDateToString } from "@/utils";
+import Comments from "../components/Comments";
+import AddComment from "../components/AddComment";
+import { convertDateToString } from "@/lib/utils";
 import {
   getCommentsByPostId,
   getPostWithCommentCount,
 } from "@/lib/prisma/Post";
-import UserProvider from "@/app/components/UserProvider";
-import PostContainer from ".@/components/PostContainer";
+import UserProvider from "@/components/UserProvider";
+import PostContainer from "../components/PostContainer";
 import { getCurrentUser } from "@/lib/auth/session";
 
 export async function generateMetadata({

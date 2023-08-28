@@ -1,4 +1,4 @@
-import { convertDateToString } from "@/utils";
+import { convertDateToString } from "@/lib/utils";
 import { prisma } from "@/db";
 import { ZCommentSchema } from "../../zod";
 

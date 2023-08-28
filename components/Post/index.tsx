@@ -6,8 +6,8 @@ import CommentIcon from "../CommentIcon";
 import clsx from "clsx";
 import type { Post } from "@/lib/prisma/Post";
 import { useUserContext } from "../UserProvider";
-import { formatStatus } from "@/utils";
-import { ROADMAP_OPTIONS } from "@/app/constants";
+import { formatStatus } from "@/lib/utils";
+import { ROADMAP_OPTIONS } from "@/lib/constants";
 import { User } from "@prisma/client";
 import { Session } from "next-auth";
 

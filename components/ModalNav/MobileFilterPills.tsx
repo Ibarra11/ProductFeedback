@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import clsx from "clsx";
-import { CATEGORY_VALUES } from "@/app/constants";
+import { CATEGORY_VALUES } from "@/lib/constants";
 import Pill from "../Pill";
 import { usePostsContext } from "../PostsProvider";
 function MobileFilterPills({ closeNavModal }: { closeNavModal: () => void }) {

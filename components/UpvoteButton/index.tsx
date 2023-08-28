@@ -25,6 +25,7 @@ function UpvoteButton({
 }: ButtonProps<Props>) {
   const router = useRouter();
   const [isFetching, setIsFetching] = React.useState(false);
+
   async function handleCreateUpvote() {
     setIsFetching(true);
     try {
@@ -66,12 +67,12 @@ function UpvoteButton({
   return (
     <button
       className={clsx(
-        "counter-btn relative flex  rounded-lg bg-brand-alice_blue",
+        "isolate counter-btn  relative flex  rounded-lg  ",
         className,
         flexDirection,
         upvoteId
           ? "bg-brand-royal_blue text-brand-ghost_white"
-          : "text-brand-american_blue",
+          : "bg-brand-alice_blue text-brand-american_blue",
         !upvoteId && " hover:bg-blue-100",
         " outline-none focus:outline focus:outline-2 focus:outline-brand-royal_blue",
         "transition-colors duration-200"

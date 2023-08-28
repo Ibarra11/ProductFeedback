@@ -1,13 +1,12 @@
 "use client";
 import React from "react";
 import clsx from "clsx";
-import Button from "../.@/components/Button";
-import LoadingCircle from "../.@/components/LoadingCircle";
-import TextArea from "../.@/components/TextArea";
 import { Comment } from "../../../lib/prisma/Post";
 import { CommentSchema } from "@/lib/zod";
-import { Session } from "next-auth";
-import { useUserContext } from "@/app/components/UserProvider";
+import { useUserContext } from "@/components/UserProvider";
+import TextArea from "@/components/TextArea";
+import Button from "@/components/Button";
+import LoadingCircle from "@/components/LoadingCircle";
 
 interface Props {
   postId: number;

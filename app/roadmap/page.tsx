@@ -1,13 +1,16 @@
 import { z } from "zod";
-import UserProvider from ".@/components/UserProvider";
+
 import { redirect } from "next/navigation";
 import React from "react";
-import RoadmapView from "@/components/RoadmapView";
-import MobileRoadmapView from "@/components/MobileRoadmapView";
+import UserProvider from "@/components/UserProvider";
+import RoadmapView from "./components/RoadmapView";
+import MobileRoadmapView from "./components/MobileRoadmapView";
+
 import { getPostByStatus } from "../../lib/prisma/Post";
 import { Status } from "@prisma/client";
 import { getCurrentUser } from "../../lib/auth/session";
-import { STATUS_VALUES } from "../constants";
+import { STATUS_VALUES } from "../../lib/constants";
+
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 /* 

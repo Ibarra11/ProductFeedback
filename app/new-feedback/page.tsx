@@ -1,6 +1,6 @@
 import Image from "next/image";
 import clsx from "clsx";
-import GoBackLink from ".@/components/GoBackLink";
+import GoBackLink from "@/components/GoBackLink";
 import NewFeedbackForm from "./NewFeedbackForm";
 
 async function Page() {

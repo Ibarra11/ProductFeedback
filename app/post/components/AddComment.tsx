@@ -2,8 +2,8 @@
 import React from "react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import LoadingCircle from "@/app/components/LoadingCircle";
-import Button from "@/app/components/Button";
+import LoadingCircle from "@/components/LoadingCircle";
+import Button from "@/components/Button";
 import { ZCommentSchema } from "@/lib/zod";
 const COMMENT_LENGTH = 250;
 

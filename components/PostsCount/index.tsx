@@ -1,6 +1,6 @@
 "use client";
 import { use } from "react";
-import { Category, Status } from "@prisma/client";
+
 import { usePostsContext } from "../PostsProvider";
 import { PostsPromise } from "@/types";
 function PostsCount({ postsPromise }: { postsPromise: PostsPromise }) {

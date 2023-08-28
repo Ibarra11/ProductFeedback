@@ -4,7 +4,7 @@ import clsx from "clsx";
 import EditFeedbackForm from "../EditFeedbackForm";
 import { getPost } from "@/lib/prisma/Post";
 import { redirect } from "next/navigation";
-import GoBackLink from "@/app/components/GoBackLink";
+import GoBackLink from "@/components/GoBackLink";
 import { getCurrentUser } from "@/lib/auth/session";
 import { z } from "zod";
 import { Metadata } from "next";
@@ -18,7 +18,7 @@ export async function generateMetadata({
   if (!post) {
     throw new Error();
   }
-  return { title: `Editing Post: ${post.id}`, description: post.content };
+  return { title: `Editing Post: ${post.title}`, description: post.content };
 }
 
 async function EditFeedback({ params }: { params: { id: string } }) {

@@ -3,16 +3,15 @@ import React from "react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { Category, Status } from "@prisma/client";
-import Button from ".@/components/Button";
-import FormTextInput from ".@/components/FormTextInput";
-import FormSelect from ".@/components/FormSelect";
-import FormTextArea from ".@/components/FormTextArea";
+import Button from "@/components/Button";
+import FormTextInput from "@/components/FormTextInput";
+import FormSelect from "@/components/FormSelect";
+import FormTextArea from "@/components/FormTextArea";
 import { Post } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { EditFeedbackSchema, EditFeedbackFormData } from "../../lib/zod";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CATEGORY_VALUES, STATUS_VALUES } from "../constants";
+import { CATEGORY_VALUES, STATUS_VALUES } from "../../lib/constants";
 
 function EditFeedbackForm({ post }: { post: Post }) {
   const router = useRouter();

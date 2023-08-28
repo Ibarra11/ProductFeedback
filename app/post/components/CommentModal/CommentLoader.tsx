@@ -2,7 +2,7 @@
 import React from "react";
 import { GetReplies } from "@/lib/mutations";
 import Comments from "../Comments";
-import LoadingCircle from "@/app/components/LoadingCircle";
+import LoadingCircle from "@/components/LoadingCircle";
 import { Comment } from "@/lib/prisma";
 import { IoMdAdd } from "react-icons/io";
 import AddCommentModal from "./AddCommentModal";

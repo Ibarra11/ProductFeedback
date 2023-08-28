@@ -8,7 +8,7 @@ import Posts from "@/components/Posts";
 import { getAllPost } from "../lib/prisma/Post";
 import { minDelay } from "../lib/helpers";
 import UserProvider from "@/components/UserProvider";
-import { convertDateToString } from "../utils";
+import { convertDateToString } from "../lib/utils";
 import MobileHeader from "@/components/MobileHeader";
 import { getCurrentUser } from "../lib/auth/session";
 import { redirect } from "next/navigation";
