@@ -11,7 +11,7 @@ import { Post } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { EditFeedbackSchema, EditFeedbackFormData } from "../../lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CATEGORY_VALUES, STATUS_VALUES } from "../../lib/constants";
+import { CATEGORY_VALUES, STATUS_VALUES } from "../constants";
 
 function EditFeedbackForm({ post }: { post: Post }) {
   const router = useRouter();

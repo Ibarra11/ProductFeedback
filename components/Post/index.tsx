@@ -5,9 +5,10 @@ import UpvoteButton from "../UpvoteButton";
 import CommentIcon from "../CommentIcon";
 import clsx from "clsx";
 import type { Post } from "@/lib/prisma/Post";
+import { CSSProperties } from "react";
 import { useUserContext } from "../UserProvider";
+import { ROADMAP_OPTIONS } from "@/app/constants";
 import { formatStatus } from "@/lib/utils";
-import { ROADMAP_OPTIONS } from "@/lib/constants";
 
 interface Props extends Post {
   disableHighlightAnimation?: boolean;
@@ -107,8 +108,12 @@ function Post({
   );
 }
 
+// const Options = {
+//   Live: "bg-green-500",
+// } as const;
+
 function Status({ status }: { status: Post["status"] }) {
-  const { bgWithOpacity, text } = ROADMAP_OPTIONS[status];
+  const { bgWithOpacity, text, bg } = ROADMAP_OPTIONS[status];
   return (
     <span
       className={clsx(

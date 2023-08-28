@@ -3,7 +3,7 @@ import React from "react";
 import Select from "@/components/Select";
 import { Status } from ".prisma/client";
 import { useRouter } from "next/navigation";
-import { STATUS_VALUES } from "@/lib/constants";
+import { STATUS_VALUES } from "@/app/constants";
 import { formatStatus } from "@/lib/utils";
 
 function RoadmapStatusSelect({ status }: { status: Status }) {

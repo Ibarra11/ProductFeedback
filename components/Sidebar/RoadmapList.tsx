@@ -1,5 +1,5 @@
 "use client";
-import { ROADMAP_OPTIONS } from "@/lib/constants";
+import { ROADMAP_OPTIONS } from "@/app/constants";
 import { filterPostsByStatus, formatStatus } from "@/lib/utils";
 import { usePostsContext } from "../PostsProvider";
 import { use } from "react";

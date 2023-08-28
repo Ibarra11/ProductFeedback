@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { ROADMAP_OPTIONS } from "../../../lib/constants";
+import { ROADMAP_OPTIONS } from "@/app/constants";
 import Link from "next/link";
 import CommentIcon from "@/components/CommentIcon";
 import UpvoteButton from "@/components/UpvoteButton";
@@ -18,6 +18,7 @@ async function RoadmapPost({
 }: Roadmap_Post) {
   const user = await getCurrentUser();
   const { border } = ROADMAP_OPTIONS[status];
+  console.log(border);
   const upvote = upvotes.find((upvote) => upvote.user_id === user.id);
   return (
     <Link

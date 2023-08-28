@@ -1,4 +1,4 @@
-import { BRAND_COLORS } from "@/lib/constants";
+import { BRAND_COLORS } from "@/app/constants";
 import { Category } from ".prisma/client";
 import { getAllPost } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth/session";

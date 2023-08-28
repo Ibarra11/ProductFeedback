@@ -1,6 +1,6 @@
 "use client";
 import { usePostsContext } from "../PostsProvider";
-import { SORT_OPTIONS } from "@/lib/constants";
+import { SORT_OPTIONS } from "@/app/constants";
 import Select from "../Select";
 
 function SortByCategorySelect() {

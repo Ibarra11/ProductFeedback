@@ -2,7 +2,7 @@
 import React from "react";
 import clsx from "clsx";
 import Pill from "../Pill";
-import { CATEGORY_VALUES } from "@/lib/constants";
+import { CATEGORY_VALUES } from "@/app/constants";
 import { Category } from "@prisma/client";
 
 interface Props {

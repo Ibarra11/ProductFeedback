@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ROADMAP_TAB_DESCRIPTION } from "@/lib/constants";
+import { ROADMAP_TAB_DESCRIPTION } from "@/app/constants";
 import EmptySuggestionsView from "@/components/EmptySuggestionsView";
 import { Status } from "@prisma/client";
 import RoadmapPost from "./RoadmapPost";

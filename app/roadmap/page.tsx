@@ -9,7 +9,7 @@ import MobileRoadmapView from "./components/MobileRoadmapView";
 import { getPostByStatus } from "../../lib/prisma/Post";
 import { Status } from "@prisma/client";
 import { getCurrentUser } from "../../lib/auth/session";
-import { STATUS_VALUES } from "../../lib/constants";
+import { STATUS_VALUES } from "../constants";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
