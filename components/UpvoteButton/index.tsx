@@ -67,7 +67,7 @@ function UpvoteButton({
   return (
     <button
       className={clsx(
-        "isolate counter-btn  relative flex  rounded-lg  ",
+        "counter-btn  relative flex  rounded-lg  ",
         className,
         flexDirection,
         upvoteId
@@ -79,7 +79,7 @@ function UpvoteButton({
       )}
       {...rest}
       onClick={(e) => {
-        // this button is used within a link, it will fire the the anchor link aswell.  Prevent defualt prevents the link from firing
+        // this button is used within a link, it will fire the the anchor link aswell.  Prevent default prevents the link from firing.
         e.preventDefault();
         if (upvoteId) {
           handleDeleteUpvote();

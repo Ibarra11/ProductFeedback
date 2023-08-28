@@ -8,8 +8,6 @@ import type { Post } from "@/lib/prisma/Post";
 import { useUserContext } from "../UserProvider";
 import { formatStatus } from "@/lib/utils";
 import { ROADMAP_OPTIONS } from "@/lib/constants";
-import { User } from "@prisma/client";
-import { Session } from "next-auth";
 
 interface Props extends Post {
   disableHighlightAnimation?: boolean;
@@ -30,7 +28,7 @@ function Post({
   const upvote = upvotes.find((upvote) => upvote.User.id === user.id);
   return (
     // @ts-ignore
-    <Link href={`/post/${id}`}>
+    <Link className="isolate" href={`/post/${id}`}>
       <article
         className={clsx(
           !disableHighlightAnimation && "group",
@@ -116,7 +114,7 @@ function Status({ status }: { status: Post["status"] }) {
       className={clsx(
         "inline-block  rounded-xl px-4 py-2 text-xs font-bold",
         "md:text-sm",
-        `${bgWithOpacity} ${text} `
+        `${bgWithOpacity} ${text}`
       )}
     >
       {formatStatus(status)}
