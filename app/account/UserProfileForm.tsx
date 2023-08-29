@@ -109,7 +109,6 @@ export default function UserProfileForm({
           }
         }
       } else {
-        // I am going to update the session after the user completes the onboarding process.  Essentially, I have a property on the session token called newUser, which is set to true by default.  When the user completes the form, I will change it to false and they can go to other pages in the app.
         await refreshSession();
         router.push("/");
       }

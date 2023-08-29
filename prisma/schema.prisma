@@ -36,7 +36,6 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// I add a newUser value, so I can redirect new users to setup their profile
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -48,7 +47,6 @@ model User {
   posts         Post[]
   comments      Comment[]
   Upvotes       Upvote[]
-  newUser       Boolean   @default(true)
 }
 
 model VerificationToken {
@@ -82,7 +80,7 @@ model Post {
   category  Category
   status    Status    @default(Suggestion)
   comments  Comment[]
-  User      User      @relation(fields: [user_id], references: [id])
+  User      User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id   String
   upvotes   Upvote[]
 
@@ -107,7 +105,7 @@ model Comment {
   content         String
   Post            Post      @relation(fields: [post_id], references: [id], onDelete: Cascade)
   post_id         Int
-  Author          User      @relation(fields: [user_id], references: [id])
+  Author          User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id         String
   replies         Comment[] @relation("replies")
   repliesRelation Comment[] @relation("replies")

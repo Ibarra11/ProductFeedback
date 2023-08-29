@@ -70,15 +70,8 @@ export async function PUT(req: Request) {
       data.image = result.eager[0].secure_url;
     }
 
-    if (user.newUser) {
-      const result = await updateProfile({
-        ...data,
-        id: user.id,
-        newUser: false,
-      });
-    } else {
-      await updateProfile({ ...data, id: user.id });
-    }
+    await updateProfile({ ...data, id: user.id });
+
     return new NextResponse(null, { status: 204 });
   } catch (e) {
     return new NextResponse(null, { status: 500 });

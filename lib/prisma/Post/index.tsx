@@ -1,7 +1,6 @@
 import { convertDateToString } from "@/lib/utils";
 import { prisma } from "@/db";
 import { Prisma, Status, User } from "@prisma/client";
-import { Session } from "next-auth";
 import React from "react";
 import { minDelay } from "../../helpers";
 

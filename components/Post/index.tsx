@@ -5,7 +5,6 @@ import UpvoteButton from "../UpvoteButton";
 import CommentIcon from "../CommentIcon";
 import clsx from "clsx";
 import type { Post } from "@/lib/prisma/Post";
-import { CSSProperties } from "react";
 import { useUserContext } from "../UserProvider";
 import { ROADMAP_OPTIONS } from "@/app/constants";
 import { formatStatus } from "@/lib/utils";
@@ -28,12 +27,11 @@ function Post({
   const user = useUserContext();
   const upvote = upvotes.find((upvote) => upvote.User.id === user.id);
   return (
-    // @ts-ignore
-    <Link className="isolate" href={`/post/${id}`}>
+    <Link href={`/post/${id}`}>
       <article
         className={clsx(
           !disableHighlightAnimation && "group",
-          "rounded-xl bg-white p-6 md:py-7 md:px-8"
+          "rounded-xl bg-white p-6 md:py-7 md:px-8 isolate shadow-md"
         )}
       >
         <div className="mb-4 flex justify-between">

@@ -6,6 +6,12 @@ import { prisma } from "@/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { verificationRequest } from "../VerificationRequest";
 
+// id            String    @id @default(cuid())
+//   name          String?
+//   email         String?   @unique
+//   emailVerified DateTime?
+//   image         String?
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
@@ -31,13 +37,37 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
+    async signIn({ account, user }) {
+      if (account && account.provider === "github") {
+        const res = await fetch("https://api.github.com/user/public_emails", {
+          headers: {
+            Authorization: `Bearer ${account.access_token}`,
+            Accept: "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+          },
+        });
+        const emails: {
+          primary: boolean;
+          email: string;
+          verified: boolean;
+          visibility: string | null;
+        }[] = await res.json();
+
+        if (emails.length) {
+          user.email = emails[0].email;
+        }
+        return true;
+      }
+      // for email credentials
+      return true;
+    },
+
     async session({ token, session }) {
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.image = token.image || "/user.png";
-        session.user.newUser = token.newUser;
       }
       return session;
     },
@@ -51,7 +81,6 @@ export const authOptions: NextAuthOptions = {
       if (!dbUser) {
         if (user) {
           token.id = user?.id;
-          token.newUser = true;
         }
         return token;
       }
@@ -60,7 +89,6 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         image: dbUser.image,
-        newUser: dbUser.newUser,
       };
     },
   },
