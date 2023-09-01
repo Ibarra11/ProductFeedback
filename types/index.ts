@@ -61,7 +61,7 @@ export interface EditFormData extends FormData {
   status: FeedbackStatus;
 }
 
-type BrandColors = keyof (typeof BRAND_COLORS)["brand"];
+type BrandColors = keyof typeof BRAND_COLORS;
 
 export type RoadmapBorderColor = `border-t-brand-${BrandColors}`;
 
