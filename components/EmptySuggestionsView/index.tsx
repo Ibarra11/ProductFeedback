@@ -1,5 +1,4 @@
 import Image from "next/image";
-import CustomLink from "../CustomLink";
 function EmptySuggestionsView() {
   return (
     <div className="h-full grid place-content-center bg-white rounded-lg p-6">
@@ -18,9 +17,6 @@ function EmptySuggestionsView() {
           Got a suggestion? Found a bug that needs to be squashed? We love
           hearing about new ideas to improve our app.
         </p>
-        <CustomLink variant="primary" href="/new-feedback">
-          + Add Feedback
-        </CustomLink>
       </div>
     </div>
   );

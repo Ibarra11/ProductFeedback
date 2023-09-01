@@ -5,9 +5,14 @@ import LoadingCircle from "../LoadingCircle";
 import CustomLink from "../CustomLink";
 import PostsCount from "../PostsCount";
 import SortBySelect from "./SortByCategorySelect";
-import { PostsPromise } from "@/types";
+import { PostsPromise, User } from "@/types";
 
-function SubHeader({ postsPromise }: { postsPromise: PostsPromise }) {
+interface Props {
+  postsPromise: PostsPromise;
+  user: User | undefined;
+}
+
+function SubHeader({ postsPromise, user }: Props) {
   return (
     <header
       className={clsx(
@@ -42,9 +47,9 @@ function SubHeader({ postsPromise }: { postsPromise: PostsPromise }) {
         <CustomLink
           variant="primary"
           // @ts-ignore
-          href="/new-feedback"
+          href={user ? "/new-feedback" : "/login"}
         >
-          + Add Feedback
+          {user ? "+ Add Feedback" : "Login"}
         </CustomLink>
       </div>
     </header>

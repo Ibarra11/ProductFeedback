@@ -23,15 +23,15 @@ export default withAuth(
       }
       return null;
     }
-    if (!isAuth) {
-      let from = req.nextUrl.pathname;
-      if (req.nextUrl.search) {
-        from += req.nextUrl.search;
-      }
-      return NextResponse.redirect(
-        new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
-      );
-    }
+    // if (!isAuth) {
+    //   let from = req.nextUrl.pathname;
+    //   if (req.nextUrl.search) {
+    //     from += req.nextUrl.search;
+    //   }
+    //   return NextResponse.redirect(
+    //     new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
+    //   );
+    // }
   },
   {
     callbacks: {

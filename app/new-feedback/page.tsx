@@ -2,6 +2,11 @@ import Image from "next/image";
 import clsx from "clsx";
 import GoBackLink from "@/components/GoBackLink";
 import NewFeedbackForm from "./NewFeedbackForm";
+import { CreateFeedbackFormData } from "@/lib/zod";
+import { createPost } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth/session";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 async function Page() {
   return (

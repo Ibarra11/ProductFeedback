@@ -1,15 +1,14 @@
 import CustomLink from "@/components/CustomLink";
 import GoBackLink from "@/components/GoBackLink";
 import Post from "@/components/Post";
-import { Post as Post_T } from "@/types";
+import { Post as Post_T, User } from "@/types";
 import { Session } from "next-auth";
 interface Props {
   post: Post_T;
-  userId: Session["user"]["id"];
+  user: User | undefined;
 }
-
-export default function PostContainer({ post, userId }: Props) {
-  const isAuthor = post.user_id === userId;
+export default function PostContainer({ post, user }: Props) {
+  const isAuthor = user && post.user_id === user.id;
   return (
     <article className="isolate">
       <div className="flex justify-between mb-4">

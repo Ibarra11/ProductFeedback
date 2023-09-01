@@ -5,12 +5,15 @@ import { useRouter } from "next/navigation";
 import LoadingCircle from "@/components/LoadingCircle";
 import Button from "@/components/Button";
 import { ZCommentSchema } from "@/lib/zod";
+import { User } from "@/types";
 const COMMENT_LENGTH = 250;
 
-function AddComment({
-  postId,
-  userId,
-}: Omit<ZCommentSchema["createComment"], "content">) {
+interface Props {
+  postId: number;
+  user: User | undefined;
+}
+
+function AddComment({ postId, user }: Props) {
   const [isPending, setIsPending] = React.useState(false);
   const [comment, setComment] = React.useState("");
   const router = useRouter();
@@ -20,7 +23,11 @@ function AddComment({
     try {
       const res = await fetch("/api/comment", {
         method: "POST",
-        body: JSON.stringify({ content: comment, postId, userId }),
+        body: JSON.stringify({
+          content: comment,
+          postId,
+          userId: user && user.id,
+        }),
       });
       if (res.ok) {
         setComment("");

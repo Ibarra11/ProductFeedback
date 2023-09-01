@@ -13,6 +13,9 @@ import MobileHeader from "@/components/MobileHeader";
 import { getCurrentUser } from "../lib/auth/session";
 import { redirect } from "next/navigation";
 
+// this makes it so this page is cached only for thirty seconds, otherwise it is cached for 5 minutes
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Feedback Board",
   description: "A forum for feedback",
@@ -30,9 +33,9 @@ export default async function Home() {
   );
 
   const user = await getCurrentUser();
-  if (!user) {
-    redirect("/");
-  }
+  // if (!user) {
+  //   redirect("/");
+  // }
 
   return (
     <div
@@ -47,7 +50,7 @@ export default async function Home() {
           <Sidebar user={user} postsPromise={postsPromise} />
           <MobileHeader user={user} postsPromise={postsPromise} />
           <div className={clsx("flex flex-1 flex-col gap-8", "lg:gap-6")}>
-            <SubHeader postsPromise={postsPromise} />
+            <SubHeader user={user} postsPromise={postsPromise} />
             <Posts postsPromise={postsPromise} />
           </div>
         </PostsProvider>

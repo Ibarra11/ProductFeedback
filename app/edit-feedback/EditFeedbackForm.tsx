@@ -12,10 +12,15 @@ import { useForm } from "react-hook-form";
 import { EditFeedbackSchema, EditFeedbackFormData } from "../../lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CATEGORY_VALUES, STATUS_VALUES } from "../constants";
+import { ImSpinner8 } from "react-icons/im";
+import { deletePostAction, editPostAction } from "./actions";
 
-function EditFeedbackForm({ post }: { post: Post }) {
+interface Props {
+  post: Post;
+}
+
+function EditFeedbackForm({ post }: Props) {
   const router = useRouter();
-
   const {
     register,
     setValue,
@@ -32,44 +37,33 @@ function EditFeedbackForm({ post }: { post: Post }) {
       content: post.content,
     },
   });
-
-  const [isFetching, setIsFetching] = React.useState(false);
-
+  const [isSaving, setisSaving] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
   const { category, status } = getValues();
 
   async function onSubmit(formData: EditFeedbackFormData) {
-    setIsFetching(true);
+    setisSaving(true);
     try {
-      const res = await fetch(`/api/post/${post.id}`, {
-        method: "PUT",
-        body: JSON.stringify({ ...formData }),
-      });
-      if (res.ok) {
-        // @ts-ignore
+      const result = await editPostAction(post.id, formData);
+      if (result.success) {
         router.push(`/post/${post.id}`);
-        setIsFetching(false);
-        return;
       }
-      throw new Error();
     } catch (e) {
-      setIsFetching(false);
+    } finally {
+      setisSaving(false);
     }
   }
 
   async function handlePostDelete() {
-    setIsFetching(true);
+    setIsDeleting(true);
     try {
-      const res = await fetch(`/api/post/${post.id}`, {
-        method: "DELETE",
-      });
-
-      if (res.ok) {
+      const result = await deletePostAction(post.id);
+      if (result.success) {
         router.push("/");
-        return;
       }
-      throw new Error();
     } catch (e) {
-      setIsFetching(false);
+    } finally {
+      setIsDeleting(false);
     }
   }
 
@@ -125,12 +119,19 @@ function EditFeedbackForm({ post }: { post: Post }) {
             onClick={handlePostDelete}
             type="button"
             className={clsx(
-              "bg-red-500 text-brand-ghost_white",
-              isFetching && "opacity-50"
+              "relative inline-flex items-center justify-center gap-2 bg-red-500 text-brand-ghost_white",
+              isSaving && "opacity-50"
             )}
-            disabled={isFetching}
+            disabled={isDeleting || isSaving}
           >
-            Delete
+            {isDeleting ? (
+              <>
+                Deleting
+                <ImSpinner8 className="h-4 w-4 animate-spin" />
+              </>
+            ) : (
+              "Delete"
+            )}
           </Button>
           <Button
             type="button"
@@ -138,20 +139,27 @@ function EditFeedbackForm({ post }: { post: Post }) {
             className={clsx(
               "bg-brand-blue_gray text-brand-ghost_white",
               "md:ml-auto",
-              isFetching && "opacity-50"
+              isSaving || (isDeleting && "opacity-50")
             )}
-            disabled={isFetching}
+            disabled={isSaving || isDeleting}
           >
             Cancel
           </Button>
           <Button
-            disabled={isFetching}
+            disabled={isSaving || isDeleting}
             className={clsx(
-              "bg-brand-purple text-brand-ghost_white",
-              isFetching && "opacity-50"
+              "relative bg-brand-purple inline-flex items-center justify-center gap-2 text-brand-ghost_white min-w-[144px]",
+              isDeleting && "opacity-50"
             )}
           >
-            Save Changes
+            {isSaving ? (
+              <>
+                Saving
+                <ImSpinner8 className="h-4 w-4 animate-spin" />
+              </>
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </div>
       </div>

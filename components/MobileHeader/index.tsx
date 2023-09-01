@@ -10,7 +10,10 @@ import { PostsPromise, User } from "@/types";
 function MobileHeader({
   user,
   postsPromise,
-}: React.PropsWithChildren<{ user: User; postsPromise: PostsPromise }>) {
+}: React.PropsWithChildren<{
+  user: User | undefined;
+  postsPromise: PostsPromise;
+}>) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isAnimating, setIsAnimating] = React.useState(false);
   const headerRef = React.useRef<HTMLElement>(null);

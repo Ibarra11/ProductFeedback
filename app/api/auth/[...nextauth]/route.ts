@@ -6,12 +6,6 @@ import { prisma } from "@/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { verificationRequest } from "../VerificationRequest";
 
-// id            String    @id @default(cuid())
-//   name          String?
-//   email         String?   @unique
-//   emailVerified DateTime?
-//   image         String?
-
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
@@ -32,6 +26,7 @@ export const authOptions: NextAuthOptions = {
         },
       },
       from: process.env.EMAIL_FROM,
+
       sendVerificationRequest: verificationRequest,
     }),
   ],
@@ -77,7 +72,6 @@ export const authOptions: NextAuthOptions = {
           email: token.email,
         },
       });
-
       if (!dbUser) {
         if (user) {
           token.id = user?.id;

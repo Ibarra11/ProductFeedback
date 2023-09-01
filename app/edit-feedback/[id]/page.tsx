@@ -15,6 +15,7 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const post = await getPost(Number(params.id));
+
   if (!post) {
     throw new Error();
   }
@@ -37,11 +38,11 @@ async function EditFeedback({ params }: { params: { id: string } }) {
   }
 
   const [post, user] = await Promise.all([getPost(id.data), getCurrentUser()]);
-  if (!post) {
+  if (!post || !user) {
     redirect("/");
   }
   const isAuthor = post.user_id === user.id;
-  // If there not the author of the post, then we redirec them.
+  // If there not the author of the post, then we redirect them.
   if (!isAuthor) {
     redirect("/");
   }

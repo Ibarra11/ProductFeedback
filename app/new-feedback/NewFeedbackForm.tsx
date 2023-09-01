@@ -10,7 +10,7 @@ import FormSelect from "@/components/FormSelect";
 import Button from "@/components/Button";
 import { CATEGORY_VALUES } from "../constants";
 import { Category } from "@prisma/client";
-import { createPostRequest } from "../../lib/mutations";
+import { createPostAction } from "./actions";
 import { ImSpinner8 } from "react-icons/im";
 import {
   CreateFeedbackFormSchema,
@@ -32,21 +32,15 @@ function NewFeedbackForm() {
     },
   });
 
-  const [isFetching, setIsFetching] = React.useState(false);
+  const [isPending, setIsPending] = React.useState(true);
   const router = useRouter();
   const { category } = getValues();
-
   async function onSubmit(data: CreateFeedbackFormData) {
-    setIsFetching(true);
-    try {
-      const result = await createPostRequest(data);
-      if (result.status === "success") {
-        router.push("/");
-      }
-    } catch (e) {
-    } finally {
-      setIsFetching(false);
-      reset();
+    setIsPending(true);
+    const result = await createPostAction(data);
+    if (result.success) {
+      setIsPending(false);
+      router.push("/");
     }
   }
 
@@ -87,27 +81,27 @@ function NewFeedbackForm() {
         {/* Rendering two different button containers one for mobile and one for tablet and up to not mess with tab order.  Previosly, was using flex-col-reverse, but this what cause tab issues.   */}
         <div className="mt-4 flex flex-col gap-4 text-brand-ghost_white md:hidden">
           <Button
-            disabled={isFetching}
+            disabled={isPending}
             className={clsx(
               "relative inline-flex items-center justify-center bg-brand-purple  outline-none ring-offset-2 transition-all focus:ring-2 focus:ring-blue-500",
-              !isFetching && "hover:bg-purple-600",
-              isFetching && "opacity-50"
+              !isPending && "hover:bg-purple-600",
+              isPending && "opacity-50"
             )}
           >
-            <span className={isFetching ? "invisible" : undefined}>
+            <span className={isPending ? "invisible" : undefined}>
               Add Feedback
             </span>
-            {isFetching && (
+            {isPending && (
               <ImSpinner8 className=" absolute h-4 w-4 animate-spin" />
             )}
           </Button>
           <Button
             type="button"
-            disabled={isFetching}
+            disabled={isPending}
             className={clsx(
               "bg-brand-blue_gray outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-              !isFetching && " hover:bg-slate-600",
-              isFetching && "opacity-50"
+              !isPending && " hover:bg-slate-600",
+              isPending && "opacity-50"
             )}
             onClick={() => router.push("/")}
           >
@@ -121,29 +115,29 @@ function NewFeedbackForm() {
         >
           <Button
             type="button"
-            disabled={isFetching}
+            disabled={isPending}
             className={clsx(
               "bg-brand-blue_gray outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-              !isFetching && " hover:bg-slate-600",
-              isFetching && "opacity-50"
+              !isPending && " hover:bg-slate-600",
+              isPending && "opacity-50"
             )}
             onClick={() => router.push("/")}
           >
             Cancel
           </Button>
           <Button
-            disabled={isFetching}
+            disabled={isPending}
             className={clsx(
               "relative inline-flex items-center justify-center bg-brand-purple  outline-none ring-offset-2 transition-all focus:ring-2 focus:ring-blue-500",
-              !isFetching && "hover:bg-purple-600",
-              isFetching && "opacity-50"
+              !isPending && "hover:bg-purple-600",
+              isPending && "opacity-50"
             )}
           >
-            <span className={isFetching ? "invisible" : undefined}>
+            <span className={isPending ? "invisible" : undefined}>
               Add Feedback
             </span>
-            {isFetching && (
-              <ImSpinner8 className=" absolute h-4 w-4 animate-spin" />
+            {isPending && (
+              <ImSpinner8 className="absolute h-4 w-4 animate-spin" />
             )}
           </Button>
         </div>

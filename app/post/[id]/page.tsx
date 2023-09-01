@@ -12,6 +12,8 @@ import UserProvider from "@/components/UserProvider";
 import PostContainer from "../components/PostContainer";
 import { getCurrentUser } from "@/lib/auth/session";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {
@@ -56,9 +58,9 @@ async function Page({ params: { id } }: { params: { id: string[] } }) {
   return (
     <UserProvider user={user}>
       <div className="space-y-6">
-        <PostContainer userId={user.id} post={post} />
+        <PostContainer user={user} post={post} />
         <Comments comments={comments} />
-        <AddComment userId={user.id} postId={postId} />
+        <AddComment user={user} postId={postId} />
       </div>
     </UserProvider>
   );

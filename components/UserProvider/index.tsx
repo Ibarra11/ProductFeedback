@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { Upvotes } from "@prisma/client";
 import type { User } from "@/types";
 
 interface UserContext {
@@ -19,7 +18,7 @@ export function useUserContext() {
 function UserProvider({
   children,
   user,
-}: React.PropsWithChildren<{ user: User }>) {
+}: React.PropsWithChildren<{ user: User | undefined }>) {
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }
 

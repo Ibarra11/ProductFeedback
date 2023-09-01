@@ -13,7 +13,7 @@ function Sidebar({
   user,
 }: {
   postsPromise: PostsPromise;
-  user: User;
+  user: User | undefined;
 }) {
   return (
     <aside
@@ -26,7 +26,7 @@ function Sidebar({
       {/* Desktop View */}
       <div className="hidden lg:flex lg:flex-col lg:gap-3">
         <Banner title="Frontend Mentor" subTitle="Feedback Board" />
-        <UserProfile user={user} />
+        {user && <UserProfile user={user} />}
         <SidebarCategoryPills />
         <Roadmap>
           <Suspense fallback={<RoadmapSkeleton />}>
@@ -37,7 +37,7 @@ function Sidebar({
       {/* tablet view */}
       <div className="hidden md:grid md:grid-cols-2 md:gap-4 lg:hidden">
         <Banner title="Frontend Mentor" subTitle="Feedback Board" />
-        <UserProfile user={user} />
+        {user && <UserProfile user={user} />}
         <SidebarCategoryPills />
         <Roadmap>
           <Suspense fallback={<RoadmapSkeleton />}>

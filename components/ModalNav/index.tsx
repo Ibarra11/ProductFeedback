@@ -19,7 +19,7 @@ function ModalNav({
 }: React.PropsWithChildren<{
   isOpen: boolean;
   closeNavModal: () => void;
-  user: User;
+  user: User | undefined;
   postsPromise: PostsPromise;
 }>) {
   return (
@@ -64,7 +64,7 @@ function ModalNav({
                 + Add Feedback
               </CustomLink>
             </div>
-            <UserProfile user={user} />
+            {user && <UserProfile user={user} />}
             <MobileFilterPills closeNavModal={closeNavModal} />
             <React.Suspense fallback={<RoadmapSkeleton />}>
               <Roadmap>
