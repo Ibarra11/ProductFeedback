@@ -14,7 +14,7 @@ export async function editPostAction(
     const [user, post] = await isAuthorized(postId);
     await updatePost({ data: formData, userId: user.id, postId: post.id });
     revalidatePath(`/post/${postId}`);
-    return { success: true };
+    return { success: true, data: null };
   } catch (e) {
     return { success: false, message: "There was an issue with the request" };
   }
@@ -25,7 +25,7 @@ export async function deletePostAction(postId: Post["id"]): ActionResult {
     const [user, post] = await isAuthorized(postId);
     await deletePost({ postId: post.id, userId: user.id });
     revalidatePath("/");
-    return { success: true };
+    return { success: true, data: null };
   } catch (e) {
     return { success: false, message: "There was an issue with the request" };
   }

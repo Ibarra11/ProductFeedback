@@ -2,7 +2,6 @@ import { z } from "zod";
 
 const createReply = z.object({
   content: z.string(),
-  userId: z.string(),
   postId: z.number().int(),
   commentId: z.number().int(),
   replyingTo: z.string(),
@@ -45,7 +44,6 @@ export const Comments = z.object({
 export const createComment = z.object({
   postId: z.number(),
   content: z.string().nonempty(),
-  userId: z.string(),
 });
 
 export const CommentSchema = {

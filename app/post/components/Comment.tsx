@@ -7,14 +7,12 @@ import { useRouter } from "next/navigation";
 import useMeasure from "react-use-measure";
 import ReplyBox from "./ReplyBox";
 import ViewMoreCommentsButton from "./ViewMoreCommentsButton";
-import { CommentSchema } from "@/lib/zod";
 import LoadingCircle from "@/components/LoadingCircle";
 import ReplyButton from "./ReplyButton";
 import CommentModal from "./CommentModal/Modal";
 import CommentIcon from "@/components/CommentIcon";
 import { useCommentModalContext } from "./CommentModal/CommentModalProvider";
-import { getReplies } from "@/lib/mutations";
-import { Session } from "next-auth";
+import { getRepliesAction } from "../actions";
 
 type Props = Comment & {
   level?: number;
@@ -56,19 +54,15 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
     */
     async function viewMoreReplies(replyIds?: Comment["replies"]) {
       setViewMoreStatus("pending");
-      const nextReplies = await getReplies(
-        replyIds || replies.map((reply) => ({ comment_id: reply.comment_id }))
-      );
-
       try {
-        const { comments } = CommentSchema.comments.parse(nextReplies);
-        setCurrentReplies(comments);
-        setOpenViewMore(true);
-        React.startTransition(() => {
+        const nextReplies = replyIds || replies;
+        const result = await getRepliesAction({ replies: nextReplies });
+        if (result.success) {
+          setCurrentReplies(result.data);
+          setOpenViewMore(true);
           router.refresh();
-        });
+        }
       } catch (e) {
-        console.error(e);
       } finally {
         setViewMoreStatus("idle");
       }
@@ -80,9 +74,7 @@ const Comment = React.forwardRef<HTMLDivElement | null, Props>(
       <>
         <div
           style={{ marginLeft }}
-          className={clsx(
-            "relative flex gap-8 min-h-[100px]  md:min-h-[150px]"
-          )}
+          className={clsx("relative flex gap-8 min-h-[100px]  ")}
         >
           <div
             ref={ref ? startingImgRef : null}

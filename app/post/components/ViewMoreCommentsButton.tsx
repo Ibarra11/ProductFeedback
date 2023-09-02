@@ -12,12 +12,13 @@ function ViewMoreCommentsButton({
   onClick: () => void;
   size: number;
 }) {
+  console.log(isOpen);
   return (
     <button
       className={clsx(
-        `appearance-none text-brand-royal_blue`,
+        `appearance-none `,
         "hover:underline",
-        isOpen ? " text-brand-royal_blue" : " text-slate-500"
+        isOpen ? "text-brand-royal_blue" : "text-slate-500"
       )}
       disabled={disabled}
       onClick={onClick}

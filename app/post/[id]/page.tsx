@@ -57,7 +57,7 @@ async function Page({ params: { id } }: { params: { id: string[] } }) {
   }
   return (
     <UserProvider user={user}>
-      <div className="space-y-6">
+      <div className="flex flex-col h-full gap-6">
         <PostContainer user={user} post={post} />
         <Comments comments={comments} />
         <AddComment user={user} postId={postId} />

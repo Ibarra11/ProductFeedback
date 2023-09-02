@@ -7,6 +7,7 @@ import { useUserContext } from "@/components/UserProvider";
 import TextArea from "@/components/TextArea";
 import Button from "@/components/Button";
 import LoadingCircle from "@/components/LoadingCircle";
+import { replyCommentAction } from "../actions";
 
 interface Props {
   postId: number;
@@ -15,36 +16,26 @@ interface Props {
   onSuccess: (commentId: Comment["replies"]) => void;
 }
 function ReplyBox({ onSuccess, postId, commentId, replyingTo }: Props) {
-  const user = useUserContext();
   const [isPending, setIsPending] = React.useState(false);
-  const [reply, setReply] = React.useState("");
+  const [content, setContent] = React.useState("");
 
-  async function addReply() {
+  async function createReply() {
     setIsPending(true);
-    const res = await fetch("/api/comment", {
-      method: "PUT",
-      body: JSON.stringify({
-        content: reply,
-        userId: user.id,
-        postId,
+    try {
+      const result = await replyCommentAction({
+        content,
         commentId,
+        postId,
         replyingTo,
-      }),
-    });
-    if (res.ok) {
-      const rawData = await res.json();
-      try {
-        const { replies } = CommentSchema.replies.parse(rawData);
+      });
+      if (result.success) {
+        const { replies } = CommentSchema.replies.parse(result.data);
         onSuccess(replies);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsPending(false);
-        setReply("");
       }
-    } else {
+    } catch (e) {
+    } finally {
       setIsPending(false);
-      setReply("");
+      setContent("");
     }
   }
 
@@ -52,16 +43,16 @@ function ReplyBox({ onSuccess, postId, commentId, replyingTo }: Props) {
     <div className="flex items-start gap-4 mt-6">
       <TextArea
         className="flex-1"
-        value={reply}
-        onChange={(e) => setReply(e.target.value)}
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
       />
       <Button
-        onClick={addReply}
+        onClick={createReply}
         className={clsx(
           "relative bg-brand-purple text-brand-ghost_white",
-          reply.length === 0 && " opacity-50"
+          content.length === 0 && " opacity-50"
         )}
-        disabled={isPending || reply.length === 0}
+        disabled={isPending || content.length === 0}
       >
         <span className={` ${isPending ? "invisible" : ""} `}>Post Reply</span>
         {isPending && <LoadingCircle size="md" color="primary" />}

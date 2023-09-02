@@ -1,6 +1,7 @@
 import { convertDateToString } from "@/lib/utils";
 import { prisma } from "@/db";
 import { ZCommentSchema } from "../../zod";
+import { WithUserId } from "@/types";
 
 export async function getRepliesToComments(
   commentIds: ZCommentSchema["replyIds"]
@@ -50,7 +51,7 @@ export async function createComment({
   content,
   postId,
   userId,
-}: ZCommentSchema["createComment"]) {
+}: WithUserId<ZCommentSchema["createComment"]>) {
   return await prisma.post.update({
     where: {
       id: postId,
@@ -76,7 +77,7 @@ export async function createReply({
   userId,
   postId,
   replyingTo,
-}: ZCommentSchema["createReply"]) {
+}: WithUserId<ZCommentSchema["createReply"]>) {
   const { replies } = await prisma.comment.update({
     where: {
       comment_id: commentId,

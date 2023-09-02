@@ -10,7 +10,7 @@ interface Props {
 
 function Comments({ comments, variant }: Props) {
   return (
-    <div className="bg-white shadow-sm p-8 pb-10 h-full  overflow-auto rounded-lg">
+    <div className="bg-white flex-1 shadow-sm p-8 pb-10 h-full   overflow-auto rounded-lg">
       {comments.length > 0 ? (
         comments.map((comment, index) => (
           <React.Fragment key={comment.comment_id}>

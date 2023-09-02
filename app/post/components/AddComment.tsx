@@ -6,6 +6,7 @@ import LoadingCircle from "@/components/LoadingCircle";
 import Button from "@/components/Button";
 import { ZCommentSchema } from "@/lib/zod";
 import { User } from "@/types";
+import { createCommentAction } from "../actions";
 const COMMENT_LENGTH = 250;
 
 interface Props {
@@ -15,27 +16,18 @@ interface Props {
 
 function AddComment({ postId, user }: Props) {
   const [isPending, setIsPending] = React.useState(false);
-  const [comment, setComment] = React.useState("");
+  const [content, setContent] = React.useState("");
+
   const router = useRouter();
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     setIsPending(true);
     try {
-      const res = await fetch("/api/comment", {
-        method: "POST",
-        body: JSON.stringify({
-          content: comment,
-          postId,
-          userId: user && user.id,
-        }),
-      });
-      if (res.ok) {
-        setComment("");
-        React.startTransition(() => {
-          // refreshes the current route with losing client side state
-          router.refresh();
-        });
+      const result = await createCommentAction({ postId, content });
+      if (result.success) {
+        router.refresh();
       }
+    } catch (e) {
     } finally {
       setIsPending(false);
     }
@@ -45,10 +37,17 @@ function AddComment({ postId, user }: Props) {
       <h3 className="text-lg font-bold mb-6">Add Comment</h3>
       <textarea
         className="h-20 w-full mb-4 resize-none overflow-y-auto bg-brand-alice_blue rounded-md"
-        value={comment}
+        value={content}
         onChange={(ev) => {
+          if (
+            ev.target.value.charCodeAt(0) === 10 &&
+            ev.target.value.trim().length === 0
+          ) {
+            return;
+          }
+
           if (ev.target.value.length <= COMMENT_LENGTH) {
-            setComment(ev.target.value);
+            setContent(ev.target.value);
           }
         }}
       ></textarea>
@@ -59,14 +58,14 @@ function AddComment({ postId, user }: Props) {
         )}
       >
         <span className="text-sm order-2 self-end text-brand-american_blue sm:order-1 sm:self-auto">
-          {COMMENT_LENGTH - comment.length} characters left
+          {COMMENT_LENGTH - content.length} characters left
         </span>
         <Button
-          disabled={isPending || comment.length === 0}
+          disabled={isPending || content.length === 0}
           className={clsx(
             "relative bg-brand-purple text-brand-ghost_white transition-all duration-200",
-            comment.length !== 0 && "hover:bg-purple-700",
-            comment.length === 0 && "opacity-50"
+            content.length !== 0 && "hover:bg-purple-700",
+            content.length === 0 && "opacity-50"
           )}
         >
           <span className={` ${isPending ? "invisible" : ""} `}>

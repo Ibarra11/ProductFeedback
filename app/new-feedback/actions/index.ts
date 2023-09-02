@@ -15,7 +15,7 @@ export async function createPostAction(
     }
     await createPost({ ...formData, user_id: user.id });
     revalidatePath("/");
-    return { success: true };
+    return { success: true, data: null };
   } catch (e) {
     return { success: false, message: "There was an issue with the request" };
   }

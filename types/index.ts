@@ -76,12 +76,12 @@ export type Post = ConvertDateToString<ReturnType<typeof getAllPost>>;
 
 export type PostsPromise = Promise<Post[]>;
 
-export type WithUserId<T> = T & { id: string };
+export type WithUserId<T> = T & { userId: string };
 
 export type User = RemoveUndefined<Awaited<ReturnType<typeof getCurrentUser>>>;
 
 type RemoveUndefined<T> = T extends undefined ? never : T;
 
-export type ActionResult = Promise<
-  { success: false; message: string } | { success: true }
+export type ActionResult<T = null> = Promise<
+  { success: false; message: string } | { success: true; data: T }
 >;
